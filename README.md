@@ -1,5 +1,22 @@
 # fulibTables
 
+### Gradle
+
+<pre>
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+</pre>
+
+<pre>
+dependencies {
+    testCompile 'org.fulib:fulibTables:1.0.+'
+}
+</pre>
+
+### Usage
+
 Fulib Tables are the model query and transformation mechanisms
 provided by Fulib.
 
