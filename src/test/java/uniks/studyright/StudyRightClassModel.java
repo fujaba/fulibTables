@@ -15,6 +15,7 @@ public class StudyRightClassModel
 
    private void generateClassModelCode()
    {
+      // start_code_fragment: FulibTables.classmodel
       ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
 
       ClassBuilder university = mb.buildClass("University")
@@ -45,11 +46,12 @@ public class StudyRightClassModel
 
       ClassModel model = mb.getClassModel();
 
-      FulibTools.classDiagrams().dumpSVG(model, "tmp/studyright/MainClassDiagram.svg");
-      FulibTools.classDiagrams().dumpPng(model, "tmp/studyright/MainClassDiagram.png");
+      FulibTools.classDiagrams().dumpSVG(model, "doc/images/MainClassDiagram.svg");
+      FulibTools.classDiagrams().dumpPng(model, "doc/images/MainClassDiagram.png");
 
       Fulib.generator().generate(model);
+      // end_code_fragment:
 
-      // Fulib.tablesGenerator().generate(model);
+      FulibTools.codeFragments().updateCodeFragments(".");
    }
 }

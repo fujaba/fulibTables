@@ -4,7 +4,7 @@ import java.beans.PropertyChangeSupport;
 
 import java.beans.PropertyChangeListener;
 
-public class Assignment 
+public class Assignment  
 {
 
    public static final String PROPERTY_task = "task";

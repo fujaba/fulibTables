@@ -4,7 +4,7 @@ import java.beans.PropertyChangeSupport;
 
 import java.beans.PropertyChangeListener;
 
-public class Student 
+public class Student  
 {
 
    public static final String PROPERTY_name = "name";

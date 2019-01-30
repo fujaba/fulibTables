@@ -4,7 +4,7 @@ import java.beans.PropertyChangeSupport;
 
 import java.beans.PropertyChangeListener;
 
-public class Room 
+public class Room  
 {
 
    public static final String PROPERTY_roomNo = "roomNo";
