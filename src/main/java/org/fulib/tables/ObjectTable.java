@@ -9,8 +9,6 @@ import java.util.LinkedHashMap;
 
 public class ObjectTable
 {
-   private ReflectorMap reflectorMap;
-
    public ObjectTable(Object... start)
    {
       this("A", start);
@@ -31,6 +29,18 @@ public class ObjectTable
             reflectorMap = new ReflectorMap(current.getClass().getPackage().getName());
          }
       }
+   }
+
+   private ReflectorMap reflectorMap;
+
+   public ReflectorMap getReflectorMap()
+   {
+      return reflectorMap;
+   }
+
+   public void setReflectorMap(ReflectorMap reflectorMap)
+   {
+      this.reflectorMap = reflectorMap;
    }
 
    private ArrayList<ArrayList<Object>> table = new ArrayList<>();
@@ -74,11 +84,12 @@ public class ObjectTable
       return this;
    }
 
-   public ObjectTable expandLink(String linkName, String newColumnName)
+   public ObjectTable expandLink(String newColumnName, String linkName)
    {
       ObjectTable result = new ObjectTable();
       result.setColumnMap(this.columnMap);
       result.setTable(table);
+      result.setReflectorMap(reflectorMap);
       int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
 
       result.setColumnName(newColumnName);
@@ -110,4 +121,59 @@ public class ObjectTable
       }
       return result;
    }
+
+
+   public doubleTable expandDouble(String newColumnName, String attrName)
+   {
+      doubleTable result = new doubleTable();
+      result.setColumnMap(this.columnMap);
+      result.setTable(this.table);
+      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnName(newColumnName);
+      columnMap.put(newColumnName, newColumnNumber);
+
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
+      this.table.clear();
+      for (ArrayList<Object> row : oldTable)
+      {
+         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
+         Reflector reflector = reflectorMap.getReflector(start);
+         Object value = reflector.getValue(start, attrName);
+         ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
+         newRow.add(value);
+         this.table.add(newRow);
+      }
+
+      return result;
+   }
+
+
+
+   @Override
+   public String toString()
+   {
+      StringBuilder buf = new StringBuilder("| ");
+      for (String key : columnMap.keySet())
+      {
+         buf.append(key).append(" \t| ");
+      }
+      buf.append("\n| ");
+      for (String key : columnMap.keySet())
+      {
+         buf.append(" --- \t| ");
+      }
+      buf.append("\n");
+      for (ArrayList<Object> row : table)
+      {
+         buf.append("| ");
+         for (Object cell : row)
+         {
+            buf.append(cell).append(" \t| ");
+         }
+         buf.append("\n");
+      }
+      buf.append("\n");
+      return buf.toString();
+   }
+
 }

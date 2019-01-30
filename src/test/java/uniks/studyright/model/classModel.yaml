@@ -1,0 +1,237 @@
+- c1: 	ClassModel
+  classes: 	university2 	student3 	room4 	assignment5 	
+  defaultPropertyStyle: 	POJO
+  defaultRoleType: 	"java.util.ArrayList<%s>"
+  mainJavaDir: 	"src/test/java"
+  packageName: 	uniks.studyright.model
+  packageSrcFolder: 	"src/test/java/uniks/studyright/model"
+
+- university2: 	Clazz
+  attributes: 	name6 	
+  model: 	c1
+  modified: 	false
+  name: 	University
+  propertyStyle: 	POJO
+  roles: 	students7 	rooms8 	
+
+- student3: 	Clazz
+  attributes: 	name9 	studentId10 	credits11 	points12 	motivation13 	
+  model: 	c1
+  modified: 	false
+  name: 	Student
+  propertyStyle: 	POJO
+  roles: 	uni14 	in15 	done16 	friends17 	friends18 	
+
+- room4: 	Clazz
+  attributes: 	roomNo19 	topic20 	credits21 	
+  model: 	c1
+  modified: 	false
+  name: 	Room
+  propertyStyle: 	POJO
+  roles: 	uni22 	students23 	assignments24 	
+
+- assignment5: 	Clazz
+  attributes: 	task25 	points26 	
+  model: 	c1
+  modified: 	false
+  name: 	Assignment
+  propertyStyle: 	POJO
+  roles: 	room27 	students28 	
+
+- name6: 	Attribute
+  clazz: 	university2
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- students7: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	university2
+  modified: 	false
+  name: 	students
+  other: 	uni14
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- rooms8: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	university2
+  modified: 	false
+  name: 	rooms
+  other: 	uni22
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- name9: 	Attribute
+  clazz: 	student3
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- studentId10: 	Attribute
+  clazz: 	student3
+  modified: 	false
+  name: 	studentId
+  propertyStyle: 	POJO
+  type: 	String
+
+- credits11: 	Attribute
+  clazz: 	student3
+  modified: 	false
+  name: 	credits
+  propertyStyle: 	POJO
+  type: 	double
+
+- points12: 	Attribute
+  clazz: 	student3
+  modified: 	false
+  name: 	points
+  propertyStyle: 	POJO
+  type: 	double
+
+- motivation13: 	Attribute
+  clazz: 	student3
+  modified: 	false
+  name: 	motivation
+  propertyStyle: 	POJO
+  type: 	double
+
+- uni14: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	student3
+  modified: 	false
+  name: 	uni
+  other: 	students7
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- in15: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	student3
+  modified: 	false
+  name: 	in
+  other: 	students23
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- done16: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	student3
+  modified: 	false
+  name: 	done
+  other: 	students28
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- friends17: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	student3
+  modified: 	false
+  name: 	friends
+  other: 	friends18
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- friends18: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	student3
+  modified: 	false
+  name: 	friends
+  other: 	friends17
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- roomNo19: 	Attribute
+  clazz: 	room4
+  modified: 	false
+  name: 	roomNo
+  propertyStyle: 	POJO
+  type: 	String
+
+- topic20: 	Attribute
+  clazz: 	room4
+  modified: 	false
+  name: 	topic
+  propertyStyle: 	POJO
+  type: 	String
+
+- credits21: 	Attribute
+  clazz: 	room4
+  modified: 	false
+  name: 	credits
+  propertyStyle: 	POJO
+  type: 	double
+
+- uni22: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	room4
+  modified: 	false
+  name: 	uni
+  other: 	rooms8
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- students23: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	room4
+  modified: 	false
+  name: 	students
+  other: 	in15
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- assignments24: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	room4
+  modified: 	false
+  name: 	assignments
+  other: 	room27
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- task25: 	Attribute
+  clazz: 	assignment5
+  modified: 	false
+  name: 	task
+  propertyStyle: 	POJO
+  type: 	String
+
+- points26: 	Attribute
+  clazz: 	assignment5
+  modified: 	false
+  name: 	points
+  propertyStyle: 	POJO
+  type: 	double
+
+- room27: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	assignment5
+  modified: 	false
+  name: 	room
+  other: 	assignments24
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- students28: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	assignment5
+  modified: 	false
+  name: 	students
+  other: 	done16
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
