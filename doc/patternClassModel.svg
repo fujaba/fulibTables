@@ -1,0 +1,100 @@
+<svg width="345pt" height="209pt"
+ viewBox="0.00 0.00 345.14 208.91" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 204.9084)">
+<title>H</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-204.9084 341.1377,-204.9084 341.1377,4 -4,4"/>
+<!-- Pattern -->
+<g id="node1" class="node">
+<title>Pattern</title>
+<polygon fill="none" stroke="#000000" points="160.5,-176.9084 160.5,-194.9084 194.5,-194.9084 194.5,-176.9084 160.5,-176.9084"/>
+<text text-anchor="start" x="163.338" y="-182.9084" font-family="Times,serif" font-size="10.00" fill="#000000">Pattern</text>
+<polygon fill="none" stroke="#000000" points="160.5,-170.9084 160.5,-176.9084 194.5,-176.9084 194.5,-170.9084 160.5,-170.9084"/>
+</g>
+<!-- PatternObject -->
+<g id="node2" class="node">
+<title>PatternObject</title>
+<polygon fill="none" stroke="#000000" points="114.5,-106.9084 114.5,-124.9084 174.5,-124.9084 174.5,-106.9084 114.5,-106.9084"/>
+<text text-anchor="start" x="117.0105" y="-112.9084" font-family="Times,serif" font-size="10.00" fill="#000000">PatternObject</text>
+<polygon fill="none" stroke="#000000" points="114.5,-88.9084 114.5,-106.9084 174.5,-106.9084 174.5,-88.9084 114.5,-88.9084"/>
+<text text-anchor="start" x="118.809" y="-94.9084" font-family="Times,serif" font-size="10.00" fill="#000000">name :String</text>
+</g>
+<!-- PatternObject&#45;&gt;Pattern -->
+<g id="edge1" class="edge">
+<title>PatternObject&#45;&gt;Pattern</title>
+<path fill="none" stroke="#000000" d="M154.2226,-129.2999C159.0897,-140.509 164.909,-153.9111 169.5116,-164.511"/>
+<text text-anchor="middle" x="155.6291" y="-155.511" font-family="Times,serif" font-size="10.00" fill="#000000">pattern</text>
+<text text-anchor="middle" x="136.3101" y="-132.2999" font-family="Times,serif" font-size="10.00" fill="#000000">objects *</text>
+</g>
+<!-- RoleObject -->
+<g id="node3" class="node">
+<title>RoleObject</title>
+<polygon fill="none" stroke="#000000" points="8.5,-26.9084 8.5,-44.9084 65.5,-44.9084 65.5,-26.9084 8.5,-26.9084"/>
+<text text-anchor="start" x="14.229" y="-32.9084" font-family="Times,serif" font-size="10.00" fill="#000000">RoleObject</text>
+<polygon fill="none" stroke="#000000" points="8.5,-8.9084 8.5,-26.9084 65.5,-26.9084 65.5,-8.9084 8.5,-8.9084"/>
+<text text-anchor="start" x="11.5" y="-14.9084" font-family="Times,serif" font-size="10.00" fill="#000000">name :String</text>
+</g>
+<!-- RoleObject&#45;&gt;Pattern -->
+<g id="edge2" class="edge">
+<title>RoleObject&#45;&gt;Pattern</title>
+<path fill="none" stroke="#000000" d="M46.2259,-49.0676C56.6498,-71.0838 74.8039,-104.9339 97.5,-128.9084 112.8216,-145.0931 133.8161,-159.0362 150.4535,-168.6984"/>
+<text text-anchor="middle" x="136.571" y="-171.6984" font-family="Times,serif" font-size="10.00" fill="#000000">pattern</text>
+<text text-anchor="middle" x="32.7579" y="-52.0676" font-family="Times,serif" font-size="10.00" fill="#000000">roles *</text>
+</g>
+<!-- RoleObject&#45;&gt;PatternObject -->
+<g id="edge5" class="edge">
+<title>RoleObject&#45;&gt;PatternObject</title>
+<path fill="none" stroke="#000000" d="M66.2974,-48.9806C81.4069,-60.1728 99.704,-73.7262 114.7999,-84.9084"/>
+<text text-anchor="middle" x="102.5819" y="-75.9084" font-family="Times,serif" font-size="10.00" fill="#000000">object</text>
+<text text-anchor="middle" x="79.7654" y="-51.9806" font-family="Times,serif" font-size="10.00" fill="#000000">roles *</text>
+</g>
+<!-- RoleObject&#45;&gt;RoleObject -->
+<g id="edge8" class="edge">
+<title>RoleObject&#45;&gt;RoleObject</title>
+<path fill="none" stroke="#000000" d="M73.1788,-12C83.2805,-12.7202 91,-17.6897 91,-26.9084 91,-36.1272 83.2805,-41.0967 73.1788,-41.8169"/>
+<text text-anchor="middle" x="83.4523" y="-32.8169" font-family="Times,serif" font-size="10.00" fill="#000000">other</text>
+<text text-anchor="middle" x="83.4523" y="-3" font-family="Times,serif" font-size="10.00" fill="#000000">other</text>
+</g>
+<!-- AttributeConstraint -->
+<g id="node4" class="node">
+<title>AttributeConstraint</title>
+<polygon fill="none" stroke="#000000" points="117.5,-20.9084 117.5,-38.9084 200.5,-38.9084 200.5,-20.9084 117.5,-20.9084"/>
+<text text-anchor="start" x="120.117" y="-26.9084" font-family="Times,serif" font-size="10.00" fill="#000000">AttributeConstraint</text>
+<polygon fill="none" stroke="#000000" points="117.5,-14.9084 117.5,-20.9084 200.5,-20.9084 200.5,-14.9084 117.5,-14.9084"/>
+</g>
+<!-- AttributeConstraint&#45;&gt;Pattern -->
+<g id="edge3" class="edge">
+<title>AttributeConstraint&#45;&gt;Pattern</title>
+<path fill="none" stroke="#000000" d="M172.1554,-45.1566C179.4572,-56.0726 187.7072,-70.5726 191.5,-84.9084 198.7091,-112.157 190.936,-144.7126 184.4179,-164.5927"/>
+<text text-anchor="middle" x="198.3004" y="-155.5927" font-family="Times,serif" font-size="10.00" fill="#000000">pattern</text>
+<text text-anchor="middle" x="215.3429" y="-48.1566" font-family="Times,serif" font-size="10.00" fill="#000000">attributeConstraints *</text>
+</g>
+<!-- AttributeConstraint&#45;&gt;PatternObject -->
+<g id="edge6" class="edge">
+<title>AttributeConstraint&#45;&gt;PatternObject</title>
+<path fill="none" stroke="#000000" d="M155.3232,-45.0617C153.2579,-56.8634 150.5521,-72.3251 148.3626,-84.8363"/>
+<text text-anchor="middle" x="136.1446" y="-75.8363" font-family="Times,serif" font-size="10.00" fill="#000000">object</text>
+<text text-anchor="middle" x="133.7294" y="-48.0617" font-family="Times,serif" font-size="10.00" fill="#000000">attributeConstraints *</text>
+</g>
+<!-- MatchConstraint -->
+<g id="node5" class="node">
+<title>MatchConstraint</title>
+<polygon fill="none" stroke="#000000" points="234.5,-20.9084 234.5,-38.9084 307.5,-38.9084 307.5,-20.9084 234.5,-20.9084"/>
+<text text-anchor="start" x="237.3955" y="-26.9084" font-family="Times,serif" font-size="10.00" fill="#000000">MatchConstraint</text>
+<polygon fill="none" stroke="#000000" points="234.5,-14.9084 234.5,-20.9084 307.5,-20.9084 307.5,-14.9084 234.5,-14.9084"/>
+</g>
+<!-- MatchConstraint&#45;&gt;Pattern -->
+<g id="edge4" class="edge">
+<title>MatchConstraint&#45;&gt;Pattern</title>
+<path fill="none" stroke="#000000" d="M259.6497,-45.1089C241.7296,-75.1685 206.1558,-134.8406 188.2812,-164.8239"/>
+<text text-anchor="middle" x="202.1637" y="-167.8239" font-family="Times,serif" font-size="10.00" fill="#000000">pattern</text>
+<text text-anchor="middle" x="298.3937" y="-48.1089" font-family="Times,serif" font-size="10.00" fill="#000000">matchConstraints *</text>
+</g>
+<!-- MatchConstraint&#45;&gt;PatternObject -->
+<g id="edge7" class="edge">
+<title>MatchConstraint&#45;&gt;PatternObject</title>
+<path fill="none" stroke="#000000" d="M241.9086,-45.0617C223.321,-56.8634 198.9688,-72.3251 179.2636,-84.8363"/>
+<text text-anchor="middle" x="197.1761" y="-75.8363" font-family="Times,serif" font-size="10.00" fill="#000000">objects *</text>
+<text text-anchor="middle" x="280.6526" y="-36.0617" font-family="Times,serif" font-size="10.00" fill="#000000">matchConstraints *</text>
+</g>
+</g>
+</svg>
