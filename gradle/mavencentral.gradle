@@ -47,7 +47,7 @@ uploadArchives {
       }
 
       pom.project {
-        name 'fulibYaml'
+        name 'fulibTables'
         packaging 'jar'
         artifactId archivesBaseName
         version version
@@ -55,9 +55,9 @@ uploadArchives {
         url 'http://fulib.org'
 
         scm {
-          connection 'scm:git:git://github.com/fujaba/fulibYaml.git'
-          developerConnection 'scm:git:git@github.com:/fujaba/fulibYaml.git'
-          url 'https://github.com/fujaba/fulibYaml'
+          connection 'scm:git:git://github.com/fujaba/fulibTables.git'
+          developerConnection 'scm:git:git@github.com:/fujaba/fulibTables.git'
+          url 'https://github.com/fujaba/fulibTables'
         }
 
         licenses {
