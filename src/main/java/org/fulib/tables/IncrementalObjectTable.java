@@ -10,35 +10,8 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IncrementalObjectTable
+public class IncrementalObjectTable extends IncrementalTable
 {
-
-   private ListeningTable listeningTable = null;
-
-   public ListeningTable getListeningTable()
-   {
-      return listeningTable;
-   }
-
-   public void setListeningTable(ListeningTable listeningTable)
-   {
-      this.listeningTable = listeningTable;
-   }
-
-
-
-   private ArrayList<ArrayList<Object>> table;
-
-   public ArrayList<ArrayList<Object>> getTable()
-   {
-      return table;
-   }
-
-   public IncrementalObjectTable setTable(ArrayList<ArrayList<Object>> value)
-   {
-      this.table = value;
-      return this;
-   }
 
 
    public IncrementalObjectTable(Object... start)
@@ -49,53 +22,25 @@ public class IncrementalObjectTable
 
    public IncrementalObjectTable(String colName, Object... start)
    {
-      this.table = new ArrayList<>();
-      this.listeningTable = new ListeningTable(this, this.table);
+      this.setTable(new ArrayList<>());
+      this.setListeningTable(new ListeningTable(this, this.getTable()));
       this.getAllObjectTables().add(this);
+      this.setAllListeningTables(new ArrayList<>());
+      this.setAllListeningTables(this.getAllObjectTables().get(0).getAllListeningTables());
+      this.getAllListeningTables().add(this.getListeningTable());
       this.setColumnName(colName);
-      columnMap.put(colName, 0);
+      getColumnMap().put(colName, 0);
       for (Object current : start)
       {
          ArrayList<Object> row = new ArrayList<>();
          row.add(current);
-         listeningTable.addRow(row);
+         getListeningTable().addRow(row);
 
-         if (reflectorMap == null)
+         if (getReflectorMap() == null)
          {
-            reflectorMap = new ReflectorMap(current.getClass().getPackage().getName());
+            setReflectorMap(new ReflectorMap(current.getClass().getPackage().getName()));
          }
       }
-   }
-
-
-
-   private ArrayList<IncrementalObjectTable> allObjectTables = null;
-
-   public void setAllObjectTables(ArrayList<IncrementalObjectTable> allObjectTables)
-   {
-      this.allObjectTables = allObjectTables;
-   }
-
-   public ArrayList<IncrementalObjectTable> getAllObjectTables()
-   {
-      if (allObjectTables == null)
-      {
-         allObjectTables = new ArrayList<>();
-      }
-
-      return allObjectTables;
-   }
-
-   private ReflectorMap reflectorMap;
-
-   public ReflectorMap getReflectorMap()
-   {
-      return reflectorMap;
-   }
-
-   public void setReflectorMap(ReflectorMap reflectorMap)
-   {
-      this.reflectorMap = reflectorMap;
    }
 
 
@@ -115,33 +60,22 @@ public class IncrementalObjectTable
    }
 
 
-   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
-
-   public LinkedHashMap<String, Integer> getColumnMap()
-   {
-      return columnMap;
-   }
-
-   public IncrementalObjectTable setColumnMap(LinkedHashMap<String, Integer> value)
-   {
-      this.columnMap = value;
-      return this;
-   }
-
-   public IncrementalObjectTable expandLink(String newColumnName, String linkName)
+      public IncrementalObjectTable expandLink(String newColumnName, String linkName)
    {
       IncrementalObjectTable result = new IncrementalObjectTable();
       this.getAllObjectTables().add(result);
       result.setAllObjectTables(this.getAllObjectTables());
-      result.setColumnMap(this.columnMap);
-      result.setReflectorMap(reflectorMap);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setAllListeningTables(this.getAllListeningTables());
+      result.getAllListeningTables().add(result.getListeningTable());
+      result.setColumnMap(this.getColumnMap());
+      result.setReflectorMap(getReflectorMap());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
 
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      ListeningTable oldListeningTable = this.listeningTable;
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
+      ListeningTable oldListeningTable = this.getListeningTable();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
 
       ListeningTable targetTable = result.getListeningTable();
 
@@ -153,126 +87,130 @@ public class IncrementalObjectTable
 
       for (ArrayList<Object> row : oldTable)
       {
-         addRowsForLink(linkName, this.getColumnName(), this.listeningTable, row);
+         addRowsForLink(linkName, this.getColumnName(), this.getListeningTable(), oldListeningTable, row);
       }
 
       return result;
    }
 
-   public void addRowsForLink(String linkName, String startColumnName, ListeningTable newListeningTable, ArrayList<Object> row)
+
+
+   public IncrementalDoubleTable expandDouble(String newColumnName, String attrName)
    {
-      Integer index = columnMap.get(startColumnName);
-      Object start = row.get(index);
-      Reflector reflector = reflectorMap.getReflector(start);
-      Object value = reflector.getValue(start, linkName);
+      IncrementalDoubleTable result = new IncrementalDoubleTable();
+      this.getAllObjectTables().add(result);
+      result.setAllObjectTables(this.getAllObjectTables());
+      result.setAllListeningTables(this.getAllListeningTables());
+      result.getAllListeningTables().add(result.getListeningTable());
+      result.setColumnMap(this.getColumnMap());
+      result.setReflectorMap(this.getReflectorMap());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
+      result.setColumnName(newColumnName);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      LinkChangeListener linkChangeListener = new LinkChangeListener(start, row, linkName, newListeningTable);
-      try
-      {
-         Method addPropertyChangeListenerMethod = start.getClass().getMethod("addPropertyChangeListener", String.class, PropertyChangeListener.class);
-         addPropertyChangeListenerMethod.invoke(start, linkName, linkChangeListener);
-      }
-      catch (Exception e)
-      {
-         Logger.getGlobal().log(Level.SEVERE, "could not add property change listener to " + start, e);
-      }
+      ListeningTable oldListeningTable = this.getListeningTable();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      ListeningTable targetTable = result.getListeningTable();
+      updateAllObjectTables(targetTable);
 
-      addRowsForLinkValues(linkName, newListeningTable, row, start, value);
-   }
+      oldListeningTable.setTargetTable(targetTable);
 
-   public void addRowsForLinkValues(String linkName, ListeningTable newListeningTable, ArrayList<Object> row, Object start, Object value)
-   {
-      if (value instanceof Collection)
+      targetTable.setColumnAndLink(columnName, attrName);
+
+      for (ArrayList<Object> row : oldTable)
       {
-         for (Object current : (Collection) value)
-         {
-            ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
-            newRow.add(current);
-            newListeningTable.addRow(newRow);
-         }
-      }
-      else if (value != null)
-      {
+         Object start = (Object) row.get(getColumnMap().get(this.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
+         Object value = reflector.getValue(start, attrName);
+
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
-         newListeningTable.addRow(newRow);
+         this.getTable().add(newRow);
+
+         AttrChangeListener attrChangeListener = new AttrChangeListener(start, row, newRow, targetTable);
+         oldListeningTable.getRowListeners().put(row, attrChangeListener);
+         try
+         {
+            Method addPropertyChangeListenerMethod = start.getClass().getMethod("addPropertyChangeListener", String.class, PropertyChangeListener.class);
+            addPropertyChangeListenerMethod.invoke(start, attrName, attrChangeListener);
+         }
+         catch (Exception e)
+         {
+            Logger.getGlobal().log(Level.SEVERE, "could not add property change listener to " + start, e);
+         }
       }
+
+      return result;
    }
 
-   private void updateAllObjectTables(ListeningTable newTable)
-   {
-      for (IncrementalObjectTable previousTable : allObjectTables)
-      {
-         previousTable.setListeningTable(newTable);
-         previousTable.setTable(newTable.getBaseTable());
-      }
-   }
+
 
    public IncrementalObjectTable hasLink(String linkName, IncrementalObjectTable rowName)
    {
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ListeningTable oldListeningTable = this.getListeningTable();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.setTable(new ArrayList<>());
+
+      ListeningTable targetTable = new ListeningTable(this, this.getTable());
+      updateAllObjectTables(targetTable);
+      oldListeningTable.setTargetTable(targetTable);
+      targetTable.setColumnAndLink(columnName, linkName);
+
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = row.get(columnMap.get(this.getColumnName()));
-         Object other = row.get(columnMap.get(rowName.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(getColumnMap().get(this.getColumnName()));
+         Object other = row.get(getColumnMap().get(rowName.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
          Object value = reflector.getValue(start, linkName);
+
+         HasLinkChangeListener hasLinkChangeListener = new HasLinkChangeListener(start, other, row, targetTable);
+         try
+         {
+            Method addPropertyChangeListenerMethod = start.getClass().getMethod("addPropertyChangeListener", String.class, PropertyChangeListener.class);
+            addPropertyChangeListenerMethod.invoke(start, linkName, hasLinkChangeListener);
+         }
+         catch (Exception e)
+         {
+            Logger.getGlobal().log(Level.SEVERE, "could not add property change listener to " + start, e);
+         }
+
+         oldListeningTable.getRowListeners().put(row, hasLinkChangeListener);
 
          if (value instanceof Collection && ((Collection) value).contains(other)
                || value == other)
          {
-            this.table.add(row);
+            this.getTable().add(row);
          }
       }
+
       return this;
    }
 
-   public doubleTable expandDouble(String newColumnName, String attrName)
-   {
-      doubleTable result = new doubleTable();
-      result.setColumnMap(this.columnMap);
-      result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
-      result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
-      for (ArrayList<Object> row : oldTable)
-      {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
-         newRow.add(value);
-         this.table.add(newRow);
-      }
 
-      return result;
-   }
+
 
 
 
    public floatTable expandFloat(String newColumnName, String attrName)
    {
       floatTable result = new floatTable();
-      result.setColumnMap(this.columnMap);
-      result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnMap(this.getColumnMap());
+      result.setTable(this.getTable());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = (Object) row.get(getColumnMap().get(this.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
-         this.table.add(newRow);
+         this.getTable().add(newRow);
       }
 
       return result;
@@ -283,22 +221,22 @@ public class IncrementalObjectTable
    public intTable expandInt(String newColumnName, String attrName)
    {
       intTable result = new intTable();
-      result.setColumnMap(this.columnMap);
-      result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnMap(this.getColumnMap());
+      result.setTable(this.getTable());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = (Object) row.get(getColumnMap().get(this.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
-         this.table.add(newRow);
+         this.getTable().add(newRow);
       }
 
       return result;
@@ -309,22 +247,22 @@ public class IncrementalObjectTable
    public longTable expandLong(String newColumnName, String attrName)
    {
       longTable result = new longTable();
-      result.setColumnMap(this.columnMap);
-      result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnMap(this.getColumnMap());
+      result.setTable(this.getTable());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = (Object) row.get(getColumnMap().get(this.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
-         this.table.add(newRow);
+         this.getTable().add(newRow);
       }
 
       return result;
@@ -334,22 +272,22 @@ public class IncrementalObjectTable
    public StringTable expandString(String newColumnName, String attrName)
    {
       StringTable result = new StringTable();
-      result.setColumnMap(this.columnMap);
-      result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnMap(this.getColumnMap());
+      result.setTable(this.getTable());
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      getColumnMap().put(newColumnName, newColumnNumber);
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = (Object) row.get(getColumnMap().get(this.getColumnName()));
+         Reflector reflector = getReflectorMap().getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
-         this.table.add(newRow);
+         this.getTable().add(newRow);
       }
 
       return result;
@@ -359,26 +297,26 @@ public class IncrementalObjectTable
 
    public void addColumn(String columnName, java.util.function.Function<LinkedHashMap<String,Object>,Object> function)
    {
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
-      for (ArrayList<Object> row : this.table)
+      int newColumnNumber = this.getTable().size() > 0 ? this.getTable().get(0).size() : 0;
+      for (ArrayList<Object> row : this.getTable())
       {
          LinkedHashMap<String,Object> map = new LinkedHashMap<>();
-         for (String key : columnMap.keySet())
+         for (String key : getColumnMap().keySet())
          {
-            map.put(key, row.get(columnMap.get(key)));
+            map.put(key, row.get(getColumnMap().get(key)));
          }
          Object result = function.apply(map);
          row.add(result);
       }
-      this.columnMap.put(columnName, newColumnNumber);
+      this.getColumnMap().put(columnName, newColumnNumber);
    }
 
 
 
    public IncrementalObjectTable dropColumns(String... columnNames)
    {
-      LinkedHashMap<String, Integer> oldColumnMap = (LinkedHashMap<String, Integer>) this.columnMap.clone();
-      this.columnMap.clear();
+      LinkedHashMap<String, Integer> oldColumnMap = (LinkedHashMap<String, Integer>) this.getColumnMap().clone();
+      this.getColumnMap().clear();
 
       LinkedHashSet<String> dropNames = new LinkedHashSet<>();
       dropNames.addAll(Arrays.asList(columnNames));
@@ -387,25 +325,25 @@ public class IncrementalObjectTable
       {
          if ( ! dropNames.contains(name))
          {
-            this.columnMap.put(name, i);
+            this.getColumnMap().put(name, i);
             i++;
          }
       }
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
 
       LinkedHashSet<ArrayList<Object> > rowSet = new LinkedHashSet<>();
       for (ArrayList row : oldTable)
       {
          ArrayList newRow = new ArrayList();
-         for (String name : this.columnMap.keySet())
+         for (String name : this.getColumnMap().keySet())
          {
             Object value = row.get(oldColumnMap.get(name));
             newRow.add(value);
          }
          if (rowSet.add(newRow))
-            this.table.add(newRow);
+            this.getTable().add(newRow);
       }
 
       return this;
@@ -413,20 +351,20 @@ public class IncrementalObjectTable
 
    public IncrementalObjectTable selectColumns(String... columnNames)
    {
-      LinkedHashMap<String, Integer> oldColumnMap = (LinkedHashMap<String, Integer>) this.columnMap.clone();
-      this.columnMap.clear();
+      LinkedHashMap<String, Integer> oldColumnMap = (LinkedHashMap<String, Integer>) this.getColumnMap().clone();
+      this.getColumnMap().clear();
 
       int i = 0;
       for (String name : columnNames)
       {
          if (oldColumnMap.get(name) == null)
             throw new IllegalArgumentException("unknown column name: " + name);
-         this.columnMap.put(name, i);
+         this.getColumnMap().put(name, i);
          i++;
       }
 
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
 
       LinkedHashSet<ArrayList<Object> > rowSet = new LinkedHashSet<>();
       for (ArrayList row : oldTable)
@@ -438,7 +376,7 @@ public class IncrementalObjectTable
             newRow.add(value);
          }
          if (rowSet.add(newRow))
-            this.table.add(newRow);
+            this.getTable().add(newRow);
       }
 
       return this;
@@ -448,14 +386,14 @@ public class IncrementalObjectTable
 
    public IncrementalObjectTable filter(Predicate< Object > predicate)
    {
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = row.get(columnMap.get(this.getColumnName()));
+         Object start = row.get(getColumnMap().get(this.getColumnName()));
          if (predicate.test(start))
          {
-            this.table.add(row);
+            this.getTable().add(row);
          }
       }
       return this;
@@ -464,18 +402,18 @@ public class IncrementalObjectTable
 
    public IncrementalObjectTable filterRow(Predicate<LinkedHashMap<String,Object> > predicate)
    {
-      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
-      this.table.clear();
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.getTable().clone();
+      this.getTable().clear();
       for (ArrayList<Object> row : oldTable)
       {
          LinkedHashMap<String,Object> map = new LinkedHashMap< >();
-         for (String key : columnMap.keySet())
+         for (String key : getColumnMap().keySet())
          {
-            map.put(key, row.get(columnMap.get(key)));
+            map.put(key, row.get(getColumnMap().get(key)));
          }
          if (predicate.test(map))
          {
-            this.table.add(row);
+            this.getTable().add(row);
          }
       }
       return this;
@@ -485,9 +423,9 @@ public class IncrementalObjectTable
    public LinkedHashSet< Object > toSet()
    {
       LinkedHashSet< Object > result = new LinkedHashSet<>();
-      for (ArrayList row : this.table)
+      for (ArrayList row : this.getTable())
       {
-         Object value = row.get(columnMap.get(columnName));
+         Object value = row.get(getColumnMap().get(columnName));
          result.add(value);
       }
       return result;
@@ -498,17 +436,17 @@ public class IncrementalObjectTable
    public String toString()
    {
       StringBuilder buf = new StringBuilder("| ");
-      for (String key : columnMap.keySet())
+      for (String key : getColumnMap().keySet())
       {
          buf.append(key).append(" \t| ");
       }
       buf.append("\n| ");
-      for (String key : columnMap.keySet())
+      for (String key : getColumnMap().keySet())
       {
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.getTable())
       {
          buf.append("| ");
          for (Object cell : row)
@@ -520,5 +458,6 @@ public class IncrementalObjectTable
       buf.append("\n");
       return buf.toString();
    }
+
 
 }
