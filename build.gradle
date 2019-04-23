@@ -30,6 +30,8 @@ dependencies {
 
     compile 'org.fulib:fulibYaml:1.0.+'
 
+    compile 'org.slf4j:slf4j-nop:1.7.25'
+
     testCompile 'org.fulib:fulib:1.0.+'
     testCompile 'org.fulib:fulibTools:1.0.+'
 }
