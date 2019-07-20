@@ -269,6 +269,31 @@ public class ObjectTable
    }
 
 
+   public StringTable expandBoolean(String newColumnName, String attrName)
+   {
+      StringTable result = new StringTable();
+      result.setColumnMap(this.columnMap);
+      result.setTable(this.table);
+      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setColumnName(newColumnName);
+      columnMap.put(newColumnName, newColumnNumber);
+
+      ArrayList<ArrayList<Object> > oldTable = (ArrayList<ArrayList<Object> >) this.table.clone();
+      this.table.clear();
+      for (ArrayList<Object> row : oldTable)
+      {
+         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
+         Reflector reflector = reflectorMap.getReflector(start);
+         Object value = reflector.getValue(start, attrName);
+         ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
+         newRow.add(value);
+         this.table.add(newRow);
+      }
+
+      return result;
+   }
+
+
 
    public void addColumn(String columnName, java.util.function.Function<java.util.LinkedHashMap<String,Object>,Object> function)
    {
