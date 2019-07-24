@@ -11,9 +11,9 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-390 717,-390 717,4 -4,4"/>
 <!-- study_Right1 -->
 <g id="node1" class="node"><title>study_Right1</title>
-<polygon fill="none" stroke="black" points="365,-365 365,-382 473,-382 473,-365 365,-365"/>
-<text text-anchor="start" x="368" y="-372" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">study_Right1 :University</text>
-<polygon fill="none" stroke="black" points="365,-348 365,-365 473,-365 473,-348 365,-348"/>
+<polygon fill="none" stroke="black" points="369,-365 369,-382 469,-382 469,-365 369,-365"/>
+<text text-anchor="start" x="372" y="-372" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">study Right :University</text>
+<polygon fill="none" stroke="black" points="369,-348 369,-365 469,-365 469,-348 369,-348"/>
 <text text-anchor="start" x="372.5" y="-354" font-family="Times New Roman,serif" font-size="10.00"> &#160;name = &quot;Study Right&quot;</text>
 </g>
 <!-- r2 -->
@@ -64,7 +64,7 @@
 <!-- alice5 -->
 <g id="node5" class="node"><title>alice5</title>
 <polygon fill="none" stroke="black" points="331,-187 331,-204 425,-204 425,-187 331,-187"/>
-<text text-anchor="start" x="348.5" y="-194" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">alice5 :Student</text>
+<text text-anchor="start" x="350.5" y="-194" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">alice :Student</text>
 <polygon fill="none" stroke="black" points="331,-126 331,-187 425,-187 425,-126 331,-126"/>
 <text text-anchor="start" x="334" y="-176" font-family="Times New Roman,serif" font-size="10.00"> &#160;credits = 0.0</text>
 <text text-anchor="start" x="334" y="-165" font-family="Times New Roman,serif" font-size="10.00"> &#160;motivation = 0.0</text>
@@ -81,7 +81,7 @@
 <!-- bobby6 -->
 <g id="node6" class="node"><title>bobby6</title>
 <polygon fill="none" stroke="black" points="8,-65 8,-82 102,-82 102,-65 8,-65"/>
-<text text-anchor="start" x="21.5" y="-72" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">bobby6 :Student</text>
+<text text-anchor="start" x="23.5" y="-72" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">bobby :Student</text>
 <polygon fill="none" stroke="black" points="8,-4 8,-65 102,-65 102,-4 8,-4"/>
 <text text-anchor="start" x="11" y="-54" font-family="Times New Roman,serif" font-size="10.00"> &#160;credits = 0.0</text>
 <text text-anchor="start" x="11" y="-43" font-family="Times New Roman,serif" font-size="10.00"> &#160;motivation = 0.0</text>
@@ -91,14 +91,14 @@
 </g>
 <!-- study_Right1&#45;&gt;bobby6 -->
 <g id="edge5" class="edge"><title>study_Right1&#45;&gt;bobby6</title>
-<path fill="none" stroke="black" d="M356.714,-363.747C295.155,-360.9 200.259,-349.333 130,-308 79.9713,-278.568 65.8666,-262.538 46,-208 31.6043,-168.481 36.7852,-120.057 43.7627,-86.11"/>
+<path fill="none" stroke="black" d="M360.718,-363.922C299.332,-361.393 201.801,-350.24 130,-308 79.9713,-278.568 65.8666,-262.538 46,-208 31.6043,-168.481 36.7852,-120.057 43.7627,-86.11"/>
 <text text-anchor="middle" x="25.7627" y="-89.11" font-family="Times New Roman,serif" font-size="10.00">students</text>
-<text text-anchor="middle" x="350.214" y="-366.747" font-family="Times New Roman,serif" font-size="10.00">uni</text>
+<text text-anchor="middle" x="354.218" y="-366.922" font-family="Times New Roman,serif" font-size="10.00">uni</text>
 </g>
 <!-- carli7 -->
 <g id="node7" class="node"><title>carli7</title>
 <polygon fill="none" stroke="black" points="611,-187 611,-204 705,-204 705,-187 611,-187"/>
-<text text-anchor="start" x="629" y="-194" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">carli7 :Student</text>
+<text text-anchor="start" x="631.5" y="-194" font-family="Times New Roman,serif" text-decoration="underline" font-size="10.00">carli :Student</text>
 <polygon fill="none" stroke="black" points="611,-126 611,-187 705,-187 705,-126 611,-126"/>
 <text text-anchor="start" x="614" y="-176" font-family="Times New Roman,serif" font-size="10.00"> &#160;credits = 0.0</text>
 <text text-anchor="start" x="614" y="-165" font-family="Times New Roman,serif" font-size="10.00"> &#160;motivation = 0.0</text>
