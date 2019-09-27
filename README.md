@@ -1,24 +1,26 @@
 # fulibTables
 
-### Gradle
+Fulib Tables are the model query and transformation mechanisms provided by Fulib.
 
-<pre>
+## Installation
+
+`build.gradle`:
+
+```groovy
 repositories {
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    jcenter()
 }
-</pre>
+```
 
-<pre>
+```groovy
 dependencies {
-    testCompile 'org.fulib:fulibTables:1.0.+'
+    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
+    compile group: 'org.fulib', name: 'fulibTables', version: '1.1.0'
 }
-</pre>
+```
 
-### Usage
-
-Fulib Tables are the model query and transformation mechanisms
-provided by Fulib.
+## Usage
 
 To demonstrate Fulib Tables we start with an extended version
 of the StudyRight University class model:
