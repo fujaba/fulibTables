@@ -2,6 +2,7 @@ package org.fulib.tables;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 public class doubleTable extends AbstractTable<Double>
 {
@@ -14,45 +15,24 @@ public class doubleTable extends AbstractTable<Double>
 
    // =============== Methods ===============
 
+   private DoubleStream doubleStream() // TODO public?
+   {
+      return this.stream().mapToDouble(Double::doubleValue);
+   }
+
    public double sum()
    {
-      int column = this.getColumn();
-      double result = 0;
-      for (List<Object> row : this.getTable())
-      {
-         result += (Double) row.get(column);
-      }
-      return result;
+      return this.doubleStream().sum();
    }
 
    public double min()
    {
-      int column = this.getColumn();
-      double result = Double.MAX_VALUE;
-      for (List<Object> row : this.getTable())
-      {
-         double value = (Double) row.get(column);
-         if (value < result)
-         {
-            result = value;
-         }
-      }
-      return result;
+      return this.doubleStream().min().orElse(Double.MAX_VALUE);
    }
 
    public double max()
    {
-      int column = this.getColumn();
-      double result = Double.MIN_VALUE;
-      for (List<Object> row : this.getTable())
-      {
-         double value = (Double) row.get(column);
-         if (value > result)
-         {
-            result = value;
-         }
-      }
-      return result;
+      return this.doubleStream().max().orElse(Double.MIN_VALUE);
    }
 
    public double median()

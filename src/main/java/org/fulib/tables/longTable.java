@@ -2,6 +2,7 @@ package org.fulib.tables;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class longTable extends AbstractTable<Long>
 {
@@ -14,45 +15,24 @@ public class longTable extends AbstractTable<Long>
 
    // =============== Methods ===============
 
+   private LongStream longStream() // TODO public?
+   {
+      return this.stream().mapToLong(Long::longValue);
+   }
+
    public long sum()
    {
-      int column = this.getColumn();
-      long result = 0;
-      for (List<Object> row : this.getTable())
-      {
-         result += (Long) row.get(column);
-      }
-      return result;
+      return this.longStream().sum();
    }
 
    public long min()
    {
-      int column = this.getColumn();
-      long result = Long.MAX_VALUE;
-      for (List<Object> row : this.getTable())
-      {
-         long value = (Long) row.get(column);
-         if (value < result)
-         {
-            result = value;
-         }
-      }
-      return result;
+      return this.longStream().min().orElse(Long.MAX_VALUE);
    }
 
    public long max()
    {
-      int column = this.getColumn();
-      long result = Long.MIN_VALUE;
-      for (List<Object> row : this.getTable())
-      {
-         long value = (Long) row.get(column);
-         if (value > result)
-         {
-            result = value;
-         }
-      }
-      return result;
+      return this.longStream().max().orElse(Long.MIN_VALUE);
    }
 
    public long median()
