@@ -4,6 +4,7 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ObjectTable
@@ -16,16 +17,16 @@ public class ObjectTable
    public ObjectTable(String colName, Object... start)
    {
       this.setColumnName(colName);
-      columnMap.put(colName, 0);
+      this.columnMap.put(colName, 0);
       for (Object current : start)
       {
          ArrayList<Object> row = new ArrayList<>();
          row.add(current);
-         table.add(row);
+         this.table.add(row);
 
-         if (reflectorMap == null)
+         if (this.reflectorMap == null)
          {
-            reflectorMap = new ReflectorMap(current.getClass().getPackage().getName());
+            this.reflectorMap = new ReflectorMap(current.getClass().getPackage().getName());
          }
       }
    }
@@ -34,7 +35,7 @@ public class ObjectTable
 
    public ReflectorMap getReflectorMap()
    {
-      return reflectorMap;
+      return this.reflectorMap;
    }
 
    public void setReflectorMap(ReflectorMap reflectorMap)
@@ -46,7 +47,7 @@ public class ObjectTable
 
    public ArrayList<ArrayList<Object>> getTable()
    {
-      return table;
+      return this.table;
    }
 
    public ObjectTable setTable(ArrayList<ArrayList<Object>> value)
@@ -59,7 +60,7 @@ public class ObjectTable
 
    public String getColumnName()
    {
-      return columnName;
+      return this.columnName;
    }
 
    public ObjectTable setColumnName(String value)
@@ -72,7 +73,7 @@ public class ObjectTable
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return columnMap;
+      return this.columnMap;
    }
 
    public ObjectTable setColumnMap(LinkedHashMap<String, Integer> value)
@@ -85,24 +86,24 @@ public class ObjectTable
    {
       ObjectTable result = new ObjectTable();
       result.setColumnMap(this.columnMap);
-      result.setTable(table);
-      result.setReflectorMap(reflectorMap);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      result.setTable(this.table);
+      result.setReflectorMap(this.reflectorMap);
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
 
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
          if (value instanceof Collection)
          {
-            for (Object current : (Collection) value)
+            for (Object current : (Collection<?>) value)
             {
                ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
                newRow.add(current);
@@ -125,12 +126,12 @@ public class ObjectTable
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = row.get(columnMap.get(this.getColumnName()));
-         Object other = row.get(columnMap.get(rowName.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Object other = row.get(this.columnMap.get(rowName.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
-         if (value instanceof Collection && ((Collection) value).contains(other) || value == other)
+         if (value instanceof Collection && ((Collection<?>) value).contains(other) || value == other)
          {
             this.table.add(row);
          }
@@ -143,16 +144,16 @@ public class ObjectTable
       doubleTable result = new doubleTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -167,16 +168,16 @@ public class ObjectTable
       floatTable result = new floatTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -191,16 +192,16 @@ public class ObjectTable
       intTable result = new intTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -215,16 +216,16 @@ public class ObjectTable
       longTable result = new longTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -239,16 +240,16 @@ public class ObjectTable
       StringTable result = new StringTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -263,16 +264,16 @@ public class ObjectTable
       StringTable result = new StringTable();
       result.setColumnMap(this.columnMap);
       result.setTable(this.table);
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       result.setColumnName(newColumnName);
-      columnMap.put(newColumnName, newColumnNumber);
+      this.columnMap.put(newColumnName, newColumnNumber);
 
       ArrayList<ArrayList<Object>> oldTable = (ArrayList<ArrayList<Object>>) this.table.clone();
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = (Object) row.get(columnMap.get(this.getColumnName()));
-         Reflector reflector = reflectorMap.getReflector(start);
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
+         Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          ArrayList<Object> newRow = (ArrayList<Object>) row.clone();
          newRow.add(value);
@@ -283,15 +284,15 @@ public class ObjectTable
    }
 
    public void addColumn(String columnName,
-      java.util.function.Function<java.util.LinkedHashMap<String, Object>, Object> function)
+      Function<LinkedHashMap<String, Object>, Object> function)
    {
-      int newColumnNumber = this.table.size() > 0 ? this.table.get(0).size() : 0;
+      int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       for (ArrayList<Object> row : this.table)
       {
-         java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
-         for (String key : columnMap.keySet())
+         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+         for (String key : this.columnMap.keySet())
          {
-            map.put(key, row.get(columnMap.get(key)));
+            map.put(key, row.get(this.columnMap.get(key)));
          }
          Object result = function.apply(map);
          row.add(result);
@@ -304,8 +305,7 @@ public class ObjectTable
       LinkedHashMap<String, Integer> oldColumnMap = (LinkedHashMap<String, Integer>) this.columnMap.clone();
       this.columnMap.clear();
 
-      LinkedHashSet<String> dropNames = new LinkedHashSet<>();
-      dropNames.addAll(Arrays.asList(columnNames));
+      LinkedHashSet<String> dropNames = new LinkedHashSet<>(Arrays.asList(columnNames));
       int i = 0;
       for (String name : oldColumnMap.keySet())
       {
@@ -320,9 +320,9 @@ public class ObjectTable
       this.table.clear();
 
       LinkedHashSet<ArrayList<Object>> rowSet = new LinkedHashSet<>();
-      for (ArrayList row : oldTable)
+      for (ArrayList<?> row : oldTable)
       {
-         ArrayList newRow = new ArrayList();
+         ArrayList<Object> newRow = new ArrayList<>();
          for (String name : this.columnMap.keySet())
          {
             Object value = row.get(oldColumnMap.get(name));
@@ -353,9 +353,9 @@ public class ObjectTable
       this.table.clear();
 
       LinkedHashSet<ArrayList<Object>> rowSet = new LinkedHashSet<>();
-      for (ArrayList row : oldTable)
+      for (ArrayList<?> row : oldTable)
       {
-         ArrayList newRow = new ArrayList();
+         ArrayList<Object> newRow = new ArrayList<>();
          for (String name : columnNames)
          {
             Object value = row.get(oldColumnMap.get(name));
@@ -374,7 +374,7 @@ public class ObjectTable
       this.table.clear();
       for (ArrayList<Object> row : oldTable)
       {
-         Object start = row.get(columnMap.get(this.getColumnName()));
+         Object start = row.get(this.columnMap.get(this.getColumnName()));
          if (predicate.test(start))
          {
             this.table.add(row);
@@ -390,9 +390,9 @@ public class ObjectTable
       for (ArrayList<Object> row : oldTable)
       {
          LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-         for (String key : columnMap.keySet())
+         for (String key : this.columnMap.keySet())
          {
-            map.put(key, row.get(columnMap.get(key)));
+            map.put(key, row.get(this.columnMap.get(key)));
          }
          if (predicate.test(map))
          {
@@ -405,9 +405,9 @@ public class ObjectTable
    public LinkedHashSet<Object> toSet()
    {
       LinkedHashSet<Object> result = new LinkedHashSet<>();
-      for (ArrayList row : this.table)
+      for (ArrayList<?> row : this.table)
       {
-         Object value = row.get(columnMap.get(columnName));
+         Object value = row.get(this.columnMap.get(this.columnName));
          result.add(value);
       }
       return result;
@@ -417,17 +417,17 @@ public class ObjectTable
    public String toString()
    {
       StringBuilder buf = new StringBuilder("| ");
-      for (String key : columnMap.keySet())
+      for (String key : this.columnMap.keySet())
       {
          buf.append(key).append(" \t| ");
       }
       buf.append("\n| ");
-      for (String key : columnMap.keySet())
+      for (String ignored : this.columnMap.keySet())
       {
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.table)
       {
          buf.append("| ");
          for (Object cell : row)
