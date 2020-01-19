@@ -6,6 +6,10 @@ import java.util.stream.Stream;
 
 class AbstractTable<T>
 {
+   // =============== Constants ===============
+
+   private static final String DEFAULT_COLUMN_NAME = "A";
+
    // =============== Fields ===============
 
    private String               columnName;
@@ -17,8 +21,14 @@ class AbstractTable<T>
    @SafeVarargs
    public AbstractTable(T... start)
    {
-      this.columnName = "A";
-      this.columnMap.put(this.columnName, 0);
+      this(DEFAULT_COLUMN_NAME, start);
+   }
+
+   @SafeVarargs
+   public AbstractTable(String columnName, T... start)
+   {
+      this.columnName = columnName;
+      this.columnMap.put(columnName, 0);
       for (T current : start)
       {
          List<Object> row = new ArrayList<>();
