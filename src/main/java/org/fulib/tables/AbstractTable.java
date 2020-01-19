@@ -64,6 +64,11 @@ class AbstractTable<T>
       this.table = table;
    }
 
+   public Map<String, Integer> getColumnMap()
+   {
+      return this.columnMap;
+   }
+
    public void setColumnMap(Map<String, Integer> columnMap)
    {
       this.columnMap = columnMap;
