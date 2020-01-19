@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class AbstractTable<T>
@@ -65,14 +66,7 @@ class AbstractTable<T>
 
    public List<T> toList()
    {
-      int column = this.getColumn();
-      List<T> result = new ArrayList<>();
-      for (List<Object> row : this.getTable())
-      {
-         T value = (T) row.get(column);
-         result.add(value);
-      }
-      return result;
+      return this.stream().collect(Collectors.toList());
    }
 
    public Stream<T> stream()
