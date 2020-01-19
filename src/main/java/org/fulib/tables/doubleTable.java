@@ -1,28 +1,34 @@
 package org.fulib.tables;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 public class doubleTable
 {
-   private ArrayList<ArrayList<Object> > table = new ArrayList<>();
+   // =============== Fields ===============
 
-   public ArrayList<ArrayList<Object> > getTable()
+   private String               columnName;
+   private List<List<Object>>   table     = new ArrayList<>();
+   private Map<String, Integer> columnMap = new LinkedHashMap<>();
+
+   // =============== Constructors ===============
+
+   public doubleTable(Double... start)
    {
-      return table;
+      this.columnName = "A";
+      this.columnMap.put(this.columnName, 0);
+      for (Double current : start)
+      {
+         List<Object> row = new ArrayList<>();
+         row.add(current);
+         this.table.add(row);
+      }
    }
 
-   public void setTable(ArrayList<ArrayList<Object> > table)
-   {
-      this.table = table;
-   }
-
-   private String columnName = null;
+   // =============== Properties ===============
 
    public String getColumnName()
    {
-      return columnName;
+      return this.columnName;
    }
 
    public void setColumnName(String columnName)
@@ -30,79 +36,84 @@ public class doubleTable
       this.columnName = columnName;
    }
 
-   LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+   public int getColumn()
+   {
+      return this.columnMap.get(this.columnName);
+   }
 
-   public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
+   public List<List<Object>> getTable()
+   {
+      return this.table;
+   }
+
+   public void setTable(List<List<Object>> table)
+   {
+      this.table = table;
+   }
+
+   public void setColumnMap(Map<String, Integer> columnMap)
    {
       this.columnMap = columnMap;
    }
 
-   public doubleTable(Double... start)
-   {
-      columnName = "A";
-      columnMap.put(columnName, 0);
-      for (Double current : start)
-      {
-         ArrayList<Object> row = new ArrayList<>();
-         row.add(current);
-         table.add(row);
-      }
-   }
+   // =============== Methods ===============
 
-
-   public double sum ()
+   public double sum()
    {
+      int column = this.getColumn();
       double result = 0;
-      for (ArrayList<Object> row : table)
+      for (List<Object> row : this.table)
       {
-         result += (Double) row.get(columnMap.get(columnName));
+         result += (Double) row.get(column);
       }
       return result;
    }
 
-
-   public double min ()
+   public double min()
    {
+      int column = this.getColumn();
       double result = Double.MAX_VALUE;
-      for (ArrayList<Object> row : table)
+      for (List<Object> row : this.table)
       {
-         double value =  (Double) row.get(columnMap.get(columnName));
+         double value = (Double) row.get(column);
          if (value < result)
+         {
             result = value;
+         }
       }
       return result;
    }
 
-
-   public double max ()
+   public double max()
    {
+      int column = this.getColumn();
       double result = Double.MIN_VALUE;
-      for (ArrayList<Object> row : table)
+      for (List<Object> row : this.table)
       {
-         double value =  (Double) row.get(columnMap.get(columnName));
+         double value = (Double) row.get(column);
          if (value > result)
+         {
             result = value;
+         }
       }
       return result;
    }
 
-
-   public double median ()
+   public double median()
    {
-      ArrayList< Double > list = this.toList();
+      List<Double> list = this.toList();
       Collections.sort(list);
       int index = list.size() / 2;
-      double result = list.get(index);
-      return result;
+      return list.get(index);
    }
 
-
-   public ArrayList< Double > toList()
+   public List<Double> toList()
    {
-      ArrayList< Double > result = new ArrayList<>();
-      for (ArrayList<Object> row : table)
+      int column = this.getColumn();
+      List<Double> result = new ArrayList<>();
+      for (List<Object> row : this.table)
       {
-         double value =  (Double) row.get(columnMap.get(columnName));
+         double value = (Double) row.get(column);
          result.add(value);
       }
       return result;
@@ -112,12 +123,12 @@ public class doubleTable
    public String toString()
    {
       StringBuilder buf = new StringBuilder();
-      for (String key : columnMap.keySet())
+      for (String key : this.columnMap.keySet())
       {
          buf.append(key).append(" \t");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : table)
+      for (List<Object> row : this.table)
       {
          for (Object cell : row)
          {
