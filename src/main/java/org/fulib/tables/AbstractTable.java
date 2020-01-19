@@ -1,9 +1,6 @@
 package org.fulib.tables;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,6 +64,11 @@ class AbstractTable<T>
    public List<T> toList()
    {
       return this.stream().collect(Collectors.toList());
+   }
+
+   public Set<T> toSet()
+   {
+      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
    public Stream<T> stream()
