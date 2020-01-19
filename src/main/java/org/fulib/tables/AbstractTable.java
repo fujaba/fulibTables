@@ -74,6 +74,11 @@ class AbstractTable<T>
       this.columnMap = columnMap;
    }
 
+   protected int getNewColumnNumber()
+   {
+      return this.table.isEmpty() ? 0 : this.table.get(0).size();
+   }
+
    // =============== Methods ===============
 
    public List<T> toList()
