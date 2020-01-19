@@ -9,6 +9,16 @@ import java.util.function.Predicate;
 
 public class ObjectTable
 {
+   private ReflectorMap reflectorMap;
+
+   private ArrayList<ArrayList<Object>> table = new ArrayList<>();
+
+   private String columnName = null;
+
+   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+
+   // =============== Constructors ===============
+
    public ObjectTable(Object... start)
    {
       this("A", start);
@@ -31,7 +41,7 @@ public class ObjectTable
       }
    }
 
-   private ReflectorMap reflectorMap;
+   // =============== Properties ===============
 
    public ReflectorMap getReflectorMap()
    {
@@ -42,21 +52,6 @@ public class ObjectTable
    {
       this.reflectorMap = reflectorMap;
    }
-
-   private ArrayList<ArrayList<Object>> table = new ArrayList<>();
-
-   public ArrayList<ArrayList<Object>> getTable()
-   {
-      return this.table;
-   }
-
-   public ObjectTable setTable(ArrayList<ArrayList<Object>> value)
-   {
-      this.table = value;
-      return this;
-   }
-
-   private String columnName = null;
 
    public String getColumnName()
    {
@@ -69,7 +64,16 @@ public class ObjectTable
       return this;
    }
 
-   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+   public ArrayList<ArrayList<Object>> getTable()
+   {
+      return this.table;
+   }
+
+   public ObjectTable setTable(ArrayList<ArrayList<Object>> value)
+   {
+      this.table = value;
+      return this;
+   }
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
@@ -81,6 +85,8 @@ public class ObjectTable
       this.columnMap = value;
       return this;
    }
+
+   // =============== Methods ===============
 
    public ObjectTable expandLink(String newColumnName, String linkName)
    {
@@ -283,8 +289,7 @@ public class ObjectTable
       return result;
    }
 
-   public void addColumn(String columnName,
-      Function<LinkedHashMap<String, Object>, Object> function)
+   public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
    {
       int newColumnNumber = !this.table.isEmpty() ? this.table.get(0).size() : 0;
       for (ArrayList<Object> row : this.table)
