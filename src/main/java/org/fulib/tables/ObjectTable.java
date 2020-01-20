@@ -169,11 +169,7 @@ public class ObjectTable extends AbstractTable<Object>
       int newColumnNumber = this.getNewColumnNumber();
       for (List<Object> row : this.getTable())
       {
-         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-         for (String key : this.getColumnMap().keySet())
-         {
-            map.put(key, row.get(this.getColumnMap().get(key)));
-         }
+         LinkedHashMap<String, Object> map = this.convertRowToMap(row);
          Object result = function.apply(map);
          row.add(result);
       }
@@ -274,17 +270,23 @@ public class ObjectTable extends AbstractTable<Object>
       this.getTable().clear();
       for (List<Object> row : oldTable)
       {
-         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-         for (String key : this.getColumnMap().keySet())
-         {
-            map.put(key, row.get(this.getColumnMap().get(key)));
-         }
+         LinkedHashMap<String, Object> map = this.convertRowToMap(row);
          if (predicate.test(map))
          {
             this.getTable().add(row);
          }
       }
       return this;
+   }
+
+   private LinkedHashMap<String, Object> convertRowToMap(List<Object> row)
+   {
+      LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+      for (String key : this.getColumnMap().keySet())
+      {
+         map.put(key, row.get(this.getColumnMap().get(key)));
+      }
+      return map;
    }
 
    @Override
