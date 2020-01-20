@@ -56,10 +56,9 @@ public class ObjectTable extends AbstractTable<Object>
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
       result.setReflectorMap(this.reflectorMap);
-      int newColumnNumber = this.getNewColumnNumber();
-
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -112,9 +111,9 @@ public class ObjectTable extends AbstractTable<Object>
       doubleTable result = new doubleTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -136,9 +135,9 @@ public class ObjectTable extends AbstractTable<Object>
       floatTable result = new floatTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -160,9 +159,9 @@ public class ObjectTable extends AbstractTable<Object>
       intTable result = new intTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -184,9 +183,9 @@ public class ObjectTable extends AbstractTable<Object>
       longTable result = new longTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -208,9 +207,9 @@ public class ObjectTable extends AbstractTable<Object>
       StringTable result = new StringTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
@@ -232,9 +231,9 @@ public class ObjectTable extends AbstractTable<Object>
       StringTable result = new StringTable();
       result.setColumnMap(this.getColumnMap());
       result.setTable(this.getTable());
-      int newColumnNumber = this.getNewColumnNumber();
       result.setColumnName(newColumnName);
-      this.getColumnMap().put(newColumnName, newColumnNumber);
+
+      this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
