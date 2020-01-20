@@ -136,6 +136,7 @@ public class ObjectTable extends AbstractTable<Object>
       return result;
    }
 
+   // TODO *String*Table seems wrong for expand*Boolean* ...
    public StringTable expandBoolean(String newColumnName, String attrName)
    {
       StringTable result = new StringTable(newColumnName, this);
@@ -147,8 +148,9 @@ public class ObjectTable extends AbstractTable<Object>
    {
       this.addColumn(newColumnName);
 
+      final int column = this.getColumn();
       this.getTable().replaceAll(row -> {
-         Object start = row.get(this.getColumn());
+         Object start = row.get(column);
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          List<Object> newRow = new ArrayList<>(row);
