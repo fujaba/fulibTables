@@ -220,29 +220,32 @@ public class ObjectTable extends AbstractTable<Object>
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
       this.getColumnMap().clear();
 
-      int i = 0;
-      for (String name : columnNames)
+      for (int i = 0; i < columnNames.length; i++)
       {
+         String name = columnNames[i];
          if (oldColumnMap.get(name) == null)
+         {
             throw new IllegalArgumentException("unknown column name: " + name);
+         }
          this.getColumnMap().put(name, i);
-         i++;
       }
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
 
-      LinkedHashSet<ArrayList<Object>> rowSet = new LinkedHashSet<>();
+      Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
       {
-         ArrayList<Object> newRow = new ArrayList<>();
+         List<Object> newRow = new ArrayList<>();
          for (String name : columnNames)
          {
             Object value = row.get(oldColumnMap.get(name));
             newRow.add(value);
          }
          if (rowSet.add(newRow))
+         {
             this.getTable().add(newRow);
+         }
       }
 
       return this;
