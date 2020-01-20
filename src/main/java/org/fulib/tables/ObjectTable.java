@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+// TODO ObjectTable<T> ?
 public class ObjectTable extends AbstractTable<Object>
 {
    private ReflectorMap reflectorMap;
@@ -31,6 +32,7 @@ public class ObjectTable extends AbstractTable<Object>
       super(columnName, base);
    }
 
+   // TODO consider the packages of start[1..] too?
    private void initReflector(Object... start)
    {
       if (start.length == 0)
@@ -55,6 +57,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    // =============== Methods ===============
 
+   // TODO overload where rowName is a String
    public ObjectTable hasLink(String linkName, ObjectTable rowName)
    {
       final int thisColumn = this.getColumn();
@@ -175,6 +178,7 @@ public class ObjectTable extends AbstractTable<Object>
       this.addColumnImpl(columnName, function);
    }
 
+   // TODO why does this modify the rows inplace, while every other method copies and replaces them?
    private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
@@ -187,6 +191,7 @@ public class ObjectTable extends AbstractTable<Object>
       this.getColumnMap().put(columnName, newColumnNumber);
    }
 
+   // TODO what happens to the *Table objects that point to these columns?
    public ObjectTable dropColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
@@ -224,6 +229,7 @@ public class ObjectTable extends AbstractTable<Object>
       return this;
    }
 
+   // TODO what happens to the *Table objects that point to the other columns?
    public ObjectTable selectColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
