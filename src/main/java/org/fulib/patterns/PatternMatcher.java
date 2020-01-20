@@ -22,6 +22,10 @@ public class PatternMatcher
 
    // =============== Properties ===============
 
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public LinkedHashMap<PatternObject, ObjectTable> getObject2TableMap()
    {
       return this.object2TableMap;
