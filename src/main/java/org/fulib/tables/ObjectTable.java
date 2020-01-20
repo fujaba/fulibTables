@@ -261,17 +261,7 @@ public class ObjectTable extends AbstractTable<Object>
     */
    public ObjectTable filterRows(Predicate<? super Map<String, Object>> predicate)
    {
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Map<String, Object> map = this.convertRowToMap(row);
-         if (predicate.test(map))
-         {
-            this.getTable().add(row);
-         }
-      }
-      return this;
+      return this.filterRowsImpl(predicate);
    }
 
    /**
@@ -280,16 +270,12 @@ public class ObjectTable extends AbstractTable<Object>
    @Deprecated
    public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         LinkedHashMap<String, Object> map = this.convertRowToMap(row);
-         if (predicate.test(map))
-         {
-            this.getTable().add(row);
-         }
-      }
+      return this.filterRowsImpl(predicate);
+   }
+
+   private ObjectTable filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
+   {
+      this.getTable().removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;
    }
 
