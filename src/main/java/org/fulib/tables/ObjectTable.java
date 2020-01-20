@@ -116,17 +116,14 @@ public class ObjectTable extends AbstractTable<Object>
    {
       this.addColumn(newColumnName);
 
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
+      this.getTable().replaceAll(row -> {
          Object start = row.get(this.getColumn());
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
          List<Object> newRow = new ArrayList<>(row);
          newRow.add(value);
-         this.getTable().add(newRow);
-      }
+         return newRow;
+      });
    }
 
    public floatTable expandFloat(String newColumnName, String attrName)
