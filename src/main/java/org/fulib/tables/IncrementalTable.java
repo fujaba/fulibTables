@@ -17,7 +17,7 @@ public class IncrementalTable
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return columnMap;
+      return this.columnMap;
    }
 
    public IncrementalTable setColumnMap(LinkedHashMap<String, Integer> value)
@@ -26,12 +26,11 @@ public class IncrementalTable
       return this;
    }
 
-
    private ReflectorMap reflectorMap;
 
    public ReflectorMap getReflectorMap()
    {
-      return reflectorMap;
+      return this.reflectorMap;
    }
 
    public void setReflectorMap(ReflectorMap reflectorMap)
@@ -39,13 +38,11 @@ public class IncrementalTable
       this.reflectorMap = reflectorMap;
    }
 
-
-
    private ListeningTable listeningTable = null;
 
    public ListeningTable getListeningTable()
    {
-      return listeningTable;
+      return this.listeningTable;
    }
 
    public void setListeningTable(ListeningTable listeningTable)
@@ -53,17 +50,15 @@ public class IncrementalTable
       this.listeningTable = listeningTable;
    }
 
-
-
    private ArrayList<ArrayList<Object>> table;
 
    public ArrayList<ArrayList<Object>> getTable()
    {
-      if (table == null)
+      if (this.table == null)
       {
-         table = new ArrayList<>();
+         this.table = new ArrayList<>();
       }
-      return table;
+      return this.table;
    }
 
    public IncrementalTable setTable(ArrayList<ArrayList<Object>> value)
@@ -71,7 +66,6 @@ public class IncrementalTable
       this.table = value;
       return this;
    }
-
 
    private ArrayList<ListeningTable> allListeningTables = null;
 
@@ -82,7 +76,7 @@ public class IncrementalTable
 
    public ArrayList<ListeningTable> getAllListeningTables()
    {
-      return allListeningTables;
+      return this.allListeningTables;
    }
 
    private ArrayList<IncrementalTable> allObjectTables = null;
@@ -94,38 +88,36 @@ public class IncrementalTable
 
    public ArrayList<IncrementalTable> getAllObjectTables()
    {
-      if (allObjectTables == null)
+      if (this.allObjectTables == null)
       {
-         allObjectTables = new ArrayList<>();
+         this.allObjectTables = new ArrayList<>();
       }
 
-      return allObjectTables;
+      return this.allObjectTables;
    }
-
-
 
    public void updateAllObjectTables(ListeningTable newTable)
    {
-      for (IncrementalTable previousTable : getAllObjectTables())
+      for (IncrementalTable previousTable : this.getAllObjectTables())
       {
          previousTable.setListeningTable(newTable);
          previousTable.setTable(newTable.getBaseTable());
       }
    }
 
-
-
-   public void addRowsForLink(String linkName, String startColumnName, ListeningTable newListeningTable, ListeningTable oldListeningTable, ArrayList<Object> row)
+   public void addRowsForLink(String linkName, String startColumnName, ListeningTable newListeningTable,
+      ListeningTable oldListeningTable, ArrayList<Object> row)
    {
-      Integer index = columnMap.get(startColumnName);
+      Integer index = this.columnMap.get(startColumnName);
       Object start = row.get(index);
-      Reflector reflector = reflectorMap.getReflector(start);
+      Reflector reflector = this.reflectorMap.getReflector(start);
       Object value = reflector.getValue(start, linkName);
 
       LinkChangeListener linkChangeListener = new LinkChangeListener(start, row, linkName, newListeningTable);
       try
       {
-         Method addPropertyChangeListenerMethod = start.getClass().getMethod("addPropertyChangeListener", String.class, PropertyChangeListener.class);
+         Method addPropertyChangeListenerMethod = start.getClass().getMethod("addPropertyChangeListener", String.class,
+                                                                             PropertyChangeListener.class);
          addPropertyChangeListenerMethod.invoke(start, linkName, linkChangeListener);
       }
       catch (Exception e)
@@ -134,12 +126,11 @@ public class IncrementalTable
       }
 
       oldListeningTable.addRowListener(row, linkChangeListener);
-      addRowsForLinkValues(linkName, newListeningTable, row, start, value, linkChangeListener);
+      this.addRowsForLinkValues(linkName, newListeningTable, row, start, value, linkChangeListener);
    }
 
-
-
-   public void addRowsForLinkValues(String linkName, ListeningTable newListeningTable, ArrayList<Object> row, Object start, Object value, LinkChangeListener linkChangeListener)
+   public void addRowsForLinkValues(String linkName, ListeningTable newListeningTable, ArrayList<Object> row,
+      Object start, Object value, LinkChangeListener linkChangeListener)
    {
       if (value instanceof Collection)
       {
@@ -160,13 +151,12 @@ public class IncrementalTable
       }
    }
 
-
-
-   public void removeRowsForLink(ArrayList<Object> oldRow, Object oldStart, ListeningTable newListeningTable, ListeningTable oldListeningTable)
+   public void removeRowsForLink(ArrayList<Object> oldRow, Object oldStart, ListeningTable newListeningTable,
+      ListeningTable oldListeningTable)
    {
       Object o = oldListeningTable.getRowListeners().get(oldRow);
 
-      if ( ! (o instanceof LinkChangeListener) )
+      if (!(o instanceof LinkChangeListener))
          return;
 
       LinkChangeListener oldLinkChangeListener = (LinkChangeListener) o;
@@ -183,8 +173,11 @@ public class IncrementalTable
       try
       {
          // removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-         Method removePropertyChangeListenerMethod = oldStart.getClass().getMethod("removePropertyChangeListener", String.class, PropertyChangeListener.class);
-         removePropertyChangeListenerMethod.invoke(oldStart, oldLinkChangeListener.getLinkName(), oldLinkChangeListener);
+         Method removePropertyChangeListenerMethod = oldStart.getClass()
+                                                             .getMethod("removePropertyChangeListener", String.class,
+                                                                        PropertyChangeListener.class);
+         removePropertyChangeListenerMethod
+            .invoke(oldStart, oldLinkChangeListener.getLinkName(), oldLinkChangeListener);
       }
       catch (Exception e)
       {
