@@ -185,7 +185,7 @@ public class ObjectTable extends AbstractTable<Object>
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
       this.getColumnMap().clear();
 
-      LinkedHashSet<String> dropNames = new LinkedHashSet<>(Arrays.asList(columnNames));
+      Set<String> dropNames = new HashSet<>(Arrays.asList(columnNames));
       int i = 0;
       for (String name : oldColumnMap.keySet())
       {
@@ -199,17 +199,19 @@ public class ObjectTable extends AbstractTable<Object>
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
 
-      LinkedHashSet<ArrayList<Object>> rowSet = new LinkedHashSet<>();
+      Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
       {
-         ArrayList<Object> newRow = new ArrayList<>();
+         List<Object> newRow = new ArrayList<>();
          for (String name : this.getColumnMap().keySet())
          {
             Object value = row.get(oldColumnMap.get(name));
             newRow.add(value);
          }
          if (rowSet.add(newRow))
+         {
             this.getTable().add(newRow);
+         }
       }
 
       return this;
