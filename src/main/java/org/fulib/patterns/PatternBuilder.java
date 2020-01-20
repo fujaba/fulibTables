@@ -6,8 +6,12 @@ import java.util.function.Predicate;
 
 public class PatternBuilder
 {
+   // =============== Fields ===============
+
    private String packageName;
    private final Pattern pattern;
+
+   // =============== Constructors ===============
 
    public PatternBuilder(String packageName)
    {
@@ -16,10 +20,14 @@ public class PatternBuilder
       this.pattern = new Pattern();
    }
 
+   // =============== Properties ===============
+
    public Pattern getPattern()
    {
       return this.pattern;
    }
+
+   // =============== Methods ===============
 
    public PatternObject buildPatternObject(String name)
    {
