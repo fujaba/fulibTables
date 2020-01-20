@@ -2,6 +2,7 @@ package org.fulib.patterns;
 
 import org.fulib.patterns.model.*;
 
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class PatternBuilder
@@ -43,15 +44,17 @@ public class PatternBuilder
       return this;
    }
 
-   public PatternBuilder buildAttibuteConstraint(Predicate predicate, PatternObject object)
+   public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject object)
    {
       new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(this.pattern);
       return this;
    }
 
-   public PatternBuilder buildMatchConstraint(Predicate predicate, PatternObject... objects)
+   public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
+      PatternObject... objects)
    {
-      new MatchConstraint().setPredicate(predicate).withObjects(objects).setPattern(this.pattern);
+      //noinspection RedundantCast
+      new MatchConstraint().setPredicate(predicate).withObjects((Object[]) objects).setPattern(this.pattern);
       return this;
    }
 }
