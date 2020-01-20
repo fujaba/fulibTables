@@ -107,6 +107,13 @@ public class ObjectTable extends AbstractTable<Object>
    {
       doubleTable result = new doubleTable(newColumnName, this);
 
+      expandPrimitive(newColumnName, attrName);
+
+      return result;
+   }
+
+   private void expandPrimitive(String newColumnName, String attrName)
+   {
       this.addColumn(newColumnName);
 
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
@@ -120,112 +127,40 @@ public class ObjectTable extends AbstractTable<Object>
          newRow.add(value);
          this.getTable().add(newRow);
       }
-
-      return result;
    }
 
    public floatTable expandFloat(String newColumnName, String attrName)
    {
       floatTable result = new floatTable(newColumnName, this);
-
-      this.addColumn(newColumnName);
-
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(this.getColumn());
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.getTable().add(newRow);
-      }
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
    public intTable expandInt(String newColumnName, String attrName)
    {
       intTable result = new intTable(newColumnName, this);
-
-      this.addColumn(newColumnName);
-
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(this.getColumn());
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.getTable().add(newRow);
-      }
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
    public longTable expandLong(String newColumnName, String attrName)
    {
       longTable result = new longTable(newColumnName, this);
-
-      this.addColumn(newColumnName);
-
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(this.getColumn());
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.getTable().add(newRow);
-      }
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
    public StringTable expandString(String newColumnName, String attrName)
    {
       StringTable result = new StringTable(newColumnName, this);
-
-      this.addColumn(newColumnName);
-
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(this.getColumn());
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.getTable().add(newRow);
-      }
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
    public StringTable expandBoolean(String newColumnName, String attrName)
    {
       StringTable result = new StringTable(newColumnName, this);
-
-      this.addColumn(newColumnName);
-
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(this.getColumn());
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.getTable().add(newRow);
-      }
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
