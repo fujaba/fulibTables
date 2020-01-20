@@ -81,6 +81,11 @@ class AbstractTable<T>
 
    // =============== Methods ===============
 
+   public void addColumn(String columnName)
+   {
+      this.columnMap.put(columnName, this.getNewColumnNumber());
+   }
+
    public List<T> toList()
    {
       return this.stream().collect(Collectors.toList());
