@@ -172,7 +172,9 @@ public class ObjectTable extends AbstractTable<Object>
 
    // --------------- Columns ---------------
 
-   // TODO deprecate and add addColumn???(String columnName, Function<? super Map<String, Object>, ?> function)
+   // TODO deprecate and add overload
+   //      <U> ObjectTable<U> addColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   //      needs to use a different name though because of same erasure ...
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
    {
       this.addColumnImpl(columnName, function);
