@@ -253,7 +253,7 @@ public class ObjectTable extends AbstractTable<Object>
       return this;
    }
 
-   public ObjectTable filter(Predicate<Object> predicate)
+   public ObjectTable filter(Predicate<? super Object> predicate)
    {
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
       this.getTable().clear();
