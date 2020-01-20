@@ -11,29 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IncrementalTable
+public class IncrementalTable extends AbstractTable<Object>
 {
    // =============== Fields ===============
 
-   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
    private ReflectorMap reflectorMap;
    private ListeningTable listeningTable = null;
-   private ArrayList<ArrayList<Object>> table;
    private ArrayList<ListeningTable> allListeningTables = null;
    private ArrayList<IncrementalTable> allObjectTables = null;
 
    // =============== Properties ===============
-
-   public LinkedHashMap<String, Integer> getColumnMap()
-   {
-      return this.columnMap;
-   }
-
-   public IncrementalTable setColumnMap(LinkedHashMap<String, Integer> value)
-   {
-      this.columnMap = value;
-      return this;
-   }
 
    public ReflectorMap getReflectorMap()
    {
@@ -53,21 +40,6 @@ public class IncrementalTable
    public void setListeningTable(ListeningTable listeningTable)
    {
       this.listeningTable = listeningTable;
-   }
-
-   public ArrayList<ArrayList<Object>> getTable()
-   {
-      if (this.table == null)
-      {
-         this.table = new ArrayList<>();
-      }
-      return this.table;
-   }
-
-   public IncrementalTable setTable(ArrayList<ArrayList<Object>> value)
-   {
-      this.table = value;
-      return this;
    }
 
    public ArrayList<ListeningTable> getAllListeningTables()
@@ -109,7 +81,7 @@ public class IncrementalTable
    public void addRowsForLink(String linkName, String startColumnName, ListeningTable newListeningTable,
       ListeningTable oldListeningTable, ArrayList<Object> row)
    {
-      Integer index = this.columnMap.get(startColumnName);
+      Integer index = this.getColumnMap().get(startColumnName);
       Object start = row.get(index);
       Reflector reflector = this.reflectorMap.getReflector(start);
       Object value = reflector.getValue(start, linkName);
