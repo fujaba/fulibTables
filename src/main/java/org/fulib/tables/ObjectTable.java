@@ -264,6 +264,28 @@ public class ObjectTable extends AbstractTable<Object>
       return this;
    }
 
+   /**
+    * @since 1.2
+    */
+   public ObjectTable filterRows(Predicate<? super Map<String, Object>> predicate)
+   {
+      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
+      this.getTable().clear();
+      for (List<Object> row : oldTable)
+      {
+         Map<String, Object> map = this.convertRowToMap(row);
+         if (predicate.test(map))
+         {
+            this.getTable().add(row);
+         }
+      }
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
+    */
+   @Deprecated
    public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
       List<List<Object>> oldTable = new ArrayList<>(this.getTable());
