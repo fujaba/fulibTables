@@ -5,6 +5,7 @@ import org.fulib.tables.ObjectTable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class PatternMatcher
 {
@@ -35,11 +36,9 @@ public class PatternMatcher
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
-      ArrayList<RoleObject> roles = (ArrayList<RoleObject>) this.pattern.getRoles().clone();
-      ArrayList<AttributeConstraint> attributeConstraints = (ArrayList<AttributeConstraint>) this.pattern
-         .getAttributeConstraints().clone();
-      ArrayList<MatchConstraint> matchConstraints = (ArrayList<MatchConstraint>) this.pattern.getMatchConstraints()
-                                                                                             .clone();
+      List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
+      List<AttributeConstraint> attributeConstraints = new ArrayList<>(this.pattern.getAttributeConstraints());
+      List<MatchConstraint> matchConstraints = new ArrayList<>(this.pattern.getMatchConstraints());
 
       ObjectTable result = new ObjectTable(patternObjectName, startObjects);
       PatternObject current = this.pattern.getObjects(patternObjectName);
@@ -72,7 +71,7 @@ public class PatternMatcher
       return result;
    }
 
-   private boolean checkAttributeConstraint(ArrayList<AttributeConstraint> attributeConstraints)
+   private boolean checkAttributeConstraint(List<AttributeConstraint> attributeConstraints)
    {
       // find roles from done to not done
       for (AttributeConstraint constraint : attributeConstraints)
@@ -94,7 +93,7 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean checkMatchConstraint(ArrayList<MatchConstraint> matchConstraints)
+   private boolean checkMatchConstraint(List<MatchConstraint> matchConstraints)
    {
       // find roles from done to not done
       constraintLoop:
@@ -120,7 +119,7 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean checkHasLink(ArrayList<RoleObject> roles)
+   private boolean checkHasLink(List<RoleObject> roles)
    {
       // find roles from done to not done
       for (RoleObject role : roles)
@@ -152,7 +151,7 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean expandByRole(ArrayList<RoleObject> roles)
+   private boolean expandByRole(List<RoleObject> roles)
    {
       // find roles from done to not done
       for (RoleObject role : roles)
