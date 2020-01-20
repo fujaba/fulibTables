@@ -6,6 +6,8 @@ import org.fulib.builder.ClassBuilder;
 import org.fulib.builder.ClassModelBuilder;
 import org.fulib.classmodel.ClassModel;
 
+import static org.fulib.builder.ClassModelBuilder.*;
+
 public class StudyRightClassModel
 {
    public static void main(String[] args)
@@ -18,31 +20,30 @@ public class StudyRightClassModel
       // start_code_fragment: FulibTables.classmodel
       ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
 
-      ClassBuilder university = mb.buildClass("University")
-            .buildAttribute("name", mb.STRING);
+      ClassBuilder university = mb.buildClass("University").buildAttribute("name", STRING);
 
       ClassBuilder student = mb.buildClass("Student")
-            .buildAttribute("name", mb.STRING)
-            .buildAttribute("studentId", mb.STRING)
-            .buildAttribute("credits", mb.DOUBLE)
-            .buildAttribute("points", mb.DOUBLE)
-            .buildAttribute("motivation", mb.DOUBLE);
+                               .buildAttribute("name", STRING)
+                               .buildAttribute("studentId", STRING)
+                               .buildAttribute("credits", DOUBLE)
+                               .buildAttribute("points", DOUBLE)
+                               .buildAttribute("motivation", DOUBLE);
 
       ClassBuilder room = mb.buildClass("Room")
-            .buildAttribute("roomNo", mb.STRING)
-            .buildAttribute("topic", mb.STRING)
-            .buildAttribute("credits", mb.DOUBLE);
+                            .buildAttribute("roomNo", STRING)
+                            .buildAttribute("topic", STRING)
+                            .buildAttribute("credits", DOUBLE);
 
       ClassBuilder assignment = mb.buildClass("Assignment")
-            .buildAttribute("task", mb.STRING)
-            .buildAttribute("points", mb.DOUBLE);
+                                  .buildAttribute("task", STRING)
+                                  .buildAttribute("points", DOUBLE);
 
-      university.buildAssociation(student, "students", mb.MANY, "uni", mb.ONE);
-      university.buildAssociation(room, "rooms", mb.MANY, "uni", mb.ONE);
-      room.buildAssociation(student, "students", mb.MANY, "in", mb.ONE);
-      room.buildAssociation(assignment, "assignments", mb.MANY, "room", mb.ONE);
-      student.buildAssociation(assignment, "done", mb.MANY, "students", mb.MANY);
-      student.buildAssociation(student, "friends", mb.MANY, "friends", mb.MANY);
+      university.buildAssociation(student, "students", MANY, "uni", ONE);
+      university.buildAssociation(room, "rooms", MANY, "uni", ONE);
+      room.buildAssociation(student, "students", MANY, "in", ONE);
+      room.buildAssociation(assignment, "assignments", MANY, "room", ONE);
+      student.buildAssociation(assignment, "done", MANY, "students", MANY);
+      student.buildAssociation(student, "friends", MANY, "friends", MANY);
 
       ClassModel model = mb.getClassModel();
 
