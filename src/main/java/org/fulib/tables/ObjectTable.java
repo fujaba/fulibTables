@@ -282,9 +282,9 @@ public class ObjectTable extends AbstractTable<Object>
    private LinkedHashMap<String, Object> convertRowToMap(List<Object> row)
    {
       LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-      for (String key : this.getColumnMap().keySet())
+      for (Map.Entry<String, Integer> entry : this.getColumnMap().entrySet())
       {
-         map.put(key, row.get(this.getColumnMap().get(key)));
+         map.put(entry.getKey(), row.get(entry.getValue()));
       }
       return map;
    }
