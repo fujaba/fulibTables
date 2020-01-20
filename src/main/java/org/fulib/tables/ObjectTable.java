@@ -104,9 +104,7 @@ public class ObjectTable extends AbstractTable<Object>
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
       doubleTable result = new doubleTable(newColumnName, this);
-
-      expandPrimitive(newColumnName, attrName);
-
+      this.expandPrimitive(newColumnName, attrName);
       return result;
    }
 
