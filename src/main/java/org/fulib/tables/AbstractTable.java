@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class AbstractTable<T>
+public abstract class AbstractTable<T>
 {
    // =============== Constants ===============
 
