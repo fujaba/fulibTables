@@ -165,7 +165,13 @@ public class ObjectTable extends AbstractTable<Object>
 
    // --------------- Columns ---------------
 
+   // TODO deprecate and add addColumn???(String columnName, Function<? super Map<String, Object>, ?> function)
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
+   {
+      this.addColumnImpl(columnName, function);
+   }
+
+   private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
       for (List<Object> row : this.getTable())
