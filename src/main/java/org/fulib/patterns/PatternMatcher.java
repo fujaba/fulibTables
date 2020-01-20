@@ -8,18 +8,26 @@ import java.util.LinkedHashMap;
 
 public class PatternMatcher
 {
+   // =============== Fields ===============
+
    private Pattern pattern;
    private LinkedHashMap<PatternObject, ObjectTable> object2TableMap;
+
+   // =============== Constructors ===============
+
+   public PatternMatcher(Pattern pattern)
+   {
+      this.pattern = pattern;
+   }
+
+   // =============== Properties ===============
 
    public LinkedHashMap<PatternObject, ObjectTable> getObject2TableMap()
    {
       return this.object2TableMap;
    }
 
-   public PatternMatcher(Pattern pattern)
-   {
-      this.pattern = pattern;
-   }
+   // =============== Methods ===============
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
