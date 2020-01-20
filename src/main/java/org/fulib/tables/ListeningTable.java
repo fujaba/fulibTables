@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 
 public class ListeningTable
 {
+   // =============== Fields ===============
+
    private IncrementalTable incrementalTable;
    private ArrayList<ArrayList<Object>> baseTable;
    private String linkName;
@@ -13,12 +15,16 @@ public class ListeningTable
    private ListeningTable targetTable;
    private LinkedHashMap<Object, PropertyChangeListener> rowListeners;
 
+   // =============== Constructors ===============
+
    public ListeningTable(IncrementalTable incrementalTable, ArrayList<ArrayList<Object>> baseTable)
    {
       this.incrementalTable = incrementalTable;
       this.baseTable = baseTable;
       this.rowListeners = new LinkedHashMap<>();
    }
+
+   // =============== Properties ===============
 
    public ArrayList<ArrayList<Object>> getBaseTable()
    {
@@ -39,6 +45,8 @@ public class ListeningTable
    {
       return this.rowListeners;
    }
+
+   // =============== Methods ===============
 
    public void setColumnAndLink(String newColumn, String newLink)
    {
