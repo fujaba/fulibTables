@@ -48,22 +48,22 @@ public class PatternMatcher
 
       while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
-         if (this.checkAttributeConstraint(attributeConstraints, this.object2TableMap))
+         if (this.checkAttributeConstraint(attributeConstraints))
          {
             continue;
          }
 
-         if (this.checkMatchConstraint(matchConstraints, this.object2TableMap))
+         if (this.checkMatchConstraint(matchConstraints))
          {
             continue;
          }
 
-         if (this.checkHasLink(roles, this.object2TableMap))
+         if (this.checkHasLink(roles))
          {
             continue;
          }
 
-         if (this.expandByRole(roles, this.object2TableMap))
+         if (this.expandByRole(roles))
          {
             continue;
          }
@@ -72,14 +72,13 @@ public class PatternMatcher
       return result;
    }
 
-   private boolean checkAttributeConstraint(ArrayList<AttributeConstraint> attributeConstraints,
-      LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+   private boolean checkAttributeConstraint(ArrayList<AttributeConstraint> attributeConstraints)
    {
       // find roles from done to not done
       for (AttributeConstraint constraint : attributeConstraints)
       {
          PatternObject src = constraint.getObject();
-         ObjectTable srcTable = object2TableMap.get(src);
+         ObjectTable srcTable = this.object2TableMap.get(src);
 
          if (srcTable == null)
          {
@@ -95,8 +94,7 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean checkMatchConstraint(ArrayList<MatchConstraint> matchConstraints,
-      LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+   private boolean checkMatchConstraint(ArrayList<MatchConstraint> matchConstraints)
    {
       // find roles from done to not done
       constraintLoop:
@@ -104,7 +102,7 @@ public class PatternMatcher
       {
          for (PatternObject patternObject : constraint.getObjects())
          {
-            ObjectTable srcTable = object2TableMap.get(patternObject);
+            ObjectTable srcTable = this.object2TableMap.get(patternObject);
 
             if (srcTable == null)
             {
@@ -113,7 +111,7 @@ public class PatternMatcher
          }
 
          // use this
-         object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
+         this.object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
          matchConstraints.remove(constraint);
 
          return true;
@@ -122,13 +120,13 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean checkHasLink(ArrayList<RoleObject> roles, LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+   private boolean checkHasLink(ArrayList<RoleObject> roles)
    {
       // find roles from done to not done
       for (RoleObject role : roles)
       {
          PatternObject src = role.getObject();
-         ObjectTable srcTable = object2TableMap.get(src);
+         ObjectTable srcTable = this.object2TableMap.get(src);
 
          if (srcTable == null)
          {
@@ -138,7 +136,7 @@ public class PatternMatcher
          // use this
          RoleObject otherRole = role.getOther();
          PatternObject tgt = otherRole.getObject();
-         ObjectTable tgtTable = object2TableMap.get(tgt);
+         ObjectTable tgtTable = this.object2TableMap.get(tgt);
 
          if (tgtTable == null)
          {
@@ -154,13 +152,13 @@ public class PatternMatcher
       return false;
    }
 
-   private boolean expandByRole(ArrayList<RoleObject> roles, LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+   private boolean expandByRole(ArrayList<RoleObject> roles)
    {
       // find roles from done to not done
       for (RoleObject role : roles)
       {
          PatternObject src = role.getObject();
-         ObjectTable srcTable = object2TableMap.get(src);
+         ObjectTable srcTable = this.object2TableMap.get(src);
 
          if (srcTable == null)
          {
@@ -172,7 +170,7 @@ public class PatternMatcher
          PatternObject tgt = otherRole.getObject();
 
          ObjectTable nextTable = srcTable.expandLink(tgt.getName(), otherRole.getName());
-         object2TableMap.put(tgt, nextTable);
+         this.object2TableMap.put(tgt, nextTable);
          roles.remove(role);
          roles.remove(otherRole);
 
