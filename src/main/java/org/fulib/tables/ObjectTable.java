@@ -52,20 +52,14 @@ public class ObjectTable extends AbstractTable<Object>
 
    public ObjectTable hasLink(String linkName, ObjectTable rowName)
    {
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
-      for (List<Object> row : oldTable)
-      {
+      this.getTable().removeIf(row -> {
          Object start = row.get(this.getColumn());
          Object other = row.get(this.getColumnMap().get(rowName.getColumnName()));
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
-
-         if (value instanceof Collection && ((Collection<?>) value).contains(other) || value == other)
-         {
-            this.getTable().add(row);
-         }
-      }
+         boolean keep = value == other || value instanceof Collection && ((Collection<?>) value).contains(other);
+         return !keep;
+      });
       return this;
    }
 
