@@ -13,7 +13,16 @@ import java.util.logging.Logger;
 
 public class IncrementalTable
 {
+   // =============== Fields ===============
+
    private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+   private ReflectorMap reflectorMap;
+   private ListeningTable listeningTable = null;
+   private ArrayList<ArrayList<Object>> table;
+   private ArrayList<ListeningTable> allListeningTables = null;
+   private ArrayList<IncrementalTable> allObjectTables = null;
+
+   // =============== Properties ===============
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
@@ -26,8 +35,6 @@ public class IncrementalTable
       return this;
    }
 
-   private ReflectorMap reflectorMap;
-
    public ReflectorMap getReflectorMap()
    {
       return this.reflectorMap;
@@ -38,8 +45,6 @@ public class IncrementalTable
       this.reflectorMap = reflectorMap;
    }
 
-   private ListeningTable listeningTable = null;
-
    public ListeningTable getListeningTable()
    {
       return this.listeningTable;
@@ -49,8 +54,6 @@ public class IncrementalTable
    {
       this.listeningTable = listeningTable;
    }
-
-   private ArrayList<ArrayList<Object>> table;
 
    public ArrayList<ArrayList<Object>> getTable()
    {
@@ -67,23 +70,14 @@ public class IncrementalTable
       return this;
    }
 
-   private ArrayList<ListeningTable> allListeningTables = null;
-
-   public void setAllListeningTables(ArrayList<ListeningTable> allListeningTables)
-   {
-      this.allListeningTables = allListeningTables;
-   }
-
    public ArrayList<ListeningTable> getAllListeningTables()
    {
       return this.allListeningTables;
    }
 
-   private ArrayList<IncrementalTable> allObjectTables = null;
-
-   public void setAllObjectTables(ArrayList<IncrementalTable> allObjectTables)
+   public void setAllListeningTables(ArrayList<ListeningTable> allListeningTables)
    {
-      this.allObjectTables = allObjectTables;
+      this.allListeningTables = allListeningTables;
    }
 
    public ArrayList<IncrementalTable> getAllObjectTables()
@@ -95,6 +89,13 @@ public class IncrementalTable
 
       return this.allObjectTables;
    }
+
+   public void setAllObjectTables(ArrayList<IncrementalTable> allObjectTables)
+   {
+      this.allObjectTables = allObjectTables;
+   }
+
+   // =============== Methods ===============
 
    public void updateAllObjectTables(ListeningTable newTable)
    {
