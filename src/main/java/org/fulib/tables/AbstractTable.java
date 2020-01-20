@@ -13,10 +13,18 @@ class AbstractTable<T>
    // =============== Fields ===============
 
    private String               columnName;
-   private List<List<Object>>   table     = new ArrayList<>();
-   private Map<String, Integer> columnMap = new LinkedHashMap<>();
+   private List<List<Object>>   table;
+   private Map<String, Integer> columnMap;
 
    // =============== Constructors ===============
+
+   public AbstractTable(String columnName)
+   {
+      this.table = new ArrayList<>();
+      this.columnName = columnName;
+      this.columnMap = new LinkedHashMap<>();
+      this.columnMap.put(columnName, 0);
+   }
 
    @SafeVarargs
    public AbstractTable(T... start)
@@ -27,14 +35,20 @@ class AbstractTable<T>
    @SafeVarargs
    public AbstractTable(String columnName, T... start)
    {
-      this.columnName = columnName;
-      this.columnMap.put(columnName, 0);
+      this(columnName);
       for (T current : start)
       {
          List<Object> row = new ArrayList<>();
          row.add(current);
          this.table.add(row);
       }
+   }
+
+   public AbstractTable(String columnName, AbstractTable<?> base)
+   {
+      this.columnName = columnName;
+      this.columnMap = base.columnMap;
+      this.table = base.table;
    }
 
    // =============== Properties ===============
