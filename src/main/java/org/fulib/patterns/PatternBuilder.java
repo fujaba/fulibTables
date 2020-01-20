@@ -2,7 +2,6 @@ package org.fulib.patterns;
 
 import org.fulib.patterns.model.*;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class PatternBuilder
@@ -14,38 +13,37 @@ public class PatternBuilder
    {
       this.packageName = packageName;
 
-      pattern = new Pattern();
+      this.pattern = new Pattern();
    }
 
    public Pattern getPattern()
    {
-      return pattern;
+      return this.pattern;
    }
 
    public PatternObject buildPatternObject(String name)
    {
       PatternObject patternObject = new PatternObject().setName(name);
-      pattern.withObjects(patternObject);
+      this.pattern.withObjects(patternObject);
       return patternObject;
    }
 
    public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
    {
-      RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(pattern);
-      new RoleObject().setName(tgtRoleName).setObject(tgt).setOther(srcRole).setPattern(pattern);
+      RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(this.pattern);
+      new RoleObject().setName(tgtRoleName).setObject(tgt).setOther(srcRole).setPattern(this.pattern);
       return this;
    }
 
    public PatternBuilder buildAttibuteConstraint(Predicate predicate, PatternObject object)
    {
-      AttributeConstraint constraint = new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(pattern);
+      new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(this.pattern);
       return this;
    }
 
    public PatternBuilder buildMatchConstraint(Predicate predicate, PatternObject... objects)
    {
-      MatchConstraint constraint = new MatchConstraint().setPredicate(predicate).withObjects(objects).setPattern(pattern);
+      new MatchConstraint().setPredicate(predicate).withObjects(objects).setPattern(this.pattern);
       return this;
    }
-
 }
