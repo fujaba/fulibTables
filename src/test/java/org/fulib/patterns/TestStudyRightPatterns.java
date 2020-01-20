@@ -21,8 +21,6 @@ public class TestStudyRightPatterns
    {
       // build object structure
       University studyRight = new University().setName("Study Right");
-      String name = University[].class.getName();
-      System.out.println(name);
 
       Room mathRoom = new Room().setRoomNo("wa1337").setTopic("Math").setCredits(42.0).setUni(studyRight);
       Room artsRoom = new Room().setRoomNo("wa1338").setTopic("Arts").setCredits(23.0).setUni(studyRight);
@@ -69,6 +67,5 @@ public class TestStudyRightPatterns
       // matcher.getObject2TableMap().get(room).expandDouble("credits", Room.PROPERTY_credits);
 
       System.out.println(uniTable);
-
    }
 }
