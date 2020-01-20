@@ -20,15 +20,14 @@ public class ListeningTable
       this.rowListeners = new LinkedHashMap<>();
    }
 
-
    public ArrayList<ArrayList<Object>> getBaseTable()
    {
-      return baseTable;
+      return this.baseTable;
    }
 
    public ListeningTable getTargetTable()
    {
-      return targetTable;
+      return this.targetTable;
    }
 
    public void setTargetTable(ListeningTable targetTable)
@@ -38,7 +37,7 @@ public class ListeningTable
 
    public LinkedHashMap<Object, PropertyChangeListener> getRowListeners()
    {
-      return rowListeners;
+      return this.rowListeners;
    }
 
    public void setColumnAndLink(String newColumn, String newLink)
@@ -47,79 +46,67 @@ public class ListeningTable
       this.linkName = newLink;
    }
 
-
-
    public void addRow(ArrayList<Object> row)
    {
-      baseTable.add(row);
+      this.baseTable.add(row);
 
-      if (targetTable != null)
+      if (this.targetTable != null)
       {
-         targetTable.newPredecessorRow(row, this);
+         this.targetTable.newPredecessorRow(row, this);
       }
    }
-
-
 
    public void addRowListener(ArrayList<Object> row, LinkChangeListener linkChangeListener)
    {
-      rowListeners.put(row, linkChangeListener);
+      this.rowListeners.put(row, linkChangeListener);
    }
-
-
 
    public void removeRow(ArrayList<Object> oldRow, Object oldStart)
    {
-      baseTable.remove(oldRow);
+      this.baseTable.remove(oldRow);
 
-      if (targetTable != null)
+      if (this.targetTable != null)
       {
-         targetTable.deletedPredecessorRow(oldRow, oldStart, this);
+         this.targetTable.deletedPredecessorRow(oldRow, oldStart, this);
       }
    }
 
-
-
    private void newPredecessorRow(ArrayList<Object> row, ListeningTable oldListeningTable)
    {
-      incrementalTable.addRowsForLink(linkName, startColumnName, this, oldListeningTable, row);
+      this.incrementalTable.addRowsForLink(this.linkName, this.startColumnName, this, oldListeningTable, row);
    }
 
-
-   public void newPredecessorRowValue(ArrayList<Object> row, Object start, Object value, LinkChangeListener linkChangeListener)
+   public void newPredecessorRowValue(ArrayList<Object> row, Object start, Object value,
+      LinkChangeListener linkChangeListener)
    {
-      incrementalTable.addRowsForLinkValues(linkName, this, row, start, value, linkChangeListener);
+      this.incrementalTable.addRowsForLinkValues(this.linkName, this, row, start, value, linkChangeListener);
    }
-
-
 
    private void deletedPredecessorRow(ArrayList<Object> oldRow, Object oldStart, ListeningTable oldListeningTable)
    {
-      incrementalTable.removeRowsForLink(oldRow, oldStart, this, oldListeningTable);
+      this.incrementalTable.removeRowsForLink(oldRow, oldStart, this, oldListeningTable);
    }
-
-
 
    @Override
    public String toString()
    {
-      if (baseTable == null || baseTable.size() == 0)
+      if (this.baseTable == null || this.baseTable.isEmpty())
       {
          return "| empty |\n";
       }
 
       StringBuilder buf = new StringBuilder("| ");
-      for (int i = 0; i <  baseTable.get(0).size(); i++)
+      for (int i = 0; i < this.baseTable.get(0).size(); i++)
       {
          buf.append(i).append(" \t| ");
       }
       buf.append("\n| ");
-      for (int i = 0; i <  baseTable.get(0).size(); i++)
+      for (int i = 0; i < this.baseTable.get(0).size(); i++)
       {
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : baseTable)
+      for (ArrayList<Object> row : this.baseTable)
       {
          buf.append("| ");
          for (Object cell : row)
@@ -131,6 +118,4 @@ public class ListeningTable
       buf.append("\n");
       return buf.toString();
    }
-
-
 }
