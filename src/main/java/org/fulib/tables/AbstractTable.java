@@ -4,6 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Adrian Kunz
+ * @since 1.2
+ */
 public abstract class AbstractTable<T>
 {
    // =============== Constants ===============
