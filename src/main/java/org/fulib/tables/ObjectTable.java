@@ -2,26 +2,28 @@ package org.fulib.tables;
 
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
+import sun.rmi.transport.Target;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-// TODO ObjectTable<T> ?
-public class ObjectTable extends AbstractTable<Object>
+public class ObjectTable<T> extends AbstractTable<T>
 {
    private ReflectorMap reflectorMap;
 
    // =============== Constructors ===============
 
-   public ObjectTable(Object... start)
+   @SafeVarargs
+   public ObjectTable(T... start)
    {
       super(start);
       this.initReflector(start);
    }
 
-   public ObjectTable(String colName, Object... start)
+   @SafeVarargs
+   public ObjectTable(String colName, T... start)
    {
       super(colName, start);
       this.initReflector(start);
@@ -33,7 +35,8 @@ public class ObjectTable extends AbstractTable<Object>
    }
 
    // TODO consider the packages of start[1..] too?
-   private void initReflector(Object... start)
+   @SafeVarargs
+   private final void initReflector(T... start)
    {
       if (start.length == 0)
       {
@@ -58,7 +61,7 @@ public class ObjectTable extends AbstractTable<Object>
    // =============== Methods ===============
 
    // TODO overload where rowName is a String
-   public ObjectTable hasLink(String linkName, ObjectTable rowName)
+   public ObjectTable<T> hasLink(String linkName, ObjectTable<?> rowName)
    {
       final int thisColumn = this.getColumn();
       final int otherColumn = this.getColumnMap().get(rowName.getColumnName());
@@ -75,9 +78,9 @@ public class ObjectTable extends AbstractTable<Object>
 
    // --------------- Expansion ---------------
 
-   public ObjectTable expandLink(String newColumnName, String linkName)
+   public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
-      ObjectTable result = new ObjectTable(newColumnName, this);
+      ObjectTable<U> result = new ObjectTable<>(newColumnName, this);
       result.setReflectorMap(this.reflectorMap);
 
       this.addColumn(newColumnName);
@@ -192,7 +195,7 @@ public class ObjectTable extends AbstractTable<Object>
    }
 
    // TODO what happens to the *Table objects that point to these columns?
-   public ObjectTable dropColumns(String... columnNames)
+   public ObjectTable<T> dropColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
       this.getColumnMap().clear();
@@ -230,7 +233,7 @@ public class ObjectTable extends AbstractTable<Object>
    }
 
    // TODO what happens to the *Table objects that point to the other columns?
-   public ObjectTable selectColumns(String... columnNames)
+   public ObjectTable<T> selectColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
       this.getColumnMap().clear();
@@ -268,17 +271,17 @@ public class ObjectTable extends AbstractTable<Object>
 
    // --------------- Filter ---------------
 
-   public ObjectTable filter(Predicate<? super Object> predicate)
+   public ObjectTable<T> filter(Predicate<? super T> predicate)
    {
       int column = this.getColumn();
-      this.getTable().removeIf(row -> !predicate.test(row.get(column)));
+      this.getTable().removeIf(row -> !predicate.test((T) row.get(column)));
       return this;
    }
 
    /**
     * @since 1.2
     */
-   public ObjectTable filterRows(Predicate<? super Map<String, Object>> predicate)
+   public ObjectTable<T> filterRows(Predicate<? super Map<String, Object>> predicate)
    {
       return this.filterRowsImpl(predicate);
    }
@@ -287,12 +290,12 @@ public class ObjectTable extends AbstractTable<Object>
     * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
     */
    @Deprecated
-   public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   public ObjectTable<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
       return this.filterRowsImpl(predicate);
    }
 
-   private ObjectTable filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
+   private ObjectTable<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
       this.getTable().removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;
@@ -311,7 +314,7 @@ public class ObjectTable extends AbstractTable<Object>
    // --------------- Misc. Conversions ---------------
 
    @Override
-   public LinkedHashSet<Object> toSet()
+   public LinkedHashSet<T> toSet()
    {
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
