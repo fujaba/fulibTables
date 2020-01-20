@@ -52,11 +52,8 @@ public class ObjectTable extends AbstractTable<Object>
 
    public ObjectTable expandLink(String newColumnName, String linkName)
    {
-      ObjectTable result = new ObjectTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
+      ObjectTable result = new ObjectTable(newColumnName, this);
       result.setReflectorMap(this.reflectorMap);
-      result.setColumnName(newColumnName);
 
       this.addColumn(newColumnName);
 
@@ -108,10 +105,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
-      doubleTable result = new doubleTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      doubleTable result = new doubleTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
@@ -132,10 +126,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public floatTable expandFloat(String newColumnName, String attrName)
    {
-      floatTable result = new floatTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      floatTable result = new floatTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
@@ -156,10 +147,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public intTable expandInt(String newColumnName, String attrName)
    {
-      intTable result = new intTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      intTable result = new intTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
@@ -180,10 +168,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public longTable expandLong(String newColumnName, String attrName)
    {
-      longTable result = new longTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      longTable result = new longTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
@@ -204,10 +189,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public StringTable expandString(String newColumnName, String attrName)
    {
-      StringTable result = new StringTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      StringTable result = new StringTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
@@ -228,10 +210,7 @@ public class ObjectTable extends AbstractTable<Object>
 
    public StringTable expandBoolean(String newColumnName, String attrName)
    {
-      StringTable result = new StringTable();
-      result.setColumnMap(this.getColumnMap());
-      result.setTable(this.getTable());
-      result.setColumnName(newColumnName);
+      StringTable result = new StringTable(newColumnName, this);
 
       this.addColumn(newColumnName);
 
