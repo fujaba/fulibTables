@@ -26,6 +26,11 @@ public class ObjectTable extends AbstractTable<Object>
       this.initReflector(start);
    }
 
+   public ObjectTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    private void initReflector(Object... start)
    {
       if (start.length == 0)
