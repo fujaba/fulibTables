@@ -40,6 +40,11 @@ public class longTable extends AbstractTable<Long>
       return this.longStream().max().orElse(Long.MIN_VALUE);
    }
 
+   public double average()
+   {
+      return this.longStream().average().orElse(Double.NaN);
+   }
+
    public long median()
    {
       List<Long> list = this.toList();

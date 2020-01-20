@@ -40,6 +40,11 @@ public class intTable extends AbstractTable<Integer>
       return this.intStream().max().orElse(Integer.MIN_VALUE);
    }
 
+   public double average()
+   {
+      return this.intStream().average().orElse(Double.NaN);
+   }
+
    public int median()
    {
       List<Integer> list = this.toList();

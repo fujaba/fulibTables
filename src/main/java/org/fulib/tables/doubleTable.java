@@ -40,6 +40,11 @@ public class doubleTable extends AbstractTable<Double>
       return this.doubleStream().max().orElse(Double.MIN_VALUE);
    }
 
+   public double average()
+   {
+      return this.doubleStream().average().orElse(Double.NaN);
+   }
+
    public double median()
    {
       List<Double> list = this.toList();
