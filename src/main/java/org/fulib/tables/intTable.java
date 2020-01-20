@@ -13,6 +13,11 @@ public class intTable extends AbstractTable<Integer>
       super(start);
    }
 
+   public intTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    // =============== Methods ===============
 
    private IntStream intStream() // TODO public?

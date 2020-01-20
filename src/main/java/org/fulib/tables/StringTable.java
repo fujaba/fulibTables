@@ -11,6 +11,11 @@ public class StringTable extends AbstractTable<String>
       super(start);
    }
 
+   public StringTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    // =============== Methods ===============
 
    public String join(String seperator)

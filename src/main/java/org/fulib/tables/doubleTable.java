@@ -13,6 +13,11 @@ public class doubleTable extends AbstractTable<Double>
       super(start);
    }
 
+   public doubleTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    // =============== Methods ===============
 
    private DoubleStream doubleStream() // TODO public?

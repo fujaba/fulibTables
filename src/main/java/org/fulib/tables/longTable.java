@@ -13,6 +13,11 @@ public class longTable extends AbstractTable<Long>
       super(start);
    }
 
+   public longTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    // =============== Methods ===============
 
    private LongStream longStream() // TODO public?

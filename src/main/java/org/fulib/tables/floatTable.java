@@ -13,6 +13,11 @@ public class floatTable extends AbstractTable<Float>
       super(start);
    }
 
+   public floatTable(String columnName, AbstractTable<?> base)
+   {
+      super(columnName, base);
+   }
+
    // =============== Methods ===============
 
    private DoubleStream doubleStream()
