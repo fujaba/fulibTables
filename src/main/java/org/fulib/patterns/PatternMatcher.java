@@ -5,7 +5,6 @@ import org.fulib.tables.ObjectTable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class PatternMatcher
 {
@@ -14,49 +13,55 @@ public class PatternMatcher
 
    public LinkedHashMap<PatternObject, ObjectTable> getObject2TableMap()
    {
-      return object2TableMap;
+      return this.object2TableMap;
    }
 
    public PatternMatcher(Pattern pattern)
    {
       this.pattern = pattern;
    }
-   
+
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
-      ArrayList<RoleObject> roles = (ArrayList<RoleObject>) pattern.getRoles().clone();
-      ArrayList<AttributeConstraint> attributeConstraints = (ArrayList<AttributeConstraint>) pattern.getAttributeConstraints().clone();
-      ArrayList<MatchConstraint> matchConstraints = (ArrayList<MatchConstraint>) pattern.getMatchConstraints().clone();
+      ArrayList<RoleObject> roles = (ArrayList<RoleObject>) this.pattern.getRoles().clone();
+      ArrayList<AttributeConstraint> attributeConstraints = (ArrayList<AttributeConstraint>) this.pattern
+         .getAttributeConstraints().clone();
+      ArrayList<MatchConstraint> matchConstraints = (ArrayList<MatchConstraint>) this.pattern.getMatchConstraints()
+                                                                                             .clone();
 
       ObjectTable result = new ObjectTable(patternObjectName, startObjects);
-      PatternObject current = pattern.getObjects(patternObjectName);
-      object2TableMap = new LinkedHashMap<>();
-      object2TableMap.put(current, result);
+      PatternObject current = this.pattern.getObjects(patternObjectName);
+      this.object2TableMap = new LinkedHashMap<>();
+      this.object2TableMap.put(current, result);
 
-
-      bigLoop: while (true)
+      while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
-         if (roles.isEmpty()
-               && attributeConstraints.isEmpty()
-               && matchConstraints.isEmpty())
-            break; //==============================
+         if (this.checkAttributeConstraint(attributeConstraints, this.object2TableMap))
+         {
+            continue;
+         }
 
-         if (checkAttributeConstraint(attributeConstraints, object2TableMap)) continue;
+         if (this.checkMatchConstraint(matchConstraints, this.object2TableMap))
+         {
+            continue;
+         }
 
-         if (checkMatchConstraint(matchConstraints, object2TableMap)) continue;
+         if (this.checkHasLink(roles, this.object2TableMap))
+         {
+            continue;
+         }
 
-         if (checkHasLink(roles, object2TableMap)) continue;
-
-         if (expandByRole(roles, object2TableMap)) continue;
+         if (this.expandByRole(roles, this.object2TableMap))
+         {
+            continue;
+         }
       }
 
       return result;
    }
 
-
-
    private boolean checkAttributeConstraint(ArrayList<AttributeConstraint> attributeConstraints,
-                                            LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+      LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
    {
       // find roles from done to not done
       for (AttributeConstraint constraint : attributeConstraints)
@@ -64,10 +69,12 @@ public class PatternMatcher
          PatternObject src = constraint.getObject();
          ObjectTable srcTable = object2TableMap.get(src);
 
-         if (srcTable == null) continue; //=======================
+         if (srcTable == null)
+         {
+            continue; //=======================
+         }
 
-         // use this
-         ObjectTable nextTable = srcTable.filter(constraint.predicate);
+         srcTable.filter(constraint.predicate);
          attributeConstraints.remove(constraint);
 
          return true;
@@ -76,18 +83,21 @@ public class PatternMatcher
       return false;
    }
 
-
    private boolean checkMatchConstraint(ArrayList<MatchConstraint> matchConstraints,
-                                            LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
+      LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
    {
       // find roles from done to not done
-      constraintLoop: for (MatchConstraint constraint : matchConstraints)
+      constraintLoop:
+      for (MatchConstraint constraint : matchConstraints)
       {
          for (PatternObject patternObject : constraint.getObjects())
          {
             ObjectTable srcTable = object2TableMap.get(patternObject);
 
-            if ( srcTable == null) continue constraintLoop; //=====================
+            if (srcTable == null)
+            {
+               continue constraintLoop; //=====================
+            }
          }
 
          // use this
@@ -100,8 +110,6 @@ public class PatternMatcher
       return false;
    }
 
-
-
    private boolean checkHasLink(ArrayList<RoleObject> roles, LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
    {
       // find roles from done to not done
@@ -110,16 +118,22 @@ public class PatternMatcher
          PatternObject src = role.getObject();
          ObjectTable srcTable = object2TableMap.get(src);
 
-         if (srcTable == null) continue; //=======================
+         if (srcTable == null)
+         {
+            continue; //=======================
+         }
 
          // use this
          RoleObject otherRole = role.getOther();
          PatternObject tgt = otherRole.getObject();
          ObjectTable tgtTable = object2TableMap.get(tgt);
 
-         if (tgtTable == null) continue; //=================
+         if (tgtTable == null)
+         {
+            continue; //=================
+         }
 
-         ObjectTable nextTable = srcTable.hasLink(otherRole.getName(), tgtTable);
+         srcTable.hasLink(otherRole.getName(), tgtTable);
          roles.remove(role);
          roles.remove(otherRole);
 
@@ -127,8 +141,6 @@ public class PatternMatcher
       }
       return false;
    }
-
-
 
    private boolean expandByRole(ArrayList<RoleObject> roles, LinkedHashMap<PatternObject, ObjectTable> object2TableMap)
    {
@@ -138,7 +150,10 @@ public class PatternMatcher
          PatternObject src = role.getObject();
          ObjectTable srcTable = object2TableMap.get(src);
 
-         if (srcTable == null) continue; //=======================
+         if (srcTable == null)
+         {
+            continue; //=======================
+         }
 
          // use this
          RoleObject otherRole = role.getOther();
