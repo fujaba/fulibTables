@@ -159,14 +159,13 @@ public class ObjectTable extends AbstractTable<Object>
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
-      this.getTable().replaceAll(row -> {
+      for (List<Object> row : this.getTable())
+      {
          Object start = row.get(column);
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, attrName);
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         return newRow;
-      });
+         row.add(value);
+      }
    }
 
    // --------------- Columns ---------------
@@ -179,7 +178,6 @@ public class ObjectTable extends AbstractTable<Object>
       this.addColumnImpl(columnName, function);
    }
 
-   // TODO why does this modify the rows inplace, while every other method copies and replaces them?
    private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
