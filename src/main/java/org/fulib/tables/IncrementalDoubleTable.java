@@ -2,23 +2,22 @@ package org.fulib.tables;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 
 public class IncrementalDoubleTable extends IncrementalTable
 {
    private String columnName = null;
 
+   @Override
    public String getColumnName()
    {
-      return columnName;
+      return this.columnName;
    }
 
+   @Override
    public void setColumnName(String columnName)
    {
       this.columnName = columnName;
    }
-
-
 
    public IncrementalDoubleTable(Double... start)
    {
@@ -30,69 +29,68 @@ public class IncrementalDoubleTable extends IncrementalTable
       this.getAllListeningTables().add(this.getListeningTable());
       this.setColumnName("A");
 
-      getColumnMap().put(columnName, 0);
+      this.getColumnMap().put(this.columnName, 0);
       for (Double current : start)
       {
          ArrayList<Object> row = new ArrayList<>();
          row.add(current);
-         getTable().add(row);
+         this.getTable().add(row);
       }
    }
 
-
-   public double sum ()
+   public double sum()
    {
       double result = 0;
-      for (ArrayList<Object> row : getTable())
+      for (ArrayList<Object> row : this.getTable())
       {
-         result += (Double) row.get(getColumnMap().get(columnName));
+         result += (Double) row.get(this.getColumnMap().get(this.columnName));
       }
       return result;
    }
 
-
-   public double min ()
+   public double min()
    {
       double result = Double.MAX_VALUE;
-      for (ArrayList<Object> row : getTable())
+      for (ArrayList<Object> row : this.getTable())
       {
-         double value =  (Double) row.get(getColumnMap().get(columnName));
+         double value = (Double) row.get(this.getColumnMap().get(this.columnName));
          if (value < result)
+         {
             result = value;
+         }
       }
       return result;
    }
 
-
-   public double max ()
+   public double max()
    {
       double result = Double.MIN_VALUE;
-      for (ArrayList<Object> row : getTable())
+      for (ArrayList<Object> row : this.getTable())
       {
-         double value =  (Double) row.get(getColumnMap().get(columnName));
+         double value = (Double) row.get(this.getColumnMap().get(this.columnName));
          if (value > result)
+         {
             result = value;
+         }
       }
       return result;
    }
 
-
-   public double median ()
+   public double median()
    {
-      ArrayList< Double > list = this.toList();
+      ArrayList<Double> list = this.toList();
       Collections.sort(list);
       int index = list.size() / 2;
-      double result = list.get(index);
-      return result;
+      return list.get(index);
    }
 
-
-   public ArrayList< Double > toList()
+   @Override
+   public ArrayList<Double> toList()
    {
-      ArrayList< Double > result = new ArrayList<>();
-      for (ArrayList<Object> row : getTable())
+      ArrayList<Double> result = new ArrayList<>();
+      for (ArrayList<Object> row : this.getTable())
       {
-         double value =  (Double) row.get(getColumnMap().get(columnName));
+         double value = (Double) row.get(this.getColumnMap().get(this.columnName));
          result.add(value);
       }
       return result;
@@ -101,15 +99,18 @@ public class IncrementalDoubleTable extends IncrementalTable
    @Override
    public String toString()
    {
-      if (getColumnMap() == null) return "|empty|\n"; //<===========================
+      if (this.getColumnMap() == null)
+      {
+         return "|empty|\n"; //<===========================
+      }
 
       StringBuilder buf = new StringBuilder();
-      for (String key : getColumnMap().keySet())
+      for (String key : this.getColumnMap().keySet())
       {
          buf.append(key).append(" \t");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : getTable())
+      for (ArrayList<Object> row : this.getTable())
       {
          for (Object cell : row)
          {
