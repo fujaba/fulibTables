@@ -270,17 +270,23 @@ public abstract class AbstractTable<T>
    @Override
    public String toString()
    {
-      StringBuilder buf = new StringBuilder();
-      for (String key : this.columnMap.keySet())
+      StringBuilder buf = new StringBuilder("| ");
+      for (String key : this.getColumnMap().keySet())
       {
-         buf.append(key).append(" \t");
+         buf.append(key).append(" \t| ");
+      }
+      buf.append("\n| ");
+      for (String ignored : this.getColumnMap().keySet())
+      {
+         buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (List<Object> row : this.table)
+      for (List<Object> row : this.getTable())
       {
+         buf.append("| ");
          for (Object cell : row)
          {
-            buf.append(cell).append(" \t");
+            buf.append(cell).append(" \t| ");
          }
          buf.append("\n");
       }
