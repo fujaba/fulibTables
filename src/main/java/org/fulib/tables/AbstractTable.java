@@ -82,6 +82,12 @@ public abstract class AbstractTable<T>
       this.table = table;
    }
 
+   @Deprecated
+   public void setTable(ArrayList<ArrayList<Object>> table)
+   {
+      this.table = new ArrayList<>(table);
+   }
+
    public Map<String, Integer> getColumnMap()
    {
       return this.columnMap;
