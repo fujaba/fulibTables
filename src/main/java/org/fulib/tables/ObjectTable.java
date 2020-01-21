@@ -147,10 +147,9 @@ public class ObjectTable extends AbstractTable<Object>
       return result;
    }
 
-   // TODO *String*Table seems wrong for expand*Boolean* ...
-   public StringTable expandBoolean(String newColumnName, String attrName)
+   public BooleanTable expandBoolean(String newColumnName, String attrName)
    {
-      StringTable result = new StringTable(newColumnName, this);
+      BooleanTable result = new BooleanTable(newColumnName, this);
       this.expandPrimitive(newColumnName, attrName);
       return result;
    }
