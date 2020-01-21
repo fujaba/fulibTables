@@ -3,21 +3,23 @@ package org.fulib.tables;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ListeningTable
 {
    // =============== Fields ===============
 
    private IncrementalTable incrementalTable;
-   private ArrayList<ArrayList<Object>> baseTable;
+   private List<List<Object>> baseTable;
    private String linkName;
    private String startColumnName;
    private ListeningTable targetTable;
-   private LinkedHashMap<Object, PropertyChangeListener> rowListeners;
+   private Map<Object, PropertyChangeListener> rowListeners;
 
    // =============== Constructors ===============
 
-   public ListeningTable(IncrementalTable incrementalTable, ArrayList<ArrayList<Object>> baseTable)
+   public ListeningTable(IncrementalTable incrementalTable, List<List<Object>> baseTable)
    {
       this.incrementalTable = incrementalTable;
       this.baseTable = baseTable;
@@ -26,7 +28,7 @@ public class ListeningTable
 
    // =============== Properties ===============
 
-   public ArrayList<ArrayList<Object>> getBaseTable()
+   public List<List<Object>> getBaseTable()
    {
       return this.baseTable;
    }
@@ -41,7 +43,7 @@ public class ListeningTable
       this.targetTable = targetTable;
    }
 
-   public LinkedHashMap<Object, PropertyChangeListener> getRowListeners()
+   public Map<Object, PropertyChangeListener> getRowListeners()
    {
       return this.rowListeners;
    }
@@ -114,7 +116,7 @@ public class ListeningTable
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : this.baseTable)
+      for (List<Object> row : this.baseTable)
       {
          buf.append("| ");
          for (Object cell : row)
