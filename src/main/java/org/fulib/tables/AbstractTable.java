@@ -1,6 +1,8 @@
 package org.fulib.tables;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -108,6 +110,145 @@ public abstract class AbstractTable<T>
    public void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
+   }
+
+   // --------------- Columns ---------------
+
+   // TODO deprecate and add overload
+   //      <U> ObjectTable<U> addColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   //      needs to use a different name though because of same erasure ...
+   public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
+   {
+      this.addColumnImpl(columnName, function);
+   }
+
+   private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
+   {
+      int newColumnNumber = this.getNewColumnNumber();
+      for (List<Object> row : this.getTable())
+      {
+         LinkedHashMap<String, Object> map = this.convertRowToMap(row);
+         Object result = function.apply(map);
+         row.add(result);
+      }
+      this.getColumnMap().put(columnName, newColumnNumber);
+   }
+
+   // TODO what happens to the *Table objects that point to these columns?
+   public AbstractTable<T> dropColumns(String... columnNames)
+   {
+      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
+      this.getColumnMap().clear();
+
+      Set<String> dropNames = new HashSet<>(Arrays.asList(columnNames));
+      int i = 0;
+      for (String name : oldColumnMap.keySet())
+      {
+         if (!dropNames.contains(name))
+         {
+            this.getColumnMap().put(name, i);
+            i++;
+         }
+      }
+
+      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
+      this.getTable().clear();
+
+      Set<List<Object>> rowSet = new HashSet<>();
+      for (List<Object> row : oldTable)
+      {
+         List<Object> newRow = new ArrayList<>();
+         for (String name : this.getColumnMap().keySet())
+         {
+            Object value = row.get(oldColumnMap.get(name));
+            newRow.add(value);
+         }
+         if (rowSet.add(newRow))
+         {
+            this.getTable().add(newRow);
+         }
+      }
+
+      return this;
+   }
+
+   // TODO what happens to the *Table objects that point to the other columns?
+   public AbstractTable<T> selectColumns(String... columnNames)
+   {
+      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
+      this.getColumnMap().clear();
+
+      for (int i = 0; i < columnNames.length; i++)
+      {
+         String name = columnNames[i];
+         if (oldColumnMap.get(name) == null)
+         {
+            throw new IllegalArgumentException("unknown column name: " + name);
+         }
+         this.getColumnMap().put(name, i);
+      }
+
+      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
+      this.getTable().clear();
+
+      Set<List<Object>> rowSet = new HashSet<>();
+      for (List<Object> row : oldTable)
+      {
+         List<Object> newRow = new ArrayList<>();
+         for (String name : columnNames)
+         {
+            Object value = row.get(oldColumnMap.get(name));
+            newRow.add(value);
+         }
+         if (rowSet.add(newRow))
+         {
+            this.getTable().add(newRow);
+         }
+      }
+
+      return this;
+   }
+
+   // --------------- Filter ---------------
+
+   public AbstractTable<T> filter(Predicate<? super Object> predicate)
+   {
+      int column = this.getColumn();
+      this.getTable().removeIf(row -> !predicate.test(row.get(column)));
+      return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public AbstractTable<T> filterRows(Predicate<? super Map<String, Object>> predicate)
+   {
+      return this.filterRowsImpl(predicate);
+   }
+
+   /**
+    * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
+    */
+   @Deprecated
+   public AbstractTable<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   {
+      return this.filterRowsImpl(predicate);
+   }
+
+   private AbstractTable<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
+   {
+      this.getTable().removeIf(row -> !predicate.test(this.convertRowToMap(row)));
+      return this;
+   }
+
+   private LinkedHashMap<String, Object> convertRowToMap(List<Object> row)
+   {
+      LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+      for (Map.Entry<String, Integer> entry : this.getColumnMap().entrySet())
+      {
+         map.put(entry.getKey(), row.get(entry.getValue()));
+      }
+      return map;
    }
 
    public List<T> toList()
