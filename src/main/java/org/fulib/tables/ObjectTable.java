@@ -171,12 +171,6 @@ public class ObjectTable extends AbstractTable<Object>
    // --------------- Misc. Conversions ---------------
 
    @Override
-   public LinkedHashSet<Object> toSet()
-   {
-      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
-   }
-
-   @Override
    public String toString()
    {
       StringBuilder buf = new StringBuilder("| ");
