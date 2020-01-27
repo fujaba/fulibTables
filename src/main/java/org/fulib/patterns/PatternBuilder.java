@@ -1,5 +1,6 @@
 package org.fulib.patterns;
 
+import org.fulib.FulibTables;
 import org.fulib.patterns.model.*;
 
 import java.util.Map;
@@ -67,5 +68,13 @@ public class PatternBuilder
       //noinspection RedundantCast
       new MatchConstraint().setPredicate(predicate).withObjects((Object[]) objects).setPattern(this.pattern);
       return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternMatcher matcher()
+   {
+      return FulibTables.matcher(this.getPattern());
    }
 }
