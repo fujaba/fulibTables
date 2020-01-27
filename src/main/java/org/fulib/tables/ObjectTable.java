@@ -61,7 +61,7 @@ public class ObjectTable extends AbstractTable<Object>
    public ObjectTable hasLink(String linkName, ObjectTable rowName)
    {
       final int thisColumn = this.getColumn();
-      final int otherColumn = this.getColumnMap().get(rowName.getColumnName());
+      final int otherColumn = this.columnMap.get(rowName.getColumnName());
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);

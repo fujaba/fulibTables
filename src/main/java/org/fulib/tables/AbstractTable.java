@@ -20,7 +20,7 @@ public abstract class AbstractTable<T>
 
    private String columnName;
    protected List<List<Object>> table;
-   private Map<String, Integer> columnMap;
+   protected Map<String, Integer> columnMap;
 
    // =============== Constructors ===============
 
