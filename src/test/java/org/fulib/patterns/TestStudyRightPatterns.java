@@ -3,7 +3,6 @@ package org.fulib.patterns;
 import org.fulib.FulibTables;
 import org.fulib.FulibTools;
 
-import org.fulib.builder.ClassModelBuilder;
 import org.fulib.patterns.model.PatternObject;
 import org.fulib.tables.ObjectTable;
 import org.junit.Test;
@@ -50,7 +49,7 @@ public class TestStudyRightPatterns
       pb.buildPatternLink(room, Assignment.PROPERTY_room, Room.PROPERTY_assignments, assignment);
       pb.buildPatternLink(assignment, null, Assignment.PROPERTY_points, points);
 
-      pb.buildAttributeConstraint(d -> ((Double) d) > 20, points);
+      pb.buildAttributeConstraint(points, (Double d) -> d > 20);
       pb.buildMatchConstraint(row -> {
          LinkedHashMap<String,Object> rowMap = (LinkedHashMap<String,Object>) row;
          Room r = (Room) rowMap.get("room");
