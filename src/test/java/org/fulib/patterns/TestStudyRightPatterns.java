@@ -51,9 +51,8 @@ public class TestStudyRightPatterns
 
       pb.buildAttributeConstraint(points, (Double d) -> d > 20);
       pb.buildMatchConstraint(row -> {
-         LinkedHashMap<String,Object> rowMap = (LinkedHashMap<String,Object>) row;
-         Room r = (Room) rowMap.get("room");
-         Assignment a = (Assignment) rowMap.get("assignment");
+         Room r = (Room) row.get("room");
+         Assignment a = (Assignment) row.get("assignment");
 
          return r.getCredits() >= a.getPoints();
       }, room, assignment);
