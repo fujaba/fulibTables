@@ -3,6 +3,7 @@ package org.fulib.patterns;
 import org.fulib.patterns.model.*;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class PatternBuilder
@@ -59,6 +60,14 @@ public class PatternBuilder
    {
       new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(this.pattern);
       return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildEqualityConstraint(PatternObject object, Object value)
+   {
+      return this.buildAttributeConstraint(object, value == null ? Objects::isNull : value::equals);
    }
 
    public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
