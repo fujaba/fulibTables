@@ -91,8 +91,8 @@ public class StudyRightTests
       // start_code_fragment: FulibTables.pointsTable
       doubleTable pointsTable = assignmentsTable.expandDouble("Points", Assignment.PROPERTY_points);
       sum = pointsTable.sum();
-      assertThat(roomsTable.getTable().size(), equalTo(4));
-      assertThat(assignmentsTable.getTable().size(), equalTo(4));
+      assertThat(roomsTable.rowCount(), equalTo(4));
+      assertThat(assignmentsTable.rowCount(), equalTo(4));
       assertThat(sum, equalTo(89.0));
       // end_code_fragment:
 
@@ -104,7 +104,7 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.studentsTable
       ObjectTable students = roomsTable.expandLink("Student", "students");
-      assertThat(students.getTable().size(), equalTo(6));
+      assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.studentsTableResult \n")
@@ -114,7 +114,7 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.filterAssignmentsTable
       assignmentsTable.filter( a -> ((Assignment) a).getPoints() <= 30);
-      assertThat(students.getTable().size(), equalTo(4));
+      assertThat(students.rowCount(), equalTo(4));
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.filterAssignmentsTableResult \n")
@@ -137,7 +137,7 @@ public class StudyRightTests
          return studi.getDone().contains(assignment);
       });
 
-      assertThat(students.getTable().size(), equalTo(1));
+      assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.filterRowTableResult \n")
@@ -154,7 +154,7 @@ public class StudyRightTests
       assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
       students.hasLink(Student.PROPERTY_done, assignmentsTable);
 
-      assertThat(students.getTable().size(), equalTo(1));
+      assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.filterHasDoneResult \n")
@@ -212,7 +212,7 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.selectColumns
       students.selectColumns("Student", "Done");
-      assertThat(students.getTable().size(), equalTo(6));
+      assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.selectColumnsResult \n")
