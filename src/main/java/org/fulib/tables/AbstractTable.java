@@ -74,16 +74,19 @@ public abstract class AbstractTable<T>
       return this.columnMap.get(this.columnName);
    }
 
-   public List<List<Object>> getTable()
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ArrayList<ArrayList<Object>> getTable()
    {
-      return this.table;
+      // defensive copy.
+      return this.table.stream().map(ArrayList::new).collect(Collectors.toCollection(ArrayList::new));
    }
 
-   public void setTable(List<List<Object>> table)
-   {
-      this.table = table;
-   }
-
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
    @Deprecated
    public void setTable(ArrayList<ArrayList<Object>> table)
    {
