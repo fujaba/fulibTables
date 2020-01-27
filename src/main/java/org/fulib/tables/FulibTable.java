@@ -3,6 +3,10 @@ package org.fulib.tables;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+/**
+ * @deprecated since 1.2; unused
+ */
+@Deprecated
 public class FulibTable
 {
    // =============== Fields ===============
