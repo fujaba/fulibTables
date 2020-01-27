@@ -168,7 +168,18 @@ public class PatternMatcher
          RoleObject otherRole = role.getOther();
          PatternObject tgt = otherRole.getObject();
 
-         ObjectTable nextTable = srcTable.expandLink(tgt.getName(), otherRole.getName());
+         final String linkName = otherRole.getName();
+
+         ObjectTable nextTable;
+         if ("*".equals(linkName))
+         {
+            nextTable = srcTable.expandAll(tgt.getName());
+         }
+         else
+         {
+            nextTable = srcTable.expandLink(tgt.getName(), linkName);
+         }
+
          this.object2TableMap.put(tgt, nextTable);
          roles.remove(role);
          roles.remove(otherRole);
