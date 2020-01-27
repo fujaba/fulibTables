@@ -126,7 +126,17 @@ public class ObjectTable extends AbstractTable<Object>
       for (List<Object> row : oldTable)
       {
          Object start = row.get(column);
-         Reflector reflector = this.reflectorMap.getReflector(start);
+
+         Reflector reflector;
+         // TODO hacky
+         try
+         {
+            reflector = this.reflectorMap.getReflector(start);
+         }
+         catch (Exception ex)
+         {
+            continue;
+         }
 
          for (final String propertyName : reflector.getProperties())
          {
