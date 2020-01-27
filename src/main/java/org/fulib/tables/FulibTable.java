@@ -7,12 +7,12 @@ public class FulibTable
 {
    private ArrayList<ArrayList> table = new ArrayList<>();
 
-   public ArrayList<ArrayList > getTable()
+   public ArrayList<ArrayList> getTable()
    {
-      return table;
+      return this.table;
    }
 
-   public void setTable(ArrayList<ArrayList > table)
+   public void setTable(ArrayList<ArrayList> table)
    {
       this.table = table;
    }
@@ -21,7 +21,7 @@ public class FulibTable
 
    public String getColumnName()
    {
-      return columnName;
+      return this.columnName;
    }
 
    public void setColumnName(String columnName)
@@ -33,7 +33,7 @@ public class FulibTable
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return columnMap;
+      return this.columnMap;
    }
 
    public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
@@ -45,20 +45,20 @@ public class FulibTable
    {
       for (String name : columnNames)
       {
-         addColumn(name);
+         this.addColumn(name);
       }
    }
 
    public void addColumn(String name)
    {
-      columnMap.put(name, columnMap.size());
+      this.columnMap.put(name, this.columnMap.size());
 
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.table)
       {
          row.add(null);
       }
 
-      setColumnName(name);
+      this.setColumnName(name);
    }
 
    public void addRow(ArrayList row)
@@ -66,17 +66,16 @@ public class FulibTable
       this.table.add(row);
    }
 
-
    @Override
    public String toString()
    {
       StringBuilder buf = new StringBuilder();
-      for (String key : columnMap.keySet())
+      for (String key : this.columnMap.keySet())
       {
          buf.append(key).append(" \t");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.table)
       {
          for (Object cell : row)
          {
@@ -90,11 +89,8 @@ public class FulibTable
 
    public Object getValue(String colName, int rowNumber)
    {
-      Integer index = getColumnMap().get(colName);
-      ArrayList row = table.get(rowNumber);
+      Integer index = this.getColumnMap().get(colName);
+      ArrayList row = this.table.get(rowNumber);
       return row.get(index);
    }
 }
-
-
-
