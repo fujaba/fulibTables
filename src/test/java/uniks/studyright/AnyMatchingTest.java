@@ -24,43 +24,41 @@ public class AnyMatchingTest
 
       final PatternBuilder builder = FulibTables.patternBuilder(packageName);
 
-      // We expect that there is some object studyRight that has some attribute with value "StudyRight".
-
+      // We expect that there is some object studyRight
       final PatternObject studyRight = builder.buildPatternObject("studyRight");
-      final PatternObject studyRightName = builder.buildPatternObject("studyRightName");
 
-      builder.buildEqualityConstraint(studyRightName, "StudyRight");
+      // that has some attribute with value "StudyRight".
+      final PatternObject studyRightAttr1 = builder.buildPatternObject("studyRightAttr1");
+      builder.buildEqualityConstraint(studyRightAttr1, "StudyRight");
+      builder.buildPatternLink(studyRight, null, "*", studyRightAttr1);
 
-      builder.buildPatternLink(studyRight, null, "*", studyRightName);
-
-      // We expect that there is some object alice that has some attribute with value "Alice"
-      // and that has some attribute with value 10.
-
+      // We expect that there is some object alice
       final PatternObject alice = builder.buildPatternObject("alice");
-      final PatternObject aliceName = builder.buildPatternObject("aliceName");
-      final PatternObject aliceCredits = builder.buildPatternObject("aliceCredits");
 
-      builder.buildEqualityConstraint(aliceName, "Alice");
-      builder.buildEqualityConstraint(aliceCredits, 20.0);
+      // that has some attribute with value "Alice"
+      final PatternObject aliceAttr1 = builder.buildPatternObject("aliceAttr1");
+      builder.buildEqualityConstraint(aliceAttr1, "Alice");
+      builder.buildPatternLink(alice, null, "*", aliceAttr1);
 
-      builder.buildPatternLink(alice, null, "*", aliceName);
-      builder.buildPatternLink(alice, null, "*", aliceCredits);
+      // and that has some attribute with value 10.
+      final PatternObject aliceAttr2 = builder.buildPatternObject("aliceAttr2");
+      builder.buildEqualityConstraint(aliceAttr2, 20.0);
+      builder.buildPatternLink(alice, null, "*", aliceAttr2);
 
-      // We expect that there is some object bob that has some attribute with value "Bob"
-      // and that has some attribute with value 20.
-
+      // We expect that there is some object bob
       final PatternObject bob = builder.buildPatternObject("bob");
+
+      // that has some attribute with value "Bob"
       final PatternObject bobName = builder.buildPatternObject("bobName");
-      final PatternObject bobCredits = builder.buildPatternObject("bobCredits");
-
       builder.buildEqualityConstraint(bobName, "Bob");
-      builder.buildEqualityConstraint(bobCredits, 10.0);
-
       builder.buildPatternLink(bob, null, "*", bobName);
+
+      // and that has some attribute with value 20.
+      final PatternObject bobCredits = builder.buildPatternObject("bobCredits");
+      builder.buildEqualityConstraint(bobCredits, 10.0);
       builder.buildPatternLink(bob, null, "*", bobCredits);
       
       // We expect that studyRight has some link to alice and bob.
-
       builder.buildPatternLink(studyRight, null, "*", alice);
       builder.buildPatternLink(studyRight, null, "*", bob);
 
