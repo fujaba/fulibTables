@@ -35,7 +35,7 @@ public class TestStudyRightPatterns
       Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
       // end_code_fragment:
 
-      PatternBuilder pb = FulibTables.patternBuilder("uniks.studyright.model");
+      PatternBuilder pb = FulibTables.patternBuilder();
 
       PatternObject uni = pb.buildPatternObject("uni");
       PatternObject room = pb.buildPatternObject("room");

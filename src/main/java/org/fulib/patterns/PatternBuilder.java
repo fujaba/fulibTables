@@ -10,16 +10,27 @@ public class PatternBuilder
 {
    // =============== Fields ===============
 
-   private String packageName;
    private final Pattern pattern;
 
    // =============== Constructors ===============
 
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder()
+   {
+      this.pattern = new Pattern();
+   }
+
+   /**
+    * @param packageName
+    *    unused
+    *
+    * @deprecated since 1.2, use {@link #PatternBuilder()} instead
+    */
    public PatternBuilder(String packageName)
    {
-      this.packageName = packageName;
-
-      this.pattern = new Pattern();
+      this();
    }
 
    // =============== Properties ===============
