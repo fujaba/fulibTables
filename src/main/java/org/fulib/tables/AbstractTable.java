@@ -125,7 +125,7 @@ public abstract class AbstractTable<T>
    private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
-      for (List<Object> row : this.getTable())
+      for (List<Object> row : this.table)
       {
          LinkedHashMap<String, Object> map = this.convertRowToMap(row);
          Object result = function.apply(map);
@@ -151,8 +151,8 @@ public abstract class AbstractTable<T>
          }
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
 
       Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
@@ -165,7 +165,7 @@ public abstract class AbstractTable<T>
          }
          if (rowSet.add(newRow))
          {
-            this.getTable().add(newRow);
+            this.table.add(newRow);
          }
       }
 
@@ -188,8 +188,8 @@ public abstract class AbstractTable<T>
          this.getColumnMap().put(name, i);
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
 
       Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
@@ -202,7 +202,7 @@ public abstract class AbstractTable<T>
          }
          if (rowSet.add(newRow))
          {
-            this.getTable().add(newRow);
+            this.table.add(newRow);
          }
       }
 
@@ -214,7 +214,7 @@ public abstract class AbstractTable<T>
    public AbstractTable<T> filter(Predicate<? super Object> predicate)
    {
       int column = this.getColumn();
-      this.getTable().removeIf(row -> !predicate.test(row.get(column)));
+      this.table.removeIf(row -> !predicate.test(row.get(column)));
       return this;
    }
 
@@ -237,7 +237,7 @@ public abstract class AbstractTable<T>
 
    private AbstractTable<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
-      this.getTable().removeIf(row -> !predicate.test(this.convertRowToMap(row)));
+      this.table.removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;
    }
 
@@ -286,7 +286,7 @@ public abstract class AbstractTable<T>
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (List<Object> row : this.getTable())
+      for (List<Object> row : this.table)
       {
          buf.append("| ");
          for (Object cell : row)
