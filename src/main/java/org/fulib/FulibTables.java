@@ -20,6 +20,7 @@ public class FulibTables
     *
     * @deprecated since 1.2; use {@link #patternBuilder()} instead
     */
+   @Deprecated
    public static PatternBuilder patternBuilder(String packageName)
    {
       return new PatternBuilder(packageName);
