@@ -44,7 +44,18 @@ public class PatternBuilder
       return this;
    }
 
+   /**
+    * @deprecated since 1.2; use {@link #buildAttributeConstraint(Predicate, PatternObject)} instead (typo "Att_ibute")
+    */
    public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject object)
+   {
+      return this.buildAttributeConstraint(predicate, object);
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildAttributeConstraint(Predicate<? super Object> predicate, PatternObject object)
    {
       new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(this.pattern);
       return this;
