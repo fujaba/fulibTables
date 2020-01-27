@@ -251,6 +251,11 @@ public abstract class AbstractTable<T>
       return map;
    }
 
+   public int rowCount()
+   {
+      return this.table.size();
+   }
+
    public List<T> toList()
    {
       return this.stream().collect(Collectors.toList());
