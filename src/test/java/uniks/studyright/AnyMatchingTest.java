@@ -61,9 +61,8 @@ public class AnyMatchingTest
       
       // We expect that studyRight has some link to alice and bob.
 
-      // TODO "*"
-      builder.buildPatternLink(studyRight, null, "students", alice);
-      builder.buildPatternLink(studyRight, null, "students", bob);
+      builder.buildPatternLink(studyRight, null, "*", alice);
+      builder.buildPatternLink(studyRight, null, "*", bob);
 
       // Do match
 
