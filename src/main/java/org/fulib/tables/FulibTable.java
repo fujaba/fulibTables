@@ -5,7 +5,23 @@ import java.util.LinkedHashMap;
 
 public class FulibTable
 {
+   // =============== Fields ===============
+
    private ArrayList<ArrayList> table = new ArrayList<>();
+   private String columnName = null;
+   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+
+   // =============== Constructors ===============
+
+   public FulibTable(String... columnNames)
+   {
+      for (String name : columnNames)
+      {
+         this.addColumn(name);
+      }
+   }
+
+   // =============== Properties ===============
 
    public ArrayList<ArrayList> getTable()
    {
@@ -17,8 +33,6 @@ public class FulibTable
       this.table = table;
    }
 
-   private String columnName = null;
-
    public String getColumnName()
    {
       return this.columnName;
@@ -28,8 +42,6 @@ public class FulibTable
    {
       this.columnName = columnName;
    }
-
-   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
 
    public LinkedHashMap<String, Integer> getColumnMap()
    {
@@ -41,13 +53,7 @@ public class FulibTable
       this.columnMap = columnMap;
    }
 
-   public FulibTable(String... columnNames)
-   {
-      for (String name : columnNames)
-      {
-         this.addColumn(name);
-      }
-   }
+   // =============== Methods ===============
 
    public void addColumn(String name)
    {
@@ -64,6 +70,13 @@ public class FulibTable
    public void addRow(ArrayList row)
    {
       this.table.add(row);
+   }
+
+   public Object getValue(String colName, int rowNumber)
+   {
+      Integer index = this.getColumnMap().get(colName);
+      ArrayList row = this.table.get(rowNumber);
+      return row.get(index);
    }
 
    @Override
@@ -85,12 +98,5 @@ public class FulibTable
       }
       buf.append("\n");
       return buf.toString();
-   }
-
-   public Object getValue(String colName, int rowNumber)
-   {
-      Integer index = this.getColumnMap().get(colName);
-      ArrayList row = this.table.get(rowNumber);
-      return row.get(index);
    }
 }
