@@ -31,8 +31,7 @@ public class AnyMatchingTest
 
       builder.buildAttributeConstraint(studyRightName, "StudyRight"::equals);
 
-      // TODO "*"
-      builder.buildPatternLink(studyRight, null, "name", studyRightName);
+      builder.buildPatternLink(studyRight, null, "*", studyRightName);
 
       // We expect that there is some object alice that has some attribute with value "Alice"
       // and that has some attribute with value 10.
@@ -44,9 +43,8 @@ public class AnyMatchingTest
       builder.buildAttributeConstraint(aliceName, "Alice"::equals);
       builder.buildAttributeConstraint(aliceCredits, Double.valueOf(20)::equals);
 
-      // TODO "*"
-      builder.buildPatternLink(alice, null, "name", aliceName);
-      builder.buildPatternLink(alice, null, "credits", aliceCredits);
+      builder.buildPatternLink(alice, null, "*", aliceName);
+      builder.buildPatternLink(alice, null, "*", aliceCredits);
 
       // We expect that there is some object bob that has some attribute with value "Bob"
       // and that has some attribute with value 20.
@@ -58,9 +56,8 @@ public class AnyMatchingTest
       builder.buildAttributeConstraint(bobName, "Bob"::equals);
       builder.buildAttributeConstraint(bobCredits, Double.valueOf(10)::equals);
 
-      // TODO "*"
-      builder.buildPatternLink(bob, null, "name", bobName);
-      builder.buildPatternLink(bob, null, "credits", bobCredits);
+      builder.buildPatternLink(bob, null, "*", bobName);
+      builder.buildPatternLink(bob, null, "*", bobCredits);
       
       // We expect that studyRight has some link to alice and bob.
 
