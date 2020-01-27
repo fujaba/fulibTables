@@ -93,12 +93,20 @@ public abstract class AbstractTable<T>
       this.table = new ArrayList<>(table);
    }
 
-   public Map<String, Integer> getColumnMap()
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return this.columnMap;
+      return new LinkedHashMap<>(this.columnMap);
    }
 
-   public void setColumnMap(Map<String, Integer> columnMap)
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
    {
       this.columnMap = columnMap;
    }
