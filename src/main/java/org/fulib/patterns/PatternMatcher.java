@@ -66,6 +66,8 @@ public class PatternMatcher
          {
             continue;
          }
+
+         throw new NoApplicableConstraintException();
       }
 
       return result;
