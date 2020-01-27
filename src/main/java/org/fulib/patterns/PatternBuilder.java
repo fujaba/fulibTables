@@ -29,6 +29,7 @@ public class PatternBuilder
     *
     * @deprecated since 1.2, use {@link #PatternBuilder()} instead
     */
+   @Deprecated
    public PatternBuilder(String packageName)
    {
       this();
@@ -68,6 +69,7 @@ public class PatternBuilder
    /**
     * @deprecated since 1.2; use {@link #buildAttributeConstraint(PatternObject, Predicate)} instead (typo "Att_ibute")
     */
+   @Deprecated
    public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject object)
    {
       return this.buildAttributeConstraint(object, predicate);

@@ -18,9 +18,9 @@ public abstract class AbstractTable<T>
 
    // =============== Fields ===============
 
-   private String               columnName;
-   private List<List<Object>>   table;
-   private Map<String, Integer> columnMap;
+   private String columnName;
+   protected List<List<Object>> table;
+   protected Map<String, Integer> columnMap;
 
    // =============== Constructors ===============
 
@@ -74,28 +74,39 @@ public abstract class AbstractTable<T>
       return this.columnMap.get(this.columnName);
    }
 
-   public List<List<Object>> getTable()
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ArrayList<ArrayList<Object>> getTable()
    {
-      return this.table;
+      // defensive copy.
+      return this.table.stream().map(ArrayList::new).collect(Collectors.toCollection(ArrayList::new));
    }
 
-   public void setTable(List<List<Object>> table)
-   {
-      this.table = table;
-   }
-
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
    @Deprecated
    public void setTable(ArrayList<ArrayList<Object>> table)
    {
       this.table = new ArrayList<>(table);
    }
 
-   public Map<String, Integer> getColumnMap()
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return this.columnMap;
+      return new LinkedHashMap<>(this.columnMap);
    }
 
-   public void setColumnMap(Map<String, Integer> columnMap)
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
    {
       this.columnMap = columnMap;
    }
@@ -125,20 +136,20 @@ public abstract class AbstractTable<T>
    private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
-      for (List<Object> row : this.getTable())
+      for (List<Object> row : this.table)
       {
          LinkedHashMap<String, Object> map = this.convertRowToMap(row);
          Object result = function.apply(map);
          row.add(result);
       }
-      this.getColumnMap().put(columnName, newColumnNumber);
+      this.columnMap.put(columnName, newColumnNumber);
    }
 
    // TODO what happens to the *Table objects that point to these columns?
    public AbstractTable<T> dropColumns(String... columnNames)
    {
-      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
-      this.getColumnMap().clear();
+      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
+      this.columnMap.clear();
 
       Set<String> dropNames = new HashSet<>(Arrays.asList(columnNames));
       int i = 0;
@@ -146,26 +157,26 @@ public abstract class AbstractTable<T>
       {
          if (!dropNames.contains(name))
          {
-            this.getColumnMap().put(name, i);
+            this.columnMap.put(name, i);
             i++;
          }
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
 
       Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
       {
          List<Object> newRow = new ArrayList<>();
-         for (String name : this.getColumnMap().keySet())
+         for (String name : this.columnMap.keySet())
          {
             Object value = row.get(oldColumnMap.get(name));
             newRow.add(value);
          }
          if (rowSet.add(newRow))
          {
-            this.getTable().add(newRow);
+            this.table.add(newRow);
          }
       }
 
@@ -175,8 +186,8 @@ public abstract class AbstractTable<T>
    // TODO what happens to the *Table objects that point to the other columns?
    public AbstractTable<T> selectColumns(String... columnNames)
    {
-      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.getColumnMap());
-      this.getColumnMap().clear();
+      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
+      this.columnMap.clear();
 
       for (int i = 0; i < columnNames.length; i++)
       {
@@ -185,11 +196,11 @@ public abstract class AbstractTable<T>
          {
             throw new IllegalArgumentException("unknown column name: " + name);
          }
-         this.getColumnMap().put(name, i);
+         this.columnMap.put(name, i);
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.getTable());
-      this.getTable().clear();
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
 
       Set<List<Object>> rowSet = new HashSet<>();
       for (List<Object> row : oldTable)
@@ -202,7 +213,7 @@ public abstract class AbstractTable<T>
          }
          if (rowSet.add(newRow))
          {
-            this.getTable().add(newRow);
+            this.table.add(newRow);
          }
       }
 
@@ -214,7 +225,7 @@ public abstract class AbstractTable<T>
    public AbstractTable<T> filter(Predicate<? super Object> predicate)
    {
       int column = this.getColumn();
-      this.getTable().removeIf(row -> !predicate.test(row.get(column)));
+      this.table.removeIf(row -> !predicate.test(row.get(column)));
       return this;
    }
 
@@ -237,14 +248,14 @@ public abstract class AbstractTable<T>
 
    private AbstractTable<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
-      this.getTable().removeIf(row -> !predicate.test(this.convertRowToMap(row)));
+      this.table.removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;
    }
 
    private LinkedHashMap<String, Object> convertRowToMap(List<Object> row)
    {
       LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-      for (Map.Entry<String, Integer> entry : this.getColumnMap().entrySet())
+      for (Map.Entry<String, Integer> entry : this.columnMap.entrySet())
       {
          map.put(entry.getKey(), row.get(entry.getValue()));
       }
@@ -276,17 +287,17 @@ public abstract class AbstractTable<T>
    public String toString()
    {
       StringBuilder buf = new StringBuilder("| ");
-      for (String key : this.getColumnMap().keySet())
+      for (String key : this.columnMap.keySet())
       {
          buf.append(key).append(" \t| ");
       }
       buf.append("\n| ");
-      for (String ignored : this.getColumnMap().keySet())
+      for (String ignored : this.columnMap.keySet())
       {
          buf.append(" --- \t| ");
       }
       buf.append("\n");
-      for (List<Object> row : this.getTable())
+      for (List<Object> row : this.table)
       {
          buf.append("| ");
          for (Object cell : row)
