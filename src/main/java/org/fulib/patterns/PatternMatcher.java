@@ -36,14 +36,18 @@ public class PatternMatcher
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
+      return this.match(this.pattern.getObjects(patternObjectName));
+   }
+
+   public ObjectTable match(PatternObject patternObject, Object... startObjects)
+   {
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
       List<AttributeConstraint> attributeConstraints = new ArrayList<>(this.pattern.getAttributeConstraints());
       List<MatchConstraint> matchConstraints = new ArrayList<>(this.pattern.getMatchConstraints());
 
-      ObjectTable result = new ObjectTable(patternObjectName, startObjects);
-      PatternObject current = this.pattern.getObjects(patternObjectName);
+      ObjectTable result = new ObjectTable(patternObject.getName(), startObjects);
       this.object2TableMap = new LinkedHashMap<>();
-      this.object2TableMap.put(current, result);
+      this.object2TableMap.put(patternObject, result);
 
       while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
