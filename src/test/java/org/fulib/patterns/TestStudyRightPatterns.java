@@ -47,7 +47,7 @@ public class TestStudyRightPatterns
       pb.buildPatternLink(uni, Student.PROPERTY_uni, University.PROPERTY_students, student);
       pb.buildPatternLink(student, Room.PROPERTY_students, Student.PROPERTY_in, room);
       pb.buildPatternLink(room, Assignment.PROPERTY_room, Room.PROPERTY_assignments, assignment);
-      pb.buildPatternLink(assignment, null, Assignment.PROPERTY_points, points);
+      pb.buildPatternLink(assignment, Assignment.PROPERTY_points, points);
 
       pb.buildAttributeConstraint(points, (Double d) -> d > 20);
       pb.buildMatchConstraint(row -> {

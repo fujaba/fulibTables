@@ -38,6 +38,14 @@ public class PatternBuilder
       return patternObject;
    }
 
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildPatternLink(PatternObject src, String attrName, PatternObject tgt)
+   {
+      return this.buildPatternLink(src, null, attrName, tgt);
+   }
+
    public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
    {
       RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(this.pattern);
