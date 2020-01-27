@@ -1,5 +1,6 @@
 package org.fulib.patterns;
 
+import org.fulib.FulibTables;
 import org.fulib.patterns.model.*;
 
 import java.util.Map;
@@ -10,16 +11,27 @@ public class PatternBuilder
 {
    // =============== Fields ===============
 
-   private String packageName;
    private final Pattern pattern;
 
    // =============== Constructors ===============
 
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder()
+   {
+      this.pattern = new Pattern();
+   }
+
+   /**
+    * @param packageName
+    *    unused
+    *
+    * @deprecated since 1.2, use {@link #PatternBuilder()} instead
+    */
    public PatternBuilder(String packageName)
    {
-      this.packageName = packageName;
-
-      this.pattern = new Pattern();
+      this();
    }
 
    // =============== Properties ===============
@@ -36,6 +48,14 @@ public class PatternBuilder
       PatternObject patternObject = new PatternObject().setName(name);
       this.pattern.withObjects(patternObject);
       return patternObject;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildPatternLink(PatternObject src, String attrName, PatternObject tgt)
+   {
+      return this.buildPatternLink(src, null, attrName, tgt);
    }
 
    public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
@@ -76,5 +96,13 @@ public class PatternBuilder
       //noinspection RedundantCast
       new MatchConstraint().setPredicate(predicate).withObjects((Object[]) objects).setPattern(this.pattern);
       return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternMatcher matcher()
+   {
+      return FulibTables.matcher(this.getPattern());
    }
 }

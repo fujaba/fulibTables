@@ -35,7 +35,7 @@ public class TestStudyRightPatterns
       Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
       // end_code_fragment:
 
-      PatternBuilder pb = FulibTables.patternBuilder("uniks.studyright.model");
+      PatternBuilder pb = FulibTables.patternBuilder();
 
       PatternObject uni = pb.buildPatternObject("uni");
       PatternObject room = pb.buildPatternObject("room");
@@ -47,13 +47,12 @@ public class TestStudyRightPatterns
       pb.buildPatternLink(uni, Student.PROPERTY_uni, University.PROPERTY_students, student);
       pb.buildPatternLink(student, Room.PROPERTY_students, Student.PROPERTY_in, room);
       pb.buildPatternLink(room, Assignment.PROPERTY_room, Room.PROPERTY_assignments, assignment);
-      pb.buildPatternLink(assignment, null, Assignment.PROPERTY_points, points);
+      pb.buildPatternLink(assignment, Assignment.PROPERTY_points, points);
 
       pb.buildAttributeConstraint(points, (Double d) -> d > 20);
       pb.buildMatchConstraint(row -> {
-         LinkedHashMap<String,Object> rowMap = (LinkedHashMap<String,Object>) row;
-         Room r = (Room) rowMap.get("room");
-         Assignment a = (Assignment) rowMap.get("assignment");
+         Room r = (Room) row.get("room");
+         Assignment a = (Assignment) row.get("assignment");
 
          return r.getCredits() >= a.getPoints();
       }, room, assignment);
