@@ -62,7 +62,7 @@ public class ObjectTable extends AbstractTable<Object>
    {
       final int thisColumn = this.getColumn();
       final int otherColumn = this.getColumnMap().get(rowName.getColumnName());
-      this.getTable().removeIf(row -> {
+      this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
          Reflector reflector = this.reflectorMap.getReflector(start);
@@ -83,10 +83,9 @@ public class ObjectTable extends AbstractTable<Object>
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
-      final List<List<Object>> table = this.getTable();
 
-      List<List<Object>> oldTable = new ArrayList<>(table);
-      table.clear();
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
       for (List<Object> row : oldTable)
       {
          Object start = row.get(column);
@@ -99,14 +98,14 @@ public class ObjectTable extends AbstractTable<Object>
             {
                List<Object> newRow = new ArrayList<>(row);
                newRow.add(current);
-               table.add(newRow);
+               this.table.add(newRow);
             }
          }
          else if (value != null)
          {
             List<Object> newRow = new ArrayList<>(row);
             newRow.add(value);
-            table.add(newRow);
+            this.table.add(newRow);
          }
       }
       return result;
@@ -159,7 +158,7 @@ public class ObjectTable extends AbstractTable<Object>
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
-      for (List<Object> row : this.getTable())
+      for (List<Object> row : this.table)
       {
          Object start = row.get(column);
          Reflector reflector = this.reflectorMap.getReflector(start);

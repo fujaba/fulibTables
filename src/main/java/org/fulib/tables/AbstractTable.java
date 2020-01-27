@@ -18,8 +18,8 @@ public abstract class AbstractTable<T>
 
    // =============== Fields ===============
 
-   private String               columnName;
-   private List<List<Object>>   table;
+   private String columnName;
+   protected List<List<Object>> table;
    private Map<String, Integer> columnMap;
 
    // =============== Constructors ===============
