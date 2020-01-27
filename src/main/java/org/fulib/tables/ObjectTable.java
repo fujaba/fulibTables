@@ -3,10 +3,9 @@ package org.fulib.tables;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 // TODO ObjectTable<T> ?
 public class ObjectTable extends AbstractTable<Object>
@@ -107,6 +106,47 @@ public class ObjectTable extends AbstractTable<Object>
             List<Object> newRow = new ArrayList<>(row);
             newRow.add(value);
             table.add(newRow);
+         }
+      }
+      return result;
+   }
+
+   public ObjectTable expandAll(String newColumnName)
+   {
+      ObjectTable result = new ObjectTable(newColumnName, this);
+      result.setReflectorMap(this.reflectorMap);
+
+      this.addColumn(newColumnName);
+
+      final int column = this.getColumn();
+      final List<List<Object>> table = this.getTable();
+
+      List<List<Object>> oldTable = new ArrayList<>(table);
+      table.clear();
+      for (List<Object> row : oldTable)
+      {
+         Object start = row.get(column);
+         Reflector reflector = this.reflectorMap.getReflector(start);
+
+         for (final String propertyName : reflector.getProperties())
+         {
+            Object value = reflector.getValue(start, propertyName);
+
+            if (value instanceof Collection)
+            {
+               for (Object current : (Collection<?>) value)
+               {
+                  List<Object> newRow = new ArrayList<>(row);
+                  newRow.add(current);
+                  table.add(newRow);
+               }
+            }
+            else if (value != null)
+            {
+               List<Object> newRow = new ArrayList<>(row);
+               newRow.add(value);
+               table.add(newRow);
+            }
          }
       }
       return result;
