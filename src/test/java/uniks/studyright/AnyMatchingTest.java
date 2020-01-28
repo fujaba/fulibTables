@@ -26,7 +26,6 @@ public class AnyMatchingTest
    private Object[] all;
    private University studyRight;
    private Student alice;
-   private Student bob;
 
    @Before
    public void scenario()
@@ -53,7 +52,6 @@ public class AnyMatchingTest
 
       this.studyRight = studyRight;
       this.alice = alice;
-      this.bob = bob;
       // captured by fulibScenarios
       this.roots = new Object[] { studyRight, alice, bob };
       this.all = findAll(this.roots);
@@ -77,14 +75,13 @@ public class AnyMatchingTest
 
       final PatternObject studyRight = builder.buildPatternObject("studyRight");
       final PatternObject studyRightAttr1 = builder.buildPatternObject("studyRightAttr1");
+
       builder.buildEqualityConstraint(studyRightAttr1, "StudyRight");
       builder.buildPatternLink(studyRight, null, "*", studyRightAttr1);
 
       final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
       final ObjectTable match = matcher.match("studyRight", this.studyRight);
-      assertEquals(1, match.toList().size()); // TODO match.size()
-
-      // TODO quite a lot of boilerplate, hmm
+      assertEquals(1, match.rowCount());
 
       // this is not part of the generated code, but a sanity check:
       assertEquals(Collections.singletonList(this.studyRight), match.toList());
@@ -104,7 +101,7 @@ public class AnyMatchingTest
 
       final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
       final ObjectTable match = matcher.match("c20", this.roots);
-      assertEquals(1, match.toList().size()); // TODO match.size()
+      assertEquals(1, match.rowCount());
 
       // sanity check, not part of generated code:
       assertEquals(Collections.singletonList(this.alice), match.toList());
@@ -130,9 +127,7 @@ public class AnyMatchingTest
    @Test
    public void unknownObjectsUnknownAttributes()
    {
-      final String packageName = University.class.getPackage().getName();
-
-      final PatternBuilder builder = FulibTables.patternBuilder(packageName);
+      final PatternBuilder builder = FulibTables.patternBuilder();
 
       // We expect that there is some object studyRight
       final PatternObject studyRight = builder.buildPatternObject("studyRight");
