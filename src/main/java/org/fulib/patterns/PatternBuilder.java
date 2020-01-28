@@ -89,7 +89,20 @@ public class PatternBuilder
     */
    public PatternBuilder buildEqualityConstraint(PatternObject object, Object value)
    {
-      return this.buildAttributeConstraint(object, value == null ? Objects::isNull : value::equals);
+      return this.buildAttributeConstraint(object, new Predicate<Object>()
+      {
+         @Override
+         public boolean test(Object o)
+         {
+            return Objects.equals(value, o);
+         }
+
+         @Override
+         public String toString()
+         {
+            return "equals(" + value + ")";
+         }
+      });
    }
 
    public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
@@ -102,10 +115,21 @@ public class PatternBuilder
 
    public PatternBuilder buildInequalityConstraint(PatternObject a, PatternObject b)
    {
-      return this.buildMatchConstraint(map -> {
-         final Object aObj = map.get(a.getName());
-         final Object bObj = map.get(b.getName());
-         return !Objects.equals(aObj, bObj);
+      return this.buildMatchConstraint(new Predicate<Map<String, Object>>()
+      {
+         @Override
+         public boolean test(Map<String, Object> map)
+         {
+            final Object aObj = map.get(a.getName());
+            final Object bObj = map.get(b.getName());
+            return !Objects.equals(aObj, bObj);
+         }
+
+         @Override
+         public String toString()
+         {
+            return "notEqual(" + a + ", " + b + ")";
+         }
       }, a, b);
    }
 
