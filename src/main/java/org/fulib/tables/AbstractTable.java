@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  * @author Adrian Kunz
  * @since 1.2
  */
-public abstract class AbstractTable<T>
+public abstract class AbstractTable<T> implements Iterable<T>
 {
    // =============== Constants ===============
 
@@ -265,6 +265,28 @@ public abstract class AbstractTable<T>
    public int rowCount()
    {
       return this.table.size();
+   }
+
+   @Override
+   public Iterator<T> iterator()
+   {
+      return new Iterator<T>()
+      {
+         private final Iterator<List<Object>> listIterator = AbstractTable.this.table.iterator();
+         private final int column = AbstractTable.this.getColumn();
+
+         @Override
+         public boolean hasNext()
+         {
+            return this.listIterator.hasNext();
+         }
+
+         @Override
+         public T next()
+         {
+            return (T) this.listIterator.next().get(this.column);
+         }
+      };
    }
 
    public List<T> toList()
