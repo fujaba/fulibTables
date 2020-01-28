@@ -1,12 +1,10 @@
 package org.fulib.patterns;
 
+import org.fulib.patterns.debug.DebugEvent;
 import org.fulib.patterns.model.*;
 import org.fulib.tables.ObjectTable;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PatternMatcher
 {
@@ -14,6 +12,7 @@ public class PatternMatcher
 
    private Pattern pattern;
    private Map<PatternObject, ObjectTable> object2TableMap;
+   private List<DebugEvent> events;
 
    // =============== Constructors ===============
 
@@ -36,6 +35,29 @@ public class PatternMatcher
    public ObjectTable getMatchTable(PatternObject pattern)
    {
       return this.object2TableMap.get(pattern);
+   }
+
+   public boolean isDebugLogging()
+   {
+      return this.events != null;
+   }
+
+   public void setDebugLogging(boolean eventLogging)
+   {
+      if (!eventLogging)
+      {
+         this.events = null;
+         return;
+      }
+      if (this.events == null)
+      {
+         this.events = new ArrayList<>();
+      }
+   }
+
+   public List<DebugEvent> getDebugEvents()
+   {
+      return this.events == null ? Collections.emptyList() : Collections.unmodifiableList(this.events);
    }
 
    // =============== Methods ===============
