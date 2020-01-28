@@ -32,6 +32,11 @@ public class PatternMatcher
       return this.object2TableMap;
    }
 
+   public ObjectTable getMatchTable(PatternObject pattern)
+   {
+      return this.object2TableMap.get(pattern);
+   }
+
    // =============== Methods ===============
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
