@@ -173,8 +173,8 @@ public class AnyMatchingTest
       // Do match
 
       PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
-
       ObjectTable start = matcher.match("studyRight", this.roots);
+      assertEquals(1, start.rowCount());
 
       System.out.println(start);
    }
