@@ -5,19 +5,25 @@ import org.fulib.patterns.PatternBuilder;
 import org.fulib.patterns.PatternMatcher;
 import org.fulib.patterns.model.PatternObject;
 import org.fulib.tables.ObjectTable;
+import org.fulib.yaml.Reflector;
+import org.fulib.yaml.ReflectorMap;
 import org.junit.Before;
 import org.junit.Test;
 import uniks.studyright.model.Room;
 import uniks.studyright.model.Student;
 import uniks.studyright.model.University;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
 public class AnyMatchingTest
 {
    private Object[] roots;
+   private Object[] all;
    private University studyRight;
    private Student alice;
    private Student bob;
@@ -50,6 +56,7 @@ public class AnyMatchingTest
       this.bob = bob;
       // captured by fulibScenarios
       this.roots = new Object[] { studyRight, alice, bob };
+      this.all = findAll(this.roots);
    }
 
    @Test
@@ -109,20 +116,15 @@ public class AnyMatchingTest
       // We expect that there is some object r3 with roomNo R3.
 
       final PatternBuilder builder = FulibTables.patternBuilder();
-      final PatternObject roots = builder.buildPatternObject("roots");
       final PatternObject r3 = builder.buildPatternObject("r3");
       final PatternObject r3RoomNo = builder.buildPatternObject("r3RoomNo");
 
-      // TODO must traverse the whole object graph to find any path (in this case of length 1 / single link).
-      //      OR:
-      //      instead of this, we can flatten all connected objects into an array and use that as roots.
-      // builder.buildPatternPath(roots, r3);
       builder.buildEqualityConstraint(r3RoomNo, "R3");
       builder.buildPatternLink(r3, null, "roomNo", r3RoomNo);
 
       final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
-      final ObjectTable match = matcher.match("roots", this.roots);
-      assertEquals(1, match.toList().size()); // TODO match.size()
+      final ObjectTable match = matcher.match(r3, this.all);
+      assertEquals(1, match.rowCount());
    }
 
    @Test
@@ -177,5 +179,57 @@ public class AnyMatchingTest
       assertEquals(1, start.rowCount());
 
       System.out.println(start);
+   }
+
+   // --------------- Helper Methods ---------------
+
+   private static Object[] findAll(Object... roots)
+   {
+      // TODO consider other package names
+      final ReflectorMap reflectorMap = new ReflectorMap(roots[0].getClass().getPackage().getName());
+      final Set<Object> out = new HashSet<>();
+      for (final Object root : roots)
+      {
+         findNeighbors(reflectorMap, root, out);
+      }
+      return out.toArray();
+   }
+
+   // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
+   private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
+   {
+      final Reflector reflector;
+      // TODO try-catch is hacky, try to ask the reflector if he supports the object.
+      try
+      {
+         reflector = map.getReflector(root);
+      }
+      catch (Exception ex)
+      {
+         return;
+      }
+
+      // doing this after the reflector prevents values from being added to the set
+      if (!out.add(root))
+      {
+         return;
+      }
+
+      // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
+      for (final String property : reflector.getProperties())
+      {
+         final Object value = reflector.getValue(root, property);
+         if (value instanceof Collection)
+         {
+            for (Object item : (Collection<?>) value)
+            {
+               findNeighbors(map, item, out);
+            }
+         }
+         else
+         {
+            findNeighbors(map, value, out);
+         }
+      }
    }
 }
