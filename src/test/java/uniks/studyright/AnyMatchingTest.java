@@ -66,7 +66,7 @@ public class AnyMatchingTest
    {
       // We expect that studyRight has some attribute with value "StudyRight".
 
-      final PatternBuilder builder = FulibTables.patternBuilder(University.class.getPackage().getName());
+      final PatternBuilder builder = FulibTables.patternBuilder();
 
       final PatternObject studyRight = builder.buildPatternObject("studyRight");
       final PatternObject studyRightAttr1 = builder.buildPatternObject("studyRightAttr1");
@@ -88,7 +88,7 @@ public class AnyMatchingTest
    {
       // We expect that there is some object c20 with 20 credits.
 
-      final PatternBuilder builder = FulibTables.patternBuilder(University.class.getPackage().getName());
+      final PatternBuilder builder = FulibTables.patternBuilder();
       final PatternObject c20 = builder.buildPatternObject("c20");
       final PatternObject c20Credits = builder.buildPatternObject("c20Credits");
 
@@ -108,7 +108,7 @@ public class AnyMatchingTest
    {
       // We expect that there is some object r3 with roomNo R3.
 
-      final PatternBuilder builder = FulibTables.patternBuilder(University.class.getPackage().getName());
+      final PatternBuilder builder = FulibTables.patternBuilder();
       final PatternObject roots = builder.buildPatternObject("roots");
       final PatternObject r3 = builder.buildPatternObject("r3");
       final PatternObject r3RoomNo = builder.buildPatternObject("r3RoomNo");
