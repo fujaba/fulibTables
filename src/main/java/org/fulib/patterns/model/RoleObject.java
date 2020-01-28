@@ -181,7 +181,7 @@ public RoleObject setOther(RoleObject value)
    @Override
    public String toString() // no fulib
    {
-      return "RoleObject{" + "object=" + this.object + ", name='" + this.name + '\'' + ", otherName="
-             + this.other.getName() + ", otherObject=" + this.other.getObject() + '}';
+      return "RoleObject{" + "object=" + this.object + ", name=\"" + this.name + '"' + ", otherName=\""
+             + this.other.getName() + '"' + ", otherObject=" + this.other.getObject() + '}';
    }
 }
