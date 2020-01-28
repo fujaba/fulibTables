@@ -6,13 +6,14 @@ import org.fulib.tables.ObjectTable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PatternMatcher
 {
    // =============== Fields ===============
 
    private Pattern pattern;
-   private LinkedHashMap<PatternObject, ObjectTable> object2TableMap;
+   private Map<PatternObject, ObjectTable> object2TableMap;
 
    // =============== Constructors ===============
 
@@ -29,7 +30,12 @@ public class PatternMatcher
    @Deprecated
    public LinkedHashMap<PatternObject, ObjectTable> getObject2TableMap()
    {
-      return this.object2TableMap;
+      return new LinkedHashMap<>(this.object2TableMap);
+   }
+
+   public ObjectTable getMatchTable(PatternObject pattern)
+   {
+      return this.object2TableMap.get(pattern);
    }
 
    // =============== Methods ===============
