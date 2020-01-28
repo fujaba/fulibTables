@@ -13,10 +13,7 @@ import uniks.studyright.model.Room;
 import uniks.studyright.model.Student;
 import uniks.studyright.model.University;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -174,6 +171,26 @@ public class AnyMatchingTest
       assertEquals(1, start.rowCount());
 
       System.out.println(start);
+   }
+
+   // the expected AssertionError would not be generated.
+   // It is here because we expect the generated code to fail.
+   @Test(expected = AssertionError.class)
+   public void ambiguousMatch()
+   {
+      // We expect that there is some object a20 that has some attribute with value 20.
+      // (that would be Alice and R2 both with 20 credits)
+
+      final PatternBuilder builder = FulibTables.patternBuilder();
+      final PatternObject a20 = builder.buildPatternObject("a20");
+      final PatternObject a20Attr1 = builder.buildPatternObject("a20Attr1");
+
+      builder.buildEqualityConstraint(a20Attr1, 20.0);
+      builder.buildPatternLink(a20, "*", a20Attr1);
+
+      final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
+      final ObjectTable match = matcher.match(a20, this.all);
+      assertEquals(1, match.rowCount());
    }
 
    // --------------- Helper Methods ---------------
