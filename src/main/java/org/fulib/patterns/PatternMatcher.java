@@ -1,6 +1,6 @@
 package org.fulib.patterns;
 
-import org.fulib.patterns.debug.DebugEvent;
+import org.fulib.patterns.debug.*;
 import org.fulib.patterns.model.*;
 import org.fulib.tables.ObjectTable;
 
@@ -121,6 +121,11 @@ public class PatternMatcher
          srcTable.filter(constraint.predicate);
          attributeConstraints.remove(constraint);
 
+         if (this.events != null)
+         {
+            this.events.add(new AttributeConstraintEvent(constraint));
+         }
+
          return true;
       }
 
@@ -146,6 +151,11 @@ public class PatternMatcher
          // use this
          this.object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
          matchConstraints.remove(constraint);
+
+         if (this.events != null)
+         {
+            this.events.add(new MatchConstraintEvent(constraint));
+         }
 
          return true;
       }
@@ -179,6 +189,11 @@ public class PatternMatcher
          srcTable.hasLink(otherRole.getName(), tgtTable);
          roles.remove(role);
          roles.remove(otherRole);
+
+         if (this.events != null)
+         {
+            this.events.add(new HasLinkEvent(role));
+         }
 
          return true;
       }
@@ -217,6 +232,11 @@ public class PatternMatcher
          this.object2TableMap.put(tgt, nextTable);
          roles.remove(role);
          roles.remove(otherRole);
+
+         if (this.events != null)
+         {
+            this.events.add(new ExpandRoleEvent(role));
+         }
 
          return true;
       }
