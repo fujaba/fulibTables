@@ -1,8 +1,7 @@
 package org.fulib.patterns.model;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class RoleObject  
 {
@@ -170,17 +169,6 @@ public RoleObject setOther(RoleObject value)
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
-   }
-
    public void removeYou()
    {
       this.setPattern(null);
@@ -190,5 +178,10 @@ public RoleObject setOther(RoleObject value)
 
    }
 
-
+   @Override
+   public String toString() // no fulib
+   {
+      return "RoleObject{" + "object=" + this.object + ", name='" + this.name + '\'' + ", otherName="
+             + this.other.getName() + ", otherObject=" + this.other.getObject() + '}';
+   }
 }

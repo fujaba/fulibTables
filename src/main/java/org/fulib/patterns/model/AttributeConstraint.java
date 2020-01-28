@@ -148,26 +148,9 @@ public class AttributeConstraint
       return this;
    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   @Override
+   public String toString() // no fulib
+   {
+      return "AttributeConstraint{" + "predicate=" + this.predicate + ", object=" + this.object + '}';
+   }
 }

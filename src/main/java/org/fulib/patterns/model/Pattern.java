@@ -2,9 +2,8 @@ package org.fulib.patterns.model;
 
 import org.fulib.yaml.StrUtil;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class Pattern  
 {
@@ -412,27 +411,10 @@ public class Pattern
       return this;
    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   @Override
+   public String toString() // no fulib
+   {
+      return "Pattern{" + "objects=" + this.objects + ", roles=" + this.roles + ", attributeConstraints="
+             + this.attributeConstraints + ", matchConstraints=" + this.matchConstraints + '}';
+   }
 }

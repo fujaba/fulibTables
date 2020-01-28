@@ -358,16 +358,9 @@ public class PatternObject
       return this;
    }
 
-
    @Override
-   public String toString()
+   public String toString() // no fulib
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
+      return this.name;
    }
-
 }

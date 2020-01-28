@@ -194,26 +194,9 @@ public class MatchConstraint
       return this;
    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   @Override
+   public String toString() // no fulib
+   {
+      return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
+   }
 }
