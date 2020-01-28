@@ -100,6 +100,15 @@ public class PatternBuilder
       return this;
    }
 
+   public PatternBuilder buildInequalityConstraint(PatternObject a, PatternObject b)
+   {
+      return this.buildMatchConstraint(map -> {
+         final Object aObj = map.get(a.getName());
+         final Object bObj = map.get(b.getName());
+         return !Objects.equals(aObj, bObj);
+      }, a, b);
+   }
+
    /**
     * @since 1.2
     */
