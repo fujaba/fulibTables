@@ -15,4 +15,10 @@ public class AttributeConstraintEvent implements DebugEvent
    {
       return this.constraint;
    }
+
+   @Override
+   public String toString()
+   {
+      return "filtering by " + this.constraint;
+   }
 }

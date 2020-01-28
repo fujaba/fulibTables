@@ -15,4 +15,10 @@ public class ExpandRoleEvent implements DebugEvent
    {
       return this.role;
    }
+
+   @Override
+   public String toString()
+   {
+      return "expanding " + this.role;
+   }
 }

@@ -15,4 +15,10 @@ public class HasLinkEvent implements DebugEvent
    {
       return this.role;
    }
+
+   @Override
+   public String toString()
+   {
+      return "filtering by " + this.role;
+   }
 }
