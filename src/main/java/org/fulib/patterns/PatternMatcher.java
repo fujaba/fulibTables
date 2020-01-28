@@ -36,7 +36,7 @@ public class PatternMatcher
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
-      return this.match(this.pattern.getObjects(patternObjectName));
+      return this.match(this.pattern.getObjects(patternObjectName), startObjects);
    }
 
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
