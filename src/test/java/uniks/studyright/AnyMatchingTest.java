@@ -224,7 +224,7 @@ public class AnyMatchingTest
       }
 
       // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
-      for (final String property : reflector.getProperties())
+      for (final String property : reflector.getAllProperties())
       {
          final Object value = reflector.getValue(root, property);
          if (value instanceof Collection)
