@@ -210,16 +210,12 @@ public class AnyMatchingTest
    // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
    private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
    {
-      final Reflector reflector;
-      // TODO try-catch is hacky, try to ask the reflector if he supports the object.
-      try
-      {
-         reflector = map.getReflector(root);
-      }
-      catch (Exception ex)
+      if (!map.canReflect(root))
       {
          return;
       }
+
+      final Reflector reflector = map.getReflector(root);
 
       // doing this after the reflector prevents values from being added to the set
       if (!out.add(root))
