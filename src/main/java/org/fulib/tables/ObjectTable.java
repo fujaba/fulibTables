@@ -94,21 +94,7 @@ public class ObjectTable extends AbstractTable<Object>
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
-         if (value instanceof Collection)
-         {
-            for (Object current : (Collection<?>) value)
-            {
-               List<Object> newRow = new ArrayList<>(row);
-               newRow.add(current);
-               this.table.add(newRow);
-            }
-         }
-         else if (value != null)
-         {
-            List<Object> newRow = new ArrayList<>(row);
-            newRow.add(value);
-            this.table.add(newRow);
-         }
+         this.addToRow(row, value);
       }
       return result;
    }
@@ -139,24 +125,29 @@ public class ObjectTable extends AbstractTable<Object>
          {
             Object value = reflector.getValue(start, propertyName);
 
-            if (value instanceof Collection)
-            {
-               for (Object current : (Collection<?>) value)
-               {
-                  List<Object> newRow = new ArrayList<>(row);
-                  newRow.add(current);
-                  this.table.add(newRow);
-               }
-            }
-            else if (value != null)
-            {
-               List<Object> newRow = new ArrayList<>(row);
-               newRow.add(value);
-               this.table.add(newRow);
-            }
+            this.addToRow(row, value);
          }
       }
       return result;
+   }
+
+   private void addToRow(List<Object> row, Object value)
+   {
+      if (value instanceof Collection)
+      {
+         for (Object current : (Collection<?>) value)
+         {
+            List<Object> newRow = new ArrayList<>(row);
+            newRow.add(current);
+            this.table.add(newRow);
+         }
+      }
+      else if (value != null)
+      {
+         List<Object> newRow = new ArrayList<>(row);
+         newRow.add(value);
+         this.table.add(newRow);
+      }
    }
 
    public doubleTable expandDouble(String newColumnName, String attrName)
