@@ -3,9 +3,8 @@ package org.fulib.tables;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // TODO ObjectTable<T> ?
 public class ObjectTable extends AbstractTable<Object>
@@ -31,7 +30,6 @@ public class ObjectTable extends AbstractTable<Object>
       super(columnName, base);
    }
 
-   // TODO consider the packages of start[1..] too?
    private void initReflector(Object... start)
    {
       if (start.length == 0)
@@ -39,7 +37,12 @@ public class ObjectTable extends AbstractTable<Object>
          return;
       }
 
-      this.reflectorMap = new ReflectorMap(start[0].getClass().getPackage().getName());
+      final Set<String> packageNames = Arrays.stream(start)
+                                             .map(Object::getClass)
+                                             .map(Class::getPackage)
+                                             .map(Package::getName)
+                                             .collect(Collectors.toCollection(LinkedHashSet::new));
+      this.reflectorMap = new ReflectorMap(packageNames);
    }
 
    // =============== Properties ===============
@@ -125,18 +128,14 @@ public class ObjectTable extends AbstractTable<Object>
       {
          Object start = row.get(column);
 
-         Reflector reflector;
-         // TODO hacky
-         try
-         {
-            reflector = this.reflectorMap.getReflector(start);
-         }
-         catch (Exception ex)
+         if (!this.reflectorMap.canReflect(start))
          {
             continue;
          }
 
-         for (final String propertyName : reflector.getProperties())
+         final Reflector reflector = this.reflectorMap.getReflector(start);
+
+         for (final String propertyName : reflector.getAllProperties())
          {
             Object value = reflector.getValue(start, propertyName);
 
