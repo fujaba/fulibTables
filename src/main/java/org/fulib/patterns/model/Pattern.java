@@ -25,12 +25,23 @@ public class Pattern
       return this.objects;
    }
 
-
+   /**
+    * @deprecated since 1.2; use {@link #getObject(String)} instead
+    */
+   @Deprecated
    public PatternObject getObjects(String patternObjectName)
+   {
+      return this.getObject(patternObjectName);
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternObject getObject(String name)
    {
       for (PatternObject object : this.getObjects())
       {
-         if (Objects.equals(patternObjectName, object.getName()))
+         if (Objects.equals(name, object.getName()))
          {
             return object;
          }
