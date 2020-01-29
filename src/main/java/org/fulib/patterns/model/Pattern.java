@@ -1,9 +1,8 @@
 package org.fulib.patterns.model;
 
-import org.fulib.yaml.StrUtil;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 public class Pattern  
 {
@@ -29,18 +28,15 @@ public class Pattern
 
    public PatternObject getObjects(String patternObjectName)
    {
-      PatternObject result = null;
-
       for (PatternObject object : this.getObjects())
       {
-         if (StrUtil.stringEquals(object.getName(), patternObjectName))
+         if (Objects.equals(patternObjectName, object.getName()))
          {
             return object;
          }
       }
 
-
-      return result;
+      return null;
    }
 
    public Pattern withObjects(Object... value)
