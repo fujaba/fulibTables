@@ -57,11 +57,10 @@ public class ObjectTable extends AbstractTable<Object>
 
    // =============== Methods ===============
 
-   // TODO overload where rowName is a String
-   public ObjectTable hasLink(String linkName, ObjectTable rowName)
+   public ObjectTable hasLink(String linkName, ObjectTable otherTable)
    {
       final int thisColumn = this.getColumn();
-      final int otherColumn = this.columnMap.get(rowName.getColumnName());
+      final int otherColumn = this.columnMap.get(otherTable.getColumnName());
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
