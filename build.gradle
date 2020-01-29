@@ -49,7 +49,7 @@ repositories {
 
 dependencies {
    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
-   api group: 'org.fulib', name: 'fulibYaml', version: '1.1.0'
+   api group: 'org.fulib', name: 'fulibYaml', version: '1.2.0-dev.2'
 
    // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
    testRuntimeOnly group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.28'
