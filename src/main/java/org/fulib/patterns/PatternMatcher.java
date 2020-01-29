@@ -191,7 +191,15 @@ public class PatternMatcher
             continue; //=================
          }
 
-         srcTable.hasLink(otherRole.getName(), tgtTable);
+         final String linkName = otherRole.getName();
+         if ("*".equals(linkName))
+         {
+            srcTable.hasAnyLink(tgtTable);
+         }
+         else
+         {
+            srcTable.hasLink(linkName, tgtTable);
+         }
          roles.remove(role);
          roles.remove(otherRole);
 
