@@ -75,6 +75,29 @@ public class ObjectTable extends AbstractTable<Object>
       return this;
    }
 
+   public ObjectTable hasAnyLink(ObjectTable otherTable)
+   {
+      final int thisColumn = this.getColumn();
+      final int otherColumn = this.columnMap.get(otherTable.getColumnName());
+      this.table.removeIf(row -> {
+         Object start = row.get(thisColumn);
+         Object other = row.get(otherColumn);
+         Reflector reflector = this.reflectorMap.getReflector(start);
+
+         for (final String property : reflector.getAllProperties())
+         {
+            Object value = reflector.getValue(start, property);
+            if (value == other || value instanceof Collection && ((Collection<?>) value).contains(other))
+            {
+               return false;
+            }
+         }
+
+         return true;
+      });
+      return this;
+   }
+
    // --------------- Expansion ---------------
 
    public ObjectTable expandLink(String newColumnName, String linkName)
