@@ -69,13 +69,20 @@ public class PatternMatcher
 
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
-      List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
-      List<AttributeConstraint> attributeConstraints = new ArrayList<>(this.pattern.getAttributeConstraints());
-      List<MatchConstraint> matchConstraints = new ArrayList<>(this.pattern.getMatchConstraints());
-
       ObjectTable result = new ObjectTable(patternObject.getName(), startObjects);
       this.object2TableMap = new LinkedHashMap<>();
       this.object2TableMap.put(patternObject, result);
+
+      this.match();
+
+      return result;
+   }
+
+   public void match()
+   {
+      List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
+      List<AttributeConstraint> attributeConstraints = new ArrayList<>(this.pattern.getAttributeConstraints());
+      List<MatchConstraint> matchConstraints = new ArrayList<>(this.pattern.getMatchConstraints());
 
       while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
@@ -101,8 +108,6 @@ public class PatternMatcher
 
          throw new NoApplicableConstraintException();
       }
-
-      return result;
    }
 
    private boolean checkAttributeConstraint(List<AttributeConstraint> attributeConstraints)
