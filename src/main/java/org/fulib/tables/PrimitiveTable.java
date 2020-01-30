@@ -14,12 +14,21 @@ class PrimitiveTable<T> extends Table<T>
       super(start);
    }
 
-   public PrimitiveTable(Table<?> base)
+   protected PrimitiveTable(Table<?> base)
    {
       super(base);
    }
 
    // =============== Properties ===============
+
+   /**
+    * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
+    */
+   @Deprecated
+   public void setColumnName(String columnName)
+   {
+      this.setColumnName_(columnName);
+   }
 
    /**
     * @deprecated since 1.2; for internal use only

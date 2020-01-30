@@ -86,7 +86,11 @@ public class Table<T> implements Iterable<T>
       return this.columnName;
    }
 
-   public void setColumnName(String columnName)
+   // TODO rename to setColumnName in v2.0
+   // trailing _ added because subclasses use incompatible signatures for legacy reasons:
+   //   void setColumnName(String) in PrimitiveTable classes
+   //   ObjectTable setColumnName(String) in ObjectTable
+   protected void setColumnName_(String columnName)
    {
       this.columnName = columnName;
    }
