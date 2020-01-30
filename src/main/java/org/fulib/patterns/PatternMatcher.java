@@ -87,9 +87,27 @@ public class PatternMatcher
    /**
     * @since 1.2
     */
+   public PatternMatcher withRootPatternObjects(PatternObject patternObject)
+   {
+      this.rootPatternObjects.add(patternObject);
+      return this;
+   }
+
+   /**
+    * @since 1.2
+    */
    public List<Object> getRootObjects()
    {
       return this.rootObjects;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternMatcher withRootObjects(Object... objects)
+   {
+      Collections.addAll(this.rootObjects, objects);
+      return this;
    }
 
    // =============== Methods ===============
@@ -104,8 +122,8 @@ public class PatternMatcher
     */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
-      this.rootPatternObjects.add(patternObject);
-      Collections.addAll(this.rootObjects, startObjects);
+      this.withRootPatternObjects(patternObject);
+      this.withRootObjects(startObjects);
 
       this.match();
 
