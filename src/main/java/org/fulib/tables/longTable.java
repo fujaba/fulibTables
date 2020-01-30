@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.LongStream;
 
-public class longTable extends Table<Long>
+public class longTable extends PrimitiveTable<Long>
 {
    // =============== Constructors ===============
 

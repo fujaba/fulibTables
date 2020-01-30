@@ -4,6 +4,7 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 // TODO ObjectTable<T> ?
@@ -224,7 +225,7 @@ public class ObjectTable extends Table<Object>
 
    private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
    {
-      result.setColumnName(newColumnName);
+      result.setColumnName_(newColumnName);
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
@@ -356,5 +357,72 @@ public class ObjectTable extends Table<Object>
       }
 
       return newTable;
+   }
+
+   // =============== Deprecated and Compatibility Methods ===============
+
+   /**
+    * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
+    */
+   @Deprecated
+   public ObjectTable setColumnName(String columnName)
+   {
+      this.setColumnName_(columnName);
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setTable(ArrayList<ArrayList<Object>> table)
+   {
+      this.table = new ArrayList<>(table);
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setColumnMap(LinkedHashMap<String, Integer> columnMap)
+   {
+      this.columnMap = columnMap;
+      return this;
+   }
+
+   @Override
+   public ObjectTable selectColumns(String... columnNames)
+   {
+      super.selectColumns(columnNames);
+      return this;
+   }
+
+   @Override
+   public ObjectTable dropColumns(String... columnNames)
+   {
+      super.dropColumns(columnNames);
+      return this;
+   }
+
+   @Override
+   public ObjectTable filter(Predicate<? super Object> predicate)
+   {
+      super.filter(predicate);
+      return this;
+   }
+
+   @Override
+   @Deprecated
+   public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   {
+      super.filterRow(predicate);
+      return this;
+   }
+
+   @Override
+   public LinkedHashSet<Object> toSet()
+   {
+      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 }

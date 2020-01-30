@@ -1,0 +1,8 @@
+versionOverrides: {}
+acceptedBreaks:
+  "1.1.0":
+    org.fulib:fulibTables:
+      - code: "java.method.returnTypeChanged"
+        old: "method org.fulib.tables.StringTable org.fulib.tables.ObjectTable::expandBoolean(java.lang.String, java.lang.String)"
+        new: "method org.fulib.tables.BooleanTable org.fulib.tables.ObjectTable::expandBoolean(java.lang.String, java.lang.String)"
+        justification: "the method was unususable previously due to the StringTable containing Boolean objects"

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class intTable extends Table<Integer>
+public class intTable extends PrimitiveTable<Integer>
 {
    // =============== Constructors ===============
 
