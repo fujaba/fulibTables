@@ -4,7 +4,6 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -59,7 +58,7 @@ public class ObjectTable<T> extends Table<T>
 
    // =============== Methods ===============
 
-   public ObjectTable<T> hasLink(String linkName, ObjectTable otherTable)
+   public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
       final int thisColumn = this.getColumn();
       final int otherColumn = this.columnMap.get(otherTable.getColumnName());
@@ -176,7 +175,7 @@ public class ObjectTable<T> extends Table<T>
     * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
     */
    @Deprecated
-   public ObjectTable setColumnName(String columnName)
+   public ObjectTable<T> setColumnName(String columnName)
    {
       this.setColumnName_(columnName);
       return this;
@@ -186,7 +185,7 @@ public class ObjectTable<T> extends Table<T>
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
-   public ObjectTable setTable(ArrayList<ArrayList<Object>> table)
+   public ObjectTable<T> setTable(ArrayList<ArrayList<Object>> table)
    {
       this.table = new ArrayList<>(table);
       return this;
@@ -196,28 +195,28 @@ public class ObjectTable<T> extends Table<T>
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
-   public ObjectTable setColumnMap(LinkedHashMap<String, Integer> columnMap)
+   public ObjectTable<T> setColumnMap(LinkedHashMap<String, Integer> columnMap)
    {
       this.columnMap = columnMap;
       return this;
    }
 
    @Override
-   public ObjectTable selectColumns(String... columnNames)
+   public ObjectTable<T> selectColumns(String... columnNames)
    {
       super.selectColumns(columnNames);
       return this;
    }
 
    @Override
-   public ObjectTable dropColumns(String... columnNames)
+   public ObjectTable<T> dropColumns(String... columnNames)
    {
       super.dropColumns(columnNames);
       return this;
    }
 
    @Override
-   public ObjectTable filter(Predicate<? super Object> predicate)
+   public ObjectTable<T> filter(Predicate<? super Object> predicate)
    {
       super.filter(predicate);
       return this;
@@ -225,14 +224,14 @@ public class ObjectTable<T> extends Table<T>
 
    @Override
    @Deprecated
-   public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   public ObjectTable<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
       super.filterRow(predicate);
       return this;
    }
 
    @Override
-   public LinkedHashSet<Object> toSet()
+   public LinkedHashSet<T> toSet()
    {
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
