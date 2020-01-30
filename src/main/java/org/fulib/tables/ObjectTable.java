@@ -54,36 +54,6 @@ public class ObjectTable extends Table<Object>
       this.reflectorMap = reflectorMap;
    }
 
-   /**
-    * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
-    */
-   @Deprecated
-   public ObjectTable setColumnName(String columnName)
-   {
-      this.setColumnName_(columnName);
-      return this;
-   }
-
-   /**
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
-   public ObjectTable setTable(ArrayList<ArrayList<Object>> table)
-   {
-      this.table = new ArrayList<>(table);
-      return this;
-   }
-
-   /**
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
-   public ObjectTable setColumnMap(LinkedHashMap<String, Integer> columnMap)
-   {
-      this.columnMap = columnMap;
-      return this;
-   }
-
    // =============== Methods ===============
 
    public ObjectTable hasLink(String linkName, ObjectTable otherTable)
@@ -197,7 +167,38 @@ public class ObjectTable extends Table<Object>
       }
    }
 
-   // TODO remove in v2.0?
+   // =============== Deprecated and Compatibility Methods ===============
+
+   /**
+    * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
+    */
+   @Deprecated
+   public ObjectTable setColumnName(String columnName)
+   {
+      this.setColumnName_(columnName);
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setTable(ArrayList<ArrayList<Object>> table)
+   {
+      this.table = new ArrayList<>(table);
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setColumnMap(LinkedHashMap<String, Integer> columnMap)
+   {
+      this.columnMap = columnMap;
+      return this;
+   }
+
    @Override
    public ObjectTable selectColumns(String... columnNames)
    {
@@ -205,7 +206,6 @@ public class ObjectTable extends Table<Object>
       return this;
    }
 
-   // TODO remove in v2.0?
    @Override
    public ObjectTable dropColumns(String... columnNames)
    {
@@ -213,7 +213,6 @@ public class ObjectTable extends Table<Object>
       return this;
    }
 
-   // TODO remove in v2.0?
    @Override
    public ObjectTable filter(Predicate<? super Object> predicate)
    {
