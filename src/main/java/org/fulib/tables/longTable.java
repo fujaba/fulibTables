@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.LongStream;
 
-public class longTable extends AbstractTable<Long>
+public class longTable extends Table<Long>
 {
    // =============== Constructors ===============
 
@@ -13,7 +13,7 @@ public class longTable extends AbstractTable<Long>
       super(start);
    }
 
-   protected longTable(AbstractTable<?> base)
+   protected longTable(Table<?> base)
    {
       super(base);
    }

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-public class doubleTable extends AbstractTable<Double>
+public class doubleTable extends Table<Double>
 {
    // =============== Constructors ===============
 
@@ -13,7 +13,7 @@ public class doubleTable extends AbstractTable<Double>
       super(start);
    }
 
-   protected doubleTable(AbstractTable<?> base)
+   protected doubleTable(Table<?> base)
    {
       super(base);
    }

@@ -1,6 +1,6 @@
 package org.fulib.tables;
 
-public class BooleanTable extends AbstractTable<Boolean>
+public class BooleanTable extends Table<Boolean>
 {
    // =============== Constructors ===============
 
@@ -9,7 +9,7 @@ public class BooleanTable extends AbstractTable<Boolean>
       super(start);
    }
 
-   protected BooleanTable(AbstractTable<?> base)
+   protected BooleanTable(Table<?> base)
    {
       super(base);
    }

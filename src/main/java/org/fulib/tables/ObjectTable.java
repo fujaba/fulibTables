@@ -4,12 +4,9 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 // TODO ObjectTable<T> ?
-public class ObjectTable extends AbstractTable<Object>
+public class ObjectTable extends Table<Object>
 {
    private ReflectorMap reflectorMap;
 
@@ -27,7 +24,7 @@ public class ObjectTable extends AbstractTable<Object>
       this.initReflector(start);
    }
 
-   protected ObjectTable(AbstractTable<?> base)
+   protected ObjectTable(Table<?> base)
    {
       super(base);
    }
@@ -153,7 +150,7 @@ public class ObjectTable extends AbstractTable<Object>
       return result;
    }
 
-   private void expandPrimitive(AbstractTable<?> result, String newColumnName, String attrName)
+   private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
    {
       result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
