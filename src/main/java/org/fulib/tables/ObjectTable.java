@@ -74,6 +74,9 @@ public class ObjectTable extends AbstractTable<Object>
       return this;
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable hasAnyLink(ObjectTable otherTable)
    {
       final int thisColumn = this.getColumn();
@@ -121,6 +124,9 @@ public class ObjectTable extends AbstractTable<Object>
       return result;
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable expandAll(String newColumnName)
    {
       ObjectTable result = new ObjectTable(newColumnName, this);
