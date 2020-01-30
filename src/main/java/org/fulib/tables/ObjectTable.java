@@ -130,9 +130,10 @@ public class ObjectTable extends Table<Object>
     */
    public ObjectTable expandAll(String newColumnName)
    {
-      ObjectTable result = new ObjectTable(newColumnName, this);
+      ObjectTable result = new ObjectTable(this);
       result.setReflectorMap(this.reflectorMap);
 
+      result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
@@ -336,9 +337,10 @@ public class ObjectTable extends Table<Object>
    // TODO name, could also be crossProduct, crossMultiply, cartesianProduct
    public ObjectTable multiply(String newColumnName, Collection<?> items)
    {
-      final ObjectTable newTable = new ObjectTable(newColumnName, this);
+      final ObjectTable newTable = new ObjectTable(this);
       newTable.setReflectorMap(this.reflectorMap);
 
+      newTable.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
       final List<List<Object>> oldTable = new ArrayList<>(this.table);
