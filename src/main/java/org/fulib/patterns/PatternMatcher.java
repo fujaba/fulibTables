@@ -32,16 +32,25 @@ public class PatternMatcher
       return new LinkedHashMap<>(this.object2TableMap);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable getMatchTable(PatternObject pattern)
    {
       return this.object2TableMap.get(pattern);
    }
 
+   /**
+    * @since 1.2
+    */
    public boolean isDebugLogging()
    {
       return this.events != null;
    }
 
+   /**
+    * @since 1.2
+    */
    public void setDebugLogging(boolean eventLogging)
    {
       if (!eventLogging)
@@ -55,6 +64,9 @@ public class PatternMatcher
       }
    }
 
+   /**
+    * @since 1.2
+    */
    public List<DebugEvent> getDebugEvents()
    {
       return this.events == null ? Collections.emptyList() : Collections.unmodifiableList(this.events);
@@ -67,6 +79,9 @@ public class PatternMatcher
       return this.match(this.pattern.getObject(patternObjectName), startObjects);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
       ObjectTable result = new ObjectTable(patternObject.getName(), startObjects);
@@ -78,6 +93,9 @@ public class PatternMatcher
       return result;
    }
 
+   /**
+    * @since 1.2
+    */
    public void match()
    {
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
