@@ -4,6 +4,8 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 // TODO ObjectTable<T> ?
 public class ObjectTable extends Table<Object>
@@ -163,5 +165,43 @@ public class ObjectTable extends Table<Object>
          Object value = reflector.getValue(start, attrName);
          row.add(value);
       }
+   }
+
+   // TODO remove in v2.0?
+   @Override
+   public ObjectTable selectColumns(String... columnNames)
+   {
+      super.selectColumns(columnNames);
+      return this;
+   }
+
+   // TODO remove in v2.0?
+   @Override
+   public ObjectTable dropColumns(String... columnNames)
+   {
+      super.dropColumns(columnNames);
+      return this;
+   }
+
+   // TODO remove in v2.0?
+   @Override
+   public ObjectTable filter(Predicate<? super Object> predicate)
+   {
+      super.filter(predicate);
+      return this;
+   }
+
+   @Override
+   @Deprecated
+   public ObjectTable filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   {
+      super.filterRow(predicate);
+      return this;
+   }
+
+   @Override
+   public LinkedHashSet<Object> toSet()
+   {
+      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 }
