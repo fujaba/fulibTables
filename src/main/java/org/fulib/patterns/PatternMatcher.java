@@ -160,6 +160,33 @@ public class PatternMatcher
       }
    }
 
+   /**
+    * @since 1.2
+    */
+   public <T> T findOne(PatternObject patternObject)
+   {
+      final ObjectTable table = this.getMatchTable(patternObject);
+      final int count = table.rowCount();
+      if (count == 1)
+      {
+         return (T) table.iterator().next();
+      }
+      if (count == 0)
+      {
+         throw new NoMatchException(patternObject);
+      }
+      throw new AmbiguousMatchException(patternObject, table.toList());
+   }
+
+   /**
+    * @since 1.2
+    */
+   public <T> List<T> findAll(PatternObject patternObject)
+   {
+      final ObjectTable table = this.getMatchTable(patternObject);
+      return (List<T>) table.toList();
+   }
+
    private boolean checkAttributeConstraint(List<AttributeConstraint> attributeConstraints)
    {
       // find roles from done to not done
