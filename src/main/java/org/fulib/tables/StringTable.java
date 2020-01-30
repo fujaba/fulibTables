@@ -11,9 +11,9 @@ public class StringTable extends AbstractTable<String>
       super(start);
    }
 
-   public StringTable(String columnName, AbstractTable<?> base)
+   protected StringTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

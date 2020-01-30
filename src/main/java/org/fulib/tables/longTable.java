@@ -13,9 +13,9 @@ public class longTable extends AbstractTable<Long>
       super(start);
    }
 
-   public longTable(String columnName, AbstractTable<?> base)
+   protected longTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

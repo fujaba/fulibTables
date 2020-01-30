@@ -13,9 +13,9 @@ public class intTable extends AbstractTable<Integer>
       super(start);
    }
 
-   public intTable(String columnName, AbstractTable<?> base)
+   protected intTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

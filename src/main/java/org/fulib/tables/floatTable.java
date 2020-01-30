@@ -13,9 +13,9 @@ public class floatTable extends AbstractTable<Float>
       super(start);
    }
 
-   public floatTable(String columnName, AbstractTable<?> base)
+   protected floatTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

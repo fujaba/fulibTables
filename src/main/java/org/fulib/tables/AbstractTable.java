@@ -50,9 +50,9 @@ public abstract class AbstractTable<T> implements Iterable<T>
       }
    }
 
-   public AbstractTable(String columnName, AbstractTable<?> base)
+   protected AbstractTable(AbstractTable<?> base)
    {
-      this.columnName = columnName;
+      this.columnName = base.columnName;
       this.columnMap = base.columnMap;
       this.table = base.table;
    }

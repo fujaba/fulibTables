@@ -13,9 +13,9 @@ public class doubleTable extends AbstractTable<Double>
       super(start);
    }
 
-   public doubleTable(String columnName, AbstractTable<?> base)
+   protected doubleTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

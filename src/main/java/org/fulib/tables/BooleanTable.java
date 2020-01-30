@@ -9,9 +9,9 @@ public class BooleanTable extends AbstractTable<Boolean>
       super(start);
    }
 
-   public BooleanTable(String columnName, AbstractTable<?> base)
+   protected BooleanTable(AbstractTable<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============
