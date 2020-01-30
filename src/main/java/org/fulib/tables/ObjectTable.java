@@ -233,4 +233,124 @@ public class ObjectTable extends AbstractTable<Object>
          row.add(value);
       }
    }
+
+   /**
+    * Functionally equivalent to {@link #multiply(String, Collection)}, with the difference that it takes a varargs
+    * array instead of a collection as the items.
+    *
+    * @param newColumnName
+    *    see {@link #multiply(String, Collection)}
+    * @param items
+    *    see {@link #multiply(String, Collection)}
+    *
+    * @return see {@link #multiply(String, Collection)}
+    *
+    * @see #multiply(String, Collection)
+    * @since 1.2
+    */
+   public ObjectTable multiply(String newColumnName, Object... items)
+   {
+      return this.multiply(newColumnName, Arrays.asList(items));
+   }
+
+   /**
+    * Performs a cartesian product of all rows of this table with the given items.
+    * <p>
+    * For example, if this table is:
+    *
+    * <table>
+    *    <tr>
+    *       <th>A</th>
+    *       <th>B</th>
+    *    </tr>
+    *    <tr>
+    *       <td>A1</td>
+    *       <td>B1</td>
+    *    </tr>
+    *    <tr>
+    *       <td>A2</td>
+    *       <td>B2</td>
+    *    </tr>
+    * </table>
+    *
+    * <p>
+    * and the new items and column name are:
+    *
+    * <table>
+    *    <tr>
+    *       <th>C</th>
+    *    </tr>
+    *    <tr>
+    *       <td>C1</td>
+    *    </tr>
+    *    <tr>
+    *       <td>C2</td>
+    *    </tr>
+    * </table>
+    *
+    * <p>
+    * the resulting table is:
+    *
+    * <table>
+    *    <tr>
+    *       <th>A</th>
+    *       <th>B</th>
+    *       <th>C</th>
+    *    </tr>
+    *    <tr>
+    *       <td>A1</td>
+    *       <td>B1</td>
+    *       <td>C1</td>
+    *    </tr>
+    *    <tr>
+    *       <td>A1</td>
+    *       <td>B1</td>
+    *       <td>C2</td>
+    *    </tr>
+    *    <tr>
+    *       <td>A2</td>
+    *       <td>B2</td>
+    *       <td>C1</td>
+    *    </tr>
+    *    <tr>
+    *       <td>A2</td>
+    *       <td>B2</td>
+    *       <td>C2</td>
+    *    </tr>
+    * </table>
+    *
+    * <p>
+    * As a result of this, if this table or items is empty, the resulting table will be empty too.
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param items
+    *    the items which will become the cells of the new column
+    *
+    * @return a new table pointing to the new column
+    *
+    * @since 1.2
+    */
+   // TODO name, could also be crossProduct, crossMultiply, cartesianProduct
+   public ObjectTable multiply(String newColumnName, Collection<?> items)
+   {
+      final ObjectTable newTable = new ObjectTable(newColumnName, this);
+      newTable.setReflectorMap(this.reflectorMap);
+
+      this.addColumn(newColumnName);
+
+      final List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
+      for (List<Object> row : oldTable)
+      {
+         for (final Object item : items)
+         {
+            final List<Object> newRow = new ArrayList<>(row);
+            newRow.add(item);
+            this.table.add(newRow);
+         }
+      }
+
+      return newTable;
+   }
 }
