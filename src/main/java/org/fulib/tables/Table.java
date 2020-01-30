@@ -62,6 +62,23 @@ public class Table<T> implements Iterable<T>
       this.table = base.table;
    }
 
+   public Table<T> copy()
+   {
+      final Table<T> result = new Table<>();
+      this.copyTo(result);
+      return result;
+   }
+
+   protected void copyTo(Table<T> copy)
+   {
+      copy.columnName = this.columnName;
+      copy.columnMap.putAll(this.columnMap);
+      for (List<Object> row : this.table)
+      {
+         copy.table.add(new ArrayList<>(row));
+      }
+   }
+
    // =============== Properties ===============
 
    public String getColumnName()
