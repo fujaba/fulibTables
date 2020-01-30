@@ -4,23 +4,25 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-// TODO ObjectTable<T> ?
-public class ObjectTable extends Table<Object>
+public class ObjectTable<T> extends Table<T>
 {
    private ReflectorMap reflectorMap;
 
    // =============== Constructors ===============
 
-   public ObjectTable(Object... start)
+   @SafeVarargs
+   public ObjectTable(T... start)
    {
       super(start);
       this.initReflector(start);
    }
 
-   public ObjectTable(String colName, Object... start)
+   @SafeVarargs
+   public ObjectTable(String colName, T... start)
    {
       super(colName, start);
       this.initReflector(start);
@@ -32,7 +34,8 @@ public class ObjectTable extends Table<Object>
    }
 
    // TODO consider the packages of start[1..] too?
-   private void initReflector(Object... start)
+   @SafeVarargs
+   private final void initReflector(T... start)
    {
       if (start.length == 0)
       {
@@ -56,7 +59,7 @@ public class ObjectTable extends Table<Object>
 
    // =============== Methods ===============
 
-   public ObjectTable hasLink(String linkName, ObjectTable otherTable)
+   public ObjectTable<T> hasLink(String linkName, ObjectTable otherTable)
    {
       final int thisColumn = this.getColumn();
       final int otherColumn = this.columnMap.get(otherTable.getColumnName());
@@ -73,9 +76,9 @@ public class ObjectTable extends Table<Object>
 
    // --------------- Expansion ---------------
 
-   public ObjectTable expandLink(String newColumnName, String linkName)
+   public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
-      ObjectTable result = new ObjectTable(this);
+      ObjectTable<U> result = new ObjectTable<>(this);
       result.setReflectorMap(this.reflectorMap);
 
       result.setColumnName(newColumnName);
