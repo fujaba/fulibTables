@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  * @author Adrian Kunz
  * @since 1.2
  */
-public abstract class AbstractTable<T> implements Iterable<T>
+public class Table<T> implements Iterable<T>
 {
    // =============== Constants ===============
 
@@ -24,22 +24,27 @@ public abstract class AbstractTable<T> implements Iterable<T>
 
    // =============== Constructors ===============
 
-   public AbstractTable(String columnName)
+   public Table()
    {
       this.table = new ArrayList<>();
-      this.columnName = columnName;
       this.columnMap = new LinkedHashMap<>();
+   }
+
+   public Table(String columnName)
+   {
+      this();
+      this.columnName = columnName;
       this.columnMap.put(columnName, 0);
    }
 
    @SafeVarargs
-   public AbstractTable(T... start)
+   public Table(T... start)
    {
       this(DEFAULT_COLUMN_NAME, start);
    }
 
    @SafeVarargs
-   public AbstractTable(String columnName, T... start)
+   public Table(String columnName, T... start)
    {
       this(columnName);
       for (T current : start)
@@ -50,11 +55,28 @@ public abstract class AbstractTable<T> implements Iterable<T>
       }
    }
 
-   public AbstractTable(String columnName, AbstractTable<?> base)
+   protected Table(Table<?> base)
    {
-      this.columnName = columnName;
+      this.columnName = base.columnName;
       this.columnMap = base.columnMap;
       this.table = base.table;
+   }
+
+   public Table<T> copy()
+   {
+      final Table<T> result = new Table<>();
+      this.copyTo(result);
+      return result;
+   }
+
+   protected void copyTo(Table<T> copy)
+   {
+      copy.columnName = this.columnName;
+      copy.columnMap.putAll(this.columnMap);
+      for (List<Object> row : this.table)
+      {
+         copy.table.add(new ArrayList<>(row));
+      }
    }
 
    // =============== Properties ===============
@@ -146,7 +168,7 @@ public abstract class AbstractTable<T> implements Iterable<T>
    }
 
    // TODO what happens to the *Table objects that point to these columns?
-   public AbstractTable<T> dropColumns(String... columnNames)
+   public Table<T> dropColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
       this.columnMap.clear();
@@ -184,7 +206,7 @@ public abstract class AbstractTable<T> implements Iterable<T>
    }
 
    // TODO what happens to the *Table objects that point to the other columns?
-   public AbstractTable<T> selectColumns(String... columnNames)
+   public Table<T> selectColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
       this.columnMap.clear();
@@ -222,7 +244,7 @@ public abstract class AbstractTable<T> implements Iterable<T>
 
    // --------------- Filter ---------------
 
-   public AbstractTable<T> filter(Predicate<? super Object> predicate)
+   public Table<T> filter(Predicate<? super Object> predicate)
    {
       int column = this.getColumn();
       this.table.removeIf(row -> !predicate.test(row.get(column)));
@@ -232,7 +254,7 @@ public abstract class AbstractTable<T> implements Iterable<T>
    /**
     * @since 1.2
     */
-   public AbstractTable<T> filterRows(Predicate<? super Map<String, Object>> predicate)
+   public Table<T> filterRows(Predicate<? super Map<String, Object>> predicate)
    {
       return this.filterRowsImpl(predicate);
    }
@@ -241,12 +263,12 @@ public abstract class AbstractTable<T> implements Iterable<T>
     * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
     */
    @Deprecated
-   public AbstractTable<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   public Table<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
       return this.filterRowsImpl(predicate);
    }
 
-   private AbstractTable<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
+   private Table<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
       this.table.removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;
@@ -272,8 +294,8 @@ public abstract class AbstractTable<T> implements Iterable<T>
    {
       return new Iterator<T>()
       {
-         private final Iterator<List<Object>> listIterator = AbstractTable.this.table.iterator();
-         private final int column = AbstractTable.this.getColumn();
+         private final Iterator<List<Object>> listIterator = Table.this.table.iterator();
+         private final int column = Table.this.getColumn();
 
          @Override
          public boolean hasNext()

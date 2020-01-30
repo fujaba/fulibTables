@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class intTable extends AbstractTable<Integer>
+public class intTable extends Table<Integer>
 {
    // =============== Constructors ===============
 
@@ -13,9 +13,9 @@ public class intTable extends AbstractTable<Integer>
       super(start);
    }
 
-   public intTable(String columnName, AbstractTable<?> base)
+   protected intTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-public class floatTable extends AbstractTable<Float>
+public class floatTable extends Table<Float>
 {
    // =============== Constructors ===============
 
@@ -13,9 +13,9 @@ public class floatTable extends AbstractTable<Float>
       super(start);
    }
 
-   public floatTable(String columnName, AbstractTable<?> base)
+   protected floatTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

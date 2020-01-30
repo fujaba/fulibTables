@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // TODO ObjectTable<T> ?
-public class ObjectTable extends AbstractTable<Object>
+public class ObjectTable extends Table<Object>
 {
    private ReflectorMap reflectorMap;
 
@@ -25,9 +25,9 @@ public class ObjectTable extends AbstractTable<Object>
       this.initReflector(start);
    }
 
-   public ObjectTable(String columnName, AbstractTable<?> base)
+   protected ObjectTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    private void initReflector(Object... start)
@@ -104,9 +104,10 @@ public class ObjectTable extends AbstractTable<Object>
 
    public ObjectTable expandLink(String newColumnName, String linkName)
    {
-      ObjectTable result = new ObjectTable(newColumnName, this);
+      ObjectTable result = new ObjectTable(this);
       result.setReflectorMap(this.reflectorMap);
 
+      result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
@@ -180,48 +181,49 @@ public class ObjectTable extends AbstractTable<Object>
 
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
-      doubleTable result = new doubleTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      doubleTable result = new doubleTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
    public floatTable expandFloat(String newColumnName, String attrName)
    {
-      floatTable result = new floatTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      floatTable result = new floatTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
    public intTable expandInt(String newColumnName, String attrName)
    {
-      intTable result = new intTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      intTable result = new intTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
    public longTable expandLong(String newColumnName, String attrName)
    {
-      longTable result = new longTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      longTable result = new longTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
    public StringTable expandString(String newColumnName, String attrName)
    {
-      StringTable result = new StringTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      StringTable result = new StringTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
    public BooleanTable expandBoolean(String newColumnName, String attrName)
    {
-      BooleanTable result = new BooleanTable(newColumnName, this);
-      this.expandPrimitive(newColumnName, attrName);
+      BooleanTable result = new BooleanTable(this);
+      this.expandPrimitive(result, newColumnName, attrName);
       return result;
    }
 
-   private void expandPrimitive(String newColumnName, String attrName)
+   private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
    {
+      result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
       final int column = this.getColumn();
