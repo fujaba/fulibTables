@@ -24,11 +24,16 @@ public class Table<T> implements Iterable<T>
 
    // =============== Constructors ===============
 
-   public Table(String columnName)
+   public Table()
    {
       this.table = new ArrayList<>();
-      this.columnName = columnName;
       this.columnMap = new LinkedHashMap<>();
+   }
+
+   public Table(String columnName)
+   {
+      this();
+      this.columnName = columnName;
       this.columnMap.put(columnName, 0);
    }
 
