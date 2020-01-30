@@ -110,27 +110,9 @@ public class Table<T> implements Iterable<T>
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
-   public void setTable(ArrayList<ArrayList<Object>> table)
-   {
-      this.table = new ArrayList<>(table);
-   }
-
-   /**
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
    public LinkedHashMap<String, Integer> getColumnMap()
    {
       return new LinkedHashMap<>(this.columnMap);
-   }
-
-   /**
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
-   public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
-   {
-      this.columnMap = columnMap;
    }
 
    protected int getNewColumnNumber()

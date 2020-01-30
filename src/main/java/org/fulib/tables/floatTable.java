@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-public class floatTable extends Table<Float>
+public class floatTable extends PrimitiveTable<Float>
 {
    // =============== Constructors ===============
 

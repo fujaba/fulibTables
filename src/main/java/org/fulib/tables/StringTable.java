@@ -2,7 +2,7 @@ package org.fulib.tables;
 
 import java.util.stream.Collectors;
 
-public class StringTable extends Table<String>
+public class StringTable extends PrimitiveTable<String>
 {
    // =============== Constructors ===============
 

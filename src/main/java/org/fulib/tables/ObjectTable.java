@@ -54,6 +54,26 @@ public class ObjectTable extends Table<Object>
       this.reflectorMap = reflectorMap;
    }
 
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setTable(ArrayList<ArrayList<Object>> table)
+   {
+      this.table = new ArrayList<>(table);
+      return this;
+   }
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ObjectTable setColumnMap(LinkedHashMap<String, Integer> columnMap)
+   {
+      this.columnMap = columnMap;
+      return this;
+   }
+
    // =============== Methods ===============
 
    public ObjectTable hasLink(String linkName, ObjectTable otherTable)
