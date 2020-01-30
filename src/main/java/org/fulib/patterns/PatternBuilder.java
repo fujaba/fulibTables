@@ -105,6 +105,27 @@ public class PatternBuilder
       });
    }
 
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildInstanceOfConstraint(PatternObject object, Class<?> superClass)
+   {
+      return this.buildAttributeConstraint(object, new Predicate<Object>()
+      {
+         @Override
+         public boolean test(Object o)
+         {
+            return superClass.isInstance(o);
+         }
+
+         @Override
+         public String toString()
+         {
+            return "instanceof " + superClass.getCanonicalName();
+         }
+      });
+   }
+
    public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
       PatternObject... objects)
    {

@@ -257,6 +257,30 @@ public class AnyMatchingTest
       assertNotSame(a20Result.iterator().next(), r20Result.iterator().next());
    }
 
+   @Test
+   public void testTypeMatch()
+   {
+      // We expect that there is a student s20 with some attribute with value 20.
+
+      final PatternBuilder builder = FulibTables.patternBuilder();
+
+      final PatternObject s20PO = builder.buildPatternObject("s20");
+      builder.buildInstanceOfConstraint(s20PO, Student.class);
+
+      final PatternObject s20Attr1 = builder.buildPatternObject("s20Attr1");
+
+      builder.buildEqualityConstraint(s20Attr1, 20.0);
+      builder.buildPatternLink(s20PO, "*", s20Attr1);
+
+      final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
+      matcher.withRootPatternObjects(s20PO);
+      matcher.withRootObjects(this.all);
+      matcher.setDebugLogging(true);
+      matcher.match();
+      matcher.getDebugEvents().forEach(System.out::println);
+      final Student s20 = matcher.findOne(s20PO);
+   }
+
    // --------------- Helper Methods ---------------
 
    private static Object[] findAll(Object... roots)
