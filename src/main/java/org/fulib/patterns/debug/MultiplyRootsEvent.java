@@ -1,13 +1,15 @@
 package org.fulib.patterns.debug;
 
 import org.fulib.patterns.model.PatternObject;
+import org.fulib.tables.Table;
 
-public class MultiplyRootsEvent implements DebugEvent
+public class MultiplyRootsEvent extends TableDebugEvent
 {
    private final PatternObject root;
 
-   public MultiplyRootsEvent(PatternObject root)
+   public MultiplyRootsEvent(PatternObject root, Table<?> table)
    {
+      super(table);
       this.root = root;
    }
 
@@ -19,6 +21,6 @@ public class MultiplyRootsEvent implements DebugEvent
    @Override
    public String toString()
    {
-      return "multiplying by root " + this.root;
+      return "multiplying by root " + this.root + '\n' + this.getTableSnapshot();
    }
 }

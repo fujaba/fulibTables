@@ -1,13 +1,15 @@
 package org.fulib.patterns.debug;
 
 import org.fulib.patterns.model.RoleObject;
+import org.fulib.tables.Table;
 
-public class ExpandRoleEvent implements DebugEvent
+public class ExpandRoleEvent extends TableDebugEvent
 {
    private final RoleObject role;
 
-   public ExpandRoleEvent(RoleObject role)
+   public ExpandRoleEvent(RoleObject role, Table<?> table)
    {
+      super(table);
       this.role = role;
    }
 
@@ -19,6 +21,6 @@ public class ExpandRoleEvent implements DebugEvent
    @Override
    public String toString()
    {
-      return "expanding " + this.role;
+      return "expanding " + this.role + '\n' + this.getTableSnapshot();
    }
 }

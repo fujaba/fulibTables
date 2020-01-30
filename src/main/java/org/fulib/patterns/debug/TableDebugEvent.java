@@ -1,0 +1,18 @@
+package org.fulib.patterns.debug;
+
+import org.fulib.tables.Table;
+
+public class TableDebugEvent implements DebugEvent
+{
+   private final Table<?> tableSnapshot;
+
+   public TableDebugEvent(Table<?> table)
+   {
+      this.tableSnapshot = table.copy();
+   }
+
+   public Table<?> getTableSnapshot()
+   {
+      return this.tableSnapshot;
+   }
+}

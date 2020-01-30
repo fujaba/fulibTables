@@ -223,7 +223,7 @@ public class PatternMatcher
 
          if (this.events != null)
          {
-            this.events.add(new AttributeConstraintEvent(constraint));
+            this.events.add(new AttributeConstraintEvent(constraint, srcTable));
          }
 
          return true;
@@ -248,13 +248,13 @@ public class PatternMatcher
             }
          }
 
-         // use this
-         this.object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
+         final ObjectTable table = this.object2TableMap.get(constraint.getObjects().get(0));
+         table.filterRow(constraint.predicate);
          matchConstraints.remove(constraint);
 
          if (this.events != null)
          {
-            this.events.add(new MatchConstraintEvent(constraint));
+            this.events.add(new MatchConstraintEvent(constraint, table));
          }
 
          return true;
@@ -300,7 +300,7 @@ public class PatternMatcher
 
          if (this.events != null)
          {
-            this.events.add(new HasLinkEvent(role));
+            this.events.add(new HasLinkEvent(role, srcTable));
          }
 
          return true;
@@ -343,7 +343,7 @@ public class PatternMatcher
 
          if (this.events != null)
          {
-            this.events.add(new ExpandRoleEvent(role));
+            this.events.add(new ExpandRoleEvent(role, srcTable));
          }
 
          return true;
@@ -364,7 +364,7 @@ public class PatternMatcher
 
       if (this.events != null)
       {
-         this.events.add(new MultiplyRootsEvent(nextRoot));
+         this.events.add(new MultiplyRootsEvent(nextRoot, nextTable));
       }
 
       return true;
