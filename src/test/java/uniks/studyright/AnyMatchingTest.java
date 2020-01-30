@@ -16,6 +16,7 @@ import uniks.studyright.model.University;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class AnyMatchingTest
 {
@@ -193,6 +194,52 @@ public class AnyMatchingTest
       assertEquals(1, match.rowCount());
    }
 
+   @Test
+   public void multiMatch()
+   {
+      // We expect that there are some objects a20 and r20 that have some attribute with value 20.
+      // (that would be Alice and R2 both with 20 credits)
+
+      final PatternBuilder builder = FulibTables.patternBuilder();
+
+      final PatternObject a20 = builder.buildPatternObject("a20");
+      final PatternObject a20Attr1 = builder.buildPatternObject("a20Attr1");
+
+      builder.buildEqualityConstraint(a20Attr1, 20.0);
+      builder.buildPatternLink(a20, "*", a20Attr1);
+
+      final PatternObject r20 = builder.buildPatternObject("r20");
+      final PatternObject r20Attr1 = builder.buildPatternObject("r20Attr1");
+
+      builder.buildEqualityConstraint(r20Attr1, 20.0);
+      builder.buildPatternLink(r20, "*", r20Attr1);
+
+      // because a20 and r20 are used in the same sentence, we interpret them as being two different objects:
+      builder.buildInequalityConstraint(a20, r20);
+      // had the sentence(s) been:
+      // We expect that there is some object a20 that has some attribute with value 20.
+      // We expect that there is some object r20 that has some attribute with value 20.
+      // a20 would have been allowed to be the same as r20.
+
+      final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
+      matcher.getRootPatternObjects().add(a20);
+      matcher.getRootPatternObjects().add(r20);
+      Collections.addAll(matcher.getRootObjects(), this.all);
+      matcher.match();
+      final ObjectTable a20Result = matcher.getMatchTable(a20);
+      final ObjectTable r20Result = matcher.getMatchTable(r20);
+
+      // there can be 2 results,
+      // - a20=Alice and r20=R2
+      // - a20=R2 and r20=Alice
+      // both are equally valid without further specification
+      assertEquals(2, a20Result.rowCount());
+
+      // sanity check:
+
+      assertNotSame(a20Result.iterator().next(), r20Result.iterator().next());
+   }
+
    // --------------- Helper Methods ---------------
 
    private static Object[] findAll(Object... roots)
@@ -210,7 +257,7 @@ public class AnyMatchingTest
    // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
    private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
    {
-      if (!map.canReflect(root))
+      if (root == null || !map.canReflect(root))
       {
          return;
       }

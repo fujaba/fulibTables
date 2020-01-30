@@ -12,6 +12,10 @@ public class PatternMatcher
 
    private Pattern pattern;
    private Map<PatternObject, ObjectTable> object2TableMap;
+
+   private List<PatternObject> rootPatternObjects = new ArrayList<>();
+   private List<Object> rootObjects = new ArrayList<>();
+
    private List<DebugEvent> events;
 
    // =============== Constructors ===============
@@ -72,6 +76,22 @@ public class PatternMatcher
       return this.events == null ? Collections.emptyList() : Collections.unmodifiableList(this.events);
    }
 
+   /**
+    * @since 1.2
+    */
+   public List<PatternObject> getRootPatternObjects()
+   {
+      return this.rootPatternObjects;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public List<Object> getRootObjects()
+   {
+      return this.rootObjects;
+   }
+
    // =============== Methods ===============
 
    public ObjectTable match(String patternObjectName, Object... startObjects)
@@ -84,13 +104,12 @@ public class PatternMatcher
     */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
-      ObjectTable result = new ObjectTable(patternObject.getName(), startObjects);
-      this.object2TableMap = new LinkedHashMap<>();
-      this.object2TableMap.put(patternObject, result);
+      this.rootPatternObjects.add(patternObject);
+      Collections.addAll(this.rootObjects, startObjects);
 
       this.match();
 
-      return result;
+      return this.getMatchTable(patternObject);
    }
 
    /**
@@ -98,9 +117,17 @@ public class PatternMatcher
     */
    public void match()
    {
+      this.object2TableMap = new LinkedHashMap<>();
+
+      Deque<PatternObject> rootPatternObjects = new ArrayDeque<>(this.rootPatternObjects);
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
       List<AttributeConstraint> attributeConstraints = new ArrayList<>(this.pattern.getAttributeConstraints());
       List<MatchConstraint> matchConstraints = new ArrayList<>(this.pattern.getMatchConstraints());
+
+      final PatternObject firstPatternObject = rootPatternObjects.removeFirst();
+      // TODO ObjectTable constructor that takes a Collection
+      final ObjectTable firstTable = new ObjectTable(firstPatternObject.getName(), this.rootObjects.toArray());
+      this.object2TableMap.put(firstPatternObject, firstTable);
 
       while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
@@ -120,6 +147,11 @@ public class PatternMatcher
          }
 
          if (this.expandByRole(roles))
+         {
+            continue;
+         }
+
+         if (this.multiplyRoots(rootPatternObjects, firstTable))
          {
             continue;
          }
@@ -272,5 +304,24 @@ public class PatternMatcher
          return true;
       }
       return false;
+   }
+
+   private boolean multiplyRoots(Deque<PatternObject> rootPatternObjects, ObjectTable firstTable)
+   {
+      if (rootPatternObjects.isEmpty())
+      {
+         return false;
+      }
+
+      final PatternObject nextRoot = rootPatternObjects.removeFirst();
+      final ObjectTable nextTable = firstTable.multiply(nextRoot.getName(), this.rootObjects);
+      this.object2TableMap.put(nextRoot, nextTable);
+
+      if (this.events != null)
+      {
+         this.events.add(new MultiplyRootsEvent(nextRoot));
+      }
+
+      return true;
    }
 }
