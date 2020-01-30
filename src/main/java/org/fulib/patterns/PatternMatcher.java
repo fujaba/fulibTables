@@ -147,6 +147,11 @@ public class PatternMatcher
       final ObjectTable firstTable = new ObjectTable(firstPatternObject.getName(), this.rootObjects.toArray());
       this.object2TableMap.put(firstPatternObject, firstTable);
 
+      if (this.events != null)
+      {
+         this.events.add(new MultiplyRootsEvent(firstPatternObject, firstTable));
+      }
+
       while (!roles.isEmpty() || !attributeConstraints.isEmpty() || !matchConstraints.isEmpty())
       {
          if (this.checkAttributeConstraint(attributeConstraints))
