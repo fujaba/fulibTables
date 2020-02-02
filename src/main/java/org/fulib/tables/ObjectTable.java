@@ -76,7 +76,7 @@ public class ObjectTable extends Table<Object>
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public ObjectTable hasAnyLink(ObjectTable otherTable)
    {
@@ -127,7 +127,7 @@ public class ObjectTable extends Table<Object>
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public ObjectTable expandAll(String newColumnName)
    {
@@ -250,7 +250,7 @@ public class ObjectTable extends Table<Object>
     * @return see {@link #multiply(String, Collection)}
     *
     * @see #multiply(String, Collection)
-    * @since 1.2
+    * @since 1.3
     */
    public ObjectTable multiply(String newColumnName, Object... items)
    {
@@ -333,7 +333,7 @@ public class ObjectTable extends Table<Object>
     *
     * @return a new table pointing to the new column
     *
-    * @since 1.2
+    * @since 1.3
     */
    // TODO name, could also be crossProduct, crossMultiply, cartesianProduct
    public ObjectTable multiply(String newColumnName, Collection<?> items)

@@ -85,7 +85,7 @@ public class PatternBuilder
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public PatternBuilder buildEqualityConstraint(PatternObject object, Object value)
    {
@@ -106,7 +106,7 @@ public class PatternBuilder
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public PatternBuilder buildInstanceOfConstraint(PatternObject object, Class<?> superClass)
    {

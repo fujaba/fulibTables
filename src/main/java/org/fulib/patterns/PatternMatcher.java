@@ -37,7 +37,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public ObjectTable getMatchTable(PatternObject pattern)
    {
@@ -45,7 +45,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public boolean isDebugLogging()
    {
@@ -53,7 +53,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public void setDebugLogging(boolean eventLogging)
    {
@@ -69,7 +69,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public List<DebugEvent> getDebugEvents()
    {
@@ -77,7 +77,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public List<PatternObject> getRootPatternObjects()
    {
@@ -85,7 +85,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public PatternMatcher withRootPatternObjects(PatternObject patternObject)
    {
@@ -94,7 +94,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public List<Object> getRootObjects()
    {
@@ -102,7 +102,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public PatternMatcher withRootObjects(Object... objects)
    {
@@ -131,7 +131,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public void match()
    {
@@ -184,7 +184,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public <T> T findOne(PatternObject patternObject)
    {
@@ -202,7 +202,7 @@ public class PatternMatcher
    }
 
    /**
-    * @since 1.2
+    * @since 1.3
     */
    public <T> List<T> findAll(PatternObject patternObject)
    {
