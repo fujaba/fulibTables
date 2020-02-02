@@ -263,6 +263,7 @@ public class ObjectTable extends Table<Object>
     * For example, if this table is:
     *
     * <table>
+    *    <caption>First table</caption>
     *    <tr>
     *       <th>A</th>
     *       <th>B</th>
@@ -281,6 +282,7 @@ public class ObjectTable extends Table<Object>
     * and the new items and column name are:
     *
     * <table>
+    *    <caption>Second table</caption>
     *    <tr>
     *       <th>C</th>
     *    </tr>
@@ -296,6 +298,7 @@ public class ObjectTable extends Table<Object>
     * the resulting table is:
     *
     * <table>
+    *    <caption>Resulting table</caption>
     *    <tr>
     *       <th>A</th>
     *       <th>B</th>
