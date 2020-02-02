@@ -45,6 +45,9 @@ public class PatternMatcher
       return this.match(this.pattern.getObject(patternObjectName), startObjects);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
