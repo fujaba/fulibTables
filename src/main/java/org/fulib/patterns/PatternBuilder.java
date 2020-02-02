@@ -134,6 +134,9 @@ public class PatternBuilder
       return this;
    }
 
+   /**
+    * @since 1.3
+    */
    public PatternBuilder buildInequalityConstraint(PatternObject a, PatternObject b)
    {
       return this.buildMatchConstraint(new Predicate<Map<String, Object>>()

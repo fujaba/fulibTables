@@ -2,6 +2,9 @@ package org.fulib.patterns;
 
 import org.fulib.patterns.model.PatternObject;
 
+/**
+ * @since 1.3
+ */
 public class NoMatchException extends RuntimeException
 {
    private final PatternObject patternObject;

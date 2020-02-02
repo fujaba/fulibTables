@@ -3,6 +3,9 @@ package org.fulib.patterns.debug;
 import org.fulib.patterns.model.PatternObject;
 import org.fulib.tables.Table;
 
+/**
+ * @since 1.3
+ */
 public class MultiplyRootsEvent extends TableDebugEvent
 {
    private final PatternObject root;

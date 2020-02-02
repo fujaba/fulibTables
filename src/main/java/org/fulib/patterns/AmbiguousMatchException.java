@@ -4,6 +4,9 @@ import org.fulib.patterns.model.PatternObject;
 
 import java.util.List;
 
+/**
+ * @since 1.3
+ */
 public class AmbiguousMatchException extends RuntimeException
 {
    private final PatternObject patternObject;

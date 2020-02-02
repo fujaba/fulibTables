@@ -3,6 +3,9 @@ package org.fulib.patterns.debug;
 import org.fulib.patterns.model.AttributeConstraint;
 import org.fulib.tables.Table;
 
+/**
+ * @since 1.3
+ */
 public class AttributeConstraintEvent extends TableDebugEvent
 {
    private final AttributeConstraint constraint;
