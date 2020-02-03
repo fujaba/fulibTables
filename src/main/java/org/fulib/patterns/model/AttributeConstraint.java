@@ -14,6 +14,10 @@ public class AttributeConstraint
 
    // =============== Fields ===============
 
+   /**
+    * @deprecated since 1.2; use {@link #getPredicate()} or {@link #setPredicate(Predicate)} instead
+    */
+   @Deprecated
    public Predicate predicate;
 
    private PatternObject object = null;
@@ -71,6 +75,14 @@ public class AttributeConstraint
          this.firePropertyChange("pattern", oldValue, value);
       }
       return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public Predicate getPredicate()
+   {
+      return this.predicate;
    }
 
    public AttributeConstraint setPredicate(Predicate value)

@@ -99,7 +99,7 @@ public class PatternMatcher
             continue; //=======================
          }
 
-         srcTable.filter(constraint.predicate);
+         srcTable.filter(constraint.getPredicate());
          attributeConstraints.remove(constraint);
 
          return true;
