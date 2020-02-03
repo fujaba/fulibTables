@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class MatchConstraint
@@ -29,7 +30,7 @@ public class MatchConstraint
     * @deprecated since 1.2; use {@link #getPredicate()} or {@link #setPredicate(Predicate)} instead
     */
    @Deprecated
-   public Predicate predicate;
+   public Predicate<? super Map<String, Object>> predicate;
 
    private ArrayList<PatternObject> objects = null;
    private Pattern pattern = null;
@@ -148,16 +149,16 @@ public class MatchConstraint
    /**
     * @since 1.2
     */
-   public Predicate getPredicate()
+   public Predicate<? super Map<String, Object>> getPredicate()
    {
       return this.predicate;
    }
 
-   public MatchConstraint setPredicate(Predicate value)
+   public MatchConstraint setPredicate(Predicate<? super Map<String, Object>> value)
    {
       if (value != this.predicate)
       {
-         Predicate oldValue = this.predicate;
+         Predicate<? super Map<String, Object>> oldValue = this.predicate;
          this.predicate = value;
          this.firePropertyChange("predicate", oldValue, value);
       }
