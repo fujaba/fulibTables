@@ -18,7 +18,7 @@ public class AttributeConstraint
     * @deprecated since 1.2; use {@link #getPredicate()} or {@link #setPredicate(Predicate)} instead
     */
    @Deprecated
-   public Predicate predicate;
+   public Predicate<? super Object> predicate;
 
    private PatternObject object = null;
    private Pattern pattern = null;
@@ -80,16 +80,16 @@ public class AttributeConstraint
    /**
     * @since 1.2
     */
-   public Predicate getPredicate()
+   public Predicate<? super Object> getPredicate()
    {
       return this.predicate;
    }
 
-   public AttributeConstraint setPredicate(Predicate value)
+   public AttributeConstraint setPredicate(Predicate<? super Object> value)
    {
       if (value != this.predicate)
       {
-         Predicate oldValue = this.predicate;
+         Predicate<? super Object> oldValue = this.predicate;
          this.predicate = value;
          this.firePropertyChange("predicate", oldValue, value);
       }
