@@ -6,9 +6,72 @@ import java.util.function.Predicate;
 
 public class AttributeConstraint
 {
+   // =============== Constants ===============
+
    public static final String PROPERTY_predicate = "predicate";
+   public static final String PROPERTY_object = "object";
+   public static final String PROPERTY_pattern = "pattern";
+
+   // =============== Fields ===============
 
    public Predicate predicate;
+
+   private PatternObject object = null;
+   private Pattern pattern = null;
+
+   protected PropertyChangeSupport listeners = null;
+
+   // =============== Properties ===============
+
+   public PatternObject getObject()
+   {
+      return this.object;
+   }
+
+   public AttributeConstraint setObject(PatternObject value)
+   {
+      if (this.object != value)
+      {
+         PatternObject oldValue = this.object;
+         if (this.object != null)
+         {
+            this.object = null;
+            oldValue.withoutAttributeConstraints(this);
+         }
+         this.object = value;
+         if (value != null)
+         {
+            value.withAttributeConstraints(this);
+         }
+         this.firePropertyChange("object", oldValue, value);
+      }
+      return this;
+   }
+
+   public Pattern getPattern()
+   {
+      return this.pattern;
+   }
+
+   public AttributeConstraint setPattern(Pattern value)
+   {
+      if (this.pattern != value)
+      {
+         Pattern oldValue = this.pattern;
+         if (this.pattern != null)
+         {
+            this.pattern = null;
+            oldValue.withoutAttributeConstraints(this);
+         }
+         this.pattern = value;
+         if (value != null)
+         {
+            value.withAttributeConstraints(this);
+         }
+         this.firePropertyChange("pattern", oldValue, value);
+      }
+      return this;
+   }
 
    public AttributeConstraint setPredicate(Predicate value)
    {
@@ -21,7 +84,7 @@ public class AttributeConstraint
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
+   // =============== Methods ===============
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -75,63 +138,5 @@ public class AttributeConstraint
    {
       this.setPattern(null);
       this.setObject(null);
-   }
-
-   public static final String PROPERTY_object = "object";
-
-   private PatternObject object = null;
-
-   public PatternObject getObject()
-   {
-      return this.object;
-   }
-
-   public AttributeConstraint setObject(PatternObject value)
-   {
-      if (this.object != value)
-      {
-         PatternObject oldValue = this.object;
-         if (this.object != null)
-         {
-            this.object = null;
-            oldValue.withoutAttributeConstraints(this);
-         }
-         this.object = value;
-         if (value != null)
-         {
-            value.withAttributeConstraints(this);
-         }
-         this.firePropertyChange("object", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_pattern = "pattern";
-
-   private Pattern pattern = null;
-
-   public Pattern getPattern()
-   {
-      return this.pattern;
-   }
-
-   public AttributeConstraint setPattern(Pattern value)
-   {
-      if (this.pattern != value)
-      {
-         Pattern oldValue = this.pattern;
-         if (this.pattern != null)
-         {
-            this.pattern = null;
-            oldValue.withoutAttributeConstraints(this);
-         }
-         this.pattern = value;
-         if (value != null)
-         {
-            value.withAttributeConstraints(this);
-         }
-         this.firePropertyChange("pattern", oldValue, value);
-      }
-      return this;
    }
 }
