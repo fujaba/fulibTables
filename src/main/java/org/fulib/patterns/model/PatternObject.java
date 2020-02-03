@@ -8,30 +8,52 @@ import java.util.Objects;
 
 public class PatternObject
 {
-
-   public static final String PROPERTY_name = "name";
-
-   private String name;
-
-   public String getName()
-   {
-      return this.name;
-   }
-
-   public PatternObject setName(String value)
-   {
-      if (!Objects.equals(value, this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         this.firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
+   // =============== Constants ===============
 
    public static final String PROPERTY_pattern = "pattern";
+   public static final String PROPERTY_name = "name";
+   public static final String PROPERTY_roles = "roles";
+   public static final String PROPERTY_attributeConstraints = "attributeConstraints";
+   public static final String PROPERTY_matchConstraints = "matchConstraints";
+
+   public static final ArrayList<RoleObject> EMPTY_roles = new ArrayList<RoleObject>()
+   {
+      @Override
+      public boolean add(RoleObject value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withRoles(obj)");
+      }
+   };
+   public static final ArrayList<AttributeConstraint> EMPTY_attributeConstraints = new ArrayList<AttributeConstraint>()
+   {
+      // =============== Methods ===============
+      @Override
+      public boolean add(AttributeConstraint value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withAttributeConstraints(obj)");
+      }
+   };
+   public static final ArrayList<MatchConstraint> EMPTY_matchConstraints = new ArrayList<MatchConstraint>()
+   {
+      // =============== Methods ===============
+      @Override
+      public boolean add(MatchConstraint value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withMatchConstraints(obj)");
+      }
+   };
+
+   // =============== Fields ===============
 
    private Pattern pattern = null;
+   private String name;
+   private ArrayList<RoleObject> roles = null;
+   private ArrayList<AttributeConstraint> attributeConstraints = null;
+   private ArrayList<MatchConstraint> matchConstraints = null;
+
+   protected PropertyChangeSupport listeners = null;
+
+   // =============== Properties ===============
 
    public Pattern getPattern()
    {
@@ -58,18 +80,21 @@ public class PatternObject
       return this;
    }
 
-   public static final ArrayList<RoleObject> EMPTY_roles = new ArrayList<RoleObject>()
+   public String getName()
    {
-      @Override
-      public boolean add(RoleObject value)
+      return this.name;
+   }
+
+   public PatternObject setName(String value)
+   {
+      if (!Objects.equals(value, this.name))
       {
-         throw new UnsupportedOperationException("No direct add! Use xy.withRoles(obj)");
+         String oldValue = this.name;
+         this.name = value;
+         this.firePropertyChange("name", oldValue, value);
       }
-   };
-
-   public static final String PROPERTY_roles = "roles";
-
-   private ArrayList<RoleObject> roles = null;
+      return this;
+   }
 
    public ArrayList<RoleObject> getRoles()
    {
@@ -153,80 +178,6 @@ public class PatternObject
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      this.listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      this.listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   public void removeYou()
-   {
-      this.setPattern(null);
-
-      this.withoutRoles(this.getRoles().clone());
-
-      this.withoutAttributeConstraints(this.getAttributeConstraints().clone());
-
-      this.withoutMatchConstraints(this.getMatchConstraints().clone());
-   }
-
-   public static final ArrayList<AttributeConstraint> EMPTY_attributeConstraints = new ArrayList<AttributeConstraint>()
-   {
-      @Override
-      public boolean add(AttributeConstraint value)
-      {
-         throw new UnsupportedOperationException("No direct add! Use xy.withAttributeConstraints(obj)");
-      }
-   };
-
-   public static final String PROPERTY_attributeConstraints = "attributeConstraints";
-
-   private ArrayList<AttributeConstraint> attributeConstraints = null;
-
    public ArrayList<AttributeConstraint> getAttributeConstraints()
    {
       if (this.attributeConstraints == null)
@@ -309,19 +260,6 @@ public class PatternObject
       return this;
    }
 
-   public static final ArrayList<MatchConstraint> EMPTY_matchConstraints = new ArrayList<MatchConstraint>()
-   {
-      @Override
-      public boolean add(MatchConstraint value)
-      {
-         throw new UnsupportedOperationException("No direct add! Use xy.withMatchConstraints(obj)");
-      }
-   };
-
-   public static final String PROPERTY_matchConstraints = "matchConstraints";
-
-   private ArrayList<MatchConstraint> matchConstraints = null;
-
    public ArrayList<MatchConstraint> getMatchConstraints()
    {
       if (this.matchConstraints == null)
@@ -402,6 +340,67 @@ public class PatternObject
          }
       }
       return this;
+   }
+
+   // =============== Methods ===============
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (this.listeners != null)
+      {
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      this.listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      this.listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (this.listeners != null)
+      {
+         this.listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (this.listeners != null)
+      {
+         this.listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   public void removeYou()
+   {
+      this.setPattern(null);
+
+      this.withoutRoles(this.getRoles().clone());
+
+      this.withoutAttributeConstraints(this.getAttributeConstraints().clone());
+
+      this.withoutMatchConstraints(this.getMatchConstraints().clone());
    }
 
    @Override
