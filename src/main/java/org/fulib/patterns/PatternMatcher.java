@@ -223,7 +223,7 @@ public class PatternMatcher
             continue; //=======================
          }
 
-         srcTable.filter(constraint.predicate);
+         srcTable.filter(constraint.getPredicate());
          attributeConstraints.remove(constraint);
 
          if (this.events != null)
@@ -254,7 +254,7 @@ public class PatternMatcher
          }
 
          final ObjectTable table = this.object2TableMap.get(constraint.getObjects().get(0));
-         table.filterRow(constraint.predicate);
+         table.filterRows(constraint.getPredicate());
          matchConstraints.remove(constraint);
 
          if (this.events != null)
