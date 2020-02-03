@@ -2,20 +2,26 @@ package org.fulib.patterns.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 public class Pattern
 {
-
-   public static final java.util.ArrayList<PatternObject> EMPTY_objects = new java.util.ArrayList<PatternObject>()
-   { @Override public boolean add(PatternObject value){ throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)"); }};
-
+   public static final ArrayList<PatternObject> EMPTY_objects = new ArrayList<PatternObject>()
+   {
+      @Override
+      public boolean add(PatternObject value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)");
+      }
+   };
 
    public static final String PROPERTY_objects = "objects";
 
-   private java.util.ArrayList<PatternObject> objects = null;
+   private ArrayList<PatternObject> objects = null;
 
-   public java.util.ArrayList<PatternObject> getObjects()
+   public ArrayList<PatternObject> getObjects()
    {
       if (this.objects == null)
       {
@@ -52,13 +58,19 @@ public class Pattern
 
    public Pattern withObjects(Object... value)
    {
-      if(value==null) return this;
+      if (value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withObjects(i);
             }
@@ -67,31 +79,38 @@ public class Pattern
          {
             if (this.objects == null)
             {
-               this.objects = new java.util.ArrayList<PatternObject>();
+               this.objects = new ArrayList<>();
             }
-            if ( ! this.objects.contains(item))
+            if (!this.objects.contains(item))
             {
-               this.objects.add((PatternObject)item);
-               ((PatternObject)item).setPattern(this);
-               firePropertyChange("objects", null, item);
+               this.objects.add((PatternObject) item);
+               ((PatternObject) item).setPattern(this);
+               this.firePropertyChange("objects", null, item);
             }
          }
-         else throw new IllegalArgumentException();
+         else
+         {
+            throw new IllegalArgumentException();
+         }
       }
       return this;
    }
 
-
-
    public Pattern withoutObjects(Object... value)
    {
-      if (this.objects == null || value==null) return this;
+      if (this.objects == null || value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withoutObjects(i);
             }
@@ -100,25 +119,29 @@ public class Pattern
          {
             if (this.objects.contains(item))
             {
-               this.objects.remove((PatternObject)item);
-               ((PatternObject)item).setPattern(null);
-               firePropertyChange("objects", item, null);
+               this.objects.remove(item);
+               ((PatternObject) item).setPattern(null);
+               this.firePropertyChange("objects", item, null);
             }
          }
       }
       return this;
    }
 
-
-   public static final java.util.ArrayList<RoleObject> EMPTY_roles = new java.util.ArrayList<RoleObject>()
-   { @Override public boolean add(RoleObject value){ throw new UnsupportedOperationException("No direct add! Use xy.withRoles(obj)"); }};
-
+   public static final ArrayList<RoleObject> EMPTY_roles = new ArrayList<RoleObject>()
+   {
+      @Override
+      public boolean add(RoleObject value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withRoles(obj)");
+      }
+   };
 
    public static final String PROPERTY_roles = "roles";
 
-   private java.util.ArrayList<RoleObject> roles = null;
+   private ArrayList<RoleObject> roles = null;
 
-   public java.util.ArrayList<RoleObject> getRoles()
+   public ArrayList<RoleObject> getRoles()
    {
       if (this.roles == null)
       {
@@ -130,13 +153,19 @@ public class Pattern
 
    public Pattern withRoles(Object... value)
    {
-      if(value==null) return this;
+      if (value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withRoles(i);
             }
@@ -145,31 +174,38 @@ public class Pattern
          {
             if (this.roles == null)
             {
-               this.roles = new java.util.ArrayList<RoleObject>();
+               this.roles = new ArrayList<>();
             }
-            if ( ! this.roles.contains(item))
+            if (!this.roles.contains(item))
             {
-               this.roles.add((RoleObject)item);
-               ((RoleObject)item).setPattern(this);
-               firePropertyChange("roles", null, item);
+               this.roles.add((RoleObject) item);
+               ((RoleObject) item).setPattern(this);
+               this.firePropertyChange("roles", null, item);
             }
          }
-         else throw new IllegalArgumentException();
+         else
+         {
+            throw new IllegalArgumentException();
+         }
       }
       return this;
    }
 
-
-
    public Pattern withoutRoles(Object... value)
    {
-      if (this.roles == null || value==null) return this;
+      if (this.roles == null || value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withoutRoles(i);
             }
@@ -178,23 +214,22 @@ public class Pattern
          {
             if (this.roles.contains(item))
             {
-               this.roles.remove((RoleObject)item);
-               ((RoleObject)item).setPattern(null);
-               firePropertyChange("roles", item, null);
+               this.roles.remove(item);
+               ((RoleObject) item).setPattern(null);
+               this.firePropertyChange("roles", item, null);
             }
          }
       }
       return this;
    }
 
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -202,76 +237,67 @@ public class Pattern
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
-
-
 
    public void removeYou()
    {
       this.withoutObjects(this.getObjects().clone());
 
-
       this.withoutRoles(this.getRoles().clone());
-
 
       this.withoutAttributeConstraints(this.getAttributeConstraints().clone());
 
-
       this.withoutMatchConstraints(this.getMatchConstraints().clone());
-
-
    }
 
-
-
-
-
-
-
-
-   public static final java.util.ArrayList<AttributeConstraint> EMPTY_attributeConstraints = new java.util.ArrayList<AttributeConstraint>()
-   { @Override public boolean add(AttributeConstraint value){ throw new UnsupportedOperationException("No direct add! Use xy.withAttributeConstraints(obj)"); }};
-
+   public static final ArrayList<AttributeConstraint> EMPTY_attributeConstraints = new ArrayList<AttributeConstraint>()
+   {
+      @Override
+      public boolean add(AttributeConstraint value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withAttributeConstraints(obj)");
+      }
+   };
 
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
 
-   private java.util.ArrayList<AttributeConstraint> attributeConstraints = null;
+   private ArrayList<AttributeConstraint> attributeConstraints = null;
 
-   public java.util.ArrayList<AttributeConstraint> getAttributeConstraints()
+   public ArrayList<AttributeConstraint> getAttributeConstraints()
    {
       if (this.attributeConstraints == null)
       {
@@ -283,13 +309,19 @@ public class Pattern
 
    public Pattern withAttributeConstraints(Object... value)
    {
-      if(value==null) return this;
+      if (value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withAttributeConstraints(i);
             }
@@ -298,31 +330,38 @@ public class Pattern
          {
             if (this.attributeConstraints == null)
             {
-               this.attributeConstraints = new java.util.ArrayList<AttributeConstraint>();
+               this.attributeConstraints = new ArrayList<>();
             }
-            if ( ! this.attributeConstraints.contains(item))
+            if (!this.attributeConstraints.contains(item))
             {
-               this.attributeConstraints.add((AttributeConstraint)item);
-               ((AttributeConstraint)item).setPattern(this);
-               firePropertyChange("attributeConstraints", null, item);
+               this.attributeConstraints.add((AttributeConstraint) item);
+               ((AttributeConstraint) item).setPattern(this);
+               this.firePropertyChange("attributeConstraints", null, item);
             }
          }
-         else throw new IllegalArgumentException();
+         else
+         {
+            throw new IllegalArgumentException();
+         }
       }
       return this;
    }
 
-
-
    public Pattern withoutAttributeConstraints(Object... value)
    {
-      if (this.attributeConstraints == null || value==null) return this;
+      if (this.attributeConstraints == null || value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withoutAttributeConstraints(i);
             }
@@ -331,25 +370,29 @@ public class Pattern
          {
             if (this.attributeConstraints.contains(item))
             {
-               this.attributeConstraints.remove((AttributeConstraint)item);
-               ((AttributeConstraint)item).setPattern(null);
-               firePropertyChange("attributeConstraints", item, null);
+               this.attributeConstraints.remove(item);
+               ((AttributeConstraint) item).setPattern(null);
+               this.firePropertyChange("attributeConstraints", item, null);
             }
          }
       }
       return this;
    }
 
-
-   public static final java.util.ArrayList<MatchConstraint> EMPTY_matchConstraints = new java.util.ArrayList<MatchConstraint>()
-   { @Override public boolean add(MatchConstraint value){ throw new UnsupportedOperationException("No direct add! Use xy.withMatchConstraints(obj)"); }};
-
+   public static final ArrayList<MatchConstraint> EMPTY_matchConstraints = new ArrayList<MatchConstraint>()
+   {
+      @Override
+      public boolean add(MatchConstraint value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withMatchConstraints(obj)");
+      }
+   };
 
    public static final String PROPERTY_matchConstraints = "matchConstraints";
 
-   private java.util.ArrayList<MatchConstraint> matchConstraints = null;
+   private ArrayList<MatchConstraint> matchConstraints = null;
 
-   public java.util.ArrayList<MatchConstraint> getMatchConstraints()
+   public ArrayList<MatchConstraint> getMatchConstraints()
    {
       if (this.matchConstraints == null)
       {
@@ -361,13 +404,19 @@ public class Pattern
 
    public Pattern withMatchConstraints(Object... value)
    {
-      if(value==null) return this;
+      if (value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withMatchConstraints(i);
             }
@@ -376,31 +425,38 @@ public class Pattern
          {
             if (this.matchConstraints == null)
             {
-               this.matchConstraints = new java.util.ArrayList<MatchConstraint>();
+               this.matchConstraints = new ArrayList<>();
             }
-            if ( ! this.matchConstraints.contains(item))
+            if (!this.matchConstraints.contains(item))
             {
-               this.matchConstraints.add((MatchConstraint)item);
-               ((MatchConstraint)item).setPattern(this);
-               firePropertyChange("matchConstraints", null, item);
+               this.matchConstraints.add((MatchConstraint) item);
+               ((MatchConstraint) item).setPattern(this);
+               this.firePropertyChange("matchConstraints", null, item);
             }
          }
-         else throw new IllegalArgumentException();
+         else
+         {
+            throw new IllegalArgumentException();
+         }
       }
       return this;
    }
 
-
-
    public Pattern withoutMatchConstraints(Object... value)
    {
-      if (this.matchConstraints == null || value==null) return this;
+      if (this.matchConstraints == null || value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withoutMatchConstraints(i);
             }
@@ -409,36 +465,12 @@ public class Pattern
          {
             if (this.matchConstraints.contains(item))
             {
-               this.matchConstraints.remove((MatchConstraint)item);
-               ((MatchConstraint)item).setPattern(null);
-               firePropertyChange("matchConstraints", item, null);
+               this.matchConstraints.remove(item);
+               ((MatchConstraint) item).setPattern(null);
+               this.firePropertyChange("matchConstraints", item, null);
             }
          }
       }
       return this;
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
