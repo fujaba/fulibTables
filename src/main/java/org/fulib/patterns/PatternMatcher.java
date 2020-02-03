@@ -125,7 +125,7 @@ public class PatternMatcher
          }
 
          // use this
-         this.object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
+         this.object2TableMap.get(constraint.getObjects().get(0)).filterRows(constraint.getPredicate());
          matchConstraints.remove(constraint);
 
          return true;
