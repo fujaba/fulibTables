@@ -1,10 +1,10 @@
 package org.fulib.patterns.model;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
-public class RoleObject  
+public class RoleObject
 {
 
    public static final String PROPERTY_name = "name";
@@ -13,20 +13,19 @@ public class RoleObject
 
    public String getName()
    {
-      return name;
+      return this.name;
    }
 
    public RoleObject setName(String value)
    {
-      if (value == null ? this.name != null : ! value.equals(this.name))
+      if (!Objects.equals(value, this.name))
       {
          String oldValue = this.name;
          this.name = value;
-         firePropertyChange("name", oldValue, value);
+         this.firePropertyChange("name", oldValue, value);
       }
       return this;
    }
-
 
    public static final String PROPERTY_pattern = "pattern";
 
@@ -52,23 +51,21 @@ public class RoleObject
          {
             value.withRoles(this);
          }
-         firePropertyChange("pattern", oldValue, value);
+         this.firePropertyChange("pattern", oldValue, value);
       }
       return this;
    }
 
+   public static final String PROPERTY_other = "other";
 
+   private RoleObject other = null;
 
-public static final String PROPERTY_other = "other";
-
-private RoleObject other = null;
-
-public RoleObject getOther()
+   public RoleObject getOther()
    {
       return this.other;
    }
 
-public RoleObject setOther(RoleObject value)
+   public RoleObject setOther(RoleObject value)
    {
       if (this.other != value)
       {
@@ -83,11 +80,10 @@ public RoleObject setOther(RoleObject value)
          {
             value.setOther(this);
          }
-         firePropertyChange("other", oldValue, value);
+         this.firePropertyChange("other", oldValue, value);
       }
       return this;
    }
-
 
    public static final String PROPERTY_object = "object";
 
@@ -113,20 +109,18 @@ public RoleObject setOther(RoleObject value)
          {
             value.withRoles(this);
          }
-         firePropertyChange("object", oldValue, value);
+         this.firePropertyChange("object", oldValue, value);
       }
       return this;
    }
-
-
 
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -134,38 +128,38 @@ public RoleObject setOther(RoleObject value)
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -177,7 +171,6 @@ public RoleObject setOther(RoleObject value)
 
       result.append(" ").append(this.getName());
 
-
       return result.substring(1);
    }
 
@@ -187,8 +180,5 @@ public RoleObject setOther(RoleObject value)
       this.setOther(null);
       this.setOther(null);
       this.setObject(null);
-
    }
-
-
 }
