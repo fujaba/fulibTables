@@ -8,20 +8,11 @@ import java.util.function.Predicate;
 
 public class MatchConstraint
 {
+   // =============== Constants ===============
+
    public static final String PROPERTY_predicate = "predicate";
-
-   public Predicate predicate;
-
-   public MatchConstraint setPredicate(Predicate value)
-   {
-      if (value != this.predicate)
-      {
-         Predicate oldValue = this.predicate;
-         this.predicate = value;
-         this.firePropertyChange("predicate", oldValue, value);
-      }
-      return this;
-   }
+   public static final String PROPERTY_objects = "objects";
+   public static final String PROPERTY_pattern = "pattern";
 
    public static final ArrayList<PatternObject> EMPTY_objects = new ArrayList<PatternObject>()
    {
@@ -32,9 +23,16 @@ public class MatchConstraint
       }
    };
 
-   public static final String PROPERTY_objects = "objects";
+   // =============== Fields ===============
+
+   public Predicate predicate;
 
    private ArrayList<PatternObject> objects = null;
+   private Pattern pattern = null;
+
+   protected PropertyChangeSupport listeners = null;
+
+   // =============== Properties ===============
 
    public ArrayList<PatternObject> getObjects()
    {
@@ -118,7 +116,43 @@ public class MatchConstraint
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
+   public Pattern getPattern()
+   {
+      return this.pattern;
+   }
+
+   public MatchConstraint setPattern(Pattern value)
+   {
+      if (this.pattern != value)
+      {
+         Pattern oldValue = this.pattern;
+         if (this.pattern != null)
+         {
+            this.pattern = null;
+            oldValue.withoutMatchConstraints(this);
+         }
+         this.pattern = value;
+         if (value != null)
+         {
+            value.withMatchConstraints(this);
+         }
+         this.firePropertyChange("pattern", oldValue, value);
+      }
+      return this;
+   }
+
+   public MatchConstraint setPredicate(Predicate value)
+   {
+      if (value != this.predicate)
+      {
+         Predicate oldValue = this.predicate;
+         this.predicate = value;
+         this.firePropertyChange("predicate", oldValue, value);
+      }
+      return this;
+   }
+
+   // =============== Methods ===============
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -173,34 +207,5 @@ public class MatchConstraint
       this.setPattern(null);
 
       this.withoutObjects(this.getObjects().clone());
-   }
-
-   public static final String PROPERTY_pattern = "pattern";
-
-   private Pattern pattern = null;
-
-   public Pattern getPattern()
-   {
-      return this.pattern;
-   }
-
-   public MatchConstraint setPattern(Pattern value)
-   {
-      if (this.pattern != value)
-      {
-         Pattern oldValue = this.pattern;
-         if (this.pattern != null)
-         {
-            this.pattern = null;
-            oldValue.withoutMatchConstraints(this);
-         }
-         this.pattern = value;
-         if (value != null)
-         {
-            value.withMatchConstraints(this);
-         }
-         this.firePropertyChange("pattern", oldValue, value);
-      }
-      return this;
    }
 }
