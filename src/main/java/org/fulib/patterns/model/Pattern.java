@@ -15,6 +15,10 @@ public class Pattern
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
    public static final String PROPERTY_matchConstraints = "matchConstraints";
 
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public static final ArrayList<PatternObject> EMPTY_objects = new ArrayList<PatternObject>()
    {
       @Override
@@ -23,6 +27,11 @@ public class Pattern
          throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)");
       }
    };
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public static final ArrayList<RoleObject> EMPTY_roles = new ArrayList<RoleObject>()
    {
       @Override
@@ -31,6 +40,11 @@ public class Pattern
          throw new UnsupportedOperationException("No direct add! Use xy.withRoles(obj)");
       }
    };
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public static final ArrayList<AttributeConstraint> EMPTY_attributeConstraints = new ArrayList<AttributeConstraint>()
    {
       @Override
@@ -39,6 +53,11 @@ public class Pattern
          throw new UnsupportedOperationException("No direct add! Use xy.withAttributeConstraints(obj)");
       }
    };
+
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public static final ArrayList<MatchConstraint> EMPTY_matchConstraints = new ArrayList<MatchConstraint>()
    {
       @Override
