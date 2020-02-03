@@ -95,7 +95,7 @@ public class Table<T> implements Iterable<T>
       this.columnName = columnName;
    }
 
-   public int getColumn()
+   protected int getColumn()
    {
       return this.columnMap.get(this.columnName);
    }
@@ -126,7 +126,7 @@ public class Table<T> implements Iterable<T>
 
    // =============== Methods ===============
 
-   public void addColumn(String columnName)
+   protected void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
    }
@@ -270,11 +270,19 @@ public class Table<T> implements Iterable<T>
       return map;
    }
 
+   /**
+    * @since 1.2
+    */
    public int rowCount()
    {
       return this.table.size();
    }
 
+   /**
+    * {@inheritDoc}
+    *
+    * @since 1.2
+    */
    @Override
    public Iterator<T> iterator()
    {
@@ -307,6 +315,9 @@ public class Table<T> implements Iterable<T>
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
+   /**
+    * @since 1.2
+    */
    public Stream<T> stream()
    {
       int column = this.getColumn();

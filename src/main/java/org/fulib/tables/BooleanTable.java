@@ -1,5 +1,8 @@
 package org.fulib.tables;
 
+/**
+ * @since 1.2
+ */
 public class BooleanTable extends Table<Boolean>
 {
    // =============== Constructors ===============

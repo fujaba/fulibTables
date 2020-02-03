@@ -80,7 +80,9 @@ public class PatternBuilder
     */
    public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Predicate<? super T> predicate)
    {
-      new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(this.pattern);
+      new AttributeConstraint().setPredicate((Predicate<? super Object>) predicate)
+                               .setObject(object)
+                               .setPattern(this.pattern);
       return this;
    }
 
