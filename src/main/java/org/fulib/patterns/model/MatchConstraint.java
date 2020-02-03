@@ -1,37 +1,42 @@
 package org.fulib.patterns.model;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Predicate;
 
-public class MatchConstraint  
+public class MatchConstraint
 {
    public static final String PROPERTY_predicate = "predicate";
 
-   public java.util.function.Predicate predicate;
+   public Predicate predicate;
 
-   public MatchConstraint setPredicate(java.util.function.Predicate value)
+   public MatchConstraint setPredicate(Predicate value)
    {
       if (value != this.predicate)
       {
-         java.util.function.Predicate oldValue = this.predicate;
+         Predicate oldValue = this.predicate;
          this.predicate = value;
-         firePropertyChange("predicate", oldValue, value);
+         this.firePropertyChange("predicate", oldValue, value);
       }
       return this;
    }
 
-
-
-   public static final java.util.ArrayList<PatternObject> EMPTY_objects = new java.util.ArrayList<PatternObject>()
-   { @Override public boolean add(PatternObject value){ throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)"); }};
-
+   public static final ArrayList<PatternObject> EMPTY_objects = new ArrayList<PatternObject>()
+   {
+      @Override
+      public boolean add(PatternObject value)
+      {
+         throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)");
+      }
+   };
 
    public static final String PROPERTY_objects = "objects";
 
-   private java.util.ArrayList<PatternObject> objects = null;
+   private ArrayList<PatternObject> objects = null;
 
-   public java.util.ArrayList<PatternObject> getObjects()
+   public ArrayList<PatternObject> getObjects()
    {
       if (this.objects == null)
       {
@@ -43,13 +48,19 @@ public class MatchConstraint
 
    public MatchConstraint withObjects(Object... value)
    {
-      if(value==null) return this;
+      if (value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withObjects(i);
             }
@@ -58,31 +69,38 @@ public class MatchConstraint
          {
             if (this.objects == null)
             {
-               this.objects = new java.util.ArrayList<PatternObject>();
+               this.objects = new ArrayList<>();
             }
-            if ( ! this.objects.contains(item))
+            if (!this.objects.contains(item))
             {
-               this.objects.add((PatternObject)item);
-               ((PatternObject)item).withMatchConstraints(this);
-               firePropertyChange("objects", null, item);
+               this.objects.add((PatternObject) item);
+               ((PatternObject) item).withMatchConstraints(this);
+               this.firePropertyChange("objects", null, item);
             }
          }
-         else throw new IllegalArgumentException();
+         else
+         {
+            throw new IllegalArgumentException();
+         }
       }
       return this;
    }
 
-
-
    public MatchConstraint withoutObjects(Object... value)
    {
-      if (this.objects == null || value==null) return this;
+      if (this.objects == null || value == null)
+      {
+         return this;
+      }
       for (Object item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
+         if (item == null)
          {
-            for (Object i : (java.util.Collection) item)
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
             {
                this.withoutObjects(i);
             }
@@ -91,23 +109,22 @@ public class MatchConstraint
          {
             if (this.objects.contains(item))
             {
-               this.objects.remove((PatternObject)item);
-               ((PatternObject)item).withoutMatchConstraints(this);
-               firePropertyChange("objects", item, null);
+               this.objects.remove(item);
+               ((PatternObject) item).withoutMatchConstraints(this);
+               this.firePropertyChange("objects", item, null);
             }
          }
       }
       return this;
    }
 
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -115,55 +132,48 @@ public class MatchConstraint
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
-
-
 
    public void removeYou()
    {
       this.setPattern(null);
 
       this.withoutObjects(this.getObjects().clone());
-
-
    }
-
-
-
 
    public static final String PROPERTY_pattern = "pattern";
 
@@ -189,31 +199,8 @@ public class MatchConstraint
          {
             value.withMatchConstraints(this);
          }
-         firePropertyChange("pattern", oldValue, value);
+         this.firePropertyChange("pattern", oldValue, value);
       }
       return this;
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
