@@ -15,6 +15,10 @@ public class MatchConstraint
    public static final String PROPERTY_objects = "objects";
    public static final String PROPERTY_pattern = "pattern";
 
+   /**
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
    public static final ArrayList<PatternObject> EMPTY_objects = new ArrayList<PatternObject>()
    {
       @Override
