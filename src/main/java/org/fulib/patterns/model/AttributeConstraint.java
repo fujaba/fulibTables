@@ -1,34 +1,33 @@
 package org.fulib.patterns.model;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.function.Predicate;
 
-public class AttributeConstraint  
+public class AttributeConstraint
 {
    public static final String PROPERTY_predicate = "predicate";
 
-   public java.util.function.Predicate predicate;
+   public Predicate predicate;
 
-   public AttributeConstraint setPredicate(java.util.function.Predicate value)
+   public AttributeConstraint setPredicate(Predicate value)
    {
       if (value != this.predicate)
       {
-         java.util.function.Predicate oldValue = this.predicate;
+         Predicate oldValue = this.predicate;
          this.predicate = value;
-         firePropertyChange("predicate", oldValue, value);
+         this.firePropertyChange("predicate", oldValue, value);
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -36,53 +35,47 @@ public class AttributeConstraint
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
-
-
 
    public void removeYou()
    {
       this.setPattern(null);
       this.setObject(null);
-
    }
-
-
-
 
    public static final String PROPERTY_object = "object";
 
@@ -108,16 +101,10 @@ public class AttributeConstraint
          {
             value.withAttributeConstraints(this);
          }
-         firePropertyChange("object", oldValue, value);
+         this.firePropertyChange("object", oldValue, value);
       }
       return this;
    }
-
-
-
-
-
-
 
    public static final String PROPERTY_pattern = "pattern";
 
@@ -143,31 +130,8 @@ public class AttributeConstraint
          {
             value.withAttributeConstraints(this);
          }
-         firePropertyChange("pattern", oldValue, value);
+         this.firePropertyChange("pattern", oldValue, value);
       }
       return this;
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
