@@ -6,30 +6,23 @@ import java.util.Objects;
 
 public class RoleObject
 {
+   // =============== Constants ===============
 
    public static final String PROPERTY_name = "name";
-
-   private String name;
-
-   public String getName()
-   {
-      return this.name;
-   }
-
-   public RoleObject setName(String value)
-   {
-      if (!Objects.equals(value, this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         this.firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_pattern = "pattern";
+   public static final String PROPERTY_other = "other";
+   public static final String PROPERTY_object = "object";
+
+   // =============== Fields ===============
 
    private Pattern pattern = null;
+   private PatternObject object = null;
+   private String name;
+   private RoleObject other = null;
+
+   protected PropertyChangeSupport listeners = null;
+
+   // =============== Properties ===============
 
    public Pattern getPattern()
    {
@@ -56,9 +49,46 @@ public class RoleObject
       return this;
    }
 
-   public static final String PROPERTY_other = "other";
+   public PatternObject getObject()
+   {
+      return this.object;
+   }
 
-   private RoleObject other = null;
+   public RoleObject setObject(PatternObject value)
+   {
+      if (this.object != value)
+      {
+         PatternObject oldValue = this.object;
+         if (this.object != null)
+         {
+            this.object = null;
+            oldValue.withoutRoles(this);
+         }
+         this.object = value;
+         if (value != null)
+         {
+            value.withRoles(this);
+         }
+         this.firePropertyChange("object", oldValue, value);
+      }
+      return this;
+   }
+
+   public String getName()
+   {
+      return this.name;
+   }
+
+   public RoleObject setName(String value)
+   {
+      if (!Objects.equals(value, this.name))
+      {
+         String oldValue = this.name;
+         this.name = value;
+         this.firePropertyChange("name", oldValue, value);
+      }
+      return this;
+   }
 
    public RoleObject getOther()
    {
@@ -85,36 +115,7 @@ public class RoleObject
       return this;
    }
 
-   public static final String PROPERTY_object = "object";
-
-   private PatternObject object = null;
-
-   public PatternObject getObject()
-   {
-      return this.object;
-   }
-
-   public RoleObject setObject(PatternObject value)
-   {
-      if (this.object != value)
-      {
-         PatternObject oldValue = this.object;
-         if (this.object != null)
-         {
-            this.object = null;
-            oldValue.withoutRoles(this);
-         }
-         this.object = value;
-         if (value != null)
-         {
-            value.withRoles(this);
-         }
-         this.firePropertyChange("object", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
+   // =============== Methods ===============
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -164,6 +165,14 @@ public class RoleObject
       return true;
    }
 
+   public void removeYou()
+   {
+      this.setPattern(null);
+      this.setOther(null);
+      this.setOther(null);
+      this.setObject(null);
+   }
+
    @Override
    public String toString()
    {
@@ -172,13 +181,5 @@ public class RoleObject
       result.append(" ").append(this.getName());
 
       return result.substring(1);
-   }
-
-   public void removeYou()
-   {
-      this.setPattern(null);
-      this.setOther(null);
-      this.setOther(null);
-      this.setObject(null);
    }
 }
