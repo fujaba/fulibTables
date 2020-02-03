@@ -95,7 +95,7 @@ public class Table<T> implements Iterable<T>
       this.columnName = columnName;
    }
 
-   public int getColumn()
+   protected int getColumn()
    {
       return this.columnMap.get(this.columnName);
    }
@@ -126,7 +126,7 @@ public class Table<T> implements Iterable<T>
 
    // =============== Methods ===============
 
-   public void addColumn(String columnName)
+   protected void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
    }
