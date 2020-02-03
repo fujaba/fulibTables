@@ -40,6 +40,9 @@ public class longTable extends PrimitiveTable<Long>
       return this.longStream().max().orElse(Long.MIN_VALUE);
    }
 
+   /**
+    * @since 1.2
+    */
    public double average()
    {
       return this.longStream().average().orElse(Double.NaN);

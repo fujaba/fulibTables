@@ -270,11 +270,19 @@ public class Table<T> implements Iterable<T>
       return map;
    }
 
+   /**
+    * @since 1.2
+    */
    public int rowCount()
    {
       return this.table.size();
    }
 
+   /**
+    * {@inheritDoc}
+    *
+    * @since 1.2
+    */
    @Override
    public Iterator<T> iterator()
    {
@@ -307,6 +315,9 @@ public class Table<T> implements Iterable<T>
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
+   /**
+    * @since 1.2
+    */
    public Stream<T> stream()
    {
       int column = this.getColumn();

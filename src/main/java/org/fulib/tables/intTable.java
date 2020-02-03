@@ -40,6 +40,9 @@ public class intTable extends PrimitiveTable<Integer>
       return this.intStream().max().orElse(Integer.MIN_VALUE);
    }
 
+   /**
+    * @since 1.2
+    */
    public double average()
    {
       return this.intStream().average().orElse(Double.NaN);

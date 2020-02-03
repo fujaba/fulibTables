@@ -33,6 +33,9 @@ public class PatternMatcher
       return new LinkedHashMap<>(this.object2TableMap);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable getMatchTable(PatternObject pattern)
    {
       return this.object2TableMap.get(pattern);
