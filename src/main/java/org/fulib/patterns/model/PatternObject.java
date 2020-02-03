@@ -59,13 +59,13 @@ public class PatternObject
 
    // =============== Fields ===============
 
-   private Pattern pattern = null;
+   private Pattern pattern;
    private String name;
-   private ArrayList<RoleObject> roles = null;
-   private ArrayList<AttributeConstraint> attributeConstraints = null;
-   private ArrayList<MatchConstraint> matchConstraints = null;
+   private ArrayList<RoleObject> roles;
+   private ArrayList<AttributeConstraint> attributeConstraints;
+   private ArrayList<MatchConstraint> matchConstraints;
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 

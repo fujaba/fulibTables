@@ -69,12 +69,12 @@ public class Pattern
 
    // =============== Fields ===============
 
-   private ArrayList<PatternObject> objects = null;
-   private ArrayList<RoleObject> roles = null;
-   private ArrayList<AttributeConstraint> attributeConstraints = null;
-   private ArrayList<MatchConstraint> matchConstraints = null;
+   private ArrayList<PatternObject> objects;
+   private ArrayList<RoleObject> roles;
+   private ArrayList<AttributeConstraint> attributeConstraints;
+   private ArrayList<MatchConstraint> matchConstraints;
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 

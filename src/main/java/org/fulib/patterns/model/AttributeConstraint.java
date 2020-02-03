@@ -20,10 +20,10 @@ public class AttributeConstraint
    @Deprecated
    public Predicate<? super Object> predicate;
 
-   private PatternObject object = null;
-   private Pattern pattern = null;
+   private PatternObject object;
+   private Pattern pattern;
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 

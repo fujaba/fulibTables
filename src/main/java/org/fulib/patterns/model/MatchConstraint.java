@@ -36,10 +36,10 @@ public class MatchConstraint
    @Deprecated
    public Predicate<? super Map<String, Object>> predicate;
 
-   private ArrayList<PatternObject> objects = null;
-   private Pattern pattern = null;
+   private ArrayList<PatternObject> objects;
+   private Pattern pattern;
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 

@@ -15,12 +15,12 @@ public class RoleObject
 
    // =============== Fields ===============
 
-   private Pattern pattern = null;
-   private PatternObject object = null;
+   private Pattern pattern;
+   private PatternObject object;
    private String name;
-   private RoleObject other = null;
+   private RoleObject other;
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 
