@@ -104,9 +104,27 @@ public class PatternMatcher
    /**
     * @since 1.3
     */
+   public PatternMatcher withRootObjects(Object object)
+   {
+      this.rootObjects.add(object);
+      return this;
+   }
+
+   /**
+    * @since 1.3
+    */
    public PatternMatcher withRootObjects(Object... objects)
    {
       Collections.addAll(this.rootObjects, objects);
+      return this;
+   }
+
+   /**
+    * @since 1.3
+    */
+   public PatternMatcher withRootObjects(Collection<?> objects)
+   {
+      this.rootObjects.addAll(objects);
       return this;
    }
 
