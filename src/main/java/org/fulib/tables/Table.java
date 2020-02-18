@@ -133,9 +133,21 @@ public class Table<T> implements Iterable<T>
 
    // --------------- Columns ---------------
 
-   // TODO deprecate and add overload
-   //      <U> ObjectTable<U> addColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
-   //      needs to use a different name though because of same erasure ...
+   /**
+    * @since 1.2
+    */
+   public <U> Table<U> deriveColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   {
+      this.addColumnImpl(columnName, function);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   /**
+    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
+    */
+   @Deprecated
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
    {
       this.addColumnImpl(columnName, function);

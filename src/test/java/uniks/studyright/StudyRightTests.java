@@ -184,7 +184,7 @@ public class StudyRightTests
       assertThat(integrals.getStudents().contains(alice), is(true));
 
       // show size of done
-      universityTable.addColumn("noOfDone",  row ->
+      universityTable.deriveColumn("noOfDone",  row ->
       {
          Student studi = (Student) row.get("Student");
          return studi.getDone().size();
@@ -224,7 +224,7 @@ public class StudyRightTests
       // start_code_fragment: FulibTables.nestedTables
       universityTable = new ObjectTable("University", studyRight);
       students = universityTable.expandLink("Students", "students");
-      students.addColumn("Credits", row -> {
+      students.deriveColumn("Credits", row -> {
          Student student = (Student) row.get("Students");
          double pointSum = new ObjectTable(student)
                .expandLink("Assignments", Student.PROPERTY_done)
@@ -232,7 +232,7 @@ public class StudyRightTests
          student.setCredits(pointSum);
          return pointSum;
       });
-      students.addColumn("Done", row -> {
+      students.deriveColumn("Done", row -> {
          Student student = (Student) row.get("Students");
          String doneTopics = new ObjectTable("Students", student)
                .expandLink("Assignments", Student.PROPERTY_done)
