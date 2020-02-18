@@ -32,7 +32,6 @@ public class ObjectTable<T> extends Table<T>
       super(base);
    }
 
-   // TODO consider the packages of start[1..] too?
    @SafeVarargs
    private final void initReflector(T... start)
    {
@@ -41,7 +40,10 @@ public class ObjectTable<T> extends Table<T>
          return;
       }
 
-      this.reflectorMap = new ReflectorMap(start[0].getClass().getPackage().getName());
+      final Set<String> packageNames = Arrays.stream(start)
+                                             .map(o -> o.getClass().getPackage().getName())
+                                             .collect(Collectors.toSet());
+      this.reflectorMap = new ReflectorMap(packageNames);
    }
 
    // =============== Properties ===============
@@ -60,7 +62,7 @@ public class ObjectTable<T> extends Table<T>
 
    public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
-      final int thisColumn = this.getColumn();
+      final int thisColumn = this.getColumnIndex();
       final int otherColumn = this.columnMap.get(otherTable.getColumnName());
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
@@ -83,7 +85,7 @@ public class ObjectTable<T> extends Table<T>
       result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
-      final int column = this.getColumn();
+      final int column = this.getColumnIndex();
 
       List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
@@ -159,7 +161,7 @@ public class ObjectTable<T> extends Table<T>
       result.setColumnName_(newColumnName);
       this.addColumn(newColumnName);
 
-      final int column = this.getColumn();
+      final int column = this.getColumnIndex();
       for (List<Object> row : this.table)
       {
          Object start = row.get(column);

@@ -1,36 +1,28 @@
 package org.fulib.patterns.model;
 
-import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
-public class RoleObject  
+public class RoleObject
 {
+   // =============== Constants ===============
 
    public static final String PROPERTY_name = "name";
-
-   private String name;
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public RoleObject setName(String value)
-   {
-      if (value == null ? this.name != null : ! value.equals(this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
-
-
    public static final String PROPERTY_pattern = "pattern";
+   public static final String PROPERTY_other = "other";
+   public static final String PROPERTY_object = "object";
 
-   private Pattern pattern = null;
+   // =============== Fields ===============
+
+   private Pattern pattern;
+   private PatternObject object;
+   private String name;
+   private RoleObject other;
+
+   protected PropertyChangeSupport listeners;
+
+   // =============== Properties ===============
 
    public Pattern getPattern()
    {
@@ -52,46 +44,10 @@ public class RoleObject
          {
             value.withRoles(this);
          }
-         firePropertyChange("pattern", oldValue, value);
+         this.firePropertyChange("pattern", oldValue, value);
       }
       return this;
    }
-
-
-
-public static final String PROPERTY_other = "other";
-
-private RoleObject other = null;
-
-public RoleObject getOther()
-   {
-      return this.other;
-   }
-
-public RoleObject setOther(RoleObject value)
-   {
-      if (this.other != value)
-      {
-         RoleObject oldValue = this.other;
-         if (this.other != null)
-         {
-            this.other = null;
-            oldValue.setOther(null);
-         }
-         this.other = value;
-         if (value != null)
-         {
-            value.setOther(this);
-         }
-         firePropertyChange("other", oldValue, value);
-      }
-      return this;
-   }
-
-
-   public static final String PROPERTY_object = "object";
-
-   private PatternObject object = null;
 
    public PatternObject getObject()
    {
@@ -113,20 +69,59 @@ public RoleObject setOther(RoleObject value)
          {
             value.withRoles(this);
          }
-         firePropertyChange("object", oldValue, value);
+         this.firePropertyChange("object", oldValue, value);
       }
       return this;
    }
 
+   public String getName()
+   {
+      return this.name;
+   }
 
+   public RoleObject setName(String value)
+   {
+      if (!Objects.equals(value, this.name))
+      {
+         String oldValue = this.name;
+         this.name = value;
+         this.firePropertyChange("name", oldValue, value);
+      }
+      return this;
+   }
 
-   protected PropertyChangeSupport listeners = null;
+   public RoleObject getOther()
+   {
+      return this.other;
+   }
+
+   public RoleObject setOther(RoleObject value)
+   {
+      if (this.other != value)
+      {
+         RoleObject oldValue = this.other;
+         if (this.other != null)
+         {
+            this.other = null;
+            oldValue.setOther(null);
+         }
+         this.other = value;
+         if (value != null)
+         {
+            value.setOther(this);
+         }
+         this.firePropertyChange("other", oldValue, value);
+      }
+      return this;
+   }
+
+   // =============== Methods ===============
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -134,40 +129,48 @@ public RoleObject setOther(RoleObject value)
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
+   }
+
+   public void removeYou()
+   {
+      this.setPattern(null);
+      this.setOther(null);
+      this.setOther(null);
+      this.setObject(null);
    }
 
    @Override
@@ -177,18 +180,6 @@ public RoleObject setOther(RoleObject value)
 
       result.append(" ").append(this.getName());
 
-
       return result.substring(1);
    }
-
-   public void removeYou()
-   {
-      this.setPattern(null);
-      this.setOther(null);
-      this.setOther(null);
-      this.setObject(null);
-
-   }
-
-
 }

@@ -95,9 +95,17 @@ public class Table<T> implements Iterable<T>
       this.columnName = columnName;
    }
 
-   public int getColumn()
+   protected int getColumnIndex()
    {
-      return this.columnMap.get(this.columnName);
+      final Integer column = this.columnMap.get(this.columnName);
+      if (column == null)
+      {
+         throw new IllegalStateException(
+            "Column '" + this.columnName + "' is no longer part of table columns " + this.columnMap.keySet() + ". "
+            + "It was likely evicted after a selectColumns or dropColumns operation. "
+            + "This Table instance is no longer valid");
+      }
+      return column;
    }
 
    /**
@@ -126,16 +134,28 @@ public class Table<T> implements Iterable<T>
 
    // =============== Methods ===============
 
-   public void addColumn(String columnName)
+   protected void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
    }
 
    // --------------- Columns ---------------
 
-   // TODO deprecate and add overload
-   //      <U> ObjectTable<U> addColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
-   //      needs to use a different name though because of same erasure ...
+   /**
+    * @since 1.2
+    */
+   public <U> Table<U> deriveColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   {
+      this.addColumnImpl(columnName, function);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   /**
+    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
+    */
+   @Deprecated
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
    {
       this.addColumnImpl(columnName, function);
@@ -232,7 +252,7 @@ public class Table<T> implements Iterable<T>
 
    public Table<T> filter(Predicate<? super Object> predicate)
    {
-      int column = this.getColumn();
+      int column = this.getColumnIndex();
       this.table.removeIf(row -> !predicate.test(row.get(column)));
       return this;
    }
@@ -270,18 +290,26 @@ public class Table<T> implements Iterable<T>
       return map;
    }
 
+   /**
+    * @since 1.2
+    */
    public int rowCount()
    {
       return this.table.size();
    }
 
+   /**
+    * {@inheritDoc}
+    *
+    * @since 1.2
+    */
    @Override
    public Iterator<T> iterator()
    {
       return new Iterator<T>()
       {
          private final Iterator<List<Object>> listIterator = Table.this.table.iterator();
-         private final int column = Table.this.getColumn();
+         private final int column = Table.this.getColumnIndex();
 
          @Override
          public boolean hasNext()
@@ -307,9 +335,12 @@ public class Table<T> implements Iterable<T>
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
+   /**
+    * @since 1.2
+    */
    public Stream<T> stream()
    {
-      int column = this.getColumn();
+      int column = this.getColumnIndex();
       return this.table.stream().map(l -> (T) l.get(column));
    }
 

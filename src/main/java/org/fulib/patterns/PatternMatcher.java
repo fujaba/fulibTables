@@ -33,6 +33,9 @@ public class PatternMatcher
       return new LinkedHashMap<>(this.object2TableMap);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable getMatchTable(PatternObject pattern)
    {
       return this.object2TableMap.get(pattern);
@@ -45,6 +48,9 @@ public class PatternMatcher
       return this.match(this.pattern.getObject(patternObjectName), startObjects);
    }
 
+   /**
+    * @since 1.2
+    */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)
    {
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());
@@ -96,7 +102,7 @@ public class PatternMatcher
             continue; //=======================
          }
 
-         srcTable.filter(constraint.predicate);
+         srcTable.filter(constraint.getPredicate());
          attributeConstraints.remove(constraint);
 
          return true;
@@ -122,7 +128,7 @@ public class PatternMatcher
          }
 
          // use this
-         this.object2TableMap.get(constraint.getObjects().get(0)).filterRow(constraint.predicate);
+         this.object2TableMap.get(constraint.getObjects().get(0)).filterRows(constraint.getPredicate());
          matchConstraints.remove(constraint);
 
          return true;
