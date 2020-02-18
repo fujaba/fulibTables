@@ -31,7 +31,6 @@ public class ObjectTable extends Table<Object>
       super(base);
    }
 
-   // TODO consider the packages of start[1..] too?
    private void initReflector(Object... start)
    {
       if (start.length == 0)
@@ -39,7 +38,10 @@ public class ObjectTable extends Table<Object>
          return;
       }
 
-      this.reflectorMap = new ReflectorMap(start[0].getClass().getPackage().getName());
+      final Set<String> packageNames = Arrays.stream(start)
+                                             .map(o -> o.getClass().getPackage().getName())
+                                             .collect(Collectors.toSet());
+      this.reflectorMap = new ReflectorMap(packageNames);
    }
 
    // =============== Properties ===============
