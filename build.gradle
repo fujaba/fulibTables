@@ -3,6 +3,7 @@ plugins {
    id 'maven-publish'
    id 'com.jfrog.bintray' version '1.8.4'
    id 'de.clashsoft.simple-publish' version '0.5.0'
+   id 'com.palantir.revapi' version '1.1.2'
 }
 
 // --------------- General Info ---------------
@@ -37,6 +38,8 @@ publishInfo {
 
 sourceCompatibility = 1.8
 
+sourceSets.create('gen')
+
 // --------------- Dependencies ---------------
 
 repositories {
@@ -47,7 +50,7 @@ repositories {
 
 dependencies {
    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
-   api group: 'org.fulib', name: 'fulibYaml', version: '1.1.0'
+   api group: 'org.fulib', name: 'fulibYaml', version: '1.2.0-dev.3'
 
    // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
    testRuntimeOnly group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.28'
@@ -56,8 +59,20 @@ dependencies {
    testImplementation group: 'junit', name: 'junit', version: '4.12'
 
    // https://mvnrepository.com/artifact/org.fulib/fulib
-   testImplementation group: 'org.fulib', name: 'fulib', version: '1.1.0'
+   def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.1.0' ]
 
    // https://mvnrepository.com/artifact/org.fulib/fulibTools
-   testImplementation group: 'org.fulib', name: 'fulibTools', version: '1.1.0'
+   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.1.0' ]
+
+   genCompile fulib
+   genCompile fulibTools
+
+   testImplementation fulib
+   testImplementation fulibTools
+}
+
+// --------------- Misc. Settings ---------------
+
+revapi {
+   oldVersion = '1.1.0'
 }

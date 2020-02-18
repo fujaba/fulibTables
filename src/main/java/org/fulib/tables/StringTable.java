@@ -2,7 +2,7 @@ package org.fulib.tables;
 
 import java.util.stream.Collectors;
 
-public class StringTable extends AbstractTable<String>
+public class StringTable extends PrimitiveTable<String>
 {
    // =============== Constructors ===============
 
@@ -11,9 +11,9 @@ public class StringTable extends AbstractTable<String>
       super(start);
    }
 
-   public StringTable(String columnName, AbstractTable<?> base)
+   protected StringTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

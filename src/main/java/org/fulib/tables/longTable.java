@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.LongStream;
 
-public class longTable extends AbstractTable<Long>
+public class longTable extends PrimitiveTable<Long>
 {
    // =============== Constructors ===============
 
@@ -13,9 +13,9 @@ public class longTable extends AbstractTable<Long>
       super(start);
    }
 
-   public longTable(String columnName, AbstractTable<?> base)
+   protected longTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============
@@ -40,6 +40,9 @@ public class longTable extends AbstractTable<Long>
       return this.longStream().max().orElse(Long.MIN_VALUE);
    }
 
+   /**
+    * @since 1.2
+    */
    public double average()
    {
       return this.longStream().average().orElse(Double.NaN);

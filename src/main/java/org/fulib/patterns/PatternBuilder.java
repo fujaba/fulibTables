@@ -1,51 +1,103 @@
 package org.fulib.patterns;
 
+import org.fulib.FulibTables;
 import org.fulib.patterns.model.*;
 
-import java.util.function.Function;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class PatternBuilder
 {
-   private String packageName;
+   // =============== Fields ===============
+
    private final Pattern pattern;
 
+   // =============== Constructors ===============
+
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder()
+   {
+      this.pattern = new Pattern();
+   }
+
+   /**
+    * @param packageName
+    *    unused
+    *
+    * @deprecated since 1.2, use {@link #PatternBuilder()} instead
+    */
+   @Deprecated
    public PatternBuilder(String packageName)
    {
-      this.packageName = packageName;
-
-      pattern = new Pattern();
+      this();
    }
+
+   // =============== Properties ===============
 
    public Pattern getPattern()
    {
-      return pattern;
+      return this.pattern;
    }
+
+   // =============== Methods ===============
 
    public PatternObject buildPatternObject(String name)
    {
       PatternObject patternObject = new PatternObject().setName(name);
-      pattern.withObjects(patternObject);
+      this.pattern.withObjects(patternObject);
       return patternObject;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternBuilder buildPatternLink(PatternObject src, String attrName, PatternObject tgt)
+   {
+      return this.buildPatternLink(src, null, attrName, tgt);
    }
 
    public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
    {
-      RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(pattern);
-      new RoleObject().setName(tgtRoleName).setObject(tgt).setOther(srcRole).setPattern(pattern);
+      RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(this.pattern);
+      new RoleObject().setName(tgtRoleName).setObject(tgt).setOther(srcRole).setPattern(this.pattern);
       return this;
    }
 
-   public PatternBuilder buildAttibuteConstraint(Predicate predicate, PatternObject object)
+   /**
+    * @deprecated since 1.2; use {@link #buildAttributeConstraint(PatternObject, Predicate)} instead (typo "Att_ibute")
+    */
+   @Deprecated
+   public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject object)
    {
-      AttributeConstraint constraint = new AttributeConstraint().setPredicate(predicate).setObject(object).setPattern(pattern);
-      return this;
+      return this.buildAttributeConstraint(object, predicate);
    }
 
-   public PatternBuilder buildMatchConstraint(Predicate predicate, PatternObject... objects)
+   /**
+    * @since 1.2
+    */
+   public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Predicate<? super T> predicate)
    {
-      MatchConstraint constraint = new MatchConstraint().setPredicate(predicate).withObjects(objects).setPattern(pattern);
+      new AttributeConstraint().setPredicate((Predicate<? super Object>) predicate)
+                               .setObject(object)
+                               .setPattern(this.pattern);
       return this;
    }
 
+   public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
+      PatternObject... objects)
+   {
+      //noinspection RedundantCast
+      new MatchConstraint().setPredicate(predicate).withObjects((Object[]) objects).setPattern(this.pattern);
+      return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   public PatternMatcher matcher()
+   {
+      return FulibTables.matcher(this.getPattern());
+   }
 }

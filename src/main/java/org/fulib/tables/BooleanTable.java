@@ -1,6 +1,9 @@
 package org.fulib.tables;
 
-public class BooleanTable extends AbstractTable<Boolean>
+/**
+ * @since 1.2
+ */
+public class BooleanTable extends Table<Boolean>
 {
    // =============== Constructors ===============
 
@@ -9,9 +12,9 @@ public class BooleanTable extends AbstractTable<Boolean>
       super(start);
    }
 
-   public BooleanTable(String columnName, AbstractTable<?> base)
+   protected BooleanTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============

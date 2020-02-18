@@ -3,25 +3,43 @@ package org.fulib.tables;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+/**
+ * @deprecated since 1.2; unused
+ */
+@Deprecated
 public class FulibTable
 {
-   private ArrayList<ArrayList> table = new ArrayList<>();
+   // =============== Fields ===============
 
-   public ArrayList<ArrayList > getTable()
+   private ArrayList<ArrayList> table = new ArrayList<>();
+   private String columnName = null;
+   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
+
+   // =============== Constructors ===============
+
+   public FulibTable(String... columnNames)
    {
-      return table;
+      for (String name : columnNames)
+      {
+         this.addColumn(name);
+      }
    }
 
-   public void setTable(ArrayList<ArrayList > table)
+   // =============== Properties ===============
+
+   public ArrayList<ArrayList> getTable()
+   {
+      return this.table;
+   }
+
+   public void setTable(ArrayList<ArrayList> table)
    {
       this.table = table;
    }
 
-   private String columnName = null;
-
    public String getColumnName()
    {
-      return columnName;
+      return this.columnName;
    }
 
    public void setColumnName(String columnName)
@@ -29,11 +47,9 @@ public class FulibTable
       this.columnName = columnName;
    }
 
-   private LinkedHashMap<String, Integer> columnMap = new LinkedHashMap<>();
-
    public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return columnMap;
+      return this.columnMap;
    }
 
    public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
@@ -41,24 +57,18 @@ public class FulibTable
       this.columnMap = columnMap;
    }
 
-   public FulibTable(String... columnNames)
-   {
-      for (String name : columnNames)
-      {
-         addColumn(name);
-      }
-   }
+   // =============== Methods ===============
 
    public void addColumn(String name)
    {
-      columnMap.put(name, columnMap.size());
+      this.columnMap.put(name, this.columnMap.size());
 
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.table)
       {
          row.add(null);
       }
 
-      setColumnName(name);
+      this.setColumnName(name);
    }
 
    public void addRow(ArrayList row)
@@ -66,17 +76,23 @@ public class FulibTable
       this.table.add(row);
    }
 
+   public Object getValue(String colName, int rowNumber)
+   {
+      Integer index = this.getColumnMap().get(colName);
+      ArrayList row = this.table.get(rowNumber);
+      return row.get(index);
+   }
 
    @Override
    public String toString()
    {
       StringBuilder buf = new StringBuilder();
-      for (String key : columnMap.keySet())
+      for (String key : this.columnMap.keySet())
       {
          buf.append(key).append(" \t");
       }
       buf.append("\n");
-      for (ArrayList<Object> row : table)
+      for (ArrayList<Object> row : this.table)
       {
          for (Object cell : row)
          {
@@ -87,14 +103,4 @@ public class FulibTable
       buf.append("\n");
       return buf.toString();
    }
-
-   public Object getValue(String colName, int rowNumber)
-   {
-      Integer index = getColumnMap().get(colName);
-      ArrayList row = table.get(rowNumber);
-      return row.get(index);
-   }
 }
-
-
-

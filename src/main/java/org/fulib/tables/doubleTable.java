@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-public class doubleTable extends AbstractTable<Double>
+public class doubleTable extends PrimitiveTable<Double>
 {
    // =============== Constructors ===============
 
@@ -13,9 +13,9 @@ public class doubleTable extends AbstractTable<Double>
       super(start);
    }
 
-   public doubleTable(String columnName, AbstractTable<?> base)
+   protected doubleTable(Table<?> base)
    {
-      super(columnName, base);
+      super(base);
    }
 
    // =============== Methods ===============
@@ -40,6 +40,9 @@ public class doubleTable extends AbstractTable<Double>
       return this.doubleStream().max().orElse(Double.MIN_VALUE);
    }
 
+   /**
+    * @since 1.2
+    */
    public double average()
    {
       return this.doubleStream().average().orElse(Double.NaN);

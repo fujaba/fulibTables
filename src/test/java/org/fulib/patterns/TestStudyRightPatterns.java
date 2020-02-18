@@ -3,7 +3,6 @@ package org.fulib.patterns;
 import org.fulib.FulibTables;
 import org.fulib.FulibTools;
 
-import org.fulib.builder.ClassModelBuilder;
 import org.fulib.patterns.model.PatternObject;
 import org.fulib.tables.ObjectTable;
 import org.junit.Test;
@@ -21,8 +20,6 @@ public class TestStudyRightPatterns
    {
       // build object structure
       University studyRight = new University().setName("Study Right");
-      String name = University[].class.getName();
-      System.out.println(name);
 
       Room mathRoom = new Room().setRoomNo("wa1337").setTopic("Math").setCredits(42.0).setUni(studyRight);
       Room artsRoom = new Room().setRoomNo("wa1338").setTopic("Arts").setCredits(23.0).setUni(studyRight);
@@ -38,7 +35,7 @@ public class TestStudyRightPatterns
       Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
       // end_code_fragment:
 
-      PatternBuilder pb = FulibTables.patternBuilder("uniks.studyright.model");
+      PatternBuilder pb = FulibTables.patternBuilder();
 
       PatternObject uni = pb.buildPatternObject("uni");
       PatternObject room = pb.buildPatternObject("room");
@@ -50,13 +47,12 @@ public class TestStudyRightPatterns
       pb.buildPatternLink(uni, Student.PROPERTY_uni, University.PROPERTY_students, student);
       pb.buildPatternLink(student, Room.PROPERTY_students, Student.PROPERTY_in, room);
       pb.buildPatternLink(room, Assignment.PROPERTY_room, Room.PROPERTY_assignments, assignment);
-      pb.buildPatternLink(assignment, null, Assignment.PROPERTY_points, points);
+      pb.buildPatternLink(assignment, Assignment.PROPERTY_points, points);
 
-      pb.buildAttibuteConstraint(d -> ((Double) d) > 20, points);
+      pb.buildAttributeConstraint(points, (Double d) -> d > 20);
       pb.buildMatchConstraint(row -> {
-         LinkedHashMap<String,Object> rowMap = (LinkedHashMap<String,Object>) row;
-         Room r = (Room) rowMap.get("room");
-         Assignment a = (Assignment) rowMap.get("assignment");
+         Room r = (Room) row.get("room");
+         Assignment a = (Assignment) row.get("assignment");
 
          return r.getCredits() >= a.getPoints();
       }, room, assignment);
@@ -69,6 +65,5 @@ public class TestStudyRightPatterns
       // matcher.getObject2TableMap().get(room).expandDouble("credits", Room.PROPERTY_credits);
 
       System.out.println(uniTable);
-
    }
 }
