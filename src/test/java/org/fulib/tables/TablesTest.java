@@ -17,7 +17,7 @@ public class TablesTest
 
       System.out.println(table1);
 
-      table0.getColumn();
+      table0.getColumnIndex();
    }
 
    @Test(expected = IllegalStateException.class)
@@ -29,6 +29,6 @@ public class TablesTest
       });
       table1.dropColumns("A");
 
-      table0.getColumn();
+      table0.getColumnIndex();
    }
 }

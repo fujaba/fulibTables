@@ -95,7 +95,7 @@ public class Table<T> implements Iterable<T>
       this.columnName = columnName;
    }
 
-   protected int getColumn()
+   protected int getColumnIndex()
    {
       final Integer column = this.columnMap.get(this.columnName);
       if (column == null)
@@ -252,7 +252,7 @@ public class Table<T> implements Iterable<T>
 
    public Table<T> filter(Predicate<? super Object> predicate)
    {
-      int column = this.getColumn();
+      int column = this.getColumnIndex();
       this.table.removeIf(row -> !predicate.test(row.get(column)));
       return this;
    }
@@ -309,7 +309,7 @@ public class Table<T> implements Iterable<T>
       return new Iterator<T>()
       {
          private final Iterator<List<Object>> listIterator = Table.this.table.iterator();
-         private final int column = Table.this.getColumn();
+         private final int column = Table.this.getColumnIndex();
 
          @Override
          public boolean hasNext()
@@ -340,7 +340,7 @@ public class Table<T> implements Iterable<T>
     */
    public Stream<T> stream()
    {
-      int column = this.getColumn();
+      int column = this.getColumnIndex();
       return this.table.stream().map(l -> (T) l.get(column));
    }
 

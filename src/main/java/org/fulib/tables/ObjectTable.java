@@ -60,7 +60,7 @@ public class ObjectTable extends Table<Object>
 
    public ObjectTable hasLink(String linkName, ObjectTable otherTable)
    {
-      final int thisColumn = this.getColumn();
+      final int thisColumn = this.getColumnIndex();
       final int otherColumn = this.columnMap.get(otherTable.getColumnName());
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
@@ -83,7 +83,7 @@ public class ObjectTable extends Table<Object>
       result.setColumnName(newColumnName);
       this.addColumn(newColumnName);
 
-      final int column = this.getColumn();
+      final int column = this.getColumnIndex();
 
       List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
@@ -159,7 +159,7 @@ public class ObjectTable extends Table<Object>
       result.setColumnName_(newColumnName);
       this.addColumn(newColumnName);
 
-      final int column = this.getColumn();
+      final int column = this.getColumnIndex();
       for (List<Object> row : this.table)
       {
          Object start = row.get(column);
