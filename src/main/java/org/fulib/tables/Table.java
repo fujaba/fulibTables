@@ -97,7 +97,15 @@ public class Table<T> implements Iterable<T>
 
    protected int getColumn()
    {
-      return this.columnMap.get(this.columnName);
+      final Integer column = this.columnMap.get(this.columnName);
+      if (column == null)
+      {
+         throw new IllegalStateException(
+            "Column '" + this.columnName + "' is no longer part of table columns " + this.columnMap.keySet() + ". "
+            + "It was likely evicted after a selectColumns or dropColumns operation. "
+            + "This Table instance is no longer valid");
+      }
+      return column;
    }
 
    /**
