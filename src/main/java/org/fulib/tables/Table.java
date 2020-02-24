@@ -144,6 +144,64 @@ public class Table<T> implements Iterable<T>
    /**
     * @since 1.2
     */
+   public <U> Table<U> expand(String columnName, Function<? super T, ? extends U> function)
+   {
+      this.expandImpl(columnName, function);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   /**
+    * @since 1.2
+    */
+   protected void expandImpl(String columnName, Function<? super T, ?> function)
+   {
+      final int column = this.getColumnIndex();
+      this.addColumn(columnName);
+      for (List<Object> row : this.table)
+      {
+         Object result = function.apply((T) row.get(column));
+         row.add(result);
+      }
+   }
+
+   /**
+    * @since 1.2
+    */
+   public <U> Table<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
+   {
+      this.expandAllImpl(columnName, function);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   /**
+    * @since 1.2
+    */
+   protected void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
+   {
+      final int column = this.getColumnIndex();
+      this.addColumn(columnName);
+
+      List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
+      for (List<Object> row : oldTable)
+      {
+         final Collection<?> newItems = function.apply((T) row.get(column));
+         for (Object item : newItems)
+         {
+            final List<Object> newRow = new ArrayList<>(row);
+            newRow.add(item);
+            this.table.add(newRow);
+         }
+      }
+   }
+
+   /**
+    * @since 1.2
+    */
    public <U> Table<U> deriveColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
    {
       this.addColumnImpl(columnName, function);
