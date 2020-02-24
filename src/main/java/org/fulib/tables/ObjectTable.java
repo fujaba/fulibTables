@@ -79,6 +79,16 @@ public class ObjectTable<T> extends Table<T>
    // --------------- Expansion ---------------
 
    @Override
+   public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
+   {
+      this.expandImpl(columnName, function);
+      final ObjectTable<U> result = new ObjectTable<>(this);
+      result.setReflectorMap(this.reflectorMap);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   @Override
    public <U> ObjectTable<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
    {
       this.expandAllImpl(columnName, function);
