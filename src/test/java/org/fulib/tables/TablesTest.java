@@ -11,11 +11,8 @@ public class TablesTest
       final Table<String> table1 = table0.deriveColumn("uppercase", map -> {
          return map.get("A").toString().toUpperCase();
       });
-      System.out.println(table1);
 
       table1.selectColumns("uppercase");
-
-      System.out.println(table1);
 
       table0.getColumnIndex();
    }
@@ -27,6 +24,7 @@ public class TablesTest
       final Table<String> table1 = table0.deriveColumn("uppercase", map -> {
          return map.get("A").toString().toUpperCase();
       });
+
       table1.dropColumns("A");
 
       table0.getColumnIndex();
