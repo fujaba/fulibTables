@@ -147,12 +147,12 @@ public class Table<T> implements Iterable<T>
    {
       try
       {
-         return type.getConstructor(Table.class).newInstance(this);
+         return type.getDeclaredConstructor(Table.class).newInstance(this);
       }
       catch (InstantiationException | NoSuchMethodException | IllegalAccessException e)
       {
          throw new RuntimeException(
-            type + " does not provide public " + type.getCanonicalName() + "(Table) constructor", e.getCause());
+            type + " does not provide a constructor '" + type.getCanonicalName() + "(Table)'", e.getCause());
       }
       catch (InvocationTargetException e)
       {
