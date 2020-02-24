@@ -103,24 +103,26 @@ public class ObjectTable extends Table<Object>
 
    public ObjectTable expandLink(String newColumnName, String linkName)
    {
-      ObjectTable result = new ObjectTable(this);
-      result.setReflectorMap(this.reflectorMap);
-
-      result.setColumnName(newColumnName);
-      this.addColumn(newColumnName);
-
-      final int column = this.getColumnIndex();
-
-      List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(column);
+      this.expandAllImpl(newColumnName, start -> {
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
-         this.addToRow(row, value);
-      }
+         if (value instanceof Collection)
+         {
+            return (Collection<?>) value;
+         }
+         else if (value != null)
+         {
+            return Collections.singleton(value);
+         }
+         else
+         {
+            return Collections.emptySet();
+         }
+      });
+      ObjectTable result = new ObjectTable(this);
+      result.setReflectorMap(this.reflectorMap);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
@@ -223,17 +225,11 @@ public class ObjectTable extends Table<Object>
 
    private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
    {
-      result.setColumnName_(newColumnName);
-      this.addColumn(newColumnName);
-
-      final int column = this.getColumnIndex();
-      for (List<Object> row : this.table)
-      {
-         Object start = row.get(column);
+      this.expandImpl(newColumnName, start -> {
          Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         row.add(value);
-      }
+         return reflector.getValue(start, attrName);
+      });
+      result.setColumnName_(newColumnName);
    }
 
    /**
