@@ -29,8 +29,6 @@ public class StudyRightTests
       // start_code_fragment: FulibTables.objectModel
       // build object structure
       University studyRight = new University().setName("Study Right");
-      String name = University[].class.getName();
-      System.out.println(name);
 
       Room mathRoom = new Room().setRoomNo("wa1337").setTopic("Math").setCredits(42.0).setUni(studyRight);
       Room artsRoom = new Room().setRoomNo("wa1338").setTopic("Arts").setCredits(23.0).setUni(studyRight);
