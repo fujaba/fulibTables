@@ -246,7 +246,7 @@ public class StudyRightTests
    }
 
    @AfterClass
-   public void teardownClass()
+   public static void teardownClass()
    {
       fragments.updateCodeFragments(".");
    }
