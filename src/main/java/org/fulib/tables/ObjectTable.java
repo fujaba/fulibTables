@@ -131,54 +131,34 @@ public class ObjectTable extends Table<Object>
     */
    public ObjectTable expandAll(String newColumnName)
    {
-      ObjectTable result = new ObjectTable(this);
-      result.setReflectorMap(this.reflectorMap);
-
-      result.setColumnName(newColumnName);
-      this.addColumn(newColumnName);
-
-      final int column = this.getColumnIndex();
-
-      List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(column);
-
+      this.expandAllImpl(newColumnName, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
-            continue;
+            return Collections.emptyList();
          }
 
          final Reflector reflector = this.reflectorMap.getReflector(start);
+         final Collection<Object> result = new ArrayList<>();
 
          for (final String propertyName : reflector.getAllProperties())
          {
             Object value = reflector.getValue(start, propertyName);
-
-            this.addToRow(row, value);
+            if (value instanceof Collection)
+            {
+               result.addAll((Collection<?>) value);
+            }
+            else if (value != null)
+            {
+               result.add(value);
+            }
          }
-      }
+
+         return result;
+      });
+      ObjectTable result = new ObjectTable(this);
+      result.setReflectorMap(this.reflectorMap);
+      result.setColumnName(newColumnName);
       return result;
-   }
-
-   private void addToRow(List<Object> row, Object value)
-   {
-      if (value instanceof Collection)
-      {
-         for (Object current : (Collection<?>) value)
-         {
-            List<Object> newRow = new ArrayList<>(row);
-            newRow.add(current);
-            this.table.add(newRow);
-         }
-      }
-      else if (value != null)
-      {
-         List<Object> newRow = new ArrayList<>(row);
-         newRow.add(value);
-         this.table.add(newRow);
-      }
    }
 
    public doubleTable expandDouble(String newColumnName, String attrName)
