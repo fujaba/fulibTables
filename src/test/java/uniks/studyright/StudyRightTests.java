@@ -120,6 +120,20 @@ public class StudyRightTests
 
       this.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
 
+      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
+   }
+
+   @Test
+   @SuppressWarnings( { "unused", "UnusedAssignment" })
+   public void filterRows()
+   {
+      final University studyRight = this.studyRight;
+
+      ObjectTable<University> universityTable;
+      ObjectTable<Room> roomsTable;
+      ObjectTable<Student> students;
+      ObjectTable<Assignment> assignmentsTable;
+
       // start_code_fragment: FulibTables.filterRowTable
       // filter row
       universityTable = new ObjectTable<>("University", studyRight);
@@ -137,8 +151,6 @@ public class StudyRightTests
       // end_code_fragment:
 
       this.addFragment("FulibTables.filterRowTableResult", universityTable.toString());
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
 
    @Test
