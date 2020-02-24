@@ -67,8 +67,6 @@ public class StudyRightTests
    public void testModelQueries()
    {
       final University studyRight = this.studyRight;
-      final Student alice = this.alice;
-      final Assignment integrals = this.integrals;
 
       // start_code_fragment: FulibTables.createUniTable1
       // some table stuff
@@ -153,51 +151,6 @@ public class StudyRightTests
 
       this.addFragment("FulibTables.filterHasDoneResult", universityTable.toString());
 
-      // start_code_fragment: FulibTables.doCurrentAssignments
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-
-      // do current assignments
-      students.filterRows(row -> {
-         Student studi = (Student) row.get("Student");
-         Assignment assignment = (Assignment) row.get("Assignment");
-         studi.withDone(assignment);
-         return true;
-      });
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4Tables.png", studyRight);
-
-      assertThat(alice.getDone().size(), equalTo(2));
-      assertThat(integrals.getStudents().contains(alice), is(true));
-
-      // show size of done
-      universityTable.deriveColumn("noOfDone",  row ->
-      {
-         Student studi = (Student) row.get("Student");
-         return studi.getDone().size();
-      });
-
-      // show done
-      students.expandAll("Done", Student::getDone);
-      // end_code_fragment:
-
-      this.addFragment("FulibTables.doCurrentAssignmentsResult", universityTable.toString());
-
-      // start_code_fragment: FulibTables.dropColumnsAssignment
-      universityTable.dropColumns("Assignment");
-      // end_code_fragment:
-
-      this.addFragment("FulibTables.dropColumnsAssignmentResult", universityTable.toString());
-
-      // start_code_fragment: FulibTables.selectColumns
-      students.selectColumns("Student", "Done");
-      assertThat(students.rowCount(), equalTo(6));
-      // end_code_fragment:
-
-      this.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
-
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
 
@@ -232,6 +185,64 @@ public class StudyRightTests
       // end_code_fragment:
 
       this.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
+   }
+
+   @Test
+   @SuppressWarnings( { "unused", "UnusedAssignment" })
+   public void doAssignmentsAndDropSelect()
+   {
+      final University studyRight = this.studyRight;
+      final Student alice = this.alice;
+      final Assignment integrals = this.integrals;
+
+      ObjectTable<University> universityTable;
+      ObjectTable<Room> roomsTable;
+      ObjectTable<Student> students;
+      ObjectTable<Assignment> assignmentsTable;
+
+      // start_code_fragment: FulibTables.doCurrentAssignments
+      universityTable = new ObjectTable<>("University", studyRight);
+      roomsTable = universityTable.expandAll("Room", University::getRooms);
+      students = roomsTable.expandAll("Student", Room::getStudents);
+      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+
+      // do current assignments
+      students.filterRows(row -> {
+         Student studi = (Student) row.get("Student");
+         Assignment assignment = (Assignment) row.get("Assignment");
+         studi.withDone(assignment);
+         return true;
+      });
+
+      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4Tables.png", studyRight);
+
+      assertThat(alice.getDone().size(), equalTo(2));
+      assertThat(integrals.getStudents().contains(alice), is(true));
+
+      // show size of done
+      universityTable.deriveColumn("noOfDone", row -> {
+         Student studi = (Student) row.get("Student");
+         return studi.getDone().size();
+      });
+
+      // show done
+      students.expandAll("Done", Student::getDone);
+      // end_code_fragment:
+
+      this.addFragment("FulibTables.doCurrentAssignmentsResult", universityTable.toString());
+
+      // start_code_fragment: FulibTables.dropColumnsAssignment
+      universityTable.dropColumns("Assignment");
+      // end_code_fragment:
+
+      this.addFragment("FulibTables.dropColumnsAssignmentResult", universityTable.toString());
+
+      // start_code_fragment: FulibTables.selectColumns
+      students.selectColumns("Student", "Done");
+      assertThat(students.rowCount(), equalTo(6));
+      // end_code_fragment:
+
+      this.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
    }
 
    @AfterClass
