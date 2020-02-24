@@ -31,6 +31,10 @@ public class ObjectTable<T> extends Table<T>
    protected ObjectTable(Table<?> base)
    {
       super(base);
+      if (base instanceof ObjectTable)
+      {
+         this.reflectorMap = ((ObjectTable<?>) base).getReflectorMap();
+      }
    }
 
    @SafeVarargs
@@ -83,7 +87,6 @@ public class ObjectTable<T> extends Table<T>
    {
       this.expandImpl(columnName, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setReflectorMap(this.reflectorMap);
       result.setColumnName_(columnName);
       return result;
    }
@@ -93,7 +96,6 @@ public class ObjectTable<T> extends Table<T>
    {
       this.expandAllImpl(columnName, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setReflectorMap(this.reflectorMap);
       result.setColumnName_(columnName);
       return result;
    }
@@ -118,7 +120,6 @@ public class ObjectTable<T> extends Table<T>
          }
       });
       ObjectTable<U> result = new ObjectTable<>(this);
-      result.setReflectorMap(this.reflectorMap);
       result.setColumnName_(newColumnName);
       return result;
    }
