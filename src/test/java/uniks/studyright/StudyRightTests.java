@@ -4,17 +4,12 @@ import org.fulib.FulibTools;
 import org.fulib.tables.ObjectTable;
 import org.fulib.tables.StringTable;
 import org.fulib.tables.doubleTable;
+import org.fulib.tools.CodeFragments;
 import org.junit.Test;
 import uniks.studyright.model.Assignment;
 import uniks.studyright.model.Room;
 import uniks.studyright.model.Student;
 import uniks.studyright.model.University;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +19,7 @@ public class StudyRightTests
 {
    @SuppressWarnings( { "UnusedAssignment", "unused" })
    @Test
-   public void testModelQueries() throws IOException
+   public void testModelQueries()
    {
       // start_code_fragment: FulibTables.objectModel
       // build object structure
@@ -57,25 +52,14 @@ public class StudyRightTests
 
       universityTable = new ObjectTable<>("University", studyRight);
 
-      StringBuilder buf = new StringBuilder()
-            .append("// start_code_fragment: FulibTables.uniTable1 \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-            ;
+      final CodeFragments fragments = FulibTools.codeFragments();
+      addFragment(fragments, "FulibTables.uniTable1", universityTable.toString());
 
       roomsTable = universityTable.expandAll("Room", University::getRooms);
-      buf.append("// start_code_fragment: FulibTables.uniTable2 \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
+      addFragment(fragments, "FulibTables.uniTable2", universityTable.toString());
 
       assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-      buf.append("// start_code_fragment: FulibTables.uniTable3 \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
-
+      addFragment(fragments, "FulibTables.uniTable3", universityTable.toString());
 
       // start_code_fragment: FulibTables.loop_through_assignments
       // loop through assignments
@@ -96,32 +80,21 @@ public class StudyRightTests
       assertThat(sum, equalTo(89.0));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: StudyRightTables.pointsTableResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.pointsTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.studentsTable
       ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
       assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.studentsTableResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
+      addFragment(fragments, "FulibTables.studentsTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.filterAssignmentsTable
       assignmentsTable.filter(a -> a.getPoints() <= 30);
       assertThat(students.rowCount(), equalTo(4));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.filterAssignmentsTableResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.filterAssignmentsTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.filterRowTable
       // filter row
@@ -139,11 +112,7 @@ public class StudyRightTests
       assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.filterRowTableResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.filterRowTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.filterHasDone
       // filter row
@@ -156,11 +125,7 @@ public class StudyRightTests
       assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.filterHasDoneResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.filterHasDoneResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.doCurrentAssignments
       universityTable = new ObjectTable<>("University", studyRight);
@@ -192,32 +157,20 @@ public class StudyRightTests
       students.expandAll("Done", Student::getDone);
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.doCurrentAssignmentsResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.doCurrentAssignmentsResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.dropColumnsAssignment
       universityTable.dropColumns("Assignment");
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.dropColumnsAssignmentResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.dropColumnsAssignmentResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.selectColumns
       students.selectColumns("Student", "Done");
       assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.selectColumnsResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
-
+      addFragment(fragments, "FulibTables.selectColumnsResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.nestedTables
       universityTable = new ObjectTable<>("University", studyRight);
@@ -242,19 +195,15 @@ public class StudyRightTests
       });
       // end_code_fragment:
 
-      buf.append("// start_code_fragment: FulibTables.nestedTablesResult \n")
-            .append(universityTable)
-            .append("// end_code_fragment: \n")
-      ;
+      addFragment(fragments, "FulibTables.nestedTablesResult", universityTable.toString());
 
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
 
-      new File("src/test/resources/images").mkdirs();
-      Path path = Paths.get("src/test/resources/images/UniTable1.java");
-      Files.write(path, buf.toString().getBytes());
+      fragments.updateCodeFragments(".");
+   }
 
-      FulibTools.codeFragments().updateCodeFragments(".");
-
-
+   private static void addFragment(CodeFragments fragments, String name, String content)
+   {
+      fragments.getFragmentMap().put(name, content);
    }
 }
