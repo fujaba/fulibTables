@@ -173,7 +173,6 @@ public class Table<T> implements Iterable<T>
       this.columnMap.put(columnName, newColumnNumber);
    }
 
-   // TODO what happens to the *Table objects that point to these columns?
    public Table<T> dropColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
@@ -211,7 +210,6 @@ public class Table<T> implements Iterable<T>
       return this;
    }
 
-   // TODO what happens to the *Table objects that point to the other columns?
    public Table<T> selectColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
