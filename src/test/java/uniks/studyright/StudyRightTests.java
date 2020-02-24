@@ -88,11 +88,10 @@ public class StudyRightTests
       this.addFragment("FulibTables.uniTable3", universityTable.toString());
 
       // start_code_fragment: FulibTables.loop_through_assignments
-      // loop through assignments
       double sum = 0;
-      for (Object a : assignmentsTable.toSet())
+      for (Assignment a : assignmentsTable)
       {
-         sum += ((Assignment) a).getPoints();
+         sum += a.getPoints();
       }
       assertThat(sum, equalTo(89.0));
       // end_code_fragment:

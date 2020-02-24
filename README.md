@@ -152,16 +152,15 @@ refer to the same internal table object. However, they each use a wrapper
 that encapsulates the internal table and refers to the specific column where the next
 expand operation applies.
 
-Each table wrapper also offers a toSet() method that collects all objects
+Each table wrapper also offers is also an `Iterable` listing all objects
 of the corresponding column. Thus, to sum up the points of all assignments
 of our table we may:
 
 <!-- insert_code_fragment: FulibTables.loop_through_assignments -->
-      // loop through assignments
       double sum = 0;
-      for (Object a : assignmentsTable.toSet())
+      for (Assignment a : assignmentsTable)
       {
-         sum += ((Assignment) a).getPoints();
+         sum += a.getPoints();
       }
       assertThat(sum, equalTo(89.0));
 <!-- end_code_fragment: -->
