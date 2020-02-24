@@ -221,7 +221,7 @@ public class ObjectTable<T> extends Table<T>
    }
 
    @Override
-   public ObjectTable<T> filter(Predicate<? super Object> predicate)
+   public ObjectTable<T> filter(Predicate<? super T> predicate)
    {
       super.filter(predicate);
       return this;

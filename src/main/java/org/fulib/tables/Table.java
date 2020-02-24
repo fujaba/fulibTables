@@ -335,10 +335,10 @@ public class Table<T> implements Iterable<T>
 
    // --------------- Filter ---------------
 
-   public Table<T> filter(Predicate<? super Object> predicate)
+   public Table<T> filter(Predicate<? super T> predicate)
    {
       int column = this.getColumnIndex();
-      this.table.removeIf(row -> !predicate.test(row.get(column)));
+      this.table.removeIf(row -> !predicate.test((T) row.get(column)));
       return this;
    }
 
