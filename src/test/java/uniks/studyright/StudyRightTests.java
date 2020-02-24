@@ -36,6 +36,7 @@ public class StudyRightTests
    @SuppressWarnings("unused")
    public void setup()
    {
+      // @formatter:off
       // start_code_fragment: FulibTables.objectModel
       // build object structure
       University studyRight = new University().setName("Study Right");
@@ -50,12 +51,13 @@ public class StudyRightTests
       Assignment sculptures = new Assignment().setTask("sculptures").setPoints(12).setRoom(artsRoom);
 
       Student alice = new Student().setStudentId("m4242").setName("Alice").setUni(studyRight).setIn(mathRoom).withDone(integrals);
-      Student bob   = new Student().setStudentId("m2323").setName("Bobby"  ).setUni(studyRight).setIn(artsRoom).withFriends(alice);
+      Student bob   = new Student().setStudentId("m2323").setName("Bobby").setUni(studyRight).setIn(artsRoom).withFriends(alice);
       Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
 
       FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
       // end_code_fragment:
+      // @formatter:on
 
       this.studyRight = studyRight;
       this.alice = alice;
@@ -90,11 +92,10 @@ public class StudyRightTests
       double sum = 0;
       for (Object a : assignmentsTable.toSet())
       {
-         sum += ((Assignment)a).getPoints();
+         sum += ((Assignment) a).getPoints();
       }
       assertThat(sum, equalTo(89.0));
       // end_code_fragment:
-
 
       // start_code_fragment: FulibTables.pointsTable
       doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
@@ -255,11 +256,11 @@ public class StudyRightTests
       });
       students.deriveColumn("Done", row -> {
          Student student = (Student) row.get("Students");
-         String doneTopics = new ObjectTable<>("Students", student)
+         return new ObjectTable<>("Students", student)
             .expandAll("Assignments", Student::getDone)
             .expand("Tasks", Assignment::getTask)
-            .as(StringTable.class).join(", ");
-         return doneTopics;
+            .as(StringTable.class)
+            .join(", ");
       });
       // end_code_fragment:
 
