@@ -5,6 +5,7 @@ import org.fulib.tables.ObjectTable;
 import org.fulib.tables.StringTable;
 import org.fulib.tables.doubleTable;
 import org.fulib.tools.CodeFragments;
+import org.junit.Before;
 import org.junit.Test;
 import uniks.studyright.model.Assignment;
 import uniks.studyright.model.Room;
@@ -17,9 +18,13 @@ import static org.junit.Assert.assertThat;
 
 public class StudyRightTests
 {
-   @SuppressWarnings( { "UnusedAssignment", "unused" })
-   @Test
-   public void testModelQueries()
+   private University studyRight;
+   private Student alice;
+   private Assignment integrals;
+
+   @Before
+   @SuppressWarnings("unused")
+   public void setup()
    {
       // start_code_fragment: FulibTables.objectModel
       // build object structure
@@ -42,6 +47,18 @@ public class StudyRightTests
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
       // end_code_fragment:
 
+      this.studyRight = studyRight;
+      this.alice = alice;
+      this.integrals = integrals;
+   }
+
+   @SuppressWarnings( { "UnusedAssignment", "unused" })
+   @Test
+   public void testModelQueries()
+   {
+      final University studyRight = this.studyRight;
+      final Student alice = this.alice;
+      final Assignment integrals = this.integrals;
 
       // start_code_fragment: FulibTables.createUniTable1
       // some table stuff
