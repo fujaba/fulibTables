@@ -2,6 +2,7 @@ package uniks.studyright;
 
 import org.fulib.FulibTools;
 import org.fulib.tables.ObjectTable;
+import org.fulib.tables.StringTable;
 import org.fulib.tables.doubleTable;
 import org.junit.Test;
 import uniks.studyright.model.Assignment;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertThat;
 
 public class StudyRightTests
 {
+   @SuppressWarnings( { "UnusedAssignment", "unused" })
    @Test
    public void testModelQueries() throws IOException
    {
@@ -50,12 +52,12 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.createUniTable1
       // some table stuff
-      ObjectTable universityTable = new ObjectTable("University", studyRight);
-      ObjectTable roomsTable = universityTable.expandLink("Room", University.PROPERTY_rooms);
-      ObjectTable assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
       // end_code_fragment:
 
-      universityTable = new ObjectTable("University", studyRight);
+      universityTable = new ObjectTable<>("University", studyRight);
 
       StringBuilder buf = new StringBuilder()
             .append("// start_code_fragment: FulibTables.uniTable1 \n")
@@ -63,13 +65,13 @@ public class StudyRightTests
             .append("// end_code_fragment: \n")
             ;
 
-      roomsTable = universityTable.expandLink("Room", University.PROPERTY_rooms);
+      roomsTable = universityTable.expandAll("Room", University::getRooms);
       buf.append("// start_code_fragment: FulibTables.uniTable2 \n")
             .append(universityTable)
             .append("// end_code_fragment: \n")
       ;
 
-      assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
+      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
       buf.append("// start_code_fragment: FulibTables.uniTable3 \n")
             .append(universityTable)
             .append("// end_code_fragment: \n")
@@ -89,7 +91,7 @@ public class StudyRightTests
 
 
       // start_code_fragment: FulibTables.pointsTable
-      doubleTable pointsTable = assignmentsTable.expandDouble("Points", Assignment.PROPERTY_points);
+      doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
       sum = pointsTable.sum();
       assertThat(roomsTable.rowCount(), equalTo(4));
       assertThat(assignmentsTable.rowCount(), equalTo(4));
@@ -103,7 +105,7 @@ public class StudyRightTests
 
 
       // start_code_fragment: FulibTables.studentsTable
-      ObjectTable students = roomsTable.expandLink("Student", "students");
+      ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
       assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
@@ -125,10 +127,10 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.filterRowTable
       // filter row
-      universityTable = new ObjectTable("University", studyRight);
-      roomsTable = universityTable.expandLink("Room", University.PROPERTY_rooms);
-      students = roomsTable.expandLink("Student", "students");
-      assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
+      universityTable = new ObjectTable<>("University", studyRight);
+      roomsTable = universityTable.expandAll("Room", University::getRooms);
+      students = roomsTable.expandAll("Student", Room::getStudents);
+      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
       students.filterRow( row ->
       {
@@ -148,10 +150,10 @@ public class StudyRightTests
 
       // start_code_fragment: FulibTables.filterHasDone
       // filter row
-      universityTable = new ObjectTable("University", studyRight);
-      roomsTable = universityTable.expandLink("Room", University.PROPERTY_rooms);
-      students = roomsTable.expandLink("Student", "students");
-      assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
+      universityTable = new ObjectTable<>("University", studyRight);
+      roomsTable = universityTable.expandAll("Room", University::getRooms);
+      students = roomsTable.expandAll("Student", Room::getStudents);
+      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
       students.hasLink(Student.PROPERTY_done, assignmentsTable);
 
       assertThat(students.rowCount(), equalTo(1));
@@ -164,10 +166,10 @@ public class StudyRightTests
 
 
       // start_code_fragment: FulibTables.doCurrentAssignments
-      universityTable = new ObjectTable("University", studyRight);
-      roomsTable = universityTable.expandLink("Room", University.PROPERTY_rooms);
-      students = roomsTable.expandLink("Student", "students");
-      assignmentsTable = roomsTable.expandLink("Assignment", Room.PROPERTY_assignments);
+      universityTable = new ObjectTable<>("University", studyRight);
+      roomsTable = universityTable.expandAll("Room", University::getRooms);
+      students = roomsTable.expandAll("Student", Room::getStudents);
+      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
       // do current assignments
       students.filterRow( row ->
@@ -191,7 +193,7 @@ public class StudyRightTests
       });
 
       // show done
-      students.expandLink("Done", Student.PROPERTY_done);
+      students.expandAll("Done", Student::getDone);
       // end_code_fragment:
 
       buf.append("// start_code_fragment: FulibTables.doCurrentAssignmentsResult \n")
@@ -222,21 +224,24 @@ public class StudyRightTests
 
 
       // start_code_fragment: FulibTables.nestedTables
-      universityTable = new ObjectTable("University", studyRight);
-      students = universityTable.expandLink("Students", "students");
+      universityTable = new ObjectTable<>("University", studyRight);
+      students = universityTable.expandAll("Students", University::getStudents);
       students.deriveColumn("Credits", row -> {
          Student student = (Student) row.get("Students");
-         double pointSum = new ObjectTable(student)
-               .expandLink("Assignments", Student.PROPERTY_done)
-               .expandDouble("Points", Assignment.PROPERTY_points).sum();
+         double pointSum = new ObjectTable<>(student)
+            .expandAll("Assignments", Student::getDone)
+            .expand("Points", Assignment::getPoints)
+            .as(doubleTable.class)
+            .sum();
          student.setCredits(pointSum);
          return pointSum;
       });
       students.deriveColumn("Done", row -> {
          Student student = (Student) row.get("Students");
-         String doneTopics = new ObjectTable("Students", student)
-               .expandLink("Assignments", Student.PROPERTY_done)
-               .expandString("Tasks", Assignment.PROPERTY_task).join(", ");
+         String doneTopics = new ObjectTable<>("Students", student)
+            .expandAll("Assignments", Student::getDone)
+            .expand("Tasks", Assignment::getTask)
+            .as(StringTable.class).join(", ");
          return doneTopics;
       });
       // end_code_fragment:
