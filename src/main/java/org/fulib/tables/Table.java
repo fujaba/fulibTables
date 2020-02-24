@@ -1,5 +1,6 @@
 package org.fulib.tables;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -137,6 +138,34 @@ public class Table<T> implements Iterable<T>
    protected void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
+   }
+
+   /**
+    * @since 1.2
+    */
+   public <TAB extends Table<T>> TAB as(Class<? extends TAB> type)
+   {
+      try
+      {
+         return type.getConstructor(Table.class).newInstance(this);
+      }
+      catch (InstantiationException | NoSuchMethodException | IllegalAccessException e)
+      {
+         throw new RuntimeException(
+            type + " does not provide public " + type.getCanonicalName() + "(Table) constructor", e.getCause());
+      }
+      catch (InvocationTargetException e)
+      {
+         throw new RuntimeException(e.getTargetException());
+      }
+   }
+
+   /**
+    * @since 1.2
+    */
+   public <TAB extends Table<T>> TAB as(Function<? super Table<T>, ? extends TAB> constructor)
+   {
+      return constructor.apply(this);
    }
 
    // --------------- Columns ---------------
