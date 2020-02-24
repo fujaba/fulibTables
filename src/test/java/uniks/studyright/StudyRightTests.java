@@ -155,39 +155,6 @@ public class StudyRightTests
    }
 
    @Test
-   public void nestedTables()
-   {
-      final University studyRight = this.studyRight;
-      ObjectTable<University> universityTable;
-      ObjectTable<Student> students;
-
-      // start_code_fragment: FulibTables.nestedTables
-      universityTable = new ObjectTable<>("University", studyRight);
-      students = universityTable.expandAll("Students", University::getStudents);
-      students.deriveColumn("Credits", row -> {
-         Student student = (Student) row.get("Students");
-         double pointSum = new ObjectTable<>(student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Points", Assignment::getPoints)
-            .as(doubleTable.class)
-            .sum();
-         student.setCredits(pointSum);
-         return pointSum;
-      });
-      students.deriveColumn("Done", row -> {
-         Student student = (Student) row.get("Students");
-         String doneTopics = new ObjectTable<>("Students", student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Tasks", Assignment::getTask)
-            .as(StringTable.class).join(", ");
-         return doneTopics;
-      });
-      // end_code_fragment:
-
-      this.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
-   }
-
-   @Test
    @SuppressWarnings( { "unused", "UnusedAssignment" })
    public void doAssignmentsAndDropSelect()
    {
@@ -243,6 +210,39 @@ public class StudyRightTests
       // end_code_fragment:
 
       this.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
+   }
+
+   @Test
+   public void nestedTables()
+   {
+      final University studyRight = this.studyRight;
+      ObjectTable<University> universityTable;
+      ObjectTable<Student> students;
+
+      // start_code_fragment: FulibTables.nestedTables
+      universityTable = new ObjectTable<>("University", studyRight);
+      students = universityTable.expandAll("Students", University::getStudents);
+      students.deriveColumn("Credits", row -> {
+         Student student = (Student) row.get("Students");
+         double pointSum = new ObjectTable<>(student)
+            .expandAll("Assignments", Student::getDone)
+            .expand("Points", Assignment::getPoints)
+            .as(doubleTable.class)
+            .sum();
+         student.setCredits(pointSum);
+         return pointSum;
+      });
+      students.deriveColumn("Done", row -> {
+         Student student = (Student) row.get("Students");
+         String doneTopics = new ObjectTable<>("Students", student)
+            .expandAll("Assignments", Student::getDone)
+            .expand("Tasks", Assignment::getTask)
+            .as(StringTable.class).join(", ");
+         return doneTopics;
+      });
+      // end_code_fragment:
+
+      this.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
    }
 
    @AfterClass
