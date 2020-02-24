@@ -119,8 +119,6 @@ public class StudyRightTests
       // end_code_fragment:
 
       this.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
 
    @Test
@@ -266,6 +264,8 @@ public class StudyRightTests
       // end_code_fragment:
 
       this.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
+
+      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
 
    @AfterClass
