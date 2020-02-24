@@ -115,7 +115,7 @@ public class StudyRightTests
       ;
 
       // start_code_fragment: FulibTables.filterAssignmentsTable
-      assignmentsTable.filter( a -> ((Assignment) a).getPoints() <= 30);
+      assignmentsTable.filter(a -> a.getPoints() <= 30);
       assertThat(students.rowCount(), equalTo(4));
       // end_code_fragment:
 
@@ -132,8 +132,7 @@ public class StudyRightTests
       students = roomsTable.expandAll("Student", Room::getStudents);
       assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
-      students.filterRow( row ->
-      {
+      students.filterRows(row -> {
          Student studi = (Student) row.get("Student");
          Assignment assignment = (Assignment) row.get("Assignment");
          return studi.getDone().contains(assignment);
@@ -172,8 +171,7 @@ public class StudyRightTests
       assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
       // do current assignments
-      students.filterRow( row ->
-      {
+      students.filterRows(row -> {
          Student studi = (Student) row.get("Student");
          Assignment assignment = (Assignment) row.get("Assignment");
          studi.withDone(assignment);
