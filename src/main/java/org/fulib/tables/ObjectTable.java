@@ -79,38 +79,26 @@ public class ObjectTable<T> extends Table<T>
 
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
-      ObjectTable<U> result = new ObjectTable<>(this);
-      result.setReflectorMap(this.reflectorMap);
-
-      result.setColumnName(newColumnName);
-      this.addColumn(newColumnName);
-
-      final int column = this.getColumnIndex();
-
-      List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-      for (List<Object> row : oldTable)
-      {
-         Object start = row.get(column);
+      this.expandAllImpl(newColumnName, start -> {
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
          if (value instanceof Collection)
          {
-            for (Object current : (Collection<?>) value)
-            {
-               List<Object> newRow = new ArrayList<>(row);
-               newRow.add(current);
-               this.table.add(newRow);
-            }
+            return (Collection<?>) value;
          }
          else if (value != null)
          {
-            List<Object> newRow = new ArrayList<>(row);
-            newRow.add(value);
-            this.table.add(newRow);
+            return Collections.singleton(value);
          }
-      }
+         else
+         {
+            return Collections.emptySet();
+         }
+      });
+      ObjectTable<U> result = new ObjectTable<>(this);
+      result.setReflectorMap(this.reflectorMap);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
@@ -158,17 +146,11 @@ public class ObjectTable<T> extends Table<T>
 
    private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
    {
-      result.setColumnName_(newColumnName);
-      this.addColumn(newColumnName);
-
-      final int column = this.getColumnIndex();
-      for (List<Object> row : this.table)
-      {
-         Object start = row.get(column);
+      this.expandImpl(newColumnName, start -> {
          Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, attrName);
-         row.add(value);
-      }
+         return reflector.getValue(start, attrName);
+      });
+      result.setColumnName_(newColumnName);
    }
 
    // =============== Deprecated and Compatibility Methods ===============
