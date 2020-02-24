@@ -4,6 +4,7 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,16 @@ public class ObjectTable<T> extends Table<T>
    }
 
    // --------------- Expansion ---------------
+
+   @Override
+   public <U> ObjectTable<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
+   {
+      this.expandAllImpl(columnName, function);
+      final ObjectTable<U> result = new ObjectTable<>(this);
+      result.setReflectorMap(this.reflectorMap);
+      result.setColumnName_(columnName);
+      return result;
+   }
 
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
