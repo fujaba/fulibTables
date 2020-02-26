@@ -125,6 +125,8 @@ public class PatternBuilder
    /**
     * Creates a new predicate/attribute constraint on the given pattern object.
     *
+    * @param <T>
+    *    the type of objects expected to be passed to the predicate
     * @param object
     *    the pattern object
     * @param predicate
