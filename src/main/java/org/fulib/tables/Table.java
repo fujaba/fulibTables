@@ -25,12 +25,21 @@ public class Table<T> implements Iterable<T>
 
    // =============== Constructors ===============
 
+   /**
+    * Creates a new empty table with zero rows and zero columns.
+    */
    public Table()
    {
       this.table = new ArrayList<>();
       this.columnMap = new LinkedHashMap<>();
    }
 
+   /**
+    * Creates a new empty table with zero rows and one column with the given name.
+    *
+    * @param columnName
+    *    the column name
+    */
    public Table(String columnName)
    {
       this();
@@ -38,12 +47,26 @@ public class Table<T> implements Iterable<T>
       this.columnMap.put(columnName, 0);
    }
 
+   /**
+    * Creates a new table with the given objects in the first column, which uses the default name "A".
+    *
+    * @param start
+    *    the objects in the first column
+    */
    @SafeVarargs
    public Table(T... start)
    {
       this(DEFAULT_COLUMN_NAME, start);
    }
 
+   /**
+    * Creates a new table with the given objects in the first column.
+    *
+    * @param columnName
+    *    the name of the first column
+    * @param start
+    *    the objects in the first column
+    */
    @SafeVarargs
    public Table(String columnName, T... start)
    {
@@ -63,6 +86,12 @@ public class Table<T> implements Iterable<T>
       this.table = base.table;
    }
 
+   /**
+    * Creates a copy of this table. Modifications of any kind, to the original or copied table, are not reflected in the
+    * other instance.
+    *
+    * @return a copy of this table
+    */
    public Table<T> copy()
    {
       final Table<T> result = new Table<>();
@@ -82,6 +111,9 @@ public class Table<T> implements Iterable<T>
 
    // =============== Properties ===============
 
+   /**
+    * @return the column name this table instance points to
+    */
    public String getColumnName()
    {
       return this.columnName;
@@ -141,6 +173,19 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Coerces this table to the given type by creating a new instance of that type that points to the same underlying
+    * data structure and column.
+    * <p>
+    * The type must be either one of the {@link Table} subclasses in the {@link org.fulib.tables} package,
+    * or provide a public constructor with one parameter of type {@link Table}.
+    *
+    * @param <TAB>
+    *    the result type
+    * @param type
+    *    the {@link Class} corresponding to {@code <TAB>}.
+    *
+    * @return a table of the given type pointing to the same underlying data and column as this one
+    *
     * @since 1.2
     */
    public <TAB extends Table<T>> TAB as(Class<? extends TAB> type)
@@ -151,8 +196,8 @@ public class Table<T> implements Iterable<T>
       }
       catch (InstantiationException | NoSuchMethodException | IllegalAccessException e)
       {
-         throw new RuntimeException(
-            type + " does not provide a constructor '" + type.getCanonicalName() + "(Table)'", e.getCause());
+         throw new RuntimeException(type + " does not provide a constructor '" + type.getCanonicalName() + "(Table)'",
+                                    e.getCause());
       }
       catch (InvocationTargetException e)
       {
@@ -161,6 +206,16 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Coerces this table to the given type by creating a new instance of that type that points to the same underlying
+    * data structure and column.
+    *
+    * @param <TAB>
+    *    the result type
+    * @param constructor
+    *    the constructor that accepts this table and produce a new table of the expected type.
+    *
+    * @return a table of the given type pointing to the same underlying data and column as this one
+    *
     * @since 1.2
     */
    public <TAB extends Table<T>> TAB as(Function<? super Table<T>, ? extends TAB> constructor)
@@ -171,6 +226,42 @@ public class Table<T> implements Iterable<T>
    // --------------- Columns ---------------
 
    /**
+    * Creates a new column with the given name by applying the given function to each object in the column pointed to by
+    * this table.
+    * <p>
+    * Example:
+    * <pre><code>
+    *    Table&lt;Integer&gt; a = new Table("A", 1, 2, 3);
+    *    Table&lt;Integer&gt; b = a.expand("B", i -&gt; i * 2);
+    * </code></pre>
+    *
+    * <table>
+    *    <caption>b</caption>
+    *    <tr>
+    *       <th>A</th>
+    *       <th>B</th>
+    *    </tr>
+    *    <tr>
+    *       <td>1</td>
+    *       <td>2</td>
+    *    </tr>
+    *    <tr>
+    *       <td>2</td>
+    *       <td>4</td>
+    *    </tr>
+    *    <tr>
+    *       <td>3</td>
+    *       <td>6</td>
+    *    </tr>
+    * </table>
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @return a table pointing to the new column
+    *
     * @since 1.2
     */
    public <U> Table<U> expand(String columnName, Function<? super T, ? extends U> function)
@@ -196,6 +287,46 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Creates a new column with the given name by applying the given function to each object in the column pointed to by
+    * this table, and flattening the result.
+    * <p>
+    * Example:
+    * <pre><code>
+    *    Table&lt;Integer&gt; a = new Table("A", 1, 2);
+    *    Table&lt;Integer&gt; b = a.expandAll("B", i -&gt; Arrays.asList(i + 10, i + 20));
+    * </code></pre>
+    *
+    * <table>
+    *    <caption>b</caption>
+    *    <tr>
+    *       <th>A</th>
+    *       <th>B</th>
+    *    </tr>
+    *    <tr>
+    *       <td>1</td>
+    *       <td>11</td>
+    *    </tr>
+    *    <tr>
+    *       <td>1</td>
+    *       <td>21</td>
+    *    </tr>
+    *    <tr>
+    *       <td>2</td>
+    *       <td>12</td>
+    *    </tr>
+    *    <tr>
+    *       <td>2</td>
+    *       <td>22</td>
+    *    </tr>
+    * </table>
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a collection of values for the new column
+    *
+    * @return a table pointing to the new column
+    *
     * @since 1.2
     */
    public <U> Table<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
@@ -229,6 +360,41 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Creates a new column with the given name by applying the given function to each row.
+    * <p>
+    * Example:
+    * <pre><code>
+    *    Table&lt;Integer&gt; a = new Table("A", 1, 2);
+    *    Table&lt;Integer&gt; b = a.expand("B", i -&gt; i * 10);
+    *    Table&lt;Integer&gt; c = b.derive("C", row -&gt; (int) row.get("A") + (int) row.get("B"));
+    * </code></pre>
+    *
+    * <table>
+    *    <caption>b</caption>
+    *    <tr>
+    *       <th>A</th>
+    *       <th>B</th>
+    *       <th>C</th>
+    *    </tr>
+    *    <tr>
+    *       <td>1</td>
+    *       <td>10</td>
+    *       <td>11</td>
+    *    </tr>
+    *    <tr>
+    *       <td>2</td>
+    *       <td>20</td>
+    *       <td>22</td>
+    *    </tr>
+    * </table>
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @return a table pointing to the new column
+    *
     * @since 1.2
     */
    public <U> Table<U> deriveColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
