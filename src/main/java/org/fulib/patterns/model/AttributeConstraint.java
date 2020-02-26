@@ -78,6 +78,8 @@ public class AttributeConstraint
    }
 
    /**
+    * @return the predicate
+    *
     * @since 1.2
     */
    public Predicate<? super Object> getPredicate()

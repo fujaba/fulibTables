@@ -89,15 +89,25 @@ public class Pattern
    }
 
    /**
+    * @param name
+    *    the name of the pattern object to find
+    *
+    * @return the pattern object with the given name, or {@code null} if not found
+    *
     * @deprecated since 1.2; use {@link #getObject(String)} instead
     */
    @Deprecated
-   public PatternObject getObjects(String patternObjectName)
+   public PatternObject getObjects(String name)
    {
-      return this.getObject(patternObjectName);
+      return this.getObject(name);
    }
 
    /**
+    * @param name
+    *    the name of the pattern object to find
+    *
+    * @return the pattern object with the given name, or {@code null} if not found
+    *
     * @since 1.2
     */
    public PatternObject getObject(String name)

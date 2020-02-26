@@ -151,6 +151,8 @@ public class MatchConstraint
    }
 
    /**
+    * @return the predicate
+    *
     * @since 1.2
     */
    public Predicate<? super Map<String, Object>> getPredicate()
