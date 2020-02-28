@@ -112,7 +112,7 @@ public class Table<T> implements Iterable<T>
    // =============== Properties ===============
 
    /**
-    * @return the column name this table instance points to
+    * @return the name of the column this table points to
     */
    public String getColumnName()
    {
@@ -142,6 +142,8 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @return a 2D copy of the internal table
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
@@ -152,6 +154,8 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @return a copy of the internal column map
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
@@ -255,6 +259,8 @@ public class Table<T> implements Iterable<T>
     *    </tr>
     * </table>
     *
+    * @param <U>
+    *    the cell type of the new column
     * @param columnName
     *    the name of the new column
     * @param function
@@ -273,6 +279,14 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Implements the {@link #expand(String, Function)} operation, with the exception that it does not create the table
+    * instance that points to the new column.
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
     * @since 1.2
     */
    protected void expandImpl(String columnName, Function<? super T, ?> function)
@@ -320,6 +334,8 @@ public class Table<T> implements Iterable<T>
     *    </tr>
     * </table>
     *
+    * @param <U>
+    *    the cell type of the new column
     * @param columnName
     *    the name of the new column
     * @param function
@@ -338,6 +354,14 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Implements the {@link #expandAll(String, Function)} operation, with the exception that it does not create the
+    * table instance that points to the new column.
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a collection of values for the new column
+    *
     * @since 1.2
     */
    protected void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
@@ -388,6 +412,8 @@ public class Table<T> implements Iterable<T>
     *    </tr>
     * </table>
     *
+    * @param <U>
+    *    the cell type of the new column
     * @param columnName
     *    the name of the new column
     * @param function
@@ -406,6 +432,15 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
+    * predicate and does not return a table pointing to the new column.
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @see #deriveColumn(String, Function)
     * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
     */
    @Deprecated
@@ -426,6 +461,18 @@ public class Table<T> implements Iterable<T>
       this.columnMap.put(columnName, newColumnNumber);
    }
 
+   /**
+    * Removes all given columns from the underlying data structure and ensures no duplicate rows exist afterwards.
+    * Given column names that don't exist are ignored.
+    * <p>
+    * After this operation, table instances with the same underlying data that pointed to one of these columns will
+    * throw an exception when operated on in any way that accesses their corresponding column.
+    *
+    * @param columnNames
+    *    the names of columns to drop
+    *
+    * @return this instance, to allow method chaining
+    */
    public Table<T> dropColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
@@ -463,6 +510,22 @@ public class Table<T> implements Iterable<T>
       return this;
    }
 
+   /**
+    * Removes all columns from the underlying data structure except the give ones, and ensures no duplicate rows exist
+    * afterwards. If one of the given column names is not part of this table, an {@link IllegalArgumentException} is
+    * thrown and no changes are made.
+    * <p>
+    * After this operation, table instances with the same underlying data that pointed to a columns not part of the
+    * given ones will throw an exception when operated on in any way that accesses their corresponding column.
+    *
+    * @param columnNames
+    *    the names of columns to retain
+    *
+    * @return this instance, to allow method chaining
+    *
+    * @throws IllegalArgumentException
+    *    when {@code columnNames} contains a column name that is not part of this table
+    */
    public Table<T> selectColumns(String... columnNames)
    {
       Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
@@ -501,6 +564,15 @@ public class Table<T> implements Iterable<T>
 
    // --------------- Filter ---------------
 
+   /**
+    * Removes all rows from this table for which the predicate returned {@code false} when passed the cell value of the
+    * column this table points to.
+    *
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    */
    public Table<T> filter(Predicate<? super T> predicate)
    {
       int column = this.getColumnIndex();
@@ -509,6 +581,14 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Removes all rows from this table for which the predicate returned {@code false}.
+    * The rows are passed as maps from column name to cell value.
+    *
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    *
     * @since 1.2
     */
    public Table<T> filterRows(Predicate<? super Map<String, Object>> predicate)
@@ -517,6 +597,15 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Same as {@link #filterRows(Predicate)}, except it has stricter requirements on the parameter type of the
+    * predicate.
+    *
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    *
+    * @see #filterRows(Predicate)
     * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
     */
    @Deprecated
@@ -542,6 +631,8 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @return the number of rows of this table
+    *
     * @since 1.2
     */
    public int rowCount()
@@ -551,6 +642,8 @@ public class Table<T> implements Iterable<T>
 
    /**
     * {@inheritDoc}
+    *
+    * @return an iterator over the cell values of the column this table instance points to
     *
     * @since 1.2
     */
@@ -576,17 +669,25 @@ public class Table<T> implements Iterable<T>
       };
    }
 
+   /**
+    * @return a list of cell values of the column this table instance points to
+    */
    public List<T> toList()
    {
       return this.stream().collect(Collectors.toList());
    }
 
+   /**
+    * @return a set of cell values of the column this table instance points to
+    */
    public Set<T> toSet()
    {
       return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
    /**
+    * @return a stream of cell values of the column this table instance points to
+    *
     * @since 1.2
     */
    public Stream<T> stream()
