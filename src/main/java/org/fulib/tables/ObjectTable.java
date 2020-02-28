@@ -45,9 +45,10 @@ public class ObjectTable<T> extends Table<T>
          return;
       }
 
-      final Set<String> packageNames = Arrays.stream(start)
-                                             .map(o -> o.getClass().getPackage().getName())
-                                             .collect(Collectors.toSet());
+      final Set<String> packageNames = Arrays
+         .stream(start)
+         .map(o -> o.getClass().getPackage().getName())
+         .collect(Collectors.toSet());
       this.reflectorMap = new ReflectorMap(packageNames);
    }
 
@@ -65,16 +66,43 @@ public class ObjectTable<T> extends Table<T>
 
    // =============== Methods ===============
 
+   /**
+    * Removes all rows where the cell value does not have the named link to the cell value of the other table in the
+    * same row.
+    * This requires this and the other table to share the same underlying data structure.
+    * You can also pass this table as {@code otherTable} to check for self-associations.
+    * <p>
+    * Essentially equivalent to:
+    *
+    * <pre>{@code
+    *    this.filterRows(row -> {
+    *       Object source = row.get(this.getColumn());
+    *       Object target = row.get(otherTable.getColumn());
+    *       Object linkValue = source.get<linkName>(); // via reflection
+    *       return linkValue == target || linkValue instanceof Collection && ((Collection) linkValue).contains(other);
+    *    });
+    * }</pre>
+    *
+    * @param linkName
+    *    the name of the property on this table's objects
+    * @param otherTable
+    *    the table pointing to the column with link targets
+    *
+    * @return this instance, to allow method chaining
+    *
+    * @see #filterRows(Predicate)
+    */
    public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
       final int thisColumn = this.getColumnIndex();
       final int otherColumn = this.columnMap.get(otherTable.getColumnName());
       this.table.removeIf(row -> {
-         Object start = row.get(thisColumn);
-         Object other = row.get(otherColumn);
-         Reflector reflector = this.reflectorMap.getReflector(start);
-         Object value = reflector.getValue(start, linkName);
-         boolean keep = value == other || value instanceof Collection && ((Collection<?>) value).contains(other);
+         final Object source = row.get(thisColumn);
+         final Object target = row.get(otherColumn);
+         final Reflector reflector = this.reflectorMap.getReflector(source);
+         final Object linkValue = reflector.getValue(source, linkName);
+         final boolean keep =
+            linkValue == target || linkValue instanceof Collection && ((Collection<?>) linkValue).contains(target);
          return !keep;
       });
       return this;
@@ -92,7 +120,8 @@ public class ObjectTable<T> extends Table<T>
    }
 
    @Override
-   public <U> ObjectTable<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
+   public <U> ObjectTable<U> expandAll(String columnName,
+      Function<? super T, ? extends Collection<? extends U>> function)
    {
       this.expandAllImpl(columnName, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
@@ -100,6 +129,38 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Creates a new column by expanding the given link from the cells of the column this table points to.
+    * Links may be simple objects or collections, the latter of which will be flattened.
+    * Links that are {@code null} do not create a row.
+    * <p>
+    * Essentially equivalent to:
+    * <pre>{@code
+    *    this.expandAll(newColumnName, source -> {
+    *       final Object target = source.get<linkName>(); // via reflection
+    *       if (target instanceof Collection) {
+    *          return target;
+    *       }
+    *       else if (target == null) {
+    *          return Collections.emptyList();
+    *       }
+    *       else {
+    *          return Collections.singleton(target);
+    *       }
+    *    }
+    * }</pre>
+    *
+    * @param <U>
+    *    the type of the target objects
+    * @param newColumnName
+    *    the name of the new column
+    * @param linkName
+    *    the name of the property to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAll(String, Function)
+    */
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
       this.expandAllImpl(newColumnName, start -> {
