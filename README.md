@@ -25,40 +25,42 @@ dependencies {
 To demonstrate Fulib Tables we start with an extended version
 of the StudyRight University class model:
 
-<!-- insert_code_fragment: FulibTables.classmodel -->
-      ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
+<!-- insert_code_fragment: FulibTables.classmodel | fenced -->
+```java
+ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
 
-      ClassBuilder university = mb.buildClass("University").buildAttribute("name", STRING);
+ClassBuilder university = mb.buildClass("University").buildAttribute("name", STRING);
 
-      ClassBuilder student = mb.buildClass("Student")
-                               .buildAttribute("name", STRING)
-                               .buildAttribute("studentId", STRING)
-                               .buildAttribute("credits", DOUBLE)
-                               .buildAttribute("points", DOUBLE)
-                               .buildAttribute("motivation", DOUBLE);
+ClassBuilder student = mb.buildClass("Student")
+                         .buildAttribute("name", STRING)
+                         .buildAttribute("studentId", STRING)
+                         .buildAttribute("credits", DOUBLE)
+                         .buildAttribute("points", DOUBLE)
+                         .buildAttribute("motivation", DOUBLE);
 
-      ClassBuilder room = mb.buildClass("Room")
-                            .buildAttribute("roomNo", STRING)
-                            .buildAttribute("topic", STRING)
-                            .buildAttribute("credits", DOUBLE);
+ClassBuilder room = mb.buildClass("Room")
+                      .buildAttribute("roomNo", STRING)
+                      .buildAttribute("topic", STRING)
+                      .buildAttribute("credits", DOUBLE);
 
-      ClassBuilder assignment = mb.buildClass("Assignment")
-                                  .buildAttribute("task", STRING)
-                                  .buildAttribute("points", DOUBLE);
+ClassBuilder assignment = mb.buildClass("Assignment")
+                            .buildAttribute("task", STRING)
+                            .buildAttribute("points", DOUBLE);
 
-      university.buildAssociation(student, "students", MANY, "uni", ONE);
-      university.buildAssociation(room, "rooms", MANY, "uni", ONE);
-      room.buildAssociation(student, "students", MANY, "in", ONE);
-      room.buildAssociation(assignment, "assignments", MANY, "room", ONE);
-      student.buildAssociation(assignment, "done", MANY, "students", MANY);
-      student.buildAssociation(student, "friends", MANY, "friends", MANY);
+university.buildAssociation(student, "students", MANY, "uni", ONE);
+university.buildAssociation(room, "rooms", MANY, "uni", ONE);
+room.buildAssociation(student, "students", MANY, "in", ONE);
+room.buildAssociation(assignment, "assignments", MANY, "room", ONE);
+student.buildAssociation(assignment, "done", MANY, "students", MANY);
+student.buildAssociation(student, "friends", MANY, "friends", MANY);
 
-      ClassModel model = mb.getClassModel();
+ClassModel model = mb.getClassModel();
 
-      FulibTools.classDiagrams().dumpSVG(model, "doc/images/MainClassDiagram.svg");
-      FulibTools.classDiagrams().dumpPng(model, "doc/images/MainClassDiagram.png");
+FulibTools.classDiagrams().dumpSVG(model, "doc/images/MainClassDiagram.svg");
+FulibTools.classDiagrams().dumpPng(model, "doc/images/MainClassDiagram.png");
 
-      Fulib.generator().generate(model);
+Fulib.generator().generate(model);
+```
 <!-- end_code_fragment: -->
 
 
@@ -68,25 +70,27 @@ Rendered as a class diagram the extended class model looks like:
 
 Once the generated code is compiled we may construct some objects:
 
-<!-- insert_code_fragment: FulibTables.objectModel -->
-      // build object structure
-      University studyRight = new University().setName("Study Right");
+<!-- insert_code_fragment: FulibTables.objectModel | fenced -->
+```java
+// build object structure
+University studyRight = new University().setName("Study Right");
 
-      Room mathRoom = new Room().setRoomNo("wa1337").setTopic("Math").setCredits(42.0).setUni(studyRight);
-      Room artsRoom = new Room().setRoomNo("wa1338").setTopic("Arts").setCredits(23.0).setUni(studyRight);
-      Room sportsRoom = new Room().setRoomNo("wa1339").setTopic("Football").setUni(studyRight);
+Room mathRoom = new Room().setRoomNo("wa1337").setTopic("Math").setCredits(42.0).setUni(studyRight);
+Room artsRoom = new Room().setRoomNo("wa1338").setTopic("Arts").setCredits(23.0).setUni(studyRight);
+Room sportsRoom = new Room().setRoomNo("wa1339").setTopic("Football").setUni(studyRight);
 
-      Assignment integrals = new Assignment().setTask("integrals").setPoints(42).setRoom(mathRoom);
-      Assignment matrix = new Assignment().setTask("matrices").setPoints(23).setRoom(mathRoom);
-      Assignment drawings = new Assignment().setTask("drawings").setPoints(12).setRoom(artsRoom);
-      Assignment sculptures = new Assignment().setTask("sculptures").setPoints(12).setRoom(artsRoom);
+Assignment integrals = new Assignment().setTask("integrals").setPoints(42).setRoom(mathRoom);
+Assignment matrix = new Assignment().setTask("matrices").setPoints(23).setRoom(mathRoom);
+Assignment drawings = new Assignment().setTask("drawings").setPoints(12).setRoom(artsRoom);
+Assignment sculptures = new Assignment().setTask("sculptures").setPoints(12).setRoom(artsRoom);
 
-      Student alice = new Student().setStudentId("m4242").setName("Alice").setUni(studyRight).setIn(mathRoom).withDone(integrals);
-      Student bob   = new Student().setStudentId("m2323").setName("Bobby").setUni(studyRight).setIn(artsRoom).withFriends(alice);
-      Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
+Student alice = new Student().setStudentId("m4242").setName("Alice").setUni(studyRight).setIn(mathRoom).withDone(integrals);
+Student bob   = new Student().setStudentId("m2323").setName("Bobby").setUni(studyRight).setIn(artsRoom).withFriends(alice);
+Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
 
-      FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
+FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
+FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
+```
 <!-- end_code_fragment: -->
 
 This results in:
@@ -97,11 +101,13 @@ This results in:
 Fulib Tables provides class ObjectTable which allows us to do some table stuff:
 
 
-<!-- insert_code_fragment: FulibTables.createUniTable1 -->
-      // some table stuff
-      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
-      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
-      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+<!-- insert_code_fragment: FulibTables.createUniTable1 | fenced -->
+```java
+// some table stuff
+ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+```
 <!-- end_code_fragment: -->
 
 The first line generates an "universityTable" with just one "University" column
@@ -156,23 +162,27 @@ Each table wrapper also offers is also an `Iterable` listing all objects
 of the corresponding column. Thus, to sum up the points of all assignments
 of our table we may:
 
-<!-- insert_code_fragment: FulibTables.loop_through_assignments -->
-      double sum = 0;
-      for (Assignment a : assignmentsTable)
-      {
-         sum += a.getPoints();
-      }
-      assertThat(sum, equalTo(89.0));
+<!-- insert_code_fragment: FulibTables.loop_through_assignments | fenced -->
+```java
+double sum = 0;
+for (Assignment a : assignmentsTable)
+{
+   sum += a.getPoints();
+}
+assertThat(sum, equalTo(89.0));
+```
 <!-- end_code_fragment: -->
 
 Alternatively, we may expand the assignmentsTable by a "Points" column:
 
-<!-- insert_code_fragment: FulibTables.pointsTable -->
-      doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
-      sum = pointsTable.sum();
-      assertThat(roomsTable.rowCount(), equalTo(4));
-      assertThat(assignmentsTable.rowCount(), equalTo(4));
-      assertThat(sum, equalTo(89.0));
+<!-- insert_code_fragment: FulibTables.pointsTable | fenced -->
+```java
+doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
+sum = pointsTable.sum();
+assertThat(roomsTable.rowCount(), equalTo(4));
+assertThat(assignmentsTable.rowCount(), equalTo(4));
+assertThat(sum, equalTo(89.0));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.pointsTableResult -->
@@ -189,9 +199,11 @@ double values contained in the corresponding column.
 
 To further expand our table we might add students that are in rooms:
 
-<!-- insert_code_fragment: FulibTables.studentsTable -->
-      ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
-      assertThat(students.rowCount(), equalTo(6));
+<!-- insert_code_fragment: FulibTables.studentsTable | fenced -->
+```java
+ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
+assertThat(students.rowCount(), equalTo(6));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.studentsTableResult -->
@@ -211,9 +223,11 @@ for each room.
 In addition to the cross product we may select a subset of the
 table rows using a filter operation:
 
-<!-- insert_code_fragment: FulibTables.filterAssignmentsTable -->
-      assignmentsTable.filter(a -> a.getPoints() <= 30);
-      assertThat(students.rowCount(), equalTo(4));
+<!-- insert_code_fragment: FulibTables.filterAssignmentsTable | fenced -->
+```java
+assignmentsTable.filter(a -> a.getPoints() <= 30);
+assertThat(students.rowCount(), equalTo(4));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterAssignmentsTableResult -->
@@ -227,20 +241,22 @@ table rows using a filter operation:
 
 Alternatively we may filter by rows:
 
-<!-- insert_code_fragment: FulibTables.filterRowTable -->
-      // filter row
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+<!-- insert_code_fragment: FulibTables.filterRowTable | fenced -->
+```java
+// filter row
+universityTable = new ObjectTable<>("University", studyRight);
+roomsTable = universityTable.expandAll("Room", University::getRooms);
+students = roomsTable.expandAll("Student", Room::getStudents);
+assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
-      students.filterRows(row -> {
-         Student studi = (Student) row.get("Student");
-         Assignment assignment = (Assignment) row.get("Assignment");
-         return studi.getDone().contains(assignment);
-      });
+students.filterRows(row -> {
+   Student studi = (Student) row.get("Student");
+   Assignment assignment = (Assignment) row.get("Assignment");
+   return studi.getDone().contains(assignment);
+});
 
-      assertThat(students.rowCount(), equalTo(1));
+assertThat(students.rowCount(), equalTo(1));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterRowTableResult -->
@@ -257,15 +273,17 @@ Above row filter requires that the current student has done the
 current assignment. This filter condition may also be expressed by a
 hasLink operation:
 
-<!-- insert_code_fragment: FulibTables.filterHasDone -->
-      // filter row
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-      students.hasLink(Student.PROPERTY_done, assignmentsTable);
+<!-- insert_code_fragment: FulibTables.filterHasDone | fenced -->
+```java
+// filter row
+universityTable = new ObjectTable<>("University", studyRight);
+roomsTable = universityTable.expandAll("Room", University::getRooms);
+students = roomsTable.expandAll("Student", Room::getStudents);
+assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+students.hasLink(Student.PROPERTY_done, assignmentsTable);
 
-      assertThat(students.rowCount(), equalTo(1));
+assertThat(students.rowCount(), equalTo(1));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterHasDoneResult -->
@@ -278,33 +296,35 @@ hasLink operation:
 Maybe its bad style, but the filter operations may also be used to modify
 the current model:
 
-<!-- insert_code_fragment: FulibTables.doCurrentAssignments -->
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+<!-- insert_code_fragment: FulibTables.doCurrentAssignments | fenced -->
+```java
+universityTable = new ObjectTable<>("University", studyRight);
+roomsTable = universityTable.expandAll("Room", University::getRooms);
+students = roomsTable.expandAll("Student", Room::getStudents);
+assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
-      // do current assignments
-      students.filterRows(row -> {
-         Student studi = (Student) row.get("Student");
-         Assignment assignment = (Assignment) row.get("Assignment");
-         studi.withDone(assignment);
-         return true;
-      });
+// do current assignments
+students.filterRows(row -> {
+   Student studi = (Student) row.get("Student");
+   Assignment assignment = (Assignment) row.get("Assignment");
+   studi.withDone(assignment);
+   return true;
+});
 
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4Tables.png", studyRight);
+FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4Tables.png", studyRight);
 
-      assertThat(alice.getDone().size(), equalTo(2));
-      assertThat(integrals.getStudents().contains(alice), is(true));
+assertThat(alice.getDone().size(), equalTo(2));
+assertThat(integrals.getStudents().contains(alice), is(true));
 
-      // show size of done
-      universityTable.deriveColumn("noOfDone", row -> {
-         Student studi = (Student) row.get("Student");
-         return studi.getDone().size();
-      });
+// show size of done
+universityTable.deriveColumn("noOfDone", row -> {
+   Student studi = (Student) row.get("Student");
+   return studi.getDone().size();
+});
 
-      // show done
-      students.expandAll("Done", Student::getDone);
+// show done
+students.expandAll("Done", Student::getDone);
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.doCurrentAssignmentsResult -->
@@ -329,8 +349,10 @@ the current model:
 As the current table contains some confusing cross products let
 us drop the Assignment column:
 
-<!-- insert_code_fragment: FulibTables.dropColumnsAssignment -->
-      universityTable.dropColumns("Assignment");
+<!-- insert_code_fragment: FulibTables.dropColumnsAssignment | fenced -->
+```java
+universityTable.dropColumns("Assignment");
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.dropColumnsAssignmentResult -->
@@ -346,9 +368,11 @@ us drop the Assignment column:
 
 Alternatively, we may select the columns we are interested in:
 
-<!-- insert_code_fragment: FulibTables.selectColumns -->
-      students.selectColumns("Student", "Done");
-      assertThat(students.rowCount(), equalTo(6));
+<!-- insert_code_fragment: FulibTables.selectColumns | fenced -->
+```java
+students.selectColumns("Student", "Done");
+assertThat(students.rowCount(), equalTo(6));
+```
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.selectColumnsResult -->
@@ -365,27 +389,29 @@ Alternatively, we may select the columns we are interested in:
 Note, you may use nested tables. This is handy if you
 want to update all elements of a certain column.
 
-<!-- insert_code_fragment: FulibTables.nestedTables -->
-      universityTable = new ObjectTable<>("University", studyRight);
-      students = universityTable.expandAll("Students", University::getStudents);
-      students.deriveColumn("Credits", row -> {
-         Student student = (Student) row.get("Students");
-         double pointSum = new ObjectTable<>(student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Points", Assignment::getPoints)
-            .as(doubleTable.class)
-            .sum();
-         student.setCredits(pointSum);
-         return pointSum;
-      });
-      students.deriveColumn("Done", row -> {
-         Student student = (Student) row.get("Students");
-         return new ObjectTable<>("Students", student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Tasks", Assignment::getTask)
-            .as(StringTable.class)
-            .join(", ");
-      });
+<!-- insert_code_fragment: FulibTables.nestedTables | fenced -->
+```java
+universityTable = new ObjectTable<>("University", studyRight);
+students = universityTable.expandAll("Students", University::getStudents);
+students.deriveColumn("Credits", row -> {
+   Student student = (Student) row.get("Students");
+   double pointSum = new ObjectTable<>(student)
+      .expandAll("Assignments", Student::getDone)
+      .expand("Points", Assignment::getPoints)
+      .as(doubleTable.class)
+      .sum();
+   student.setCredits(pointSum);
+   return pointSum;
+});
+students.deriveColumn("Done", row -> {
+   Student student = (Student) row.get("Students");
+   return new ObjectTable<>("Students", student)
+      .expandAll("Assignments", Student::getDone)
+      .expand("Tasks", Assignment::getTask)
+      .as(StringTable.class)
+      .join(", ");
+});
+```
 <!-- end_code_fragment: -->
 
 Note, in the third last line operation expandTopic adds a column with
