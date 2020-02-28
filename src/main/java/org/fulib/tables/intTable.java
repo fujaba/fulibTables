@@ -41,6 +41,9 @@ public class intTable extends PrimitiveTable<Integer>
    }
 
    /**
+    * @return the average of the cell values of the column this table points to,
+    * or {@link Double#NaN} if this table is empty
+    *
     * @since 1.2
     */
    public double average()

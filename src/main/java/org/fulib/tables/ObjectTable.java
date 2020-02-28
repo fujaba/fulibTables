@@ -178,6 +178,11 @@ public class ObjectTable<T> extends Table<T>
    // =============== Deprecated and Compatibility Methods ===============
 
    /**
+    * @param columnName
+    *    the name of the column this table should point to
+    *
+    * @return this instance, to allow method chaining
+    *
     * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
     */
    @Deprecated
@@ -188,6 +193,11 @@ public class ObjectTable<T> extends Table<T>
    }
 
    /**
+    * @param table
+    *    the list of rows
+    *
+    * @return this instance, to allow method chaining
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
@@ -198,6 +208,11 @@ public class ObjectTable<T> extends Table<T>
    }
 
    /**
+    * @param columnMap
+    *    the map from column name to index in the lists that make up rows
+    *
+    * @return this instance, to allow method chaining
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated

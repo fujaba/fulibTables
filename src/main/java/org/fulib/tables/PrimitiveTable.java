@@ -22,6 +22,9 @@ class PrimitiveTable<T> extends Table<T>
    // =============== Properties ===============
 
    /**
+    * @param columnName
+    *    the name of the column this table should point to
+    *
     * @deprecated since 1.2; set via the constructor and not meant to be changed afterward
     */
    @Deprecated
@@ -31,6 +34,9 @@ class PrimitiveTable<T> extends Table<T>
    }
 
    /**
+    * @param table
+    *    the list of rows
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
@@ -40,6 +46,9 @@ class PrimitiveTable<T> extends Table<T>
    }
 
    /**
+    * @param columnMap
+    *    the map from column name to index in the lists that make up rows
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
