@@ -76,3 +76,10 @@ dependencies {
 revapi {
    oldVersion = '1.1.0'
 }
+
+tasks.named('test') {
+   def codeFragmentFiles = fileTree(test.workingDir).include('*.java', '*.md', 'build.gradle')
+   it.inputs.files(codeFragmentFiles)
+   it.outputs.files(codeFragmentFiles)
+   it.outputs.dir('doc')
+}
