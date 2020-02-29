@@ -234,30 +234,36 @@ public class Table<T> implements Iterable<T>
     * this table.
     * <p>
     * Example:
-    * <pre><code>
-    *    Table&lt;Integer&gt; a = new Table("A", 1, 2, 3);
-    *    Table&lt;Integer&gt; b = a.expand("B", i -&gt; i * 2);
-    * </code></pre>
+    * <!-- insert_code_fragment: TableTest.expand | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2, 3);
+    * Table<Integer> b = a.expand("B", i -> i * 2);
+    * }</pre>
+    * <!-- end_code_fragment: -->
     *
+    * <!-- insert_code_fragment: TableTest.expand.b -->
     * <table>
-    *    <caption>b</caption>
-    *    <tr>
-    *       <th>A</th>
-    *       <th>B</th>
-    *    </tr>
-    *    <tr>
-    *       <td>1</td>
-    *       <td>2</td>
-    *    </tr>
-    *    <tr>
-    *       <td>2</td>
-    *       <td>4</td>
-    *    </tr>
-    *    <tr>
-    *       <td>3</td>
-    *       <td>6</td>
-    *    </tr>
+    *     <caption>
+    *         b
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>4</td>
+    *     </tr>
+    *     <tr>
+    *         <td>3</td>
+    *         <td>6</td>
+    *     </tr>
     * </table>
+    * <!-- end_code_fragment: -->
     *
     * @param <U>
     *    the cell type of the new column
