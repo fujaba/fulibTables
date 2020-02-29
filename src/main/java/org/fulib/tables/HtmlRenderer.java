@@ -50,7 +50,7 @@ public class HtmlRenderer
       return builder.toString();
    }
 
-   private void render(Table<?> table, Appendable builder) throws IOException
+   public void render(Table<?> table, Appendable builder) throws IOException
    {
       final String i = this.indent;
 
