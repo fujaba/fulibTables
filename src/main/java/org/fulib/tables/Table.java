@@ -17,6 +17,8 @@ public class Table<T> implements Iterable<T>
 
    private static final String DEFAULT_COLUMN_NAME = "A";
 
+   private static final Renderer TOSTRING_RENDERER = new MarkdownRenderer();
+
    // =============== Fields ===============
 
    private String columnName;
@@ -873,27 +875,6 @@ public class Table<T> implements Iterable<T>
    @Override
    public String toString()
    {
-      StringBuilder buf = new StringBuilder("| ");
-      for (String key : this.columnMap.keySet())
-      {
-         buf.append(key).append(" \t| ");
-      }
-      buf.append("\n| ");
-      for (String ignored : this.columnMap.keySet())
-      {
-         buf.append(" --- \t| ");
-      }
-      buf.append("\n");
-      for (List<Object> row : this.table)
-      {
-         buf.append("| ");
-         for (Object cell : row)
-         {
-            buf.append(cell).append(" \t| ");
-         }
-         buf.append("\n");
-      }
-      buf.append("\n");
-      return buf.toString();
+      return TOSTRING_RENDERER.render(this);
    }
 }
