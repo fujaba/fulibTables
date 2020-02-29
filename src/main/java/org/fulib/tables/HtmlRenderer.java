@@ -15,9 +15,10 @@ public class HtmlRenderer
       return this.caption;
    }
 
-   public void setCaption(String caption)
+   public HtmlRenderer setCaption(String caption)
    {
       this.caption = caption;
+      return this;
    }
 
    public String getIndent()
@@ -25,9 +26,10 @@ public class HtmlRenderer
       return this.indent;
    }
 
-   public void setIndent(String indent)
+   public HtmlRenderer setIndent(String indent)
    {
       this.indent = indent;
+      return this;
    }
 
    public String render(Table<?> table)
