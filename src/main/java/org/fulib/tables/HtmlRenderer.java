@@ -3,6 +3,11 @@ package org.fulib.tables;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Allows rendering {@link Table} instances as HTML {@code <table>}.
+ *
+ * @since 1.2
+ */
 public class HtmlRenderer
 {
    private static final String DEFAULT_INDENT = "    ";
