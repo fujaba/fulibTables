@@ -15,7 +15,7 @@ repositories {
 
 ```groovy
 dependencies {
-    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
+    // https://mvnrepository.com/artifact/org.fulib/fulibTables
     compile group: 'org.fulib', name: 'fulibTables', version: '1.1.0'
 }
 ```
