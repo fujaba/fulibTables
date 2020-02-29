@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TableTest
 {
@@ -55,17 +56,37 @@ public class TableTest
       assertEquals(Arrays.asList(11, 22), c.toList());
    }
 
-   @Test(expected = IllegalStateException.class)
-   public void evictedColumnViaSelect()
+   @Test
+   public void selectColumns()
    {
-      final Table<String> table0 = new StringTable("a", "b", "c");
-      final Table<String> table1 = table0.deriveColumn("uppercase", map -> {
-         return map.get("A").toString().toUpperCase();
-      });
+      // start_code_fragment: TableTest.selectColumns.initial
+      Table<String> names = new StringTable("Alice", "Bob", "Charlie", "alice");
+      Table<String> uppercase = names.expand("uppercase", String::toUpperCase);
+      Table<String> lowercase = names.expand("lowercase", String::toLowerCase);
+      // end_code_fragment:
 
-      table1.selectColumns("uppercase");
+      fragments.addFragment("TableTest.selectColumns.before", new HtmlRenderer().setCaption("before").render(names));
 
-      table0.getColumnIndex();
+      assertEquals(Arrays.asList("ALICE", "BOB", "CHARLIE", "ALICE"), uppercase.toList());
+
+      // start_code_fragment: TableTest.selectColumns.select
+      names.selectColumns("uppercase", "lowercase");
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.selectColumns.after", new HtmlRenderer().setCaption("after").render(names));
+
+      assertEquals(Arrays.asList("ALICE", "BOB", "CHARLIE"), uppercase.toList());
+
+      try
+      {
+         // start_code_fragment: TableTest.selectColumns.exception
+         names.toList(); // throws IllegalStateException
+         // end_code_fragment:
+         fail("did not throw IllegalStateException");
+      }
+      catch (IllegalStateException expected)
+      {
+      }
    }
 
    @Test(expected = IllegalStateException.class)

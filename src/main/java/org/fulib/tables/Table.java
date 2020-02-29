@@ -535,6 +535,84 @@ public class Table<T> implements Iterable<T>
     * <p>
     * After this operation, table instances with the same underlying data that pointed to a columns not part of the
     * given ones will throw an exception when operated on in any way that accesses their corresponding column.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.selectColumns.initial | javadoc -->
+    * <pre>{@code
+    * Table<String> names = new StringTable("Alice", "Bob", "Charlie", "alice");
+    * Table<String> uppercase = names.expand("uppercase", String::toUpperCase);
+    * Table<String> lowercase = names.expand("lowercase", String::toLowerCase);
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.selectColumns.before -->
+    * <table>
+    *     <caption>
+    *         before
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>uppercase</th>
+    *         <th>lowercase</th>
+    *     </tr>
+    *     <tr>
+    *         <td>Alice</td>
+    *         <td>ALICE</td>
+    *         <td>alice</td>
+    *     </tr>
+    *     <tr>
+    *         <td>Bob</td>
+    *         <td>BOB</td>
+    *         <td>bob</td>
+    *     </tr>
+    *     <tr>
+    *         <td>Charlie</td>
+    *         <td>CHARLIE</td>
+    *         <td>charlie</td>
+    *     </tr>
+    *     <tr>
+    *         <td>alice</td>
+    *         <td>ALICE</td>
+    *         <td>alice</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.selectColumns.select | javadoc -->
+    * <pre>{@code
+    * names.selectColumns("uppercase", "lowercase");
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.selectColumns.after -->
+    * <table>
+    *     <caption>
+    *         after
+    *     </caption>
+    *     <tr>
+    *         <th>uppercase</th>
+    *         <th>lowercase</th>
+    *     </tr>
+    *     <tr>
+    *         <td>ALICE</td>
+    *         <td>alice</td>
+    *     </tr>
+    *     <tr>
+    *         <td>BOB</td>
+    *         <td>bob</td>
+    *     </tr>
+    *     <tr>
+    *         <td>CHARLIE</td>
+    *         <td>charlie</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.selectColumns.exception | javadoc -->
+    * <pre>{@code
+    * names.toList(); // throws IllegalStateException
+    * }</pre>
+    * <!-- end_code_fragment: -->
     *
     * @param columnNames
     *    the names of columns to retain
