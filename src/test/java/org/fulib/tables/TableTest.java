@@ -89,6 +89,39 @@ public class TableTest
       }
    }
 
+   @Test
+   public void dropColumns()
+   {
+      // start_code_fragment: TableTest.dropColumns.initial
+      Table<String> names = new StringTable("Alice", "Bob", "Charlie", "alice");
+      Table<String> uppercase = names.expand("uppercase", String::toUpperCase);
+      Table<String> lowercase = names.expand("lowercase", String::toLowerCase);
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.dropColumns.before", new HtmlRenderer().setCaption("before").render(names));
+
+      assertEquals(Arrays.asList("ALICE", "BOB", "CHARLIE", "ALICE"), uppercase.toList());
+
+      // start_code_fragment: TableTest.dropColumns.select
+      names.dropColumns(names.getColumnName());
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.dropColumns.after", new HtmlRenderer().setCaption("after").render(names));
+
+      assertEquals(Arrays.asList("ALICE", "BOB", "CHARLIE"), uppercase.toList());
+
+      try
+      {
+         // start_code_fragment: TableTest.dropColumns.exception
+         names.toList(); // throws IllegalStateException
+         // end_code_fragment:
+         fail("did not throw IllegalStateException");
+      }
+      catch (IllegalStateException expected)
+      {
+      }
+   }
+
    @Test(expected = IllegalStateException.class)
    public void evictedColumnViaDrop()
    {
