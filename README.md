@@ -114,9 +114,9 @@ The first line generates an "universityTable" with just one "University" column
 and with just one row containing the "StudyRight" object.
 
 <!-- insert_code_fragment: FulibTables.uniTable1 -->
-| University 	| 
-|  --- 	| 
-| Study Right 	| 
+| University 	|
+| --- |
+| Study Right 	|
 <!-- end_code_fragment: -->
 
 The second line extends the universityTable with a "Room" column.
@@ -128,11 +128,11 @@ attached to it. For each uni object u and room r pair, we create a new row
 in the resulting "roomsTable" table.
 
 <!-- insert_code_fragment: FulibTables.uniTable2 -->
-| University 	| Room 	| 
-|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| 
-| Study Right 	| wa1338 Arts 	| 
-| Study Right 	| wa1339 Football 	| 
+| University 	| Room 	|
+| --- | --- |
+| Study Right 	| wa1337 Math 	|
+| Study Right 	| wa1338 Arts 	|
+| Study Right 	| wa1339 Football 	|
 <!-- end_code_fragment: -->
 
 
@@ -145,12 +145,12 @@ we create a result row containg u, r, and a.
 The table below shows the current result:
 
 <!-- insert_code_fragment: FulibTables.uniTable3 -->
-| University 	| Room 	| Assignment 	| 
-|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 
-| Study Right 	| wa1338 Arts 	| drawings 	| 
-| Study Right 	| wa1338 Arts 	| sculptures 	| 
+| University 	| Room 	| Assignment 	|
+| --- | --- | --- |
+| Study Right 	| wa1337 Math 	| integrals 	|
+| Study Right 	| wa1337 Math 	| matrices 	|
+| Study Right 	| wa1338 Arts 	| drawings 	|
+| Study Right 	| wa1338 Arts 	| sculptures 	|
 <!-- end_code_fragment: -->
 
 Note, all three variables universityTable, roomsTable, and assignmentsTable
@@ -186,12 +186,12 @@ assertThat(sum, equalTo(89.0));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.pointsTableResult -->
-| University 	| Room 	| Assignment 	| Points 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| 
-| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	| 
-| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	| 
+| University 	| Room 	| Assignment 	| Points 	|
+| --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	|
+| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	|
+| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	|
+| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	|
 <!-- end_code_fragment: -->
 
 The resulting pointsTable has a sum method that sums up all
@@ -207,14 +207,14 @@ assertThat(students.rowCount(), equalTo(6));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.studentsTableResult -->
-| University 	| Room 	| Assignment 	| Points 	| Student 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	| Alice m4242 	| 
-| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	| Carli m2323 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Alice m4242 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Carli m2323 	| 
-| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	| Bobby m2323 	| 
-| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	| Bobby m2323 	| 
+| University 	| Room 	| Assignment 	| Points 	| Student 	|
+| --- | --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	| Alice m4242 	|
+| Study Right 	| wa1337 Math 	| integrals 	| 42.0 	| Carli m2323 	|
+| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Alice m4242 	|
+| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Carli m2323 	|
+| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	| Bobby m2323 	|
+| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	| Bobby m2323 	|
 <!-- end_code_fragment: -->
 
 The resulting table has the cross product of assignments and students
@@ -231,12 +231,12 @@ assertThat(students.rowCount(), equalTo(4));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterAssignmentsTableResult -->
-| University 	| Room 	| Assignment 	| Points 	| Student 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Alice m4242 	| 
-| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Carli m2323 	| 
-| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	| Bobby m2323 	| 
-| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	| Bobby m2323 	| 
+| University 	| Room 	| Assignment 	| Points 	| Student 	|
+| --- | --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Alice m4242 	|
+| Study Right 	| wa1337 Math 	| matrices 	| 23.0 	| Carli m2323 	|
+| Study Right 	| wa1338 Arts 	| drawings 	| 12.0 	| Bobby m2323 	|
+| Study Right 	| wa1338 Arts 	| sculptures 	| 12.0 	| Bobby m2323 	|
 <!-- end_code_fragment: -->
 
 Alternatively we may filter by rows:
@@ -260,9 +260,9 @@ assertThat(students.rowCount(), equalTo(1));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterRowTableResult -->
-| University 	| Room 	| Student 	| Assignment 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 
+| University 	| Room 	| Student 	| Assignment 	|
+| --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	|
 <!-- end_code_fragment: -->
 
 Note, when we did the filter by assignment, our internal table had
@@ -287,9 +287,9 @@ assertThat(students.rowCount(), equalTo(1));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.filterHasDoneResult -->
-| University 	| Room 	| Student 	| Assignment 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 
+| University 	| Room 	| Student 	| Assignment 	|
+| --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	|
 <!-- end_code_fragment: -->
 
 
@@ -328,20 +328,20 @@ students.expandAll("Done", Student::getDone);
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.doCurrentAssignmentsResult -->
-| University 	| Room 	| Student 	| Assignment 	| noOfDone 	| Done 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 2 	| matrices 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| matrices 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| matrices 	| 2 	| matrices 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| integrals 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| integrals 	| 2 	| matrices 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| matrices 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| matrices 	| 2 	| matrices 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| drawings 	| 2 	| drawings 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| drawings 	| 2 	| sculptures 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| sculptures 	| 2 	| drawings 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| sculptures 	| 2 	| sculptures 	| 
+| University 	| Room 	| Student 	| Assignment 	| noOfDone 	| Done 	|
+| --- | --- | --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	| 2 	| matrices 	|
+| Study Right 	| wa1337 Math 	| Alice m4242 	| matrices 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Alice m4242 	| matrices 	| 2 	| matrices 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| integrals 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| integrals 	| 2 	| matrices 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| matrices 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| matrices 	| 2 	| matrices 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| drawings 	| 2 	| drawings 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| drawings 	| 2 	| sculptures 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| sculptures 	| 2 	| drawings 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| sculptures 	| 2 	| sculptures 	|
 <!-- end_code_fragment: -->
 
 ![object diagram](doc/images/studyRightObjectsMoreDone4Tables.png)
@@ -356,14 +356,14 @@ universityTable.dropColumns("Assignment");
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.dropColumnsAssignmentResult -->
-| University 	| Room 	| Student 	| noOfDone 	| Done 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Alice m4242 	| 2 	| matrices 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| 2 	| integrals 	| 
-| Study Right 	| wa1337 Math 	| Carli m2323 	| 2 	| matrices 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| 2 	| drawings 	| 
-| Study Right 	| wa1338 Arts 	| Bobby m2323 	| 2 	| sculptures 	| 
+| University 	| Room 	| Student 	| noOfDone 	| Done 	|
+| --- | --- | --- | --- | --- |
+| Study Right 	| wa1337 Math 	| Alice m4242 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Alice m4242 	| 2 	| matrices 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| 2 	| integrals 	|
+| Study Right 	| wa1337 Math 	| Carli m2323 	| 2 	| matrices 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| 2 	| drawings 	|
+| Study Right 	| wa1338 Arts 	| Bobby m2323 	| 2 	| sculptures 	|
 <!-- end_code_fragment: -->
 
 Alternatively, we may select the columns we are interested in:
@@ -376,14 +376,14 @@ assertThat(students.rowCount(), equalTo(6));
 <!-- end_code_fragment: -->
 
 <!-- insert_code_fragment: FulibTables.selectColumnsResult -->
-| Student 	| Done 	| 
-|  --- 	|  --- 	| 
-| Alice m4242 	| integrals 	| 
-| Alice m4242 	| matrices 	| 
-| Carli m2323 	| integrals 	| 
-| Carli m2323 	| matrices 	| 
-| Bobby m2323 	| drawings 	| 
-| Bobby m2323 	| sculptures 	| 
+| Student 	| Done 	|
+| --- | --- |
+| Alice m4242 	| integrals 	|
+| Alice m4242 	| matrices 	|
+| Carli m2323 	| integrals 	|
+| Carli m2323 	| matrices 	|
+| Bobby m2323 	| drawings 	|
+| Bobby m2323 	| sculptures 	|
 <!-- end_code_fragment: -->
 
 Note, you may use nested tables. This is handy if you
@@ -420,11 +420,11 @@ On string columns one may call join in order to concatenate all
 strings.
 
 <!-- insert_code_fragment: FulibTables.nestedTablesResult -->
-| University 	| Students 	| Credits 	| Done 	| 
-|  --- 	|  --- 	|  --- 	|  --- 	| 
-| Study Right 	| Alice m4242 	| 65.0 	| integrals, matrices 	| 
-| Study Right 	| Bobby m2323 	| 24.0 	| drawings, sculptures 	| 
-| Study Right 	| Carli m2323 	| 65.0 	| integrals, matrices 	| 
+| University 	| Students 	| Credits 	| Done 	|
+| --- | --- | --- | --- |
+| Study Right 	| Alice m4242 	| 65.0 	| integrals, matrices 	|
+| Study Right 	| Bobby m2323 	| 24.0 	| drawings, sculptures 	|
+| Study Right 	| Carli m2323 	| 65.0 	| integrals, matrices 	|
 <!-- end_code_fragment: -->
 
 ![object diagram](doc/images/studyRightObjectsCreditsAssigned4Tables.png)

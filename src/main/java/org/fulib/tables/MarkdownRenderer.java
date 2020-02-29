@@ -8,26 +8,25 @@ public class MarkdownRenderer implements Renderer
    @Override
    public void render(Table<?> table, Appendable builder) throws IOException
    {
-      builder.append("| ");
       for (String key : table.columnMap.keySet())
       {
-         builder.append(key).append(" \t| ");
+         builder.append("| ").append(key).append(" \t");
       }
-      builder.append("\n| ");
+      builder.append("|\n");
+
       for (String ignored : table.columnMap.keySet())
       {
-         builder.append(" --- \t| ");
+         builder.append("| --- ");
       }
-      builder.append("\n");
+      builder.append("|\n");
+
       for (List<Object> row : table.table)
       {
-         builder.append("| ");
          for (Object cell : row)
          {
-            builder.append(String.valueOf(cell)).append(" \t| ");
+            builder.append("| ").append(String.valueOf(cell)).append(" \t");
          }
-         builder.append("\n");
+         builder.append("|\n");
       }
-      builder.append("\n");
    }
 }
