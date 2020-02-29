@@ -40,6 +40,21 @@ public class TableTest
       assertEquals(Arrays.asList(11, 21, 12, 22), b.toList());
    }
 
+   @Test
+   public void deriveColumn()
+   {
+      // start_code_fragment: TableTest.deriveColumn
+      Table<Integer> a = new Table<>("A", 1, 2);
+      Table<Integer> b = a.expand("B", i -> i * 10);
+      Table<Integer> c = b.deriveColumn("C", row -> (int) row.get("A") + (int) row.get("B"));
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.deriveColumn.c", new HtmlRenderer().setCaption("c").render(b));
+
+      assertEquals("C", c.getColumnName());
+      assertEquals(Arrays.asList(11, 22), c.toList());
+   }
+
    @Test(expected = IllegalStateException.class)
    public void evictedColumnViaSelect()
    {

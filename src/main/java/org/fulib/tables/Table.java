@@ -399,30 +399,36 @@ public class Table<T> implements Iterable<T>
     * Creates a new column with the given name by applying the given function to each row.
     * <p>
     * Example:
-    * <pre><code>
-    *    Table&lt;Integer&gt; a = new Table("A", 1, 2);
-    *    Table&lt;Integer&gt; b = a.expand("B", i -&gt; i * 10);
-    *    Table&lt;Integer&gt; c = b.derive("C", row -&gt; (int) row.get("A") + (int) row.get("B"));
-    * </code></pre>
+    * <!-- insert_code_fragment: TableTest.deriveColumn | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2);
+    * Table<Integer> b = a.expand("B", i -> i * 10);
+    * Table<Integer> c = b.deriveColumn("C", row -> (int) row.get("A") + (int) row.get("B"));
+    * }</pre>
+    * <!-- end_code_fragment: -->
     *
+    * <!-- insert_code_fragment: TableTest.deriveColumn.c -->
     * <table>
-    *    <caption>b</caption>
-    *    <tr>
-    *       <th>A</th>
-    *       <th>B</th>
-    *       <th>C</th>
-    *    </tr>
-    *    <tr>
-    *       <td>1</td>
-    *       <td>10</td>
-    *       <td>11</td>
-    *    </tr>
-    *    <tr>
-    *       <td>2</td>
-    *       <td>20</td>
-    *       <td>22</td>
-    *    </tr>
+    *     <caption>
+    *         c
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *         <th>C</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>10</td>
+    *         <td>11</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>20</td>
+    *         <td>22</td>
+    *     </tr>
     * </table>
+    * <!-- end_code_fragment: -->
     *
     * @param <U>
     *    the cell type of the new column
