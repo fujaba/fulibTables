@@ -311,34 +311,40 @@ public class Table<T> implements Iterable<T>
     * this table, and flattening the result.
     * <p>
     * Example:
-    * <pre><code>
-    *    Table&lt;Integer&gt; a = new Table("A", 1, 2);
-    *    Table&lt;Integer&gt; b = a.expandAll("B", i -&gt; Arrays.asList(i + 10, i + 20));
-    * </code></pre>
+    * <!-- insert_code_fragment: TableTest.expandAll | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2);
+    * Table<Integer> b = a.expandAll("B", i -> Arrays.asList(i + 10, i + 20));
+    * }</pre>
+    * <!-- end_code_fragment: -->
     *
+    * <!-- insert_code_fragment: TableTest.expandAll.b -->
     * <table>
-    *    <caption>b</caption>
-    *    <tr>
-    *       <th>A</th>
-    *       <th>B</th>
-    *    </tr>
-    *    <tr>
-    *       <td>1</td>
-    *       <td>11</td>
-    *    </tr>
-    *    <tr>
-    *       <td>1</td>
-    *       <td>21</td>
-    *    </tr>
-    *    <tr>
-    *       <td>2</td>
-    *       <td>12</td>
-    *    </tr>
-    *    <tr>
-    *       <td>2</td>
-    *       <td>22</td>
-    *    </tr>
+    *     <caption>
+    *         b
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>11</td>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>21</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>12</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>22</td>
+    *     </tr>
     * </table>
+    * <!-- end_code_fragment: -->
     *
     * @param <U>
     *    the cell type of the new column

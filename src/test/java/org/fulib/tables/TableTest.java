@@ -26,6 +26,20 @@ public class TableTest
       assertEquals(Arrays.asList(2, 4, 6), b.toList());
    }
 
+   @Test
+   public void expandAll()
+   {
+      // start_code_fragment: TableTest.expandAll
+      Table<Integer> a = new Table<>("A", 1, 2);
+      Table<Integer> b = a.expandAll("B", i -> Arrays.asList(i + 10, i + 20));
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.expandAll.b", new HtmlRenderer().setCaption("b").render(b));
+
+      assertEquals("B", b.getColumnName());
+      assertEquals(Arrays.asList(11, 21, 12, 22), b.toList());
+   }
+
    @Test(expected = IllegalStateException.class)
    public void evictedColumnViaSelect()
    {
