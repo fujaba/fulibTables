@@ -240,6 +240,12 @@ public class StudyRightTests
       ObjectTable<University> universityTable;
       ObjectTable<Student> students;
 
+      // do current assignments
+      for (final Student student : this.studyRight.getStudents())
+      {
+         student.withDone(student.getIn().getAssignments());
+      }
+
       // start_code_fragment: FulibTables.nestedTables
       universityTable = new ObjectTable<>("University", studyRight);
       students = universityTable.expandAll("Students", University::getStudents);
