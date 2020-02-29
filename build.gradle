@@ -78,8 +78,9 @@ revapi {
 }
 
 tasks.named('test') {
-   def codeFragmentFiles = fileTree(test.workingDir).include('*.java', '*.md', 'build.gradle')
+   def codeFragmentFiles = fileTree(it.workingDir).include('**/*.java', '**/*.md', 'build.gradle')
    it.inputs.files(codeFragmentFiles)
-   it.outputs.files(codeFragmentFiles)
-   it.outputs.dir('doc')
+   // enabling those makes cleanTest delete all java and markdown files :O
+   // it.outputs.files(codeFragmentFiles)
+   // it.outputs.dir('doc')
 }
