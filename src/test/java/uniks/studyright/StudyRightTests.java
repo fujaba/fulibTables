@@ -271,6 +271,7 @@ public class StudyRightTests
    @AfterClass
    public static void teardownClass()
    {
-      fragments.update(".");
+      fragments.update("README.md", "src/test/java/uniks/studyright/StudyRightTests.java",
+                       "src/gen/java/uniks/studyright/StudyRightClassModel.java");
    }
 }
