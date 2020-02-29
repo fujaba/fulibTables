@@ -79,13 +79,13 @@ public class StudyRightTests
 
       universityTable = new ObjectTable<>("University", studyRight);
 
-      this.addFragment("FulibTables.uniTable1", universityTable.toString());
+      fragments.addFragment("FulibTables.uniTable1", universityTable.toString());
 
       roomsTable = universityTable.expandAll("Room", University::getRooms);
-      this.addFragment("FulibTables.uniTable2", universityTable.toString());
+      fragments.addFragment("FulibTables.uniTable2", universityTable.toString());
 
       assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-      this.addFragment("FulibTables.uniTable3", universityTable.toString());
+      fragments.addFragment("FulibTables.uniTable3", universityTable.toString());
 
       // start_code_fragment: FulibTables.loop_through_assignments
       double sum = 0;
@@ -104,21 +104,21 @@ public class StudyRightTests
       assertThat(sum, equalTo(89.0));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.pointsTableResult", universityTable.toString());
+      fragments.addFragment("FulibTables.pointsTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.studentsTable
       ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
       assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.studentsTableResult", universityTable.toString());
+      fragments.addFragment("FulibTables.studentsTableResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.filterAssignmentsTable
       assignmentsTable.filter(a -> a.getPoints() <= 30);
       assertThat(students.rowCount(), equalTo(4));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
+      fragments.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
    }
 
    @Test
@@ -148,7 +148,7 @@ public class StudyRightTests
       assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.filterRowTableResult", universityTable.toString());
+      fragments.addFragment("FulibTables.filterRowTableResult", universityTable.toString());
    }
 
    @Test
@@ -172,7 +172,7 @@ public class StudyRightTests
       assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.filterHasDoneResult", universityTable.toString());
+      fragments.addFragment("FulibTables.filterHasDoneResult", universityTable.toString());
    }
 
    @Test
@@ -217,20 +217,20 @@ public class StudyRightTests
       students.expandAll("Done", Student::getDone);
       // end_code_fragment:
 
-      this.addFragment("FulibTables.doCurrentAssignmentsResult", universityTable.toString());
+      fragments.addFragment("FulibTables.doCurrentAssignmentsResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.dropColumnsAssignment
       universityTable.dropColumns("Assignment");
       // end_code_fragment:
 
-      this.addFragment("FulibTables.dropColumnsAssignmentResult", universityTable.toString());
+      fragments.addFragment("FulibTables.dropColumnsAssignmentResult", universityTable.toString());
 
       // start_code_fragment: FulibTables.selectColumns
       students.selectColumns("Student", "Done");
       assertThat(students.rowCount(), equalTo(6));
       // end_code_fragment:
 
-      this.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
+      fragments.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
    }
 
    @Test
@@ -263,7 +263,7 @@ public class StudyRightTests
       });
       // end_code_fragment:
 
-      this.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
+      fragments.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
 
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
@@ -271,11 +271,6 @@ public class StudyRightTests
    @AfterClass
    public static void teardownClass()
    {
-      fragments.updateCodeFragments(".");
-   }
-
-   private void addFragment(String name, String content)
-   {
-      fragments.getFragmentMap().put(name, content);
+      fragments.update(".");
    }
 }
