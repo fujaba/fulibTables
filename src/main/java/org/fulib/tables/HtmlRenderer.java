@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @since 1.2
  */
-public class HtmlRenderer
+public class HtmlRenderer implements Renderer
 {
    private static final String DEFAULT_INDENT = "    ";
 
@@ -37,19 +37,7 @@ public class HtmlRenderer
       return this;
    }
 
-   public String render(Table<?> table)
-   {
-      final StringBuilder builder = new StringBuilder();
-      try
-      {
-         this.render(table, builder);
-      }
-      catch (IOException ignored)
-      {
-      }
-      return builder.toString();
-   }
-
+   @Override
    public void render(Table<?> table, Appendable builder) throws IOException
    {
       final String i = this.indent;
