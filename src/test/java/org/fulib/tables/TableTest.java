@@ -2,7 +2,7 @@ package org.fulib.tables;
 
 import org.junit.Test;
 
-public class TablesTest
+public class TableTest
 {
    @Test(expected = IllegalStateException.class)
    public void evictedColumnViaSelect()
