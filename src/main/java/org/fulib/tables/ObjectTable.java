@@ -117,25 +117,6 @@ public class ObjectTable<T> extends Table<T>
 
    // --------------- Expansion ---------------
 
-   @Override
-   public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
-   {
-      this.expandImpl(columnName, function);
-      final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(columnName);
-      return result;
-   }
-
-   @Override
-   public <U> ObjectTable<U> expandAll(String columnName,
-      Function<? super T, ? extends Collection<? extends U>> function)
-   {
-      this.expandAllImpl(columnName, function);
-      final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(columnName);
-      return result;
-   }
-
    /**
     * Creates a new column by expanding the given link from the cells of the column this table points to.
     * Links may be simple objects or collections, the latter of which will be flattened.
@@ -243,7 +224,59 @@ public class ObjectTable<T> extends Table<T>
       result.setColumnName_(newColumnName);
    }
 
-   // =============== Deprecated and Compatibility Methods ===============
+   // =============== Compatibility Methods ===============
+
+   // --------------- Overriding Return Type as ObjectTable ---------------
+
+   @Override
+   public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
+   {
+      this.expandImpl(columnName, function);
+      final ObjectTable<U> result = new ObjectTable<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   @Override
+   public <U> ObjectTable<U> expandAll(String columnName,
+      Function<? super T, ? extends Collection<? extends U>> function)
+   {
+      this.expandAllImpl(columnName, function);
+      final ObjectTable<U> result = new ObjectTable<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   @Override
+   public ObjectTable<T> selectColumns(String... columnNames)
+   {
+      super.selectColumns(columnNames);
+      return this;
+   }
+
+   @Override
+   public ObjectTable<T> dropColumns(String... columnNames)
+   {
+      super.dropColumns(columnNames);
+      return this;
+   }
+
+   @Override
+   public ObjectTable<T> filter(Predicate<? super T> predicate)
+   {
+      super.filter(predicate);
+      return this;
+   }
+
+   // --------------- Overriding Return Type (other) ---------------
+
+   @Override
+   public LinkedHashSet<T> toSet()
+   {
+      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
+   }
+
+   // =============== Deprecated Members ===============
 
    /**
     * @param columnName
@@ -290,27 +323,6 @@ public class ObjectTable<T> extends Table<T>
       return this;
    }
 
-   @Override
-   public ObjectTable<T> selectColumns(String... columnNames)
-   {
-      super.selectColumns(columnNames);
-      return this;
-   }
-
-   @Override
-   public ObjectTable<T> dropColumns(String... columnNames)
-   {
-      super.dropColumns(columnNames);
-      return this;
-   }
-
-   @Override
-   public ObjectTable<T> filter(Predicate<? super T> predicate)
-   {
-      super.filter(predicate);
-      return this;
-   }
-
    /**
     * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
     * predicate and does not return a table pointing to the new column.
@@ -346,11 +358,5 @@ public class ObjectTable<T> extends Table<T>
    {
       this.filterRowsImpl(predicate);
       return this;
-   }
-
-   @Override
-   public LinkedHashSet<T> toSet()
-   {
-      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
    }
 }
