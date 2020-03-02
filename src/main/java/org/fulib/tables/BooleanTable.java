@@ -14,6 +14,11 @@ public class BooleanTable extends Table<Boolean>
       super(start);
    }
 
+   public BooleanTable(String columnName, Boolean... start)
+   {
+      super(start);
+   }
+
    protected BooleanTable(Table<?> base)
    {
       super(base);
