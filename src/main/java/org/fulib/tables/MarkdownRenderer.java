@@ -3,6 +3,11 @@ package org.fulib.tables;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Allows rendering {@link Table} instances as Markdown tables.
+ *
+ * @since 1.2
+ */
 public class MarkdownRenderer implements Renderer
 {
    @Override
