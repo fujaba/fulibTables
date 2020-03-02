@@ -4,33 +4,59 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Allows rendering {@link Table} instances as HTML {@code <table>}.
+ * Allows rendering {@link Table} instances as HTML {@code <table>} elements.
  *
  * @since 1.2
  */
 public class HtmlRenderer implements Renderer
 {
-   private static final String DEFAULT_INDENT = "    ";
+   /**
+    * The default value for {@link #setIndent(String)} (4 spaces)
+    */
+   public static final String DEFAULT_INDENT = "    ";
 
    private String caption;
    private String indent = DEFAULT_INDENT;
 
+   /**
+    * @return the caption, or {@code null} if unset
+    *
+    * @see #setCaption(String)
+    */
    public String getCaption()
    {
       return this.caption;
    }
 
+   /**
+    * @param caption
+    *    the caption to use within {@code <caption>...</caption>}, which is required in JavaDoc;
+    *    can be {@code null} to omit the element
+    *
+    * @return this instance, to allow method chaining
+    */
    public HtmlRenderer setCaption(String caption)
    {
       this.caption = caption;
       return this;
    }
 
+   /**
+    * @return the indent string
+    *
+    * @see #setIndent(String)
+    */
    public String getIndent()
    {
       return this.indent;
    }
 
+   /**
+    * @param indent
+    *    the string to indent nested tags; defaults to {@link #DEFAULT_INDENT}
+    *
+    * @return this instance, to allow method chaining
+    */
    public HtmlRenderer setIndent(String indent)
    {
       this.indent = indent;
