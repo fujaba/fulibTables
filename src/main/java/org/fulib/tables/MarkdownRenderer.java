@@ -11,27 +11,27 @@ import java.util.List;
 public class MarkdownRenderer implements Renderer
 {
    @Override
-   public void render(Table<?> table, Appendable builder) throws IOException
+   public void render(Table<?> table, Appendable out) throws IOException
    {
       for (String key : table.columnMap.keySet())
       {
-         builder.append("| ").append(key).append(" \t");
+         out.append("| ").append(key).append(" \t");
       }
-      builder.append("|\n");
+      out.append("|\n");
 
       for (String ignored : table.columnMap.keySet())
       {
-         builder.append("| --- ");
+         out.append("| --- ");
       }
-      builder.append("|\n");
+      out.append("|\n");
 
       for (List<Object> row : table.table)
       {
          for (Object cell : row)
          {
-            builder.append("| ").append(String.valueOf(cell)).append(" \t");
+            out.append("| ").append(String.valueOf(cell)).append(" \t");
          }
-         builder.append("|\n");
+         out.append("|\n");
       }
    }
 }

@@ -64,35 +64,35 @@ public class HtmlRenderer implements Renderer
    }
 
    @Override
-   public void render(Table<?> table, Appendable builder) throws IOException
+   public void render(Table<?> table, Appendable out) throws IOException
    {
       final String i = this.indent;
 
-      builder.append("<table>\n");
+      out.append("<table>\n");
       if (this.caption != null)
       {
-         builder.append(i).append("<caption>\n");
-         builder.append(i).append(i).append(this.caption).append('\n');
-         builder.append(i).append("</caption>\n");
+         out.append(i).append("<caption>\n");
+         out.append(i).append(i).append(this.caption).append('\n');
+         out.append(i).append("</caption>\n");
       }
 
-      builder.append(i).append("<tr>\n");
+      out.append(i).append("<tr>\n");
       for (String column : table.columnMap.keySet())
       {
-         builder.append(i).append(i).append("<th>").append(column).append("</th>\n");
+         out.append(i).append(i).append("<th>").append(column).append("</th>\n");
       }
-      builder.append(i).append("</tr>\n");
+      out.append(i).append("</tr>\n");
 
       for (List<?> row : table.table)
       {
-         builder.append(i).append("<tr>\n");
+         out.append(i).append("<tr>\n");
          for (Object cell : row)
          {
-            builder.append(i).append(i).append("<td>").append(String.valueOf(cell)).append("</td>\n");
+            out.append(i).append(i).append("<td>").append(String.valueOf(cell)).append("</td>\n");
          }
-         builder.append(i).append("</tr>\n");
+         out.append(i).append("</tr>\n");
       }
 
-      builder.append("</table>\n");
+      out.append("</table>\n");
    }
 }
