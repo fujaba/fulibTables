@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Adrian Kunz
+ * @param <T> the type of values contained in the column this table points to
+ *
  * @since 1.2
  */
 public class Table<T> implements Iterable<T>
