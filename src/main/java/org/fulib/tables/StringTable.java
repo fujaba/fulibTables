@@ -18,8 +18,8 @@ public class StringTable extends PrimitiveTable<String>
 
    // =============== Methods ===============
 
-   public String join(String seperator)
+   public String join(String separator)
    {
-      return this.stream().collect(Collectors.joining(seperator));
+      return this.stream().collect(Collectors.joining(separator));
    }
 }
