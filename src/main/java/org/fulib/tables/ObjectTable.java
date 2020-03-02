@@ -8,6 +8,13 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * A {@link Table} specialized for model objects.
+ * Using reflection, it provides more functionality for expanding and filtering based on attributes and associations.
+ *
+ * @param <T>
+ *    the type of values contained in the column this table points to
+ */
 public class ObjectTable<T> extends Table<T>
 {
    private ReflectorMap reflectorMap;
