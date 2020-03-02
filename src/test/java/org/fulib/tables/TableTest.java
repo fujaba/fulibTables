@@ -135,6 +135,26 @@ public class TableTest
       fragments.addFragment("TableTest.filter.result", new HtmlRenderer().setCaption("result").render(numbers));
    }
 
+   @Test
+   public void filterRows()
+   {
+      // start_code_fragment: TableTest.filterRows.initial
+      Table<Integer> a = new Table<>("A", 1, 2);
+      Table<Integer> b = a.expandAll("B", i -> Arrays.asList(1, 2));
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.filterRows.before", new HtmlRenderer().setCaption("before").render(b));
+
+      // start_code_fragment: TableTest.filterRows.action
+      a.filterRows(row -> (int) row.get("A") != (int) row.get("B"));
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.filterRows.after", new HtmlRenderer().setCaption("after").render(b));
+
+      assertEquals(Arrays.asList(1, 2), a.toList());
+      assertEquals(Arrays.asList(2, 1), b.toList());
+   }
+
    @AfterClass
    public static void updateFragments()
    {

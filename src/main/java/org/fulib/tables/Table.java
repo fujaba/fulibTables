@@ -793,6 +793,68 @@ public class Table<T> implements Iterable<T>
    /**
     * Removes all rows from this table for which the predicate returned {@code false}.
     * The rows are passed as maps from column name to cell value.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.filterRows.initial | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2);
+    * Table<Integer> b = a.expandAll("B", i -> Arrays.asList(1, 2));
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.filterRows.before -->
+    * <table>
+    *     <caption>
+    *         before
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>1</td>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>1</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>2</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.filterRows.action | javadoc -->
+    * <pre>{@code
+    * a.filterRows(row -> (int) row.get("A") != (int) row.get("B"));
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.filterRows.after -->
+    * <table>
+    *     <caption>
+    *         after
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>1</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
     *
     * @param predicate
     *    the predicate that determines which rows should be kept
