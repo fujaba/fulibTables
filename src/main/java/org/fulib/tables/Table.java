@@ -743,6 +743,40 @@ public class Table<T> implements Iterable<T>
    /**
     * Removes all rows from this table for which the predicate returned {@code false} when passed the cell value of the
     * column this table points to.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.filter | javadoc -->
+    * <pre>{@code
+    * final Table<Integer> numbers = new Table<>("A", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    * numbers.filter(i -> i % 2 == 0);
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    *
+    * <!-- insert_code_fragment: TableTest.filter.result -->
+    * <table>
+    *     <caption>
+    *         result
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *     </tr>
+    *     <tr>
+    *         <td>4</td>
+    *     </tr>
+    *     <tr>
+    *         <td>6</td>
+    *     </tr>
+    *     <tr>
+    *         <td>8</td>
+    *     </tr>
+    *     <tr>
+    *         <td>10</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
     *
     * @param predicate
     *    the predicate that determines which rows should be kept

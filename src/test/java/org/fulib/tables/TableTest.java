@@ -122,6 +122,19 @@ public class TableTest
       }
    }
 
+   @Test
+   public void filter()
+   {
+      // start_code_fragment: TableTest.filter
+      final Table<Integer> numbers = new Table<>("A", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+      numbers.filter(i -> i % 2 == 0);
+      // end_code_fragment:
+
+      assertEquals(Arrays.asList(2, 4, 6, 8, 10), numbers.toList());
+
+      fragments.addFragment("TableTest.filter.result", new HtmlRenderer().setCaption("result").render(numbers));
+   }
+
    @AfterClass
    public static void updateFragments()
    {
