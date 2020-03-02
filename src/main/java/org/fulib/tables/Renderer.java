@@ -39,10 +39,10 @@ public interface Renderer
     * @param table
     *    the table to render
     * @param out
-    *    the appendable into which should be rendered
+    *    the {@link Appendable} to which the rendered result should be appended
     *
     * @throws IOException
-    *    if it occurs when {@linkplain Appendable#append(CharSequence) appending} to the appendable
+    *    if one occurs when appending to the output
     */
    void render(Table<?> table, Appendable out) throws IOException;
 }
