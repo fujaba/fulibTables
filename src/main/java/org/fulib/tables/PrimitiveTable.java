@@ -21,8 +21,21 @@ class PrimitiveTable<T> extends Table<T>
       super(base);
    }
 
+   /**
+    * @param <T>
+    *    the element type of the table
+    * @param table
+    *    the table
+    *
+    * @return the median of the cell values of the column the table points to
+    *
+    * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
+    */
+   @Deprecated
    protected static <T extends Comparable<T>> T medianImpl(Table<T> table)
    {
+      // FIXME throws IndexOutOfBoundsException for empty
+      // FIXME median for even number of items should be (a[mid]+a[mid+1])/2, so -1.25, but here it's just a[mid+1]
       List<T> list = table.toList();
       Collections.sort(list);
       int index = list.size() / 2;

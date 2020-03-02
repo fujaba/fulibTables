@@ -49,6 +49,12 @@ public class longTable extends PrimitiveTable<Long>
       return this.longStream().average().orElse(Double.NaN);
    }
 
+   /**
+    * @return the median of the cell values of the column this table points to
+    *
+    * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
+    */
+   @Deprecated
    public long median()
    {
       return PrimitiveTable.medianImpl(this);
