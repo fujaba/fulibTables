@@ -35,7 +35,7 @@ public class floatTable extends PrimitiveTable<Float>
 
    public float max()
    {
-      return (float) this.doubleStream().max().orElse(Float.MIN_VALUE);
+      return (float) this.doubleStream().max().orElse(-Float.MAX_VALUE);
    }
 
    /**

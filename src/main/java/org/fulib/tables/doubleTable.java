@@ -35,7 +35,7 @@ public class doubleTable extends PrimitiveTable<Double>
 
    public double max()
    {
-      return this.doubleStream().max().orElse(Double.MIN_VALUE);
+      return this.doubleStream().max().orElse(-Double.MAX_VALUE);
    }
 
    /**
