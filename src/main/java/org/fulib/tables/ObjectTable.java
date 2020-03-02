@@ -311,11 +311,40 @@ public class ObjectTable<T> extends Table<T>
       return this;
    }
 
-   @Override
+   /**
+    * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
+    * predicate and does not return a table pointing to the new column.
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @see #deriveColumn(String, Function)
+    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
+    */
+   @Deprecated
+   public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
+   {
+      this.addColumnImpl(columnName, function);
+   }
+
+   /**
+    * Same as {@link #filterRows(Predicate)}, except it has stricter requirements on the parameter type of the
+    * predicate.
+    *
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    *
+    * @see #filterRows(Predicate)
+    * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
+    */
    @Deprecated
    public ObjectTable<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
    {
-      super.filterRow(predicate);
+      this.filterRowsImpl(predicate);
       return this;
    }
 
