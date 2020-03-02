@@ -144,29 +144,6 @@ public class Table<T> implements Iterable<T>
       return column;
    }
 
-   /**
-    * @return a 2D copy of the internal table
-    *
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
-   public ArrayList<ArrayList<Object>> getTable()
-   {
-      // defensive copy.
-      return this.table.stream().map(ArrayList::new).collect(Collectors.toCollection(ArrayList::new));
-   }
-
-   /**
-    * @return a copy of the internal column map
-    *
-    * @deprecated since 1.2; for internal use only
-    */
-   @Deprecated
-   public LinkedHashMap<String, Integer> getColumnMap()
-   {
-      return new LinkedHashMap<>(this.columnMap);
-   }
-
    protected int getNewColumnNumber()
    {
       return this.table.isEmpty() ? 0 : this.table.get(0).size();
@@ -450,24 +427,6 @@ public class Table<T> implements Iterable<T>
       final Table<U> result = new Table<>(this);
       result.setColumnName_(columnName);
       return result;
-   }
-
-   /**
-    * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
-    * predicate and does not return a table pointing to the new column.
-    *
-    * @param columnName
-    *    the name of the new column
-    * @param function
-    *    the function that computes a value for the new column
-    *
-    * @see #deriveColumn(String, Function)
-    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
-    */
-   @Deprecated
-   public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
-   {
-      this.addColumnImpl(columnName, function);
    }
 
    private void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
@@ -869,24 +828,6 @@ public class Table<T> implements Iterable<T>
       return this.filterRowsImpl(predicate);
    }
 
-   /**
-    * Same as {@link #filterRows(Predicate)}, except it has stricter requirements on the parameter type of the
-    * predicate.
-    *
-    * @param predicate
-    *    the predicate that determines which rows should be kept
-    *
-    * @return this table, to allow method chaining
-    *
-    * @see #filterRows(Predicate)
-    * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
-    */
-   @Deprecated
-   public Table<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
-   {
-      return this.filterRowsImpl(predicate);
-   }
-
    private Table<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
       this.table.removeIf(row -> !predicate.test(this.convertRowToMap(row)));
@@ -973,5 +914,66 @@ public class Table<T> implements Iterable<T>
    public String toString()
    {
       return TOSTRING_RENDERER.render(this);
+   }
+
+   // =============== Deprecated Members ===============
+
+   /**
+    * @return a 2D copy of the internal table
+    *
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public ArrayList<ArrayList<Object>> getTable()
+   {
+      // defensive copy.
+      return this.table.stream().map(ArrayList::new).collect(Collectors.toCollection(ArrayList::new));
+   }
+
+   /**
+    * @return a copy of the internal column map
+    *
+    * @deprecated since 1.2; for internal use only
+    */
+   @Deprecated
+   public LinkedHashMap<String, Integer> getColumnMap()
+   {
+      return new LinkedHashMap<>(this.columnMap);
+   }
+
+   /**
+    * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
+    * predicate and does not return a table pointing to the new column.
+    *
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @see #deriveColumn(String, Function)
+    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
+    */
+   @Deprecated
+   public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
+   {
+      this.addColumnImpl(columnName, function);
+   }
+
+   /**
+    * Same as {@link #filterRows(Predicate)}, except it has stricter requirements on the parameter type of the
+    * predicate.
+    *
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    *
+    * @see #filterRows(Predicate)
+    * @deprecated since 1.2; use {@link #filterRows(Predicate)} instead
+    */
+   @Deprecated
+   public Table<T> filterRow(Predicate<LinkedHashMap<String, Object>> predicate)
+   {
+      return this.filterRowsImpl(predicate);
    }
 }
