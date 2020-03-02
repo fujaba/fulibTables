@@ -1,7 +1,9 @@
 package org.fulib.tables;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 // TODO remove in v2
@@ -17,6 +19,14 @@ class PrimitiveTable<T> extends Table<T>
    protected PrimitiveTable(Table<?> base)
    {
       super(base);
+   }
+
+   protected static <T extends Comparable<T>> T medianImpl(Table<T> table)
+   {
+      List<T> list = table.toList();
+      Collections.sort(list);
+      int index = list.size() / 2;
+      return list.get(index);
    }
 
    // =============== Properties ===============

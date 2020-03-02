@@ -1,7 +1,5 @@
 package org.fulib.tables;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.DoubleStream;
 
 public class doubleTable extends PrimitiveTable<Double>
@@ -53,9 +51,6 @@ public class doubleTable extends PrimitiveTable<Double>
 
    public double median()
    {
-      List<Double> list = this.toList();
-      Collections.sort(list);
-      int index = list.size() / 2;
-      return list.get(index);
+      return PrimitiveTable.medianImpl(this);
    }
 }

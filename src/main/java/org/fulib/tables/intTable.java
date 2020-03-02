@@ -1,7 +1,5 @@
 package org.fulib.tables;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class intTable extends PrimitiveTable<Integer>
@@ -53,9 +51,6 @@ public class intTable extends PrimitiveTable<Integer>
 
    public int median()
    {
-      List<Integer> list = this.toList();
-      Collections.sort(list);
-      int index = list.size() / 2;
-      return list.get(index);
+      return PrimitiveTable.medianImpl(this);
    }
 }
