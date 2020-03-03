@@ -23,16 +23,27 @@ public class doubleTable extends PrimitiveTable<Double>
       return this.stream().mapToDouble(Double::doubleValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public double sum()
    {
       return this.doubleStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Double#MAX_VALUE} if this table has no rows
+    */
    public double min()
    {
       return this.doubleStream().min().orElse(Double.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or negative {@link Double#MAX_VALUE} if this table has no rows
+    */
    public double max()
    {
       return this.doubleStream().max().orElse(-Double.MAX_VALUE);
@@ -40,7 +51,7 @@ public class doubleTable extends PrimitiveTable<Double>
 
    /**
     * @return the average of the cell values of the column this table points to,
-    * or {@link Double#NaN} if this table is empty
+    * or {@link Double#NaN} if this table has no rows
     *
     * @since 1.2
     */

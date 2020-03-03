@@ -23,16 +23,27 @@ public class intTable extends PrimitiveTable<Integer>
       return this.stream().mapToInt(Integer::intValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public int sum()
    {
       return this.intStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Integer#MAX_VALUE} if this table has no rows
+    */
    public int min()
    {
       return this.intStream().min().orElse(Integer.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or {@link Integer#MIN_VALUE} if this table has no rows
+    */
    public int max()
    {
       return this.intStream().max().orElse(Integer.MIN_VALUE);
@@ -40,7 +51,7 @@ public class intTable extends PrimitiveTable<Integer>
 
    /**
     * @return the average of the cell values of the column this table points to,
-    * or {@link Double#NaN} if this table is empty
+    * or {@link Double#NaN} if this table has no rows
     *
     * @since 1.2
     */

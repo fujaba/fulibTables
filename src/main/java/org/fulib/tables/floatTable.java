@@ -23,16 +23,27 @@ public class floatTable extends PrimitiveTable<Float>
       return this.stream().mapToDouble(Float::doubleValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public float sum()
    {
       return (float) this.doubleStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Float#MAX_VALUE} if this table has no rows
+    */
    public float min()
    {
       return (float) this.doubleStream().min().orElse(Float.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or negative {@link Float#MAX_VALUE} if this table has no rows
+    */
    public float max()
    {
       return (float) this.doubleStream().max().orElse(-Float.MAX_VALUE);
@@ -40,7 +51,7 @@ public class floatTable extends PrimitiveTable<Float>
 
    /**
     * @return the average of the cell values of the column this table points to,
-    * or {@link Double#NaN} if this table is empty
+    * or {@link Double#NaN} if this table has no rows
     *
     * @since 1.2
     */

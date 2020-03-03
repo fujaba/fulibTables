@@ -23,16 +23,27 @@ public class longTable extends PrimitiveTable<Long>
       return this.stream().mapToLong(Long::longValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public long sum()
    {
       return this.longStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Long#MAX_VALUE} if this table has no rows
+    */
    public long min()
    {
       return this.longStream().min().orElse(Long.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or {@link Long#MIN_VALUE} if this table has no rows
+    */
    public long max()
    {
       return this.longStream().max().orElse(Long.MIN_VALUE);
@@ -40,7 +51,7 @@ public class longTable extends PrimitiveTable<Long>
 
    /**
     * @return the average of the cell values of the column this table points to,
-    * or {@link Double#NaN} if this table is empty
+    * or {@link Double#NaN} if this table has no rows
     *
     * @since 1.2
     */
