@@ -18,7 +18,7 @@ public class floatTable extends PrimitiveTable<Float>
 
    // =============== Methods ===============
 
-   private DoubleStream doubleStream()
+   private DoubleStream doubleStream() // TODO public?
    {
       return this.stream().mapToDouble(Float::doubleValue);
    }
