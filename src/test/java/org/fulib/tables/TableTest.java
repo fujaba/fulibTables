@@ -57,6 +57,25 @@ public class TableTest
    }
 
    @Test
+   public void deriveAll()
+   {
+      // start_code_fragment: TableTest.deriveAll
+      Table<Integer> a = new Table<>("A", 1, 2);
+      Table<Integer> b = a.expand("B", i -> i * 10);
+      Table<Integer> c = b.deriveAll("C", row -> {
+         int a1 = (int) row.get("A");
+         int b1 = (int) row.get("B");
+         return Arrays.asList(a1 + b1, a1 * b1);
+      });
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.deriveAll.c", new HtmlRenderer().setCaption("c").render(b));
+
+      assertEquals("C", c.getColumnName());
+      assertEquals(Arrays.asList(11, 10, 22, 40), c.toList());
+   }
+
+   @Test
    public void selectColumns()
    {
       // start_code_fragment: TableTest.selectColumns.initial

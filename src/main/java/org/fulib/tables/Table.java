@@ -457,6 +457,97 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Creates a new column with the given name by applying the given function to each row, and flattening the result.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.deriveAll | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2);
+    * Table<Integer> b = a.expand("B", i -> i * 10);
+    * Table<Integer> c = b.deriveAll("C", row -> {
+    *    int a1 = (int) row.get("A");
+    *    int b1 = (int) row.get("B");
+    *    return Arrays.asList(a1 + b1, a1 * b1);
+    * });
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    * <p>
+    * <!-- insert_code_fragment: TableTest.deriveAll.c -->
+    * <table>
+    *     <caption>
+    *         c
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *         <th>C</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>10</td>
+    *         <td>11</td>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>10</td>
+    *         <td>10</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>20</td>
+    *         <td>22</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>20</td>
+    *         <td>40</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * @param <U>
+    *    the cell type of the new column
+    * @param columnName
+    *    the name of the new column
+    * @param function
+    *    the function that computes a collection of values for the new column
+    *
+    * @return a table pointing to the new column
+    *
+    * @since 1.2
+    */
+   public <U> Table<U> deriveAll(String columnName,
+      Function<? super Map<String, Object>, ? extends Collection<? extends U>> function)
+   {
+      this.deriveAllImpl(columnName, function);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(columnName);
+      return result;
+   }
+
+   protected void deriveAllImpl(String columnName,
+      Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
+   {
+      final int newColumnNumber = this.getNewColumnNumber();
+      this.columnMap.put(columnName, newColumnNumber);
+
+      final List<List<Object>> oldTable = new ArrayList<>(this.table);
+      this.table.clear();
+
+      for (List<Object> row : oldTable)
+      {
+         final LinkedHashMap<String, Object> map = this.convertRowToMap(row);
+         final Collection<?> result = function.apply(map);
+         for (final Object item : result)
+         {
+            final List<Object> newRow = new ArrayList<>(row);
+            newRow.add(item);
+            this.table.add(newRow);
+         }
+      }
+   }
+
+   /**
     * Removes all given columns from the underlying data structure and ensures no duplicate rows exist afterwards.
     * Given column names that don't exist are ignored.
     * <p>
