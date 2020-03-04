@@ -102,7 +102,7 @@ public class ObjectTable<T> extends Table<T>
    public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
       final int thisColumn = this.getColumnIndex();
-      final int otherColumn = this.columnMap.get(otherTable.getColumnName());
+      final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
          final Object source = row.get(thisColumn);
          final Object target = row.get(otherColumn);
