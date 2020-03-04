@@ -642,9 +642,9 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
-    * Removes all columns from the underlying data structure except the give ones, and ensures no duplicate rows exist
+    * Removes all columns from the underlying data structure except the given ones, and ensures no duplicate rows exist
     * afterwards. If one of the given column names is not part of this table, an {@link IllegalArgumentException} is
-    * thrown and no changes are made.
+    * thrown and no changes are made. Note the original order of columns is unaffected by the order of the given names.
     * <p>
     * After this operation, table instances with the same underlying data that pointed to a columns not part of the
     * given ones will throw an exception when operated on in any way that accesses their corresponding column.
