@@ -529,11 +529,8 @@ public class Table<T> implements Iterable<T>
       Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
    {
       final int newColumnNumber = this.getNewColumnNumber();
-      this.columnMap.put(columnName, newColumnNumber);
-
       final List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
-
       for (List<Object> row : oldTable)
       {
          final LinkedHashMap<String, Object> map = this.convertRowToMap(row);
@@ -545,6 +542,7 @@ public class Table<T> implements Iterable<T>
             this.table.add(newRow);
          }
       }
+      this.columnMap.put(columnName, newColumnNumber);
    }
 
    /**
