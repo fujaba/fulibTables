@@ -338,7 +338,7 @@ public class ObjectTable<T> extends Table<T>
    @Deprecated
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)
    {
-      this.addColumnImpl(columnName, function);
+      this.deriveImpl(columnName, function);
    }
 
    /**

@@ -438,13 +438,13 @@ public class Table<T> implements Iterable<T>
     */
    public <U> Table<U> derive(String columnName, Function<? super Map<String, Object>, ? extends U> function)
    {
-      this.addColumnImpl(columnName, function);
+      this.deriveImpl(columnName, function);
       final Table<U> result = new Table<>(this);
       result.setColumnName_(columnName);
       return result;
    }
 
-   protected void addColumnImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
+   protected void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
       for (List<Object> row : this.table)
