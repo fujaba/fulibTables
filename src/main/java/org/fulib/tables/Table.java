@@ -8,6 +8,21 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Provides a mechanism for managing object structures in a row and column format.
+ * This is not to be viewed as a way to store arbitrary objects in a matrix of sorts;
+ * the operations of this class are specific to object structures.
+ * It is intentionally not possible to access specific cells with given row and column.
+ * <p>
+ * Each table instance maintains a column name, called the column pointer, and an underlying data structure.
+ * The underlying data is shared between table instances derived from one another.
+ * As such, operations on one table usually cause changes in derived or original tables.
+ * This can be prevented with the {@link #copy()} operation, which does a full copy of all data such that the copy
+ * is no longer connected to the original.
+ * <p>
+ * Various subclasses exist for type-specific operations, e.g. primitive numbers ({@link intTable}, {@link longTable},
+ * {@link floatTable}, {@link doubleTable}), other standard data types ({@link StringTable}, {@link BooleanTable}),
+ * and model objects ({@link ObjectTable}).
+ *
  * @param <T> the type of values contained in the column this table points to
  *
  * @since 1.2
