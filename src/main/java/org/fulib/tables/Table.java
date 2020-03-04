@@ -280,17 +280,6 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   /**
-    * Implements the {@link #expand(String, Function)} operation, with the exception that it does not create the table
-    * instance that points to the new column.
-    *
-    * @param columnName
-    *    the name of the new column
-    * @param function
-    *    the function that computes a value for the new column
-    *
-    * @since 1.2
-    */
    void expandImpl(String columnName, Function<? super T, ?> function)
    {
       final int column = this.getColumnIndex();
@@ -361,17 +350,6 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   /**
-    * Implements the {@link #expandAll(String, Function)} operation, with the exception that it does not create the
-    * table instance that points to the new column.
-    *
-    * @param columnName
-    *    the name of the new column
-    * @param function
-    *    the function that computes a collection of values for the new column
-    *
-    * @since 1.2
-    */
    void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
    {
       final int column = this.getColumnIndex();
