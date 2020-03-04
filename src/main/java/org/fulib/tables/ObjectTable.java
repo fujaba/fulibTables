@@ -203,6 +203,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(doubleTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
@@ -211,6 +226,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(floatTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public floatTable expandFloat(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
@@ -219,6 +249,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(intTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public intTable expandInt(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
@@ -227,6 +272,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(longTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public longTable expandLong(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
@@ -235,6 +295,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(StringTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public StringTable expandString(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
@@ -243,6 +318,21 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Equivalent to:
+    * <pre>{@code
+    *    this.expandAttribute(newColumnName, attrName).as(BooleanTable.class);
+    * }</pre>
+    *
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandAttribute(String, String)
+    */
    public BooleanTable expandBoolean(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
