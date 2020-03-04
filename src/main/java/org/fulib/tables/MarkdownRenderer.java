@@ -13,13 +13,13 @@ public class MarkdownRenderer implements Renderer
    @Override
    public void render(Table<?> table, Appendable out) throws IOException
    {
-      for (String key : table.columnMap.keySet())
+      for (String key : table.columns)
       {
          out.append("| ").append(key).append(" \t");
       }
       out.append("|\n");
 
-      for (String ignored : table.columnMap.keySet())
+      for (String ignored : table.columns)
       {
          out.append("| --- ");
       }

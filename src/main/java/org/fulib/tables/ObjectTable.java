@@ -444,7 +444,7 @@ public class ObjectTable<T> extends Table<T>
    @Deprecated
    public ObjectTable<T> setColumnMap(LinkedHashMap<String, Integer> columnMap)
    {
-      this.columnMap = columnMap;
+      this.setColumnMap_(columnMap);
       return this;
    }
 

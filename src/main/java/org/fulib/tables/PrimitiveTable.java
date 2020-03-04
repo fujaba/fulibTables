@@ -77,7 +77,7 @@ class PrimitiveTable<T> extends Table<T>
    @Deprecated
    public void setColumnMap(LinkedHashMap<String, Integer> columnMap)
    {
-      this.columnMap = columnMap;
+      this.setColumnMap_(columnMap);
    }
 
    @Override

@@ -40,7 +40,7 @@ public class Table<T> implements Iterable<T>
 
    private String columnName;
    List<List<Object>> table;
-   Map<String, Integer> columnMap;
+   List<String> columns;
 
    // =============== Constructors ===============
 
@@ -50,7 +50,7 @@ public class Table<T> implements Iterable<T>
    public Table()
    {
       this.table = new ArrayList<>();
-      this.columnMap = new LinkedHashMap<>();
+      this.columns = new ArrayList<>();
    }
 
    /**
@@ -63,7 +63,7 @@ public class Table<T> implements Iterable<T>
    {
       this();
       this.columnName = columnName;
-      this.columnMap.put(columnName, 0);
+      this.columns.add(columnName);
    }
 
    /**
@@ -101,7 +101,7 @@ public class Table<T> implements Iterable<T>
    Table(Table<?> base)
    {
       this.columnName = base.columnName;
-      this.columnMap = base.columnMap;
+      this.columns = base.columns;
       this.table = base.table;
    }
 
@@ -121,7 +121,7 @@ public class Table<T> implements Iterable<T>
    void copyTo(Table<T> copy)
    {
       copy.columnName = this.columnName;
-      copy.columnMap.putAll(this.columnMap);
+      copy.columns.addAll(this.columns);
       for (List<Object> row : this.table)
       {
          copy.table.add(new ArrayList<>(row));
@@ -149,27 +149,22 @@ public class Table<T> implements Iterable<T>
 
    int getColumnIndex()
    {
-      final Integer column = this.columnMap.get(this.columnName);
-      if (column == null)
+      final int index = this.columns.indexOf(this.columnName);
+      if (index < 0)
       {
          throw new IllegalStateException(
-            "Column '" + this.columnName + "' is no longer part of table columns " + this.columnMap.keySet() + ". "
+            "Column '" + this.columnName + "' is no longer part of table columns " + this.columns + ". "
             + "It was likely evicted after a selectColumns or dropColumns operation. "
             + "This Table instance is no longer valid");
       }
-      return column;
-   }
-
-   int getNewColumnNumber()
-   {
-      return this.table.isEmpty() ? 0 : this.table.get(0).size();
+      return index;
    }
 
    // =============== Methods ===============
 
    void addColumn(String columnName)
    {
-      this.columnMap.put(columnName, this.getNewColumnNumber());
+      this.columns.add(columnName);
    }
 
    /**
@@ -425,14 +420,13 @@ public class Table<T> implements Iterable<T>
 
    void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
-      int newColumnNumber = this.getNewColumnNumber();
       for (List<Object> row : this.table)
       {
          LinkedHashMap<String, Object> map = this.convertRowToMap(row);
          Object result = function.apply(map);
          row.add(result);
       }
-      this.columnMap.put(columnName, newColumnNumber);
+      this.addColumn(columnName);
    }
 
    /**
@@ -507,7 +501,6 @@ public class Table<T> implements Iterable<T>
    void deriveAllImpl(String columnName,
       Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
    {
-      final int newColumnNumber = this.getNewColumnNumber();
       final List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
       for (List<Object> row : oldTable)
@@ -521,7 +514,7 @@ public class Table<T> implements Iterable<T>
             this.table.add(newRow);
          }
       }
-      this.columnMap.put(columnName, newColumnNumber);
+      this.addColumn(columnName);
    }
 
    /**
@@ -616,39 +609,36 @@ public class Table<T> implements Iterable<T>
     */
    public Table<T> dropColumns(String... columnNames)
    {
-      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
-      this.columnMap.clear();
-
-      Set<String> dropNames = new HashSet<>(Arrays.asList(columnNames));
-      int i = 0;
-      for (String name : oldColumnMap.keySet())
+      for (final String name : columnNames)
       {
-         if (!dropNames.contains(name))
-         {
-            this.columnMap.put(name, i);
-            i++;
-         }
+         this.dropColumnImpl(name);
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-
-      Set<List<Object>> rowSet = new HashSet<>();
-      for (List<Object> row : oldTable)
-      {
-         List<Object> newRow = new ArrayList<>();
-         for (String name : this.columnMap.keySet())
-         {
-            Object value = row.get(oldColumnMap.get(name));
-            newRow.add(value);
-         }
-         if (rowSet.add(newRow))
-         {
-            this.table.add(newRow);
-         }
-      }
+      this.removeDuplicateRows();
 
       return this;
+   }
+
+   private void dropColumnImpl(String columnName)
+   {
+      final int index = this.columns.indexOf(columnName);
+      if (index < 0)
+      {
+         return;
+      }
+
+      this.columns.remove(index);
+      for (final List<Object> row : this.table)
+      {
+         row.remove(index);
+      }
+   }
+
+   private void removeDuplicateRows()
+   {
+      final Set<List<Object>> rowSet = new LinkedHashSet<>(this.table);
+      this.table.clear();
+      this.table.addAll(rowSet);
    }
 
    /**
@@ -747,36 +737,23 @@ public class Table<T> implements Iterable<T>
     */
    public Table<T> selectColumns(String... columnNames)
    {
-      Map<String, Integer> oldColumnMap = new LinkedHashMap<>(this.columnMap);
-      this.columnMap.clear();
-
-      for (int i = 0; i < columnNames.length; i++)
+      final Set<String> toBeDropped = new HashSet<>(this.columns);
+      for (String columnName : columnNames)
       {
-         String name = columnNames[i];
-         if (oldColumnMap.get(name) == null)
+         if (!toBeDropped.remove(columnName))
          {
-            throw new IllegalArgumentException("unknown column name: " + name);
+            // failure to remove means either the columnName was not part of this table to begin with,
+            // or it was selected twice.
+            throw new IllegalArgumentException("unknown column name: " + columnName);
          }
-         this.columnMap.put(name, i);
       }
 
-      List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-
-      Set<List<Object>> rowSet = new HashSet<>();
-      for (List<Object> row : oldTable)
+      for (final String drop : toBeDropped)
       {
-         List<Object> newRow = new ArrayList<>();
-         for (String name : columnNames)
-         {
-            Object value = row.get(oldColumnMap.get(name));
-            newRow.add(value);
-         }
-         if (rowSet.add(newRow))
-         {
-            this.table.add(newRow);
-         }
+         this.dropColumnImpl(drop);
       }
+
+      this.removeDuplicateRows();
 
       return this;
    }
@@ -920,9 +897,11 @@ public class Table<T> implements Iterable<T>
    private LinkedHashMap<String, Object> convertRowToMap(List<Object> row)
    {
       LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-      for (Map.Entry<String, Integer> entry : this.columnMap.entrySet())
+      final List<String> strings = this.columns;
+      for (int i = 0; i < strings.size(); i++)
       {
-         map.put(entry.getKey(), row.get(entry.getValue()));
+         final String column = strings.get(i);
+         map.put(column, row.get(i));
       }
       return map;
    }
@@ -1021,6 +1000,26 @@ public class Table<T> implements Iterable<T>
    @Deprecated
    public LinkedHashMap<String, Integer> getColumnMap()
    {
-      return new LinkedHashMap<>(this.columnMap);
+      final int columnCount = this.columns.size();
+      final LinkedHashMap<String, Integer> map = new LinkedHashMap<>(columnCount);
+      for (int i = 0; i < columnCount; i++)
+      {
+         map.put(this.columns.get(i), i);
+      }
+      return map;
+   }
+
+   @Deprecated
+   void setColumnMap_(LinkedHashMap<String, Integer> columnMap)
+   {
+      final int max = columnMap.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+      final List<String> columns = new ArrayList<>(Collections.nCopies(max + 1, null));
+
+      for (final Map.Entry<String, Integer> entry : columnMap.entrySet())
+      {
+         columns.set(entry.getValue(), entry.getKey());
+      }
+
+      this.columns = columns;
    }
 }

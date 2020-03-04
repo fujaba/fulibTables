@@ -77,7 +77,7 @@ public class HtmlRenderer implements Renderer
       }
 
       out.append(i).append("<tr>\n");
-      for (String column : table.columnMap.keySet())
+      for (String column : table.columns)
       {
          out.append(i).append(i).append("<th>").append(column).append("</th>\n");
       }
