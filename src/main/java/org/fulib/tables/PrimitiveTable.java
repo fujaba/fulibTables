@@ -16,7 +16,7 @@ class PrimitiveTable<T> extends Table<T>
       super(start);
    }
 
-   protected PrimitiveTable(Table<?> base)
+   PrimitiveTable(Table<?> base)
    {
       super(base);
    }
@@ -32,7 +32,7 @@ class PrimitiveTable<T> extends Table<T>
     * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
     */
    @Deprecated
-   protected static <T extends Comparable<T>> T medianImpl(Table<T> table)
+   static <T extends Comparable<T>> T medianImpl(Table<T> table)
    {
       // FIXME throws IndexOutOfBoundsException for empty
       // FIXME median for even number of items should be (a[mid]+a[mid+1])/2, so -1.25, but here it's just a[mid+1]

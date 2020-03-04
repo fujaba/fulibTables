@@ -35,7 +35,7 @@ public class ObjectTable<T> extends Table<T>
       this.initReflector(start);
    }
 
-   protected ObjectTable(Table<?> base)
+   ObjectTable(Table<?> base)
    {
       super(base);
       if (base instanceof ObjectTable)

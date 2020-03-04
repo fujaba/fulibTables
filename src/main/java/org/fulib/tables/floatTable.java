@@ -11,7 +11,7 @@ public class floatTable extends PrimitiveTable<Float>
       super(start);
    }
 
-   protected floatTable(Table<?> base)
+   floatTable(Table<?> base)
    {
       super(base);
    }

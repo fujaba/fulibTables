@@ -11,7 +11,7 @@ public class intTable extends PrimitiveTable<Integer>
       super(start);
    }
 
-   protected intTable(Table<?> base)
+   intTable(Table<?> base)
    {
       super(base);
    }

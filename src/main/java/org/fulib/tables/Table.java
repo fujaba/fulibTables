@@ -38,8 +38,8 @@ public class Table<T> implements Iterable<T>
    // =============== Fields ===============
 
    private String columnName;
-   protected List<List<Object>> table;
-   protected Map<String, Integer> columnMap;
+   List<List<Object>> table;
+   Map<String, Integer> columnMap;
 
    // =============== Constructors ===============
 
@@ -97,7 +97,7 @@ public class Table<T> implements Iterable<T>
       }
    }
 
-   protected Table(Table<?> base)
+   Table(Table<?> base)
    {
       this.columnName = base.columnName;
       this.columnMap = base.columnMap;
@@ -117,7 +117,7 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   protected void copyTo(Table<T> copy)
+   void copyTo(Table<T> copy)
    {
       copy.columnName = this.columnName;
       copy.columnMap.putAll(this.columnMap);
@@ -141,12 +141,12 @@ public class Table<T> implements Iterable<T>
    // trailing _ added because subclasses use incompatible signatures for legacy reasons:
    //   void setColumnName(String) in PrimitiveTable classes
    //   ObjectTable setColumnName(String) in ObjectTable
-   protected void setColumnName_(String columnName)
+   void setColumnName_(String columnName)
    {
       this.columnName = columnName;
    }
 
-   protected int getColumnIndex()
+   int getColumnIndex()
    {
       final Integer column = this.columnMap.get(this.columnName);
       if (column == null)
@@ -159,14 +159,14 @@ public class Table<T> implements Iterable<T>
       return column;
    }
 
-   protected int getNewColumnNumber()
+   int getNewColumnNumber()
    {
       return this.table.isEmpty() ? 0 : this.table.get(0).size();
    }
 
    // =============== Methods ===============
 
-   protected void addColumn(String columnName)
+   void addColumn(String columnName)
    {
       this.columnMap.put(columnName, this.getNewColumnNumber());
    }
@@ -290,7 +290,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   protected void expandImpl(String columnName, Function<? super T, ?> function)
+   void expandImpl(String columnName, Function<? super T, ?> function)
    {
       final int column = this.getColumnIndex();
       this.addColumn(columnName);
@@ -371,7 +371,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   protected void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
+   void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
    {
       final int column = this.getColumnIndex();
       this.addColumn(columnName);
@@ -444,7 +444,7 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   protected void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
+   void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       int newColumnNumber = this.getNewColumnNumber();
       for (List<Object> row : this.table)
@@ -525,7 +525,7 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   protected void deriveAllImpl(String columnName,
+   void deriveAllImpl(String columnName,
       Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
    {
       final int newColumnNumber = this.getNewColumnNumber();
@@ -932,7 +932,7 @@ public class Table<T> implements Iterable<T>
       return this.filterRowsImpl(predicate);
    }
 
-   protected Table<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
+   Table<T> filterRowsImpl(Predicate<? super LinkedHashMap<String, Object>> predicate)
    {
       this.table.removeIf(row -> !predicate.test(this.convertRowToMap(row)));
       return this;

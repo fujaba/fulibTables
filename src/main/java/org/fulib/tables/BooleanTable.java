@@ -19,7 +19,7 @@ public class BooleanTable extends Table<Boolean>
       super(start);
    }
 
-   protected BooleanTable(Table<?> base)
+   BooleanTable(Table<?> base)
    {
       super(base);
    }

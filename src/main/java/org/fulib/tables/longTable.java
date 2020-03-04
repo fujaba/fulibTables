@@ -11,7 +11,7 @@ public class longTable extends PrimitiveTable<Long>
       super(start);
    }
 
-   protected longTable(Table<?> base)
+   longTable(Table<?> base)
    {
       super(base);
    }

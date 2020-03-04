@@ -20,7 +20,7 @@ public class <primitive>Table extends PrimitiveTable\<<wrapper>\>
       super(start);
    }
 
-   protected <primitive>Table(Table\<?> base)
+   <primitive>Table(Table\<?> base)
    {
       super(base);
    }

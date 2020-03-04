@@ -14,7 +14,7 @@ public class StringTable extends PrimitiveTable<String>
       super(start);
    }
 
-   protected StringTable(Table<?> base)
+   StringTable(Table<?> base)
    {
       super(base);
    }

@@ -11,7 +11,7 @@ public class doubleTable extends PrimitiveTable<Double>
       super(start);
    }
 
-   protected doubleTable(Table<?> base)
+   doubleTable(Table<?> base)
    {
       super(base);
    }
