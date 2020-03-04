@@ -4,6 +4,9 @@ import org.fulib.patterns.PatternBuilder;
 import org.fulib.patterns.PatternMatcher;
 import org.fulib.patterns.model.Pattern;
 
+/**
+ * Provides factory methods for table- and pattern-related classes.
+ */
 public class FulibTables
 {
    /**
