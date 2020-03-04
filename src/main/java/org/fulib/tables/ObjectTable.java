@@ -173,6 +173,36 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
+   /**
+    * Creates a new column by expanding the given attribute from cells of the column this table points to.
+    * <p>
+    * Essentially equivalent to:
+    * <pre>{@code
+    *    this.expand(newColumnName, start -> {
+    *       return start.get<attrName>(); // via reflection
+    *    });
+    * }</pre>
+    *
+    * @param <U>
+    *    the type of the attribute
+    * @param newColumnName
+    *    the name of the new column
+    * @param attrName
+    *    the name of the attribute to expand
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expand(String, Function)
+    * @since 1.2
+    */
+   public <U> Table<U> expandAttribute(String newColumnName, String attrName)
+   {
+      this.expandAttributeImpl(newColumnName, attrName);
+      final Table<U> result = new Table<>(this);
+      result.setColumnName_(newColumnName);
+      return result;
+   }
+
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
       this.expandAttributeImpl(newColumnName, attrName);
