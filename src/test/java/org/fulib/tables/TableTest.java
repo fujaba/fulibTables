@@ -106,6 +106,40 @@ public class TableTest
       catch (IllegalStateException expected)
       {
       }
+
+      try
+      {
+         names.selectColumns("unknown");
+         fail("did not throw IllegalArgumentException despite unknown column name");
+      }
+      catch (IllegalArgumentException expected)
+      {
+         try
+         {
+            lowercase.toList();
+         }
+         catch (IllegalStateException ex)
+         {
+            fail("modified columns before throwing exception");
+         }
+      }
+
+      try
+      {
+         names.selectColumns("uppercase", "uppercase");
+         fail("did not throw IllegalArgumentException despite duplicate name");
+      }
+      catch (IllegalArgumentException expected)
+      {
+         try
+         {
+            lowercase.toList();
+         }
+         catch (IllegalStateException ex)
+         {
+            fail("modified columns before throwing exception");
+         }
+      }
    }
 
    @Test
