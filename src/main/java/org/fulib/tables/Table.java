@@ -637,8 +637,11 @@ public class Table<T> implements Iterable<T>
    private void removeDuplicateRows()
    {
       final Set<List<Object>> rowSet = new LinkedHashSet<>(this.table);
-      this.table.clear();
-      this.table.addAll(rowSet);
+      if (this.table.size() != rowSet.size())
+      {
+         this.table.clear();
+         this.table.addAll(rowSet);
+      }
    }
 
    /**
