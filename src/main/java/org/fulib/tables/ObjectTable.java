@@ -175,53 +175,58 @@ public class ObjectTable<T> extends Table<T>
 
    public doubleTable expandDouble(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       doubleTable result = new doubleTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
    public floatTable expandFloat(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       floatTable result = new floatTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
    public intTable expandInt(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       intTable result = new intTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
    public longTable expandLong(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       longTable result = new longTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
    public StringTable expandString(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       StringTable result = new StringTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
    public BooleanTable expandBoolean(String newColumnName, String attrName)
    {
+      this.expandAttributeImpl(newColumnName, attrName);
       BooleanTable result = new BooleanTable(this);
-      this.expandPrimitive(result, newColumnName, attrName);
+      result.setColumnName_(newColumnName);
       return result;
    }
 
-   private void expandPrimitive(Table<?> result, String newColumnName, String attrName)
+   private void expandAttributeImpl(String newColumnName, String attrName)
    {
       this.expandImpl(newColumnName, start -> {
          Reflector reflector = this.reflectorMap.getReflector(start);
          return reflector.getValue(start, attrName);
       });
-      result.setColumnName_(newColumnName);
    }
 
    // =============== Compatibility Methods ===============
