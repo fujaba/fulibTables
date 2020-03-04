@@ -218,7 +218,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <TAB extends Table<T>> TAB as(Function<? super Table<T>, ? extends TAB> constructor)
+   <TAB extends Table<T>> TAB as(Function<? super Table<T>, ? extends TAB> constructor)
    {
       return constructor.apply(this);
    }
