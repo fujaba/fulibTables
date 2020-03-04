@@ -317,7 +317,7 @@ assertThat(alice.getDone().size(), equalTo(2));
 assertThat(integrals.getStudents().contains(alice), is(true));
 
 // show size of done
-universityTable.deriveColumn("noOfDone", row -> {
+universityTable.derive("noOfDone", row -> {
    Student studi = (Student) row.get("Student");
    return studi.getDone().size();
 });
@@ -393,7 +393,7 @@ want to update all elements of a certain column.
 ```java
 universityTable = new ObjectTable<>("University", studyRight);
 students = universityTable.expandAll("Students", University::getStudents);
-students.deriveColumn("Credits", row -> {
+students.derive("Credits", row -> {
    Student student = (Student) row.get("Students");
    double pointSum = new ObjectTable<>(student)
       .expandAll("Assignments", Student::getDone)
@@ -403,7 +403,7 @@ students.deriveColumn("Credits", row -> {
    student.setCredits(pointSum);
    return pointSum;
 });
-students.deriveColumn("Done", row -> {
+students.derive("Done", row -> {
    Student student = (Student) row.get("Students");
    return new ObjectTable<>("Students", student)
       .expandAll("Assignments", Student::getDone)

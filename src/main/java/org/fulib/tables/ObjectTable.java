@@ -324,7 +324,7 @@ public class ObjectTable<T> extends Table<T>
    }
 
    /**
-    * Same as {@link #deriveColumn(String, Function)}, except it has stricter requirements on the parameter type of the
+    * Same as {@link #derive(String, Function)}, except it has stricter requirements on the parameter type of the
     * predicate and does not return a table pointing to the new column.
     *
     * @param columnName
@@ -332,8 +332,8 @@ public class ObjectTable<T> extends Table<T>
     * @param function
     *    the function that computes a value for the new column
     *
-    * @see #deriveColumn(String, Function)
-    * @deprecated since 1.2; use {@link #deriveColumn(String, Function)} instead
+    * @see #derive(String, Function)
+    * @deprecated since 1.2; use {@link #derive(String, Function)} instead
     */
    @Deprecated
    public void addColumn(String columnName, Function<LinkedHashMap<String, Object>, Object> function)

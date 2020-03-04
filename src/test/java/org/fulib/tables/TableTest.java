@@ -42,15 +42,15 @@ public class TableTest
    }
 
    @Test
-   public void deriveColumn()
+   public void derive()
    {
-      // start_code_fragment: TableTest.deriveColumn
+      // start_code_fragment: TableTest.derive
       Table<Integer> a = new Table<>("A", 1, 2);
       Table<Integer> b = a.expand("B", i -> i * 10);
-      Table<Integer> c = b.deriveColumn("C", row -> (int) row.get("A") + (int) row.get("B"));
+      Table<Integer> c = b.derive("C", row -> (int) row.get("A") + (int) row.get("B"));
       // end_code_fragment:
 
-      fragments.addFragment("TableTest.deriveColumn.c", new HtmlRenderer().setCaption("c").render(b));
+      fragments.addFragment("TableTest.derive.c", new HtmlRenderer().setCaption("c").render(b));
 
       assertEquals("C", c.getColumnName());
       assertEquals(Arrays.asList(11, 22), c.toList());

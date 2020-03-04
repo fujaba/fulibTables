@@ -394,15 +394,15 @@ public class Table<T> implements Iterable<T>
     * Creates a new column with the given name by applying the given function to each row.
     * <p>
     * Example:
-    * <!-- insert_code_fragment: TableTest.deriveColumn | javadoc -->
+    * <!-- insert_code_fragment: TableTest.derive | javadoc -->
     * <pre>{@code
     * Table<Integer> a = new Table<>("A", 1, 2);
     * Table<Integer> b = a.expand("B", i -> i * 10);
-    * Table<Integer> c = b.deriveColumn("C", row -> (int) row.get("A") + (int) row.get("B"));
+    * Table<Integer> c = b.derive("C", row -> (int) row.get("A") + (int) row.get("B"));
     * }</pre>
     * <!-- end_code_fragment: -->
     *
-    * <!-- insert_code_fragment: TableTest.deriveColumn.c -->
+    * <!-- insert_code_fragment: TableTest.derive.c -->
     * <table>
     *     <caption>
     *         c
@@ -436,7 +436,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <U> Table<U> deriveColumn(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   public <U> Table<U> derive(String columnName, Function<? super Map<String, Object>, ? extends U> function)
    {
       this.addColumnImpl(columnName, function);
       final Table<U> result = new Table<>(this);
