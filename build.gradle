@@ -62,7 +62,7 @@ dependencies {
    def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.1.0' ]
 
    // https://mvnrepository.com/artifact/org.fulib/fulibTools
-   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.0-dev.1' ]
+   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.0-dev.2' ]
 
    genCompile fulib
    genCompile fulibTools
