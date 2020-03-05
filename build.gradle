@@ -85,3 +85,9 @@ tasks.named('test') {
    // it.outputs.files(codeFragmentFiles)
    // it.outputs.dir('doc')
 }
+
+test {
+   testLogging {
+      exceptionFormat = 'full'
+   }
+}
