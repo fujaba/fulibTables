@@ -52,9 +52,6 @@ dependencies {
    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
    api group: 'org.fulib', name: 'fulibYaml', version: '1.2.0'
 
-   // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
-   testRuntimeOnly group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.28'
-
    // https://mvnrepository.com/artifact/junit/junit
    testImplementation group: 'junit', name: 'junit', version: '4.12'
 
@@ -62,7 +59,7 @@ dependencies {
    def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.1.0' ]
 
    // https://mvnrepository.com/artifact/org.fulib/fulibTools
-   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.0-dev.2' ]
+   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.0-dev.3' ]
 
    genCompile fulib
    genCompile fulibTools
