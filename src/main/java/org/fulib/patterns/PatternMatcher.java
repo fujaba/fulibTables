@@ -424,7 +424,7 @@ public class PatternMatcher
       }
 
       final PatternObject nextRoot = rootPatternObjects.removeFirst();
-      final ObjectTable nextTable = firstTable.multiply(nextRoot.getName(), this.rootObjects);
+      final ObjectTable nextTable = firstTable.expandAll(nextRoot.getName(), x -> this.rootObjects);
       this.object2TableMap.put(nextRoot, nextTable);
 
       if (this.events != null)
