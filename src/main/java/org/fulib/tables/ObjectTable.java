@@ -118,10 +118,10 @@ public class ObjectTable<T> extends Table<T>
    /**
     * @since 1.3
     */
-   public ObjectTable hasAnyLink(ObjectTable otherTable)
+   public ObjectTable<T> hasAnyLink(ObjectTable<?> otherTable)
    {
       final int thisColumn = this.getColumnIndex();
-      final int otherColumn = this.columnMap.get(otherTable.getColumnName());
+      final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
@@ -202,36 +202,32 @@ public class ObjectTable<T> extends Table<T>
    /**
     * @since 1.3
     */
-   public ObjectTable expandAll(String newColumnName)
+   public <U> ObjectTable<U> expandAll(String newColumnName)
    {
-      this.expandAllImpl(newColumnName, start -> {
+      return this.expandAll(newColumnName, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptyList();
          }
 
          final Reflector reflector = this.reflectorMap.getReflector(start);
-         final Collection<Object> result = new ArrayList<>();
+         final Collection<U> result = new ArrayList<>();
 
          for (final String propertyName : reflector.getAllProperties())
          {
             Object value = reflector.getValue(start, propertyName);
             if (value instanceof Collection)
             {
-               result.addAll((Collection<?>) value);
+               result.addAll((Collection<U>) value);
             }
             else if (value != null)
             {
-               result.add(value);
+               result.add((U) value);
             }
          }
 
          return result;
       });
-      ObjectTable result = new ObjectTable(this);
-      result.setReflectorMap(this.reflectorMap);
-      result.setColumnName(newColumnName);
-      return result;
    }
 
    /**
@@ -476,7 +472,8 @@ public class ObjectTable<T> extends Table<T>
     * @see #multiply(String, Collection)
     * @since 1.3
     */
-   public ObjectTable multiply(String newColumnName, Object... items)
+   @SafeVarargs
+   public final <U> ObjectTable<U> multiply(String newColumnName, U... items)
    {
       return this.multiply(newColumnName, Arrays.asList(items));
    }
@@ -563,27 +560,9 @@ public class ObjectTable<T> extends Table<T>
     * @since 1.3
     */
    // TODO name, could also be crossProduct, crossMultiply, cartesianProduct
-   public ObjectTable multiply(String newColumnName, Collection<?> items)
+   public <U> ObjectTable<U> multiply(String newColumnName, Collection<U> items)
    {
-      final ObjectTable newTable = new ObjectTable(this);
-      newTable.setReflectorMap(this.reflectorMap);
-
-      newTable.setColumnName(newColumnName);
-      this.addColumn(newColumnName);
-
-      final List<List<Object>> oldTable = new ArrayList<>(this.table);
-      this.table.clear();
-      for (List<Object> row : oldTable)
-      {
-         for (final Object item : items)
-         {
-            final List<Object> newRow = new ArrayList<>(row);
-            newRow.add(item);
-            this.table.add(newRow);
-         }
-      }
-
-      return newTable;
+      return this.expandAll(newColumnName, x -> items);
    }
 
    // =============== Deprecated Members ===============
