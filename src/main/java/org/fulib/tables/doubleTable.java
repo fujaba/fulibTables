@@ -1,7 +1,5 @@
 package org.fulib.tables;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.DoubleStream;
 
 public class doubleTable extends PrimitiveTable<Double>
@@ -13,7 +11,7 @@ public class doubleTable extends PrimitiveTable<Double>
       super(start);
    }
 
-   protected doubleTable(Table<?> base)
+   doubleTable(Table<?> base)
    {
       super(base);
    }
@@ -25,22 +23,36 @@ public class doubleTable extends PrimitiveTable<Double>
       return this.stream().mapToDouble(Double::doubleValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public double sum()
    {
       return this.doubleStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Double#MAX_VALUE} if this table has no rows
+    */
    public double min()
    {
       return this.doubleStream().min().orElse(Double.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or negative {@link Double#MAX_VALUE} if this table has no rows
+    */
    public double max()
    {
-      return this.doubleStream().max().orElse(Double.MIN_VALUE);
+      return this.doubleStream().max().orElse(-Double.MAX_VALUE);
    }
 
    /**
+    * @return the average of the cell values of the column this table points to,
+    * or {@link Double#NaN} if this table has no rows
+    *
     * @since 1.2
     */
    public double average()
@@ -48,11 +60,14 @@ public class doubleTable extends PrimitiveTable<Double>
       return this.doubleStream().average().orElse(Double.NaN);
    }
 
+   /**
+    * @return the median of the cell values of the column this table points to
+    *
+    * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
+    */
+   @Deprecated
    public double median()
    {
-      List<Double> list = this.toList();
-      Collections.sort(list);
-      int index = list.size() / 2;
-      return list.get(index);
+      return PrimitiveTable.medianImpl(this);
    }
 }

@@ -6,6 +6,10 @@ import org.fulib.tables.ObjectTable;
 
 import java.util.*;
 
+/**
+ * Allows matching object structures against {@linkplain Pattern patterns} and retrieving values corresponding to
+ * {@linkplain PatternObject pattern objects}.
+ */
 public class PatternMatcher
 {
    // =============== Fields ===============
@@ -20,6 +24,10 @@ public class PatternMatcher
 
    // =============== Constructors ===============
 
+   /**
+    * @param pattern
+    *    the pattern
+    */
    public PatternMatcher(Pattern pattern)
    {
       this.pattern = pattern;
@@ -28,6 +36,8 @@ public class PatternMatcher
    // =============== Properties ===============
 
    /**
+    * @return the map from pattern object to tables of matching values
+    *
     * @deprecated since 1.2; for internal use only
     */
    @Deprecated
@@ -37,6 +47,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param pattern
+    *    the pattern object
+    *
+    * @return the table of matching values, or {@code null} if the pattern object was not reached
+    *
     * @since 1.2
     */
    public ObjectTable getMatchTable(PatternObject pattern)
@@ -130,12 +145,39 @@ public class PatternMatcher
 
    // =============== Methods ===============
 
+   /**
+    * Matches the pattern against the structure of objects that can be discovered from the start objects,
+    * and returns the table of matched values corresponding to the named pattern object.
+    *
+    * @param patternObjectName
+    *    the name of the pattern object the results are requested for
+    * @param startObjects
+    *    the root objects for object structure discovery
+    *
+    * @return the table of matched values corresponding to the named pattern object
+    *
+    * @throws NoApplicableConstraintException
+    *    if there were unmatched constraints, possibly due to disconnected pattern objects
+    * @see #match(PatternObject, Object...)
+    */
    public ObjectTable match(String patternObjectName, Object... startObjects)
    {
       return this.match(this.pattern.getObject(patternObjectName), startObjects);
    }
 
    /**
+    * Matches the pattern against the structure of objects that can be discovered from the start objects,
+    * and returns the table of matched values corresponding to the given pattern object.
+    *
+    * @param patternObject
+    *    the pattern object the results are requested for
+    * @param startObjects
+    *    the root objects for object structure discovery
+    *
+    * @return the table of matched values corresponding to the given pattern object
+    *
+    * @throws NoApplicableConstraintException
+    *    if there were unmatched constraints, possibly due to disconnected pattern objects
     * @since 1.2
     */
    public ObjectTable match(PatternObject patternObject, Object... startObjects)

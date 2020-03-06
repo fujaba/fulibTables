@@ -10,12 +10,27 @@
 
 # fulibTables v1.2.0
 
+## New Features
+
 + Added the generic `Table<T>` class as a supertype of all existing table classes.
 + Added the `BooleanTable` class.
 + Added an `average` method to all numeric table classes.
 + Added a few new convenience APIs.
 
+## Improvements
+
+* The `ObjectTable` class is now generic.
+* Improved generics for many Table-related APIs, improving type safety.
 * Improved the `PatternBuilder` API.
+* Interacting with tables pointing to columns that were removed with `dropColumns` or `selectColumns` now throws an exception. #5
+* Naming a column twice in `selectColumns` now throws an exception.
+
+## Bugfixes
+
+* The `doubleTable.max` and `floatTable.max` methods now return their respective negative `MAX_VALUE` instead of `MIN_VALUE`.
+
+## General
+
 * Transitioned many APIs from concrete implementation types like `ArrayList` or `LinkedHashMap` to their respective 
   interfaces like `List` or `Map`.
   > In places where this could not be done in-place, new APIs were added and the old ones deprecated.

@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+/**
+ * Provides a DSL for constructing {@linkplain Pattern patterns}.
+ */
 public class PatternBuilder
 {
    // =============== Fields ===============
@@ -37,6 +40,9 @@ public class PatternBuilder
 
    // =============== Properties ===============
 
+   /**
+    * @return the pattern created by this builder. Modifications are reflected both ways.
+    */
    public Pattern getPattern()
    {
       return this.pattern;
@@ -44,6 +50,14 @@ public class PatternBuilder
 
    // =============== Methods ===============
 
+   /**
+    * Creates a new pattern object with the given name.
+    *
+    * @param name
+    *    the name of the pattern object
+    *
+    * @return the created pattern object
+    */
    public PatternObject buildPatternObject(String name)
    {
       PatternObject patternObject = new PatternObject().setName(name);
@@ -52,6 +66,17 @@ public class PatternBuilder
    }
 
    /**
+    * Creates a new link constraint between the given pattern objects and with the expected attribute name.
+    *
+    * @param src
+    *    the source pattern object
+    * @param attrName
+    *    the name of the attribute of the {@code src} object that should have the {@code tgt} value
+    * @param tgt
+    *    the target pattern object
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.2
     */
    public PatternBuilder buildPatternLink(PatternObject src, String attrName, PatternObject tgt)
@@ -59,6 +84,20 @@ public class PatternBuilder
       return this.buildPatternLink(src, null, attrName, tgt);
    }
 
+   /**
+    * Creates a new link constraint between the given pattern objects and with the expected attribute name.
+    *
+    * @param src
+    *    the source pattern object
+    * @param srcRoleName
+    *    the name of the property of the {@code src} object that should have the {@code tgt} value
+    * @param tgtRoleName
+    *    the name of the property of the {@code tgt} object that should have the {@code src} value
+    * @param tgt
+    *    the target pattern object
+    *
+    * @return this instance, to allow method chaining
+    */
    public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
    {
       RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(this.pattern);
@@ -67,6 +106,15 @@ public class PatternBuilder
    }
 
    /**
+    * Creates a new predicate/attribute constraint on the given pattern object.
+    *
+    * @param predicate
+    *    the predicate on the value assigned to the pattern object
+    * @param object
+    *    the pattern object
+    *
+    * @return this instance, to allow method chaining
+    *
     * @deprecated since 1.2; use {@link #buildAttributeConstraint(PatternObject, Predicate)} instead (typo "Att_ibute")
     */
    @Deprecated
@@ -76,6 +124,17 @@ public class PatternBuilder
    }
 
    /**
+    * Creates a new predicate/attribute constraint on the given pattern object.
+    *
+    * @param <T>
+    *    the type of objects expected to be passed to the predicate
+    * @param object
+    *    the pattern object
+    * @param predicate
+    *    the predicate on the value assigned to the pattern object
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.2
     */
    public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Predicate<? super T> predicate)
@@ -128,6 +187,16 @@ public class PatternBuilder
       });
    }
 
+   /**
+    * Creates a new match constraint on the given pattern object.
+    *
+    * @param predicate
+    *    the predicate on the values assigned to the pattern objects
+    * @param objects
+    *    the pattern objects the constraint applies to
+    *
+    * @return this instance, to allow method chaining
+    */
    public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
       PatternObject... objects)
    {
@@ -160,6 +229,8 @@ public class PatternBuilder
    }
 
    /**
+    * @return a new matcher for the {@linkplain #getPattern() pattern} created with this builder.
+    *
     * @since 1.2
     */
    public PatternMatcher matcher()

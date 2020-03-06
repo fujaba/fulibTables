@@ -1,0 +1,84 @@
+primitiveTable(
+primitive,
+wrapper,
+streamClass = {<wrapper>Stream},
+streamMethod = {<primitive>Stream},
+streamMap = {mapTo<wrapper>(<wrapper>::<primitive>Value)},
+streamCast = "",
+minNegative = false
+) ::= <<
+package org.fulib.tables;
+
+import java.util.stream.<streamClass>;
+
+public class <primitive>Table extends PrimitiveTable\<<wrapper>\>
+{
+   // =============== Constructors ===============
+
+   public <primitive>Table(<wrapper>... start)
+   {
+      super(start);
+   }
+
+   <primitive>Table(Table\<?> base)
+   {
+      super(base);
+   }
+
+   // =============== Methods ===============
+
+   private <streamClass> <streamMethod>() // TODO public?
+   {
+      return this.stream().<streamMap>;
+   }
+
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
+   public <primitive> sum()
+   {
+      return <streamCast>this.<streamMethod>().sum();
+   }
+
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link <wrapper>#MAX_VALUE} if this table has no rows
+    */
+   public <primitive> min()
+   {
+      return <streamCast>this.<streamMethod>().min().orElse(<wrapper>.MAX_VALUE);
+   }
+
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or <if(minNegative)>negative {@link <wrapper>#MAX_VALUE}<else>{@link <wrapper>#MIN_VALUE}<endif> if this table has no rows
+    */
+   public <primitive> max()
+   {
+      return <streamCast>this.<streamMethod>().max().orElse(<if(minNegative)>-<wrapper>.MAX_VALUE<else><wrapper>.MIN_VALUE<endif>);
+   }
+
+   /**
+    * @return the average of the cell values of the column this table points to,
+    * or {@link Double#NaN} if this table has no rows
+    *
+    * @since 1.2
+    */
+   public double average()
+   {
+      return this.<streamMethod>().average().orElse(Double.NaN);
+   }
+
+   /**
+    * @return the median of the cell values of the column this table points to
+    *
+    * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
+    */
+   @Deprecated
+   public <primitive> median()
+   {
+      return PrimitiveTable.medianImpl(this);
+   }
+}
+
+>>
