@@ -3,9 +3,12 @@ package org.fulib.patterns;
 import org.fulib.FulibTables;
 import org.fulib.patterns.model.*;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Provides a DSL for constructing {@linkplain Pattern patterns}.
@@ -208,24 +211,22 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public PatternBuilder buildInequalityConstraint(PatternObject a, PatternObject b)
+   public PatternBuilder buildInequalityConstraint(PatternObject... objects)
    {
       return this.buildMatchConstraint(new Predicate<Map<String, Object>>()
       {
          @Override
          public boolean test(Map<String, Object> map)
          {
-            final Object aObj = map.get(a.getName());
-            final Object bObj = map.get(b.getName());
-            return !Objects.equals(aObj, bObj);
+            return Stream.of(objects).map(PatternObject::getName).map(map::get).distinct().count() == objects.length;
          }
 
          @Override
          public String toString()
          {
-            return "notEqual(" + a + ", " + b + ")";
+            return "notEqual(" + Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
          }
-      }, a, b);
+      }, objects);
    }
 
    /**
