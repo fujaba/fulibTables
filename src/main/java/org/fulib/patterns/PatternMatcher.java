@@ -5,6 +5,8 @@ import org.fulib.patterns.model.*;
 import org.fulib.tables.ObjectTable;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Allows matching object structures against {@linkplain Pattern patterns} and retrieving values corresponding to
@@ -239,7 +241,11 @@ public class PatternMatcher
             continue;
          }
 
-         throw new NoApplicableConstraintException();
+         throw new NoApplicableConstraintException("the following constraints could not be applied:\n" + Stream
+            .of(attributeConstraints, roles, matchConstraints)
+            .flatMap(List::stream)
+            .map(Object::toString)
+            .collect(Collectors.joining("\n")));
       }
    }
 
