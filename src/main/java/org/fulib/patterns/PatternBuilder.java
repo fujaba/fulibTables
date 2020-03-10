@@ -151,6 +151,18 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
+   public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Class<T> type, Predicate<? super T> predicate)
+   {
+      new AttributeConstraint()
+         .setPredicate(o -> type.isInstance(o) && predicate.test(type.cast(o)))
+         .setObject(object)
+         .setPattern(this.pattern);
+      return this;
+   }
+
+   /**
+    * @since 1.3
+    */
    public PatternBuilder buildEqualityConstraint(PatternObject object, Object value)
    {
       return this.buildAttributeConstraint(object, new Predicate<Object>()
