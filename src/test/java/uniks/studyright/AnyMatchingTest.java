@@ -275,10 +275,12 @@ public class AnyMatchingTest
       final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
       matcher.withRootPatternObjects(s20PO);
       matcher.withRootObjects(this.all);
-      matcher.setDebugLogging(true);
       matcher.match();
-      matcher.getDebugEvents().forEach(System.out::println);
       final Student s20 = matcher.findOne(s20PO);
+
+      // sanity check:
+      assertEquals(this.alice, s20);
+      assertNotEquals(this.studyRight.getRooms().get(2), s20);
    }
 
    @Test
