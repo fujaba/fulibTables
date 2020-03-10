@@ -281,6 +281,35 @@ public class AnyMatchingTest
       final Student s20 = matcher.findOne(s20PO);
    }
 
+   @Test
+   public void anyLink()
+   {
+      // We expect that there is some object alice where some attribute is 'Alice'
+      // and some object studyRight with some link to s20.
+
+      final PatternBuilder builder = FulibTables.patternBuilder();
+
+      final PatternObject alicePO = builder.buildPatternObject("alice");
+      final PatternObject aliceAttr1 = builder.buildPatternObject("aliceAttr1");
+      builder.buildEqualityConstraint(aliceAttr1, "Alice");
+      builder.buildPatternLink(alicePO, "*", aliceAttr1);
+
+      final PatternObject studyRightPO = builder.buildPatternObject("studyRight");
+      builder.buildPatternLink(studyRightPO, "*", alicePO);
+
+      final PatternMatcher matcher = FulibTables.matcher(builder.getPattern());
+      matcher.withRootPatternObjects(alicePO);
+      matcher.withRootPatternObjects(studyRightPO);
+      matcher.withRootObjects(this.all);
+      matcher.match();
+      final Object alice = matcher.findOne(alicePO);
+      final Object studyRight = matcher.findOne(studyRightPO);
+
+      // sanity check:
+      assertEquals(this.alice, alice);
+      assertEquals(this.studyRight, studyRight);
+   }
+
    // --------------- Helper Methods ---------------
 
    private static Object[] findAll(Object... roots)
