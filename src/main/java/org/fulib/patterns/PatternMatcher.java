@@ -386,13 +386,17 @@ public class PatternMatcher
             continue; //=======================
          }
 
-         // use this
          RoleObject otherRole = role.getOther();
+         final String linkName = otherRole.getName();
+         if (linkName == null)
+         {
+            continue;
+         }
+
+         // use this
          PatternObject tgt = otherRole.getObject();
 
-         final String linkName = otherRole.getName();
-
-         ObjectTable nextTable;
+         final ObjectTable nextTable;
          if ("*".equals(linkName))
          {
             nextTable = srcTable.expandAll(tgt.getName());
