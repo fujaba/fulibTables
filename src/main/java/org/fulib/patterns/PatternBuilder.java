@@ -69,6 +69,16 @@ public class PatternBuilder
    }
 
    /**
+    * @since 1.3
+    */
+   public PatternObject buildPatternObject(String name, Class<?> type)
+   {
+      final PatternObject object = this.buildPatternObject(name);
+      this.buildInstanceOfConstraint(object, type);
+      return object;
+   }
+
+   /**
     * Creates a new link constraint between the given pattern objects and with the expected attribute name.
     *
     * @param src
