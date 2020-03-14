@@ -235,7 +235,7 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public PatternBuilder buildInequalityConstraint(PatternObject... objects)
+   public PatternBuilder buildDistinctConstraint(PatternObject... objects)
    {
       return this.buildMatchConstraint(new Predicate<Map<String, Object>>()
       {
@@ -248,7 +248,7 @@ public class PatternBuilder
          @Override
          public String toString()
          {
-            return "notEqual(" + Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
+            return "distinct(" + Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
          }
       }, objects);
    }

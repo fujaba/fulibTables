@@ -232,7 +232,7 @@ public class AnyMatchingTest
       builder.buildPatternLink(r20, "*", r20Attr1);
 
       // because a20 and r20 are used in the same sentence, we interpret them as being two different objects:
-      builder.buildInequalityConstraint(a20, r20);
+      builder.buildDistinctConstraint(a20, r20);
       // had the sentence(s) been:
       // We expect that there is some object a20 that has some attribute with value 20.
       // We expect that there is some object r20 that has some attribute with value 20.
