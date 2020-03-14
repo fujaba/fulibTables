@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class PatternObject
+public class PatternObject<T> // no fulib
 {
    // =============== Constants ===============
 
@@ -74,7 +74,7 @@ public class PatternObject
       return this.pattern;
    }
 
-   public PatternObject setPattern(Pattern value)
+   public PatternObject<T> setPattern(Pattern value) // no fulib
    {
       if (this.pattern != value)
       {
@@ -99,7 +99,7 @@ public class PatternObject
       return this.name;
    }
 
-   public PatternObject setName(String value)
+   public PatternObject<T> setName(String value) // no fulib
    {
       if (!Objects.equals(value, this.name))
       {
@@ -120,7 +120,7 @@ public class PatternObject
       return this.roles;
    }
 
-   public PatternObject withRoles(Object... value)
+   public PatternObject<T> withRoles(Object... value) // no fulib
    {
       if (value == null)
       {
@@ -160,7 +160,7 @@ public class PatternObject
       return this;
    }
 
-   public PatternObject withoutRoles(Object... value)
+   public PatternObject<T> withoutRoles(Object... value) // no fulib
    {
       if (this.roles == null || value == null)
       {
@@ -202,7 +202,7 @@ public class PatternObject
       return this.attributeConstraints;
    }
 
-   public PatternObject withAttributeConstraints(Object... value)
+   public PatternObject<T> withAttributeConstraints(Object... value) // no fulib
    {
       if (value == null)
       {
@@ -242,7 +242,7 @@ public class PatternObject
       return this;
    }
 
-   public PatternObject withoutAttributeConstraints(Object... value)
+   public PatternObject<T> withoutAttributeConstraints(Object... value) // no fulib
    {
       if (this.attributeConstraints == null || value == null)
       {
@@ -284,7 +284,7 @@ public class PatternObject
       return this.matchConstraints;
    }
 
-   public PatternObject withMatchConstraints(Object... value)
+   public PatternObject<T> withMatchConstraints(Object... value) // no fulib
    {
       if (value == null)
       {
@@ -324,7 +324,7 @@ public class PatternObject
       return this;
    }
 
-   public PatternObject withoutMatchConstraints(Object... value)
+   public PatternObject<T> withoutMatchConstraints(Object... value) // no fulib
    {
       if (this.matchConstraints == null || value == null)
       {
