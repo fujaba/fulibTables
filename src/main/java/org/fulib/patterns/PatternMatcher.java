@@ -324,17 +324,11 @@ public class PatternMatcher
    private boolean checkMatchConstraint(List<MatchConstraint> matchConstraints)
    {
       // find roles from done to not done
-      constraintLoop:
       for (MatchConstraint constraint : matchConstraints)
       {
-         for (PatternObject patternObject : constraint.getObjects())
+         if (!this.areAllPatternObjectsAvailable(constraint))
          {
-            ObjectTable srcTable = this.object2TableMap.get(patternObject);
-
-            if (srcTable == null)
-            {
-               continue constraintLoop; //=====================
-            }
+            continue;
          }
 
          final ObjectTable table = this.object2TableMap.get(constraint.getObjects().get(0));
@@ -350,6 +344,11 @@ public class PatternMatcher
       }
 
       return false;
+   }
+
+   private boolean areAllPatternObjectsAvailable(MatchConstraint constraint)
+   {
+      return constraint.getObjects().stream().allMatch(this.object2TableMap::containsKey);
    }
 
    private boolean checkHasLink(List<RoleObject> roles)
