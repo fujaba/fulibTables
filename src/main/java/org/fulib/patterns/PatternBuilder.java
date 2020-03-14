@@ -61,19 +61,17 @@ public class PatternBuilder
     *
     * @return the created pattern object
     */
-   public PatternObject buildPatternObject(String name)
+   public <T> PatternObject<T> buildPatternObject(String name)
    {
-      PatternObject patternObject = new PatternObject().setName(name);
-      this.pattern.withObjects(patternObject);
-      return patternObject;
+      return new PatternObject<T>().setName(name).setPattern(this.pattern);
    }
 
    /**
     * @since 1.3
     */
-   public PatternObject buildPatternObject(String name, Class<?> type)
+   public <T> PatternObject<T> buildPatternObject(String name, Class<T> type)
    {
-      final PatternObject object = this.buildPatternObject(name);
+      final PatternObject<T> object = this.buildPatternObject(name);
       this.buildInstanceOfConstraint(object, type);
       return object;
    }
@@ -92,7 +90,7 @@ public class PatternBuilder
     *
     * @since 1.2
     */
-   public PatternBuilder buildPatternLink(PatternObject src, String attrName, PatternObject tgt)
+   public PatternBuilder buildPatternLink(PatternObject<?> src, String attrName, PatternObject<?> tgt)
    {
       return this.buildPatternLink(src, null, attrName, tgt);
    }
@@ -111,7 +109,7 @@ public class PatternBuilder
     *
     * @return this instance, to allow method chaining
     */
-   public PatternBuilder buildPatternLink(PatternObject src, String srcRoleName, String tgtRoleName, PatternObject tgt)
+   public PatternBuilder buildPatternLink(PatternObject<?> src, String srcRoleName, String tgtRoleName, PatternObject<?> tgt)
    {
       RoleObject srcRole = new RoleObject().setName(srcRoleName).setObject(src).setPattern(this.pattern);
       new RoleObject().setName(tgtRoleName).setObject(tgt).setOther(srcRole).setPattern(this.pattern);
@@ -131,7 +129,7 @@ public class PatternBuilder
     * @deprecated since 1.2; use {@link #buildAttributeConstraint(PatternObject, Predicate)} instead (typo "Att_ibute")
     */
    @Deprecated
-   public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject object)
+   public PatternBuilder buildAttibuteConstraint(Predicate<? super Object> predicate, PatternObject<?> object)
    {
       return this.buildAttributeConstraint(object, predicate);
    }
@@ -150,7 +148,7 @@ public class PatternBuilder
     *
     * @since 1.2
     */
-   public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Predicate<? super T> predicate)
+   public <T> PatternBuilder buildAttributeConstraint(PatternObject<T> object, Predicate<? super T> predicate)
    {
       new AttributeConstraint()
          .setPredicate((Predicate<? super Object>) predicate)
@@ -162,7 +160,8 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public <T> PatternBuilder buildAttributeConstraint(PatternObject object, Class<T> type,
+   // TODO remove, unneeded with generic PO
+   public <T> PatternBuilder buildAttributeConstraint(PatternObject<T> object, Class<T> type,
       Predicate<? super T> predicate)
    {
       new AttributeConstraint()
@@ -175,7 +174,7 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public PatternBuilder buildEqualityConstraint(PatternObject object, Object value)
+   public PatternBuilder buildEqualityConstraint(PatternObject<?> object, Object value)
    {
       return this.buildAttributeConstraint(object, new Predicate<Object>()
       {
@@ -196,7 +195,7 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public PatternBuilder buildInstanceOfConstraint(PatternObject object, Class<?> superClass)
+   public PatternBuilder buildInstanceOfConstraint(PatternObject<?> object, Class<?> superClass)
    {
       return this.buildAttributeConstraint(object, new Predicate<Object>()
       {
@@ -225,7 +224,7 @@ public class PatternBuilder
     * @return this instance, to allow method chaining
     */
    public PatternBuilder buildMatchConstraint(Predicate<? super Map<String, Object>> predicate,
-      PatternObject... objects)
+      PatternObject<?>... objects)
    {
       //noinspection RedundantCast
       new MatchConstraint().setPredicate(predicate).withObjects((Object[]) objects).setPattern(this.pattern);
@@ -235,7 +234,7 @@ public class PatternBuilder
    /**
     * @since 1.3
     */
-   public PatternBuilder buildInequalityConstraint(PatternObject... objects)
+   public PatternBuilder buildInequalityConstraint(PatternObject<?>... objects)
    {
       return this.buildMatchConstraint(new Predicate<Map<String, Object>>()
       {
