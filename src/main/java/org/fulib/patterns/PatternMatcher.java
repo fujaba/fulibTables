@@ -37,6 +37,8 @@ public class PatternMatcher
 
    // =============== Properties ===============
 
+   // --------------- Deprecated ---------------
+
    /**
     * @return the map from pattern object to tables of matching values
     *
@@ -63,6 +65,8 @@ public class PatternMatcher
    {
       return this.object2TableMap.get(pattern);
    }
+
+   // --------------- Debugging ---------------
 
    /**
     * @since 1.3
@@ -95,6 +99,8 @@ public class PatternMatcher
    {
       return this.events == null ? Collections.emptyList() : Collections.unmodifiableList(this.events);
    }
+
+   // --------------- Roots ---------------
 
    /**
     * @since 1.3
@@ -167,6 +173,8 @@ public class PatternMatcher
    }
 
    // =============== Methods ===============
+
+   // --------------- Matching Start ---------------
 
    /**
     * Matches the pattern against the structure of objects that can be discovered from the start objects,
@@ -270,6 +278,8 @@ public class PatternMatcher
       }
    }
 
+   // --------------- Result Extraction ---------------
+
    /**
     * @since 1.3
     */
@@ -296,6 +306,8 @@ public class PatternMatcher
       final ObjectTable table = this.getMatchTable(patternObject);
       return (List<T>) table.toList();
    }
+
+   // --------------- Implementation ---------------
 
    private boolean checkAttributeConstraint(List<AttributeConstraint> attributeConstraints)
    {
