@@ -55,7 +55,10 @@ public class PatternMatcher
     * @return the table of matching values, or {@code null} if the pattern object was not reached
     *
     * @since 1.2
+    *
+    * @deprecated since 1.3; for internal use only; use {@link #findAll(PatternObject)} instead
     */
+   @Deprecated
    public ObjectTable getMatchTable(PatternObject pattern)
    {
       return this.object2TableMap.get(pattern);
