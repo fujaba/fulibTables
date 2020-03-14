@@ -243,18 +243,22 @@ public class AnyMatchingTest
       matcher.withRootPatternObjects(r20);
       matcher.withRootObjects(this.all);
       matcher.match();
-      final ObjectTable a20Result = matcher.getMatchTable(a20);
-      final ObjectTable r20Result = matcher.getMatchTable(r20);
+      final List<Object> a20Result = matcher.findAll(a20);
+      final List<Object> r20Result = matcher.findAll(r20);
 
       // there can be 2 results,
       // - a20=Alice and r20=R2
       // - a20=R2 and r20=Alice
       // both are equally valid without further specification
-      assertEquals(2, a20Result.rowCount());
+      assertEquals(2, a20Result.size());
+      assertEquals(2, r20Result.size());
 
       // sanity check:
 
-      assertNotSame(a20Result.iterator().next(), r20Result.iterator().next());
+      assertSame(a20Result.get(0), r20Result.get(1));
+      assertSame(a20Result.get(1), r20Result.get(0));
+      assertNotSame(a20Result.get(0), r20Result.get(0));
+      assertNotSame(a20Result.get(1), r20Result.get(1));
    }
 
    @Test
