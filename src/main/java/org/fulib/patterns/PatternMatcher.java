@@ -307,10 +307,10 @@ public class PatternMatcher
    /**
     * @since 1.3
     */
-   public <T> List<T> findAll(PatternObject patternObject)
+   public <T> Set<T> findAll(PatternObject patternObject)
    {
       final ObjectTable table = this.getMatchTable(patternObject);
-      return (List<T>) table.toList();
+      return (Set<T>) table.toSet();
    }
 
    // --------------- Implementation ---------------
