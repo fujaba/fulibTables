@@ -287,15 +287,21 @@ public class PatternMatcher
    {
       final ObjectTable table = this.getMatchTable(patternObject);
       final int count = table.rowCount();
-      if (count == 1)
-      {
-         return (T) table.iterator().next();
-      }
       if (count == 0)
       {
          throw new NoMatchException(patternObject);
       }
-      throw new AmbiguousMatchException(patternObject, table.toList());
+      if (count == 1)
+      {
+         return (T) table.iterator().next();
+      }
+      // there may be the same object multiple times in the column
+      final Set<Object> set = table.toSet();
+      if (set.size() == 1)
+      {
+         return (T) set.iterator().next();
+      }
+      throw new AmbiguousMatchException(patternObject, set);
    }
 
    /**
