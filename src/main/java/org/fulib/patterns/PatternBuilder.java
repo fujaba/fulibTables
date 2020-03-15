@@ -79,6 +79,14 @@ public class PatternBuilder
    }
 
    /**
+    * @since 1.3
+    */
+   public PatternBuilder buildPatternLink(PatternObject src, PatternObject tgt)
+   {
+      return this.buildPatternLink(src, "*", "*", tgt);
+   }
+
+   /**
     * Creates a new link constraint between the given pattern objects and with the expected attribute name.
     *
     * @param src
