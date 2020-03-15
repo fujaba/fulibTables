@@ -243,8 +243,8 @@ public class AnyMatchingTest
       matcher.withRootPatternObjects(r20);
       matcher.withRootObjects(this.all);
       matcher.match();
-      final List<Object> a20Result = matcher.findAll(a20);
-      final List<Object> r20Result = matcher.findAll(r20);
+      final List<Object> a20Result = new ArrayList<>(matcher.findAll(a20));
+      final List<Object> r20Result = new ArrayList<>(matcher.findAll(r20));
 
       // there can be 2 results,
       // - a20=Alice and r20=R2
