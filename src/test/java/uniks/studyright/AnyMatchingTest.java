@@ -335,15 +335,8 @@ public class AnyMatchingTest
    // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
    private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
    {
-      if (root == null)
+      if (root == null || ! map.canReflect(root))
       {
-         return;
-      }
-
-      try {
-         map.getReflector(root);
-      }
-      catch (Exception e) {
          return;
       }
 
@@ -356,7 +349,7 @@ public class AnyMatchingTest
       }
 
       // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
-      for (final String property : reflector.getProperties())
+      for (final String property : reflector.getAllProperties())
       {
          final Object value = reflector.getValue(root, property);
          if (value instanceof Collection)
