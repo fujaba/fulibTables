@@ -144,6 +144,8 @@ public class AnyMatchingTest
       // that has some attribute with value "StudyRight".
       final PatternObject studyRightAttr1 = builder.buildPatternObject("studyRightAttr1");
       builder.buildEqualityConstraint(studyRightAttr1, "StudyRight");
+      builder.buildCloseToConstraint(studyRightAttr1, "studireight");
+
       builder.buildPatternLink(studyRightPO, "*", studyRightAttr1);
 
       // We expect that there is some object alice
@@ -333,8 +335,15 @@ public class AnyMatchingTest
    // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
    private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
    {
-      if (root == null || !map.canReflect(root))
+      if (root == null)
       {
+         return;
+      }
+
+      try {
+         map.getReflector(root);
+      }
+      catch (Exception e) {
          return;
       }
 
@@ -347,7 +356,7 @@ public class AnyMatchingTest
       }
 
       // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
-      for (final String property : reflector.getAllProperties())
+      for (final String property : reflector.getProperties())
       {
          final Object value = reflector.getValue(root, property);
          if (value instanceof Collection)
