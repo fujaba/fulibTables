@@ -230,7 +230,7 @@ public class PatternBuilder
       rhs = rhs.toLowerCase();
 
       int distance = levenstheinDistance(lhs, rhs);
-      return distance / (double) Math.max(lhs.length(), rhs.length()) <= 0.25;
+      return distance <= 0.25 * Math.max(lhs.length(), rhs.length());
    }
 
    private static int levenstheinDistance(String lhs, String rhs)
