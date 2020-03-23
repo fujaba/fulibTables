@@ -229,6 +229,12 @@ public class PatternBuilder
       lhs = lhs.toLowerCase();
       rhs = rhs.toLowerCase();
 
+      int distance = levenstheinDistance(lhs, rhs);
+      return distance / (double) Math.max(lhs.length(), rhs.length()) <= 0.25;
+   }
+
+   private static int levenstheinDistance(String lhs, String rhs)
+   {
       int len0 = lhs.length() + 1;
       int len1 = rhs.length() + 1;
 
@@ -272,9 +278,7 @@ public class PatternBuilder
       }
 
       // the distance is the cost for transforming all letters in both strings
-      double distance = cost[len0 - 1];
-      boolean closeTo = distance / Math.max(len0, len1) <= 0.25;
-      return closeTo;
+      return cost[len0 - 1];
    }
 
    /**
