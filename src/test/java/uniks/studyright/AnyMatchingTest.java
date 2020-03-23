@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class AnyMatchingTest
 {
    private Object[] roots;
-   private Object[] all;
+   private Set<Object> all;
    private University studyRight;
    private Student alice;
 
@@ -52,7 +52,7 @@ public class AnyMatchingTest
       this.alice = alice;
       // captured by fulibScenarios
       this.roots = new Object[] { studyRight, alice, bob };
-      this.all = findAll(this.roots);
+      this.all = new ReflectorMap(University.class.getPackage().getName()).discoverObjects(this.roots);
    }
 
    @Test
@@ -316,53 +316,5 @@ public class AnyMatchingTest
       // sanity check:
       assertEquals(this.alice, alice);
       assertEquals(this.studyRight, studyRight);
-   }
-
-   // --------------- Helper Methods ---------------
-
-   private static Object[] findAll(Object... roots)
-   {
-      // TODO consider other package names
-      final ReflectorMap reflectorMap = new ReflectorMap(roots[0].getClass().getPackage().getName());
-      final Set<Object> out = new HashSet<>();
-      for (final Object root : roots)
-      {
-         findNeighbors(reflectorMap, root, out);
-      }
-      return out.toArray();
-   }
-
-   // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
-   private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
-   {
-      if (root == null || ! map.canReflect(root))
-      {
-         return;
-      }
-
-      final Reflector reflector = map.getReflector(root);
-
-      // doing this after the reflector prevents values from being added to the set
-      if (!out.add(root))
-      {
-         return;
-      }
-
-      // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
-      for (final String property : reflector.getAllProperties())
-      {
-         final Object value = reflector.getValue(root, property);
-         if (value instanceof Collection)
-         {
-            for (Object item : (Collection<?>) value)
-            {
-               findNeighbors(map, item, out);
-            }
-         }
-         else
-         {
-            findNeighbors(map, value, out);
-         }
-      }
    }
 }

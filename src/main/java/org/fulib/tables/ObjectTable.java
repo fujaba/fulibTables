@@ -106,6 +106,12 @@ public class ObjectTable<T> extends Table<T>
       this.table.removeIf(row -> {
          final Object source = row.get(thisColumn);
          final Object target = row.get(otherColumn);
+
+         if (!this.reflectorMap.canReflect(source))
+         {
+            return true;
+         }
+
          final Reflector reflector = this.reflectorMap.getReflector(source);
          final Object linkValue = reflector.getValue(source, linkName);
          final boolean keep =
@@ -125,6 +131,12 @@ public class ObjectTable<T> extends Table<T>
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
+
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return true;
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
 
          for (final String property : reflector.getAllProperties())
@@ -178,6 +190,11 @@ public class ObjectTable<T> extends Table<T>
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
       this.expandAllImpl(newColumnName, start -> {
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return Collections.emptySet();
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
@@ -401,6 +418,11 @@ public class ObjectTable<T> extends Table<T>
    private void expandAttributeImpl(String newColumnName, String attrName)
    {
       this.expandImpl(newColumnName, start -> {
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return null;
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
          return reflector.getValue(start, attrName);
       });
