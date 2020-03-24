@@ -50,21 +50,6 @@ public class PatternMatcher
       return new LinkedHashMap<>(this.object2TableMap);
    }
 
-   /**
-    * @param pattern
-    *    the pattern object
-    *
-    * @return the table of matching values, or {@code null} if the pattern object was not reached
-    *
-    * @since 1.2
-    * @deprecated since 1.3; for internal use only; use {@link #findAll(PatternObject)} instead
-    */
-   @Deprecated
-   public ObjectTable getMatchTable(PatternObject pattern)
-   {
-      return this.object2TableMap.get(pattern);
-   }
-
    // --------------- Debugging ---------------
 
    /**
@@ -337,6 +322,19 @@ public class PatternMatcher
    }
 
    // --------------- Result Extraction ---------------
+
+   /**
+    * @param pattern
+    *    the pattern object
+    *
+    * @return the table of matching values, or {@code null} if the pattern object was not reached
+    *
+    * @since 1.2
+    */
+   public ObjectTable getMatchTable(PatternObject pattern)
+   {
+      return this.object2TableMap.get(pattern);
+   }
 
    /**
     * Attempts to retrieve exactly one unique match for the given pattern object.
