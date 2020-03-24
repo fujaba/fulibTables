@@ -53,3 +53,4 @@
 
 * `ObjectTable` no longer throws exceptions when an object cannot be reflected.
 * General improvements to the `PatternMatcher` API.
+* The `ObjectTable.hasLink` method now throws an `IllegalArgumentException` if the other table does not share the same underlying data structure.
