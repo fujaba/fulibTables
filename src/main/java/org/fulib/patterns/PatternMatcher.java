@@ -218,12 +218,17 @@ public class PatternMatcher
    // --------------- Matching Start ---------------
 
    /**
-    * Matches the pattern against the structure of objects that can be discovered from the start objects,
+    * Matches the pattern against the structure of objects that can be discovered from the root objects,
     * and returns the table of matched values corresponding to the named pattern object.
+    * <p>
+    * Equivalent to:
+    * <pre>{@code
+    *    this.match(pattern.getObject(rootPatternObjectName), rootObjects);
+    * }</pre>
     *
-    * @param patternObjectName
-    *    the name of the pattern object the results are requested for
-    * @param startObjects
+    * @param rootPatternObjectName
+    *    the name of the root pattern object, and for which the results are requested for
+    * @param rootObjects
     *    the root objects for object structure discovery
     *
     * @return the table of matched values corresponding to the named pattern object
@@ -232,18 +237,26 @@ public class PatternMatcher
     *    if there were unmatched constraints, possibly due to disconnected pattern objects
     * @see #match(PatternObject, Object...)
     */
-   public ObjectTable match(String patternObjectName, Object... startObjects)
+   public ObjectTable match(String rootPatternObjectName, Object... rootObjects)
    {
-      return this.match(this.pattern.getObject(patternObjectName), startObjects);
+      return this.match(this.pattern.getObject(rootPatternObjectName), rootObjects);
    }
 
    /**
-    * Matches the pattern against the structure of objects that can be discovered from the start objects,
+    * Matches the pattern against the structure of objects that can be discovered from the root objects,
     * and returns the table of matched values corresponding to the given pattern object.
+    * <p>
+    * Equivalent to:
+    * <pre>{@code
+    *    this.withRootPatternObjects(rootPatternObject);
+    *    this.withRootObjects(rootObjects);
+    *    this.match();
+    *    return this.getMatchTable(rootPatternObject);
+    * }</pre>
     *
-    * @param patternObject
-    *    the pattern object the results are requested for
-    * @param startObjects
+    * @param rootPatternObject
+    *    the root pattern object, and for which the results are requested for
+    * @param rootObjects
     *    the root objects for object structure discovery
     *
     * @return the table of matched values corresponding to the given pattern object
@@ -252,14 +265,14 @@ public class PatternMatcher
     *    if there were unmatched constraints, possibly due to disconnected pattern objects
     * @since 1.2
     */
-   public ObjectTable match(PatternObject patternObject, Object... startObjects)
+   public ObjectTable match(PatternObject rootPatternObject, Object... rootObjects)
    {
-      this.withRootPatternObjects(patternObject);
-      this.withRootObjects(startObjects);
+      this.withRootPatternObjects(rootPatternObject);
+      this.withRootObjects(rootObjects);
 
       this.match();
 
-      return this.getMatchTable(patternObject);
+      return this.getMatchTable(rootPatternObject);
    }
 
    /**
