@@ -73,6 +73,14 @@ public class ObjectTable<T> extends Table<T>
 
    // =============== Methods ===============
 
+   private void checkSameData(ObjectTable<?> otherTable)
+   {
+      if (this.table != otherTable.table)
+      {
+         throw new IllegalArgumentException("other table does not share the same underlying data");
+      }
+   }
+
    /**
     * Removes all rows where the cell value does not have the named link to the cell value of the other table in the
     * same row.
@@ -97,10 +105,14 @@ public class ObjectTable<T> extends Table<T>
     *
     * @return this instance, to allow method chaining
     *
+    * @throws IllegalArgumentException
+    *    if the other table does not share the same underlying data structure.
     * @see #filterRows(Predicate)
     */
    public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
+      this.checkSameData(otherTable);
+
       final int thisColumn = this.getColumnIndex();
       final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
@@ -126,6 +138,8 @@ public class ObjectTable<T> extends Table<T>
     */
    public ObjectTable<T> hasAnyLink(ObjectTable<?> otherTable)
    {
+      this.checkSameData(otherTable);
+
       final int thisColumn = this.getColumnIndex();
       final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
