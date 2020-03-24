@@ -57,7 +57,6 @@ public class PatternMatcher
     * @return the table of matching values, or {@code null} if the pattern object was not reached
     *
     * @since 1.2
-    *
     * @deprecated since 1.3; for internal use only; use {@link #findAll(PatternObject)} instead
     */
    @Deprecated
@@ -69,6 +68,8 @@ public class PatternMatcher
    // --------------- Debugging ---------------
 
    /**
+    * @return {@code true} if debug logging is enabled
+    *
     * @since 1.3
     */
    public boolean isDebugLogging()
@@ -77,6 +78,9 @@ public class PatternMatcher
    }
 
    /**
+    * @param eventLogging
+    *    determines whether debug logging is on ({@code true}) or off ({@code false})
+    *
     * @since 1.3
     */
    public void setDebugLogging(boolean eventLogging)
@@ -93,6 +97,9 @@ public class PatternMatcher
    }
 
    /**
+    * @return the list of debug events that happened during the match process.
+    * Empty if debug logging is turned off, or when {@link #match()} or its variants have not been called yet.
+    *
     * @since 1.3
     */
    public List<DebugEvent> getDebugEvents()
@@ -103,6 +110,8 @@ public class PatternMatcher
    // --------------- Roots ---------------
 
    /**
+    * @return the root pattern objects
+    *
     * @since 1.3
     */
    public List<PatternObject> getRootPatternObjects()
@@ -111,6 +120,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param patternObject
+    *    the root pattern object to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootPatternObjects(PatternObject patternObject)
@@ -120,6 +134,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param patternObjects
+    *    the root pattern objects to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootPatternObjects(PatternObject... patternObjects)
@@ -129,6 +148,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param patternObjects
+    *    the root pattern objects to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootPatternObjects(Collection<? extends PatternObject> patternObjects)
@@ -138,6 +162,8 @@ public class PatternMatcher
    }
 
    /**
+    * @return the root objects
+    *
     * @since 1.3
     */
    public List<Object> getRootObjects()
@@ -146,6 +172,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param object
+    *    the root object to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootObjects(Object object)
@@ -155,6 +186,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param objects
+    *    the root objects to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootObjects(Object... objects)
@@ -164,6 +200,11 @@ public class PatternMatcher
    }
 
    /**
+    * @param objects
+    *    the root objects to add
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternMatcher withRootObjects(Collection<?> objects)
@@ -222,6 +263,10 @@ public class PatternMatcher
    }
 
    /**
+    * Matches the pattern against the structure of objects that can be discovered from the root objects
+    *
+    * @throws NoApplicableConstraintException
+    *    if there were unmatched constraints, possibly due to disconnected pattern objects
     * @since 1.3
     */
    public void match()
@@ -281,6 +326,20 @@ public class PatternMatcher
    // --------------- Result Extraction ---------------
 
    /**
+    * Attempts to retrieve exactly one unique match for the given pattern object.
+    * Must be called after {@link #match()} or its variants.
+    *
+    * @param <T>
+    *    the expected type of the result
+    * @param patternObject
+    *    the pattern object results are requested for
+    *
+    * @return the match for the given pattern object
+    *
+    * @throws NoMatchException
+    *    if no objects match
+    * @throws AmbiguousMatchException
+    *    if more than one distinct objects match
     * @since 1.3
     */
    public <T> T findOne(PatternObject patternObject)
@@ -305,6 +364,16 @@ public class PatternMatcher
    }
 
    /**
+    * Retrieves the matches for the given pattern object.
+    * Must be called after {@link #match()} or its variants.
+    *
+    * @param <T>
+    *    the expected type of the results
+    * @param patternObject
+    *    the pattern object results are requested for
+    *
+    * @return the matches for the given pattern object. May be empty.
+    *
     * @since 1.3
     */
    public <T> Set<T> findAll(PatternObject patternObject)
