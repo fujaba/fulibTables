@@ -73,6 +73,14 @@ public class ObjectTable<T> extends Table<T>
 
    // =============== Methods ===============
 
+   private void checkSameData(ObjectTable<?> otherTable)
+   {
+      if (this.table != otherTable.table)
+      {
+         throw new IllegalArgumentException("other table does not share the same underlying data");
+      }
+   }
+
    /**
     * Removes all rows where the cell value does not have the named link to the cell value of the other table in the
     * same row.
@@ -97,15 +105,25 @@ public class ObjectTable<T> extends Table<T>
     *
     * @return this instance, to allow method chaining
     *
+    * @throws IllegalArgumentException
+    *    if the other table does not share the same underlying data structure.
     * @see #filterRows(Predicate)
     */
    public ObjectTable<T> hasLink(String linkName, ObjectTable<?> otherTable)
    {
+      this.checkSameData(otherTable);
+
       final int thisColumn = this.getColumnIndex();
       final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
          final Object source = row.get(thisColumn);
          final Object target = row.get(otherColumn);
+
+         if (!this.reflectorMap.canReflect(source))
+         {
+            return true;
+         }
+
          final Reflector reflector = this.reflectorMap.getReflector(source);
          final Object linkValue = reflector.getValue(source, linkName);
          final boolean keep =
@@ -116,15 +134,52 @@ public class ObjectTable<T> extends Table<T>
    }
 
    /**
+    * Removes all rows where the cell value does not have some link to the cell value of the other table in the
+    * same row.
+    * This requires this and the other table to share the same underlying data structure.
+    * You can also pass this table as {@code otherTable} to check for self-associations.
+    * <p>
+    * Essentially equivalent to:
+    *
+    * <pre>{@code
+    *    this.filterRows(row -> {
+    *       Object source = row.get(this.getColumn());
+    *       Object target = row.get(otherTable.getColumn());
+    *       for (String linkName : <properties of source>) {
+    *          Object linkValue = source.get<linkName>(); // via reflection
+    *          if (linkValue == target || linkValue instanceof Collection && ((Collection) linkValue).contains(other)) {
+    *             return true;
+    *          }
+    *       }
+    *       return false;
+    *    });
+    * }</pre>
+    *
+    * @param otherTable
+    *    the table pointing to the column with link targets
+    *
+    * @return this instance, to allow method chaining
+    *
+    * @throws IllegalArgumentException
+    *    if the other table does not share the same underlying data structure.
+    * @see #hasLink(String, ObjectTable)
     * @since 1.3
     */
    public ObjectTable<T> hasAnyLink(ObjectTable<?> otherTable)
    {
+      this.checkSameData(otherTable);
+
       final int thisColumn = this.getColumnIndex();
       final int otherColumn = otherTable.getColumnIndex();
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
+
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return true;
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
 
          for (final String property : reflector.getAllProperties())
@@ -178,6 +233,11 @@ public class ObjectTable<T> extends Table<T>
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
       this.expandAllImpl(newColumnName, start -> {
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return Collections.emptySet();
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
          Object value = reflector.getValue(start, linkName);
 
@@ -200,6 +260,35 @@ public class ObjectTable<T> extends Table<T>
    }
 
    /**
+    * Creates a new column by expanding the all links and attributes from the cells of the column this table points to.
+    * Links and attributes may be simple objects or collections, the latter of which will be flattened.
+    * Links and attributes that are {@code null} do not create a row.
+    * <p>
+    * Essentially equivalent to:
+    * <pre>{@code
+    *    this.expandAll(newColumnName, source -> {
+    *       List<Object> result = new ArrayList<>();
+    *       for (String linkName : <properties of source>) {
+    *          final Object target = source.get<linkName>(); // via reflection
+    *          if (target instanceof Collection) {
+    *             result.addAll((Collection<?>) target);
+    *          }
+    *          else if (target != null) {
+    *             result.add(target);
+    *          }
+    *       }
+    *       return result;
+    *    }
+    * }</pre>
+    *
+    * @param <U>
+    *    the type of the target objects
+    * @param newColumnName
+    *    the name of the new column
+    *
+    * @return a table pointing to the new column
+    *
+    * @see #expandLink(String, String)
     * @since 1.3
     */
    public <U> ObjectTable<U> expandAll(String newColumnName)
@@ -401,6 +490,11 @@ public class ObjectTable<T> extends Table<T>
    private void expandAttributeImpl(String newColumnName, String attrName)
    {
       this.expandImpl(newColumnName, start -> {
+         if (!this.reflectorMap.canReflect(start))
+         {
+            return null;
+         }
+
          Reflector reflector = this.reflectorMap.getReflector(start);
          return reflector.getValue(start, attrName);
       });

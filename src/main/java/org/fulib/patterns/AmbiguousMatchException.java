@@ -2,7 +2,7 @@ package org.fulib.patterns;
 
 import org.fulib.patterns.model.PatternObject;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @since 1.3
@@ -10,9 +10,9 @@ import java.util.List;
 public class AmbiguousMatchException extends RuntimeException
 {
    private final PatternObject patternObject;
-   private final List<Object> matches;
+   private final Set<Object> matches;
 
-   public AmbiguousMatchException(PatternObject patternObject, List<Object> matches)
+   public AmbiguousMatchException(PatternObject patternObject, Set<Object> matches)
    {
       this.patternObject = patternObject;
       this.matches = matches;
@@ -23,7 +23,7 @@ public class AmbiguousMatchException extends RuntimeException
       return this.patternObject;
    }
 
-   public List<Object> getMatches()
+   public Set<Object> getMatches()
    {
       return this.matches;
    }

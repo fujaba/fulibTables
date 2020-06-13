@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class AnyMatchingTest
 {
    private Object[] roots;
-   private Object[] all;
+   private Set<Object> all;
    private University studyRight;
    private Student alice;
 
@@ -52,7 +52,7 @@ public class AnyMatchingTest
       this.alice = alice;
       // captured by fulibScenarios
       this.roots = new Object[] { studyRight, alice, bob };
-      this.all = findAll(this.roots);
+      this.all = new ReflectorMap(University.class.getPackage().getName()).discoverObjects(this.roots);
    }
 
    @Test
@@ -232,7 +232,7 @@ public class AnyMatchingTest
       builder.buildPatternLink(r20, "*", r20Attr1);
 
       // because a20 and r20 are used in the same sentence, we interpret them as being two different objects:
-      builder.buildInequalityConstraint(a20, r20);
+      builder.buildDistinctConstraint(a20, r20);
       // had the sentence(s) been:
       // We expect that there is some object a20 that has some attribute with value 20.
       // We expect that there is some object r20 that has some attribute with value 20.
@@ -243,18 +243,22 @@ public class AnyMatchingTest
       matcher.withRootPatternObjects(r20);
       matcher.withRootObjects(this.all);
       matcher.match();
-      final ObjectTable a20Result = matcher.getMatchTable(a20);
-      final ObjectTable r20Result = matcher.getMatchTable(r20);
+      final List<Object> a20Result = new ArrayList<>(matcher.findAll(a20));
+      final List<Object> r20Result = new ArrayList<>(matcher.findAll(r20));
 
       // there can be 2 results,
       // - a20=Alice and r20=R2
       // - a20=R2 and r20=Alice
       // both are equally valid without further specification
-      assertEquals(2, a20Result.rowCount());
+      assertEquals(2, a20Result.size());
+      assertEquals(2, r20Result.size());
 
       // sanity check:
 
-      assertNotSame(a20Result.iterator().next(), r20Result.iterator().next());
+      assertSame(a20Result.get(0), r20Result.get(1));
+      assertSame(a20Result.get(1), r20Result.get(0));
+      assertNotSame(a20Result.get(0), r20Result.get(0));
+      assertNotSame(a20Result.get(1), r20Result.get(1));
    }
 
    @Test
@@ -310,53 +314,5 @@ public class AnyMatchingTest
       // sanity check:
       assertEquals(this.alice, alice);
       assertEquals(this.studyRight, studyRight);
-   }
-
-   // --------------- Helper Methods ---------------
-
-   private static Object[] findAll(Object... roots)
-   {
-      // TODO consider other package names
-      final ReflectorMap reflectorMap = new ReflectorMap(roots[0].getClass().getPackage().getName());
-      final Set<Object> out = new HashSet<>();
-      for (final Object root : roots)
-      {
-         findNeighbors(reflectorMap, root, out);
-      }
-      return out.toArray();
-   }
-
-   // TODO maybe this would be a good addition to Reflector, e.g. getTransitiveNeighbors()?
-   private static void findNeighbors(ReflectorMap map, Object root, Set<Object> out)
-   {
-      if (root == null || !map.canReflect(root))
-      {
-         return;
-      }
-
-      final Reflector reflector = map.getReflector(root);
-
-      // doing this after the reflector prevents values from being added to the set
-      if (!out.add(root))
-      {
-         return;
-      }
-
-      // TODO maybe this would be a good addition to Reflector, e.g. getNeighbors()?
-      for (final String property : reflector.getAllProperties())
-      {
-         final Object value = reflector.getValue(root, property);
-         if (value instanceof Collection)
-         {
-            for (Object item : (Collection<?>) value)
-            {
-               findNeighbors(map, item, out);
-            }
-         }
-         else
-         {
-            findNeighbors(map, value, out);
-         }
-      }
    }
 }

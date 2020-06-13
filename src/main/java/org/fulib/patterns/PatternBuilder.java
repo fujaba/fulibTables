@@ -67,6 +67,18 @@ public class PatternBuilder
    }
 
    /**
+    * Creates a new pattern object with the given name and adds an
+    * {@linkplain #buildInstanceOfConstraint(PatternObject, Class) instance constraint} for the given type.
+    *
+    * @param name
+    *    the name of the pattern object
+    * @param type
+    *    the type the pattern object is constraint to have
+    *
+    * @return the created pattern object
+    *
+    * @see #buildPatternObject(String)
+    * @see #buildInstanceOfConstraint(PatternObject, Class)
     * @since 1.3
     */
    public <T> PatternObject<T> buildPatternObject(String name, Class<T> type)
@@ -74,6 +86,28 @@ public class PatternBuilder
       final PatternObject<T> object = this.buildPatternObject(name);
       this.buildInstanceOfConstraint(object, type);
       return object;
+   }
+
+   /**
+    * Creates a new link constraint between the given pattern objects with any link or attribute name in both directions.
+    * <p>
+    * Equivalent to:
+    * <pre>{@code
+    *    this.buildPatternLink(src, "*", "*", tgt);
+    * }</pre>
+    *
+    * @param src
+    *    the source pattern object
+    * @param tgt
+    *    the target pattern object
+    *
+    * @return this instance, to allow method chaining
+    *
+    * @since 1.3
+    */
+   public PatternBuilder buildPatternLink(PatternObject src, PatternObject tgt)
+   {
+      return this.buildPatternLink(src, "*", "*", tgt);
    }
 
    /**
@@ -158,6 +192,20 @@ public class PatternBuilder
    }
 
    /**
+    * Creates a new, type-safe predicate/attribute constraint on the given pattern object that additionally does an
+    * instanceof check.
+    *
+    * @param <T>
+    *    the type of objects expected to be passed to the predicate
+    * @param object
+    *    the pattern object
+    * @param type
+    *    the type of objects expected to be passed to the predicate
+    * @param predicate
+    *    the predicate on the value assigned to the pattern object
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    // TODO remove, unneeded with generic PO
@@ -172,6 +220,20 @@ public class PatternBuilder
    }
 
    /**
+    * Constrains the given pattern object to be equal to the given value.
+    * <p>
+    * Equivalent to:
+    * <pre>{@code
+    *    this.buildAttributeConstraint(object, it -> Objects.equals(value, it));
+    * }</pre>
+    *
+    * @param object
+    *    the pattern object
+    * @param value
+    *    the value
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
    public PatternBuilder buildEqualityConstraint(PatternObject<?> object, Object value)
@@ -193,22 +255,36 @@ public class PatternBuilder
    }
 
    /**
+    * Constrains the given pattern object to be an instance of the given type.
+    * <p>
+    * Equivalent to:
+    * <pre>{@code
+    *    this.buildAttributeConstraint(object, it -> superClass.isInstance(it));
+    * }</pre>
+    *
+    * @param object
+    *    the pattern object
+    * @param type
+    *    the type
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
-   public PatternBuilder buildInstanceOfConstraint(PatternObject<?> object, Class<?> superClass)
+   public PatternBuilder buildInstanceOfConstraint(PatternObject<?> object, Class<?> type)
    {
       return this.buildAttributeConstraint(object, new Predicate<Object>()
       {
          @Override
          public boolean test(Object o)
          {
-            return superClass.isInstance(o);
+            return type.isInstance(o);
          }
 
          @Override
          public String toString()
          {
-            return "instanceof " + superClass.getCanonicalName();
+            return "instanceof " + type.getCanonicalName();
          }
       });
    }
@@ -232,9 +308,18 @@ public class PatternBuilder
    }
 
    /**
+    * Constrains the given objects to be distinct.
+    * That means {@code n} pattern objects must match {@code n} distinct objects,
+    * where equality is determined via {@code equals} and {@code hashCode}.
+    *
+    * @param objects
+    *    the pattern objects that are constrained to be distinct
+    *
+    * @return this instance, to allow method chaining
+    *
     * @since 1.3
     */
-   public PatternBuilder buildInequalityConstraint(PatternObject<?>... objects)
+   public PatternBuilder buildDistinctConstraint(PatternObject<?>... objects)
    {
       return this.buildMatchConstraint(new Predicate<Map<String, Object>>()
       {
@@ -247,7 +332,7 @@ public class PatternBuilder
          @Override
          public String toString()
          {
-            return "notEqual(" + Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
+            return "distinct(" + Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
          }
       }, objects);
    }

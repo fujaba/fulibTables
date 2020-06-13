@@ -38,3 +38,19 @@
 * Deprecated some misplaced or accidentally public APIs.
   > Check for deprecation warnings and see the respective Javadocs for migration info.
 * General code cleanup and minor optimizations.
+
+# fulibTables v1.3.0
+
+## New Features
+
++ Added the name-agnostic `ObjectTable.expandAll` and `.hasAnyLink` methods.
++ Added additional constraint building APIs to `PatternBuilder`.
++ Added debugging support to `PatternMatcher`.
++ Added support for multiple root patterns to `PatternMatcher`.
++ Added support for "any"-links to `PatternMatcher` by setting a role name to `*`.
+
+## Improvements
+
+* `ObjectTable` no longer throws exceptions when an object cannot be reflected.
+* General improvements to the `PatternMatcher` API.
+* The `ObjectTable.hasLink` method now throws an `IllegalArgumentException` if the other table does not share the same underlying data structure.
