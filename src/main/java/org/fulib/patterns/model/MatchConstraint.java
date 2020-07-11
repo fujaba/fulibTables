@@ -38,16 +38,16 @@ public class MatchConstraint
    @Deprecated
    public Predicate<? super Map<String, Object>> predicate;
 
-   private List<PatternObject> objects;
+   private ArrayList<PatternObject> objects /* no fulib */;
    private Pattern pattern;
 
    protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 
-   public List<PatternObject> getObjects()
+   public ArrayList<PatternObject> getObjects() // no fulib
    {
-      return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
+      return this.objects != null ? this.objects : EMPTY_objects;
    }
 
    public MatchConstraint withObjects(Object... value)

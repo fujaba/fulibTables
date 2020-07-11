@@ -71,18 +71,18 @@ public class Pattern
 
    // =============== Fields ===============
 
-   private List<PatternObject> objects;
-   private List<RoleObject> roles;
-   private List<AttributeConstraint> attributeConstraints;
-   private List<MatchConstraint> matchConstraints;
+   private ArrayList<PatternObject> objects /* no fulib */;
+   private ArrayList<RoleObject> roles /* no fulib */;
+   private ArrayList<AttributeConstraint> attributeConstraints /* no fulib */;
+   private ArrayList<MatchConstraint> matchConstraints /* no fulib */;
 
    protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 
-   public List<PatternObject> getObjects()
+   public ArrayList<PatternObject> getObjects() // no fulib
    {
-      return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
+      return this.objects != null ? this.objects : EMPTY_objects;
    }
 
    /**
@@ -253,9 +253,9 @@ public class Pattern
       return this;
    }
 
-   public List<RoleObject> getRoles()
+   public ArrayList<RoleObject> getRoles() // no fulib
    {
-      return this.roles != null ? Collections.unmodifiableList(this.roles) : Collections.emptyList();
+      return this.roles != null ? this.roles : EMPTY_roles;
    }
 
    public Pattern withRoles(Object... value)
@@ -391,9 +391,9 @@ public class Pattern
       return this;
    }
 
-   public List<AttributeConstraint> getAttributeConstraints()
+   public ArrayList<AttributeConstraint> getAttributeConstraints() // no fulib
    {
-      return this.attributeConstraints != null ? Collections.unmodifiableList(this.attributeConstraints) : Collections.emptyList();
+      return this.attributeConstraints != null ? this.attributeConstraints : EMPTY_attributeConstraints;
    }
 
    public Pattern withAttributeConstraints(Object... value)
@@ -529,9 +529,9 @@ public class Pattern
       return this;
    }
 
-   public List<MatchConstraint> getMatchConstraints()
+   public ArrayList<MatchConstraint> getMatchConstraints() // no fulib
    {
-      return this.matchConstraints != null ? Collections.unmodifiableList(this.matchConstraints) : Collections.emptyList();
+      return this.matchConstraints != null ? this.matchConstraints : EMPTY_matchConstraints;
    }
 
    public Pattern withMatchConstraints(Object... value)
