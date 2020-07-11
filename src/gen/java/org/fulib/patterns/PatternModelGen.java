@@ -5,7 +5,7 @@ import org.fulib.FulibTools;
 import org.fulib.builder.ClassBuilder;
 import org.fulib.builder.ClassModelBuilder;
 
-import static org.fulib.builder.ClassModelBuilder.*;
+import static org.fulib.builder.Type.*;
 
 public class PatternModelGen
 {
