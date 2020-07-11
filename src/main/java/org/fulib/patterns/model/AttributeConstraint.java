@@ -34,21 +34,23 @@ public class AttributeConstraint
 
    public AttributeConstraint setObject(PatternObject value)
    {
-      if (this.object != value)
+      if (this.object == value)
       {
-         PatternObject oldValue = this.object;
-         if (this.object != null)
-         {
-            this.object = null;
-            oldValue.withoutAttributeConstraints(this);
-         }
-         this.object = value;
-         if (value != null)
-         {
-            value.withAttributeConstraints(this);
-         }
-         this.firePropertyChange("object", oldValue, value);
+         return this;
       }
+
+      final PatternObject oldValue = this.object;
+      if (this.object != null)
+      {
+         this.object = null;
+         oldValue.withoutAttributeConstraints(this);
+      }
+      this.object = value;
+      if (value != null)
+      {
+         value.withAttributeConstraints(this);
+      }
+      this.firePropertyChange(PROPERTY_object, oldValue, value);
       return this;
    }
 
@@ -59,21 +61,23 @@ public class AttributeConstraint
 
    public AttributeConstraint setPattern(Pattern value)
    {
-      if (this.pattern != value)
+      if (this.pattern == value)
       {
-         Pattern oldValue = this.pattern;
-         if (this.pattern != null)
-         {
-            this.pattern = null;
-            oldValue.withoutAttributeConstraints(this);
-         }
-         this.pattern = value;
-         if (value != null)
-         {
-            value.withAttributeConstraints(this);
-         }
-         this.firePropertyChange("pattern", oldValue, value);
+         return this;
       }
+
+      final Pattern oldValue = this.pattern;
+      if (this.pattern != null)
+      {
+         this.pattern = null;
+         oldValue.withoutAttributeConstraints(this);
+      }
+      this.pattern = value;
+      if (value != null)
+      {
+         value.withAttributeConstraints(this);
+      }
+      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
       return this;
    }
 

@@ -5,7 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.Predicate;
+import java.util.function.Predicate;import java.util.List;
+import java.util.Collections;
 
 public class MatchConstraint
 {
@@ -36,21 +37,16 @@ public class MatchConstraint
    @Deprecated
    public Predicate<? super Map<String, Object>> predicate;
 
-   private ArrayList<PatternObject> objects;
+   private List<PatternObject> objects;
    private Pattern pattern;
 
    protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 
-   public ArrayList<PatternObject> getObjects()
+   public List<PatternObject> getObjects()
    {
-      if (this.objects == null)
-      {
-         return EMPTY_objects;
-      }
-
-      return this.objects;
+      return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
    }
 
    public MatchConstraint withObjects(Object... value)
@@ -132,21 +128,23 @@ public class MatchConstraint
 
    public MatchConstraint setPattern(Pattern value)
    {
-      if (this.pattern != value)
+      if (this.pattern == value)
       {
-         Pattern oldValue = this.pattern;
-         if (this.pattern != null)
-         {
-            this.pattern = null;
-            oldValue.withoutMatchConstraints(this);
-         }
-         this.pattern = value;
-         if (value != null)
-         {
-            value.withMatchConstraints(this);
-         }
-         this.firePropertyChange("pattern", oldValue, value);
+         return this;
       }
+
+      final Pattern oldValue = this.pattern;
+      if (this.pattern != null)
+      {
+         this.pattern = null;
+         oldValue.withoutMatchConstraints(this);
+      }
+      this.pattern = value;
+      if (value != null)
+      {
+         value.withMatchConstraints(this);
+      }
+      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
       return this;
    }
 
@@ -224,13 +222,72 @@ public class MatchConstraint
    public void removeYou()
    {
       this.setPattern(null);
-
-      this.withoutObjects(this.getObjects().clone());
+      this.withoutObjects(new ArrayList<>(this.getObjects()));
    }
 
    @Override
    public String toString() // no fulib
    {
       return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
+   }public MatchConstraint withObjects(PatternObject value)
+   {
+      if (this.objects == null)
+      {
+         this.objects = new ArrayList<>();
+      }
+      if (!this.objects.contains(value))
+      {
+         this.objects.add(value);
+         value.withMatchConstraints(this);
+         this.firePropertyChange(PROPERTY_objects, null, value);
+      }
+      return this;
    }
+
+public MatchConstraint withObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public MatchConstraint withObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public MatchConstraint withoutObjects(PatternObject value)
+   {
+      if (this.objects != null && this.objects.remove(value))
+      {
+         value.withoutMatchConstraints(this);
+         this.firePropertyChange(PROPERTY_objects, value, null);
+      }
+      return this;
+   }
+
+public MatchConstraint withoutObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
+public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
 }

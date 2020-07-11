@@ -4,7 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
+import java.util.Objects;import java.util.List;
+import java.util.Collections;
 
 public class Pattern
 {
@@ -69,23 +70,18 @@ public class Pattern
 
    // =============== Fields ===============
 
-   private ArrayList<PatternObject> objects;
-   private ArrayList<RoleObject> roles;
-   private ArrayList<AttributeConstraint> attributeConstraints;
-   private ArrayList<MatchConstraint> matchConstraints;
+   private List<PatternObject> objects;
+   private List<RoleObject> roles;
+   private List<AttributeConstraint> attributeConstraints;
+   private List<MatchConstraint> matchConstraints;
 
    protected PropertyChangeSupport listeners;
 
    // =============== Properties ===============
 
-   public ArrayList<PatternObject> getObjects()
+   public List<PatternObject> getObjects()
    {
-      if (this.objects == null)
-      {
-         return EMPTY_objects;
-      }
-
-      return this.objects;
+      return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
    }
 
    /**
@@ -195,14 +191,9 @@ public class Pattern
       return this;
    }
 
-   public ArrayList<RoleObject> getRoles()
+   public List<RoleObject> getRoles()
    {
-      if (this.roles == null)
-      {
-         return EMPTY_roles;
-      }
-
-      return this.roles;
+      return this.roles != null ? Collections.unmodifiableList(this.roles) : Collections.emptyList();
    }
 
    public Pattern withRoles(Object... value)
@@ -277,14 +268,9 @@ public class Pattern
       return this;
    }
 
-   public ArrayList<AttributeConstraint> getAttributeConstraints()
+   public List<AttributeConstraint> getAttributeConstraints()
    {
-      if (this.attributeConstraints == null)
-      {
-         return EMPTY_attributeConstraints;
-      }
-
-      return this.attributeConstraints;
+      return this.attributeConstraints != null ? Collections.unmodifiableList(this.attributeConstraints) : Collections.emptyList();
    }
 
    public Pattern withAttributeConstraints(Object... value)
@@ -359,14 +345,9 @@ public class Pattern
       return this;
    }
 
-   public ArrayList<MatchConstraint> getMatchConstraints()
+   public List<MatchConstraint> getMatchConstraints()
    {
-      if (this.matchConstraints == null)
-      {
-         return EMPTY_matchConstraints;
-      }
-
-      return this.matchConstraints;
+      return this.matchConstraints != null ? Collections.unmodifiableList(this.matchConstraints) : Collections.emptyList();
    }
 
    public Pattern withMatchConstraints(Object... value)
@@ -493,13 +474,10 @@ public class Pattern
 
    public void removeYou()
    {
-      this.withoutObjects(this.getObjects().clone());
-
-      this.withoutRoles(this.getRoles().clone());
-
-      this.withoutAttributeConstraints(this.getAttributeConstraints().clone());
-
-      this.withoutMatchConstraints(this.getMatchConstraints().clone());
+      this.withoutObjects(new ArrayList<>(this.getObjects()));
+      this.withoutRoles(new ArrayList<>(this.getRoles()));
+      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
+      this.withoutMatchConstraints(new ArrayList<>(this.getMatchConstraints()));
    }
 
    @Override
@@ -507,5 +485,248 @@ public class Pattern
    {
       return "Pattern{" + "objects=" + this.objects + ", roles=" + this.roles + ", attributeConstraints="
              + this.attributeConstraints + ", matchConstraints=" + this.matchConstraints + '}';
+   }public Pattern withObjects(PatternObject value)
+   {
+      if (this.objects == null)
+      {
+         this.objects = new ArrayList<>();
+      }
+      if (!this.objects.contains(value))
+      {
+         this.objects.add(value);
+         value.setPattern(this);
+         this.firePropertyChange(PROPERTY_objects, null, value);
+      }
+      return this;
    }
+
+public Pattern withObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(PatternObject value)
+   {
+      if (this.objects != null && this.objects.remove(value))
+      {
+         value.setPattern(null);
+         this.firePropertyChange(PROPERTY_objects, value, null);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withRoles(RoleObject value)
+   {
+      if (this.roles == null)
+      {
+         this.roles = new ArrayList<>();
+      }
+      if (!this.roles.contains(value))
+      {
+         this.roles.add(value);
+         value.setPattern(this);
+         this.firePropertyChange(PROPERTY_roles, null, value);
+      }
+      return this;
+   }
+
+public Pattern withRoles(RoleObject... value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withRoles(item);
+      }
+      return this;
+   }
+
+public Pattern withRoles(Collection<? extends RoleObject> value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withRoles(item);
+      }
+      return this;
+   }
+
+public Pattern withoutRoles(RoleObject value)
+   {
+      if (this.roles != null && this.roles.remove(value))
+      {
+         value.setPattern(null);
+         this.firePropertyChange(PROPERTY_roles, value, null);
+      }
+      return this;
+   }
+
+public Pattern withoutRoles(RoleObject... value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withoutRoles(item);
+      }
+      return this;
+   }
+
+public Pattern withoutRoles(Collection<? extends RoleObject> value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withoutRoles(item);
+      }
+      return this;
+   }
+
+public Pattern withAttributeConstraints(AttributeConstraint value)
+   {
+      if (this.attributeConstraints == null)
+      {
+         this.attributeConstraints = new ArrayList<>();
+      }
+      if (!this.attributeConstraints.contains(value))
+      {
+         this.attributeConstraints.add(value);
+         value.setPattern(this);
+         this.firePropertyChange(PROPERTY_attributeConstraints, null, value);
+      }
+      return this;
+   }
+
+public Pattern withAttributeConstraints(AttributeConstraint... value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withAttributeConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withAttributeConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withoutAttributeConstraints(AttributeConstraint value)
+   {
+      if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
+      {
+         value.setPattern(null);
+         this.firePropertyChange(PROPERTY_attributeConstraints, value, null);
+      }
+      return this;
+   }
+
+public Pattern withoutAttributeConstraints(AttributeConstraint... value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withoutAttributeConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withoutAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withoutAttributeConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withMatchConstraints(MatchConstraint value)
+   {
+      if (this.matchConstraints == null)
+      {
+         this.matchConstraints = new ArrayList<>();
+      }
+      if (!this.matchConstraints.contains(value))
+      {
+         this.matchConstraints.add(value);
+         value.setPattern(this);
+         this.firePropertyChange(PROPERTY_matchConstraints, null, value);
+      }
+      return this;
+   }
+
+public Pattern withMatchConstraints(MatchConstraint... value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withMatchConstraints(Collection<? extends MatchConstraint> value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withoutMatchConstraints(MatchConstraint value)
+   {
+      if (this.matchConstraints != null && this.matchConstraints.remove(value))
+      {
+         value.setPattern(null);
+         this.firePropertyChange(PROPERTY_matchConstraints, value, null);
+      }
+      return this;
+   }
+
+public Pattern withoutMatchConstraints(MatchConstraint... value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withoutMatchConstraints(item);
+      }
+      return this;
+   }
+
+public Pattern withoutMatchConstraints(Collection<? extends MatchConstraint> value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withoutMatchConstraints(item);
+      }
+      return this;
+   }
+
 }
