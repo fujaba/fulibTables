@@ -7,19 +7,18 @@ import java.util.Objects;
 public class RoleObject
 {
    public static final String PROPERTY_pattern = "pattern";
+   public static final String PROPERTY_name = "name";
    public static final String PROPERTY_other = "other";
    public static final String PROPERTY_object = "object";
 
    // =============== Fields ===============
 
    private Pattern pattern;
+   private String name;
    private PatternObject object;
    private RoleObject other;
 
    protected PropertyChangeSupport listeners;
-   public static final String PROPERTY_name = "name";
-
-   private String name;
 
    // =============== Properties ===============
 
@@ -47,6 +46,24 @@ public class RoleObject
          value.withRoles(this);
       }
       this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      return this;
+   }
+
+   public String getName()
+   {
+      return this.name;
+   }
+
+   public RoleObject setName(String value)
+   {
+      if (Objects.equals(value, this.name))
+      {
+         return this;
+      }
+
+      final String oldValue = this.name;
+      this.name = value;
+      this.firePropertyChange(PROPERTY_name, oldValue, value);
       return this;
    }
 
@@ -167,23 +184,5 @@ public class RoleObject
    {
       return "RoleObject{" + "object=" + this.object + ", name=\"" + this.name + '"' + ", otherName=\""
              + this.other.getName() + '"' + ", otherObject=" + this.other.getObject() + '}';
-   }
-
-   public String getName()
-   {
-      return this.name;
-   }
-
-   public RoleObject setName(String value)
-   {
-      if (Objects.equals(value, this.name))
-      {
-         return this;
-      }
-
-      final String oldValue = this.name;
-      this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
-      return this;
    }
 }

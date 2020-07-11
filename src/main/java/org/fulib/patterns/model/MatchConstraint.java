@@ -90,6 +90,39 @@ public class MatchConstraint
       return this;
    }
 
+   public MatchConstraint withObjects(PatternObject value)
+   {
+      if (this.objects == null)
+      {
+         this.objects = new ArrayList<>();
+      }
+      if (!this.objects.contains(value))
+      {
+         this.objects.add(value);
+         value.withMatchConstraints(this);
+         this.firePropertyChange(PROPERTY_objects, null, value);
+      }
+      return this;
+   }
+
+   public MatchConstraint withObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+   public MatchConstraint withObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
    public MatchConstraint withoutObjects(Object... value)
    {
       if (this.objects == null || value == null)
@@ -118,6 +151,34 @@ public class MatchConstraint
                this.firePropertyChange("objects", item, null);
             }
          }
+      }
+      return this;
+   }
+
+   public MatchConstraint withoutObjects(PatternObject value)
+   {
+      if (this.objects != null && this.objects.remove(value))
+      {
+         value.withoutMatchConstraints(this);
+         this.firePropertyChange(PROPERTY_objects, value, null);
+      }
+      return this;
+   }
+
+   public MatchConstraint withoutObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
+   public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
       }
       return this;
    }
@@ -230,66 +291,5 @@ public class MatchConstraint
    public String toString() // no fulib
    {
       return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
-   }
-
-   public MatchConstraint withObjects(PatternObject value)
-   {
-      if (this.objects == null)
-      {
-         this.objects = new ArrayList<>();
-      }
-      if (!this.objects.contains(value))
-      {
-         this.objects.add(value);
-         value.withMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, null, value);
-      }
-      return this;
-   }
-
-   public MatchConstraint withObjects(PatternObject... value)
-   {
-      for (final PatternObject item : value)
-      {
-         this.withObjects(item);
-      }
-      return this;
-   }
-
-   public MatchConstraint withObjects(Collection<? extends PatternObject> value)
-   {
-      for (final PatternObject item : value)
-      {
-         this.withObjects(item);
-      }
-      return this;
-   }
-
-   public MatchConstraint withoutObjects(PatternObject value)
-   {
-      if (this.objects != null && this.objects.remove(value))
-      {
-         value.withoutMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, value, null);
-      }
-      return this;
-   }
-
-   public MatchConstraint withoutObjects(PatternObject... value)
-   {
-      for (final PatternObject item : value)
-      {
-         this.withoutObjects(item);
-      }
-      return this;
-   }
-
-   public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
-   {
-      for (final PatternObject item : value)
-      {
-         this.withoutObjects(item);
-      }
-      return this;
    }
 }
