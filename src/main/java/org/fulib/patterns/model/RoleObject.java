@@ -16,12 +16,10 @@ public class RoleObject
    private PatternObject object;
    private RoleObject other;
 
-   protected PropertyChangeSupport listeners;   public static final String PROPERTY_name = "name";
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_name = "name";
 
    private String name;
-
-
-
 
    // =============== Properties ===============
 
@@ -169,11 +167,12 @@ public class RoleObject
    {
       return "RoleObject{" + "object=" + this.object + ", name=\"" + this.name + '"' + ", otherName=\""
              + this.other.getName() + '"' + ", otherObject=" + this.other.getObject() + '}';
-   }   public String getName()
+   }
+
+   public String getName()
    {
       return this.name;
    }
-
 
    public RoleObject setName(String value)
    {
@@ -187,5 +186,4 @@ public class RoleObject
       this.firePropertyChange(PROPERTY_name, oldValue, value);
       return this;
    }
-
 }

@@ -4,7 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;import java.util.List;
+import java.util.Objects;
+import java.util.List;
 import java.util.Collections;
 
 public class PatternObject
@@ -64,12 +65,10 @@ public class PatternObject
    private List<AttributeConstraint> attributeConstraints;
    private List<MatchConstraint> matchConstraints;
 
-   protected PropertyChangeSupport listeners;   public static final String PROPERTY_name = "name";
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_name = "name";
 
    private String name;
-
-
-
 
    // =============== Properties ===============
 
@@ -393,7 +392,9 @@ public class PatternObject
    public String toString() // no fulib
    {
       return this.name;
-   }public PatternObject withRoles(RoleObject value)
+   }
+
+   public PatternObject withRoles(RoleObject value)
    {
       if (this.roles == null)
       {
@@ -408,7 +409,7 @@ public class PatternObject
       return this;
    }
 
-public PatternObject withRoles(RoleObject... value)
+   public PatternObject withRoles(RoleObject... value)
    {
       for (final RoleObject item : value)
       {
@@ -417,7 +418,7 @@ public PatternObject withRoles(RoleObject... value)
       return this;
    }
 
-public PatternObject withRoles(Collection<? extends RoleObject> value)
+   public PatternObject withRoles(Collection<? extends RoleObject> value)
    {
       for (final RoleObject item : value)
       {
@@ -426,7 +427,7 @@ public PatternObject withRoles(Collection<? extends RoleObject> value)
       return this;
    }
 
-public PatternObject withoutRoles(RoleObject value)
+   public PatternObject withoutRoles(RoleObject value)
    {
       if (this.roles != null && this.roles.remove(value))
       {
@@ -436,7 +437,7 @@ public PatternObject withoutRoles(RoleObject value)
       return this;
    }
 
-public PatternObject withoutRoles(RoleObject... value)
+   public PatternObject withoutRoles(RoleObject... value)
    {
       for (final RoleObject item : value)
       {
@@ -445,7 +446,7 @@ public PatternObject withoutRoles(RoleObject... value)
       return this;
    }
 
-public PatternObject withoutRoles(Collection<? extends RoleObject> value)
+   public PatternObject withoutRoles(Collection<? extends RoleObject> value)
    {
       for (final RoleObject item : value)
       {
@@ -454,7 +455,7 @@ public PatternObject withoutRoles(Collection<? extends RoleObject> value)
       return this;
    }
 
-public PatternObject withAttributeConstraints(AttributeConstraint value)
+   public PatternObject withAttributeConstraints(AttributeConstraint value)
    {
       if (this.attributeConstraints == null)
       {
@@ -469,7 +470,7 @@ public PatternObject withAttributeConstraints(AttributeConstraint value)
       return this;
    }
 
-public PatternObject withAttributeConstraints(AttributeConstraint... value)
+   public PatternObject withAttributeConstraints(AttributeConstraint... value)
    {
       for (final AttributeConstraint item : value)
       {
@@ -478,7 +479,7 @@ public PatternObject withAttributeConstraints(AttributeConstraint... value)
       return this;
    }
 
-public PatternObject withAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   public PatternObject withAttributeConstraints(Collection<? extends AttributeConstraint> value)
    {
       for (final AttributeConstraint item : value)
       {
@@ -487,7 +488,7 @@ public PatternObject withAttributeConstraints(Collection<? extends AttributeCons
       return this;
    }
 
-public PatternObject withoutAttributeConstraints(AttributeConstraint value)
+   public PatternObject withoutAttributeConstraints(AttributeConstraint value)
    {
       if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
       {
@@ -497,7 +498,7 @@ public PatternObject withoutAttributeConstraints(AttributeConstraint value)
       return this;
    }
 
-public PatternObject withoutAttributeConstraints(AttributeConstraint... value)
+   public PatternObject withoutAttributeConstraints(AttributeConstraint... value)
    {
       for (final AttributeConstraint item : value)
       {
@@ -506,7 +507,7 @@ public PatternObject withoutAttributeConstraints(AttributeConstraint... value)
       return this;
    }
 
-public PatternObject withoutAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   public PatternObject withoutAttributeConstraints(Collection<? extends AttributeConstraint> value)
    {
       for (final AttributeConstraint item : value)
       {
@@ -515,7 +516,7 @@ public PatternObject withoutAttributeConstraints(Collection<? extends AttributeC
       return this;
    }
 
-public PatternObject withMatchConstraints(MatchConstraint value)
+   public PatternObject withMatchConstraints(MatchConstraint value)
    {
       if (this.matchConstraints == null)
       {
@@ -530,7 +531,7 @@ public PatternObject withMatchConstraints(MatchConstraint value)
       return this;
    }
 
-public PatternObject withMatchConstraints(MatchConstraint... value)
+   public PatternObject withMatchConstraints(MatchConstraint... value)
    {
       for (final MatchConstraint item : value)
       {
@@ -539,7 +540,7 @@ public PatternObject withMatchConstraints(MatchConstraint... value)
       return this;
    }
 
-public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> value)
+   public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> value)
    {
       for (final MatchConstraint item : value)
       {
@@ -548,7 +549,7 @@ public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> 
       return this;
    }
 
-public PatternObject withoutMatchConstraints(MatchConstraint value)
+   public PatternObject withoutMatchConstraints(MatchConstraint value)
    {
       if (this.matchConstraints != null && this.matchConstraints.remove(value))
       {
@@ -558,7 +559,7 @@ public PatternObject withoutMatchConstraints(MatchConstraint value)
       return this;
    }
 
-public PatternObject withoutMatchConstraints(MatchConstraint... value)
+   public PatternObject withoutMatchConstraints(MatchConstraint... value)
    {
       for (final MatchConstraint item : value)
       {
@@ -567,7 +568,7 @@ public PatternObject withoutMatchConstraints(MatchConstraint... value)
       return this;
    }
 
-public PatternObject withoutMatchConstraints(Collection<? extends MatchConstraint> value)
+   public PatternObject withoutMatchConstraints(Collection<? extends MatchConstraint> value)
    {
       for (final MatchConstraint item : value)
       {
@@ -581,7 +582,6 @@ public PatternObject withoutMatchConstraints(Collection<? extends MatchConstrain
       return this.name;
    }
 
-
    public PatternObject setName(String value)
    {
       if (Objects.equals(value, this.name))
@@ -594,5 +594,4 @@ public PatternObject withoutMatchConstraints(Collection<? extends MatchConstrain
       this.firePropertyChange(PROPERTY_name, oldValue, value);
       return this;
    }
-
 }

@@ -5,7 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.Predicate;import java.util.List;
+import java.util.function.Predicate;
+import java.util.List;
 import java.util.Collections;
 
 public class MatchConstraint
@@ -229,7 +230,9 @@ public class MatchConstraint
    public String toString() // no fulib
    {
       return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
-   }public MatchConstraint withObjects(PatternObject value)
+   }
+
+   public MatchConstraint withObjects(PatternObject value)
    {
       if (this.objects == null)
       {
@@ -244,7 +247,7 @@ public class MatchConstraint
       return this;
    }
 
-public MatchConstraint withObjects(PatternObject... value)
+   public MatchConstraint withObjects(PatternObject... value)
    {
       for (final PatternObject item : value)
       {
@@ -253,7 +256,7 @@ public MatchConstraint withObjects(PatternObject... value)
       return this;
    }
 
-public MatchConstraint withObjects(Collection<? extends PatternObject> value)
+   public MatchConstraint withObjects(Collection<? extends PatternObject> value)
    {
       for (final PatternObject item : value)
       {
@@ -262,7 +265,7 @@ public MatchConstraint withObjects(Collection<? extends PatternObject> value)
       return this;
    }
 
-public MatchConstraint withoutObjects(PatternObject value)
+   public MatchConstraint withoutObjects(PatternObject value)
    {
       if (this.objects != null && this.objects.remove(value))
       {
@@ -272,7 +275,7 @@ public MatchConstraint withoutObjects(PatternObject value)
       return this;
    }
 
-public MatchConstraint withoutObjects(PatternObject... value)
+   public MatchConstraint withoutObjects(PatternObject... value)
    {
       for (final PatternObject item : value)
       {
@@ -281,7 +284,7 @@ public MatchConstraint withoutObjects(PatternObject... value)
       return this;
    }
 
-public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
+   public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
    {
       for (final PatternObject item : value)
       {
@@ -289,5 +292,4 @@ public MatchConstraint withoutObjects(Collection<? extends PatternObject> value)
       }
       return this;
    }
-
 }
