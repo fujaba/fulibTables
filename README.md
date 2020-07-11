@@ -25,7 +25,7 @@ dependencies {
 To demonstrate Fulib Tables we start with an extended version
 of the StudyRight University class model:
 
-<!-- insert_code_fragment: FulibTables.classmodel | fenced -->
+<!-- insert_code_fragment: FulibTables.classmodel | fenced:java -->
 ```java
 ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
 
@@ -70,7 +70,7 @@ Rendered as a class diagram the extended class model looks like:
 
 Once the generated code is compiled we may construct some objects:
 
-<!-- insert_code_fragment: FulibTables.objectModel | fenced -->
+<!-- insert_code_fragment: FulibTables.objectModel | fenced:java -->
 ```java
 // build object structure
 University studyRight = new University().setName("Study Right");
@@ -101,7 +101,7 @@ This results in:
 Fulib Tables provides class ObjectTable which allows us to do some table stuff:
 
 
-<!-- insert_code_fragment: FulibTables.createUniTable1 | fenced -->
+<!-- insert_code_fragment: FulibTables.createUniTable1 | fenced:java -->
 ```java
 // some table stuff
 ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
@@ -162,7 +162,7 @@ Each table wrapper also offers is also an `Iterable` listing all objects
 of the corresponding column. Thus, to sum up the points of all assignments
 of our table we may:
 
-<!-- insert_code_fragment: FulibTables.loop_through_assignments | fenced -->
+<!-- insert_code_fragment: FulibTables.loop_through_assignments | fenced:java -->
 ```java
 double sum = 0;
 for (Assignment a : assignmentsTable)
@@ -175,7 +175,7 @@ assertThat(sum, equalTo(89.0));
 
 Alternatively, we may expand the assignmentsTable by a "Points" column:
 
-<!-- insert_code_fragment: FulibTables.pointsTable | fenced -->
+<!-- insert_code_fragment: FulibTables.pointsTable | fenced:java -->
 ```java
 doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
 sum = pointsTable.sum();
@@ -199,7 +199,7 @@ double values contained in the corresponding column.
 
 To further expand our table we might add students that are in rooms:
 
-<!-- insert_code_fragment: FulibTables.studentsTable | fenced -->
+<!-- insert_code_fragment: FulibTables.studentsTable | fenced:java -->
 ```java
 ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
 assertThat(students.rowCount(), equalTo(6));
@@ -223,7 +223,7 @@ for each room.
 In addition to the cross product we may select a subset of the
 table rows using a filter operation:
 
-<!-- insert_code_fragment: FulibTables.filterAssignmentsTable | fenced -->
+<!-- insert_code_fragment: FulibTables.filterAssignmentsTable | fenced:java -->
 ```java
 assignmentsTable.filter(a -> a.getPoints() <= 30);
 assertThat(students.rowCount(), equalTo(4));
@@ -241,7 +241,7 @@ assertThat(students.rowCount(), equalTo(4));
 
 Alternatively we may filter by rows:
 
-<!-- insert_code_fragment: FulibTables.filterRowTable | fenced -->
+<!-- insert_code_fragment: FulibTables.filterRowTable | fenced:java -->
 ```java
 // filter row
 universityTable = new ObjectTable<>("University", studyRight);
@@ -273,7 +273,7 @@ Above row filter requires that the current student has done the
 current assignment. This filter condition may also be expressed by a
 hasLink operation:
 
-<!-- insert_code_fragment: FulibTables.filterHasDone | fenced -->
+<!-- insert_code_fragment: FulibTables.filterHasDone | fenced:java -->
 ```java
 // filter row
 universityTable = new ObjectTable<>("University", studyRight);
@@ -296,7 +296,7 @@ assertThat(students.rowCount(), equalTo(1));
 Maybe its bad style, but the filter operations may also be used to modify
 the current model:
 
-<!-- insert_code_fragment: FulibTables.doCurrentAssignments | fenced -->
+<!-- insert_code_fragment: FulibTables.doCurrentAssignments | fenced:java -->
 ```java
 universityTable = new ObjectTable<>("University", studyRight);
 roomsTable = universityTable.expandAll("Room", University::getRooms);
@@ -349,7 +349,7 @@ students.expandAll("Done", Student::getDone);
 As the current table contains some confusing cross products let
 us drop the Assignment column:
 
-<!-- insert_code_fragment: FulibTables.dropColumnsAssignment | fenced -->
+<!-- insert_code_fragment: FulibTables.dropColumnsAssignment | fenced:java -->
 ```java
 universityTable.dropColumns("Assignment");
 ```
@@ -368,7 +368,7 @@ universityTable.dropColumns("Assignment");
 
 Alternatively, we may select the columns we are interested in:
 
-<!-- insert_code_fragment: FulibTables.selectColumns | fenced -->
+<!-- insert_code_fragment: FulibTables.selectColumns | fenced:java -->
 ```java
 students.selectColumns("Student", "Done");
 assertThat(students.rowCount(), equalTo(6));
@@ -389,7 +389,7 @@ assertThat(students.rowCount(), equalTo(6));
 Note, you may use nested tables. This is handy if you
 want to update all elements of a certain column.
 
-<!-- insert_code_fragment: FulibTables.nestedTables | fenced -->
+<!-- insert_code_fragment: FulibTables.nestedTables | fenced:java -->
 ```java
 universityTable = new ObjectTable<>("University", studyRight);
 students = universityTable.expandAll("Students", University::getStudents);
