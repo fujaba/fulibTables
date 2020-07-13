@@ -2,7 +2,84 @@ versionOverrides: {}
 acceptedBreaks:
   "1.1.0":
     org.fulib:fulibTables:
-      - code: "java.method.returnTypeChanged"
-        old: "method org.fulib.tables.StringTable org.fulib.tables.ObjectTable::expandBoolean(java.lang.String, java.lang.String)"
-        new: "method org.fulib.tables.BooleanTable org.fulib.tables.ObjectTable::expandBoolean(java.lang.String, java.lang.String)"
-        justification: "the method was unususable previously due to the StringTable containing Boolean objects"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::filter(java.util.function.Predicate<java.lang.Object>)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::filter(java.util.function.Predicate<?\
+        \ super T>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::setTable(java.util.ArrayList<java.util.ArrayList<java.lang.Object>>)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::setTable(java.util.ArrayList<java.util.ArrayList<java.lang.Object>>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.generics.elementNowParameterized"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      new: "method <U> org.fulib.tables.ObjectTable<U> org.fulib.tables.ObjectTable<T>::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeChanged"
+      old: "method org.fulib.tables.StringTable org.fulib.tables.ObjectTable::expandBoolean(java.lang.String,\
+        \ java.lang.String)"
+      new: "method org.fulib.tables.BooleanTable org.fulib.tables.ObjectTable<T>::expandBoolean(java.lang.String,\
+        \ java.lang.String)"
+      justification: "the method was unususable previously due to the StringTable\
+        \ containing Boolean objects"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::dropColumns(java.lang.String[])"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::dropColumns(java.lang.String[])"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.generics.formalTypeParameterAdded"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      new: "method <U> org.fulib.tables.ObjectTable<U> org.fulib.tables.ObjectTable<T>::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.generics.formalTypeParameterAdded"
+      old: "class org.fulib.tables.ObjectTable"
+      new: "class org.fulib.tables.ObjectTable<T extends java.lang.Object>"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::setColumnMap(java.util.LinkedHashMap<java.lang.String,\
+        \ java.lang.Integer>)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::setColumnMap(java.util.LinkedHashMap<java.lang.String,\
+        \ java.lang.Integer>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::filterRow(java.util.function.Predicate<java.util.LinkedHashMap<java.lang.String,\
+        \ java.lang.Object>>)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::filterRow(java.util.function.Predicate<java.util.LinkedHashMap<java.lang.String,\
+        \ java.lang.Object>>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::filter(java.util.function.Predicate<java.lang.Object>)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::filter(java.util.function.Predicate<?\
+        \ super java.lang.Object>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::hasLink(java.lang.String,\
+        \ org.fulib.tables.ObjectTable)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::hasLink(java.lang.String,\
+        \ org.fulib.tables.ObjectTable<?>)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::setColumnName(java.lang.String)"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::setColumnName(java.lang.String)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method java.util.LinkedHashSet<java.lang.Object> org.fulib.tables.ObjectTable::toSet()"
+      new: "method java.util.LinkedHashSet<T> org.fulib.tables.ObjectTable<T>::toSet()"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.generics.elementNowParameterized"
+      old: "class org.fulib.tables.ObjectTable"
+      new: "class org.fulib.tables.ObjectTable<T extends java.lang.Object>"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::selectColumns(java.lang.String[])"
+      new: "method org.fulib.tables.ObjectTable<T> org.fulib.tables.ObjectTable<T>::selectColumns(java.lang.String[])"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"
+    - code: "java.method.returnTypeTypeParametersChanged"
+      old: "method org.fulib.tables.ObjectTable org.fulib.tables.ObjectTable::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      new: "method <U> org.fulib.tables.ObjectTable<U> org.fulib.tables.ObjectTable<T>::expandLink(java.lang.String,\
+        \ java.lang.String)"
+      justification: "https://github.com/fujaba/fulibTables/issues/6"

@@ -1,7 +1,5 @@
 package org.fulib.tables;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class intTable extends PrimitiveTable<Integer>
@@ -13,7 +11,7 @@ public class intTable extends PrimitiveTable<Integer>
       super(start);
    }
 
-   protected intTable(Table<?> base)
+   intTable(Table<?> base)
    {
       super(base);
    }
@@ -25,22 +23,36 @@ public class intTable extends PrimitiveTable<Integer>
       return this.stream().mapToInt(Integer::intValue);
    }
 
+   /**
+    * @return the sum of the cell values of the column this table points to
+    */
    public int sum()
    {
       return this.intStream().sum();
    }
 
+   /**
+    * @return the minimum of the cell values of the column this table points to,
+    * or {@link Integer#MAX_VALUE} if this table has no rows
+    */
    public int min()
    {
       return this.intStream().min().orElse(Integer.MAX_VALUE);
    }
 
+   /**
+    * @return the maximum of the cell values of the column this table points to,
+    * or {@link Integer#MIN_VALUE} if this table has no rows
+    */
    public int max()
    {
       return this.intStream().max().orElse(Integer.MIN_VALUE);
    }
 
    /**
+    * @return the average of the cell values of the column this table points to,
+    * or {@link Double#NaN} if this table has no rows
+    *
     * @since 1.2
     */
    public double average()
@@ -48,11 +60,14 @@ public class intTable extends PrimitiveTable<Integer>
       return this.intStream().average().orElse(Double.NaN);
    }
 
+   /**
+    * @return the median of the cell values of the column this table points to
+    *
+    * @deprecated since 1.2; this method does not work correctly for 0 or an even number of rows
+    */
+   @Deprecated
    public int median()
    {
-      List<Integer> list = this.toList();
-      Collections.sort(list);
-      int index = list.size() / 2;
-      return list.get(index);
+      return PrimitiveTable.medianImpl(this);
    }
 }

@@ -1,219 +1,261 @@
-- c1: 	ClassModel
-  classes: 	pattern2 	patternObject3 	roleObject4 	attributeConstraint5 	matchConstraint6 	
-  defaultPropertyStyle: 	POJO
+- c: 	ClassModel
+  classes: 	pattern 	patternObject 	roleObject 	attributeConstraint 	matchConstraint
+  defaultCollectionType: 	c1
+  defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
   packageName: 	org.fulib.patterns.model
   packageSrcFolder: 	"src/main/java/org/fulib/patterns/model"
 
-- pattern2: 	Clazz
-  model: 	c1
+- pattern: 	Clazz
+  model: 	c
   modified: 	false
   name: 	Pattern
-  propertyStyle: 	POJO
-  roles: 	objects7 	roles8 	attributeConstraints9 	matchConstraints10 	
+  propertyStyle: 	Bean
+  roles: 	pattern_objects 	pattern_roles 	pattern_attributeConstraints 	pattern_matchConstraints
 
-- patternObject3: 	Clazz
-  attributes: 	name11 	
-  model: 	c1
+- patternObject: 	Clazz
+  attributes: 	patternObject_name
+  model: 	c
   modified: 	false
   name: 	PatternObject
-  propertyStyle: 	POJO
-  roles: 	pattern12 	roles13 	attributeConstraints14 	matchConstraints15 	
+  propertyStyle: 	Bean
+  roles: 	patternObject_pattern 	patternObject_roles 	patternObject_attributeConstraints 	patternObject_matchConstraints
 
-- roleObject4: 	Clazz
-  attributes: 	name16 	
-  model: 	c1
+- roleObject: 	Clazz
+  attributes: 	roleObject_name
+  model: 	c
   modified: 	false
   name: 	RoleObject
-  propertyStyle: 	POJO
-  roles: 	pattern17 	other18 	other19 	object20 	
+  propertyStyle: 	Bean
+  roles: 	roleObject_pattern 	roleObject_other 	roleObject_other2 	roleObject_object
 
-- attributeConstraint5: 	Clazz
-  model: 	c1
+- attributeConstraint: 	Clazz
+  model: 	c
   modified: 	false
   name: 	AttributeConstraint
-  propertyStyle: 	POJO
-  roles: 	pattern21 	object22 	
+  propertyStyle: 	Bean
+  roles: 	attributeConstraint_pattern 	attributeConstraint_object
 
-- matchConstraint6: 	Clazz
-  model: 	c1
+- matchConstraint: 	Clazz
+  model: 	c
   modified: 	false
   name: 	MatchConstraint
-  propertyStyle: 	POJO
-  roles: 	pattern23 	objects24 	
+  propertyStyle: 	Bean
+  roles: 	matchConstraint_pattern 	matchConstraint_objects
 
-- objects7: 	AssocRole
+- c1: 	CollectionType
+  implClass: 	class java.util.ArrayList
+  implTemplate: 	"java.util.ArrayList<%s>"
+  itf: 	org.fulib.classmodel.CollectionInterface.List
+  qualifiedImplName: 	java.util.ArrayList
+  simpleImplName: 	ArrayList
+
+- pattern_objects: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	pattern2
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_objects
   modified: 	false
   name: 	objects
-  other: 	pattern12
-  propertyStyle: 	POJO
+  other: 	patternObject_pattern
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- roles8: 	AssocRole
+- pattern_roles: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	pattern2
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_roles
   modified: 	false
   name: 	roles
-  other: 	pattern17
-  propertyStyle: 	POJO
+  other: 	roleObject_pattern
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- attributeConstraints9: 	AssocRole
+- pattern_attributeConstraints: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	pattern2
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_attributeConstraints
   modified: 	false
   name: 	attributeConstraints
-  other: 	pattern21
-  propertyStyle: 	POJO
+  other: 	attributeConstraint_pattern
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- matchConstraints10: 	AssocRole
+- pattern_matchConstraints: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	pattern2
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_matchConstraints
   modified: 	false
   name: 	matchConstraints
-  other: 	pattern23
-  propertyStyle: 	POJO
+  other: 	matchConstraint_pattern
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- name11: 	Attribute
-  clazz: 	patternObject3
+- patternObject_name: 	Attribute
+  clazz: 	patternObject
+  id: 	PatternObject_name
   modified: 	false
   name: 	name
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
 
-- pattern12: 	AssocRole
+- patternObject_pattern: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	patternObject3
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_pattern
   modified: 	false
   name: 	pattern
-  other: 	objects7
-  propertyStyle: 	POJO
+  other: 	pattern_objects
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- roles13: 	AssocRole
+- patternObject_roles: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	patternObject3
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_roles
   modified: 	false
   name: 	roles
-  other: 	object20
-  propertyStyle: 	POJO
+  other: 	roleObject_object
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- attributeConstraints14: 	AssocRole
+- patternObject_attributeConstraints: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	patternObject3
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_attributeConstraints
   modified: 	false
   name: 	attributeConstraints
-  other: 	object22
-  propertyStyle: 	POJO
+  other: 	attributeConstraint_object
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- matchConstraints15: 	AssocRole
+- patternObject_matchConstraints: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	patternObject3
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_matchConstraints
   modified: 	false
   name: 	matchConstraints
-  other: 	objects24
-  propertyStyle: 	POJO
+  other: 	matchConstraint_objects
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- name16: 	Attribute
-  clazz: 	roleObject4
+- roleObject_name: 	Attribute
+  clazz: 	roleObject
+  id: 	RoleObject_name
   modified: 	false
   name: 	name
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
 
-- pattern17: 	AssocRole
+- roleObject_pattern: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	roleObject4
+  clazz: 	roleObject
+  collectionType: 	c1
+  id: 	RoleObject_pattern
   modified: 	false
   name: 	pattern
-  other: 	roles8
-  propertyStyle: 	POJO
+  other: 	pattern_roles
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- other18: 	AssocRole
+- roleObject_other: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	roleObject4
+  clazz: 	roleObject
+  collectionType: 	c1
+  id: 	RoleObject_other
   modified: 	false
   name: 	other
-  other: 	other19
-  propertyStyle: 	POJO
+  other: 	roleObject_other2
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- other19: 	AssocRole
+- roleObject_other2: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	roleObject4
+  clazz: 	roleObject
+  collectionType: 	c1
+  id: 	RoleObject_other
   modified: 	false
   name: 	other
-  other: 	other18
-  propertyStyle: 	POJO
+  other: 	roleObject_other
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- object20: 	AssocRole
+- roleObject_object: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	roleObject4
+  clazz: 	roleObject
+  collectionType: 	c1
+  id: 	RoleObject_object
   modified: 	false
   name: 	object
-  other: 	roles13
-  propertyStyle: 	POJO
+  other: 	patternObject_roles
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern21: 	AssocRole
+- attributeConstraint_pattern: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	attributeConstraint5
+  clazz: 	attributeConstraint
+  collectionType: 	c1
+  id: 	AttributeConstraint_pattern
   modified: 	false
   name: 	pattern
-  other: 	attributeConstraints9
-  propertyStyle: 	POJO
+  other: 	pattern_attributeConstraints
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- object22: 	AssocRole
+- attributeConstraint_object: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	attributeConstraint5
+  clazz: 	attributeConstraint
+  collectionType: 	c1
+  id: 	AttributeConstraint_object
   modified: 	false
   name: 	object
-  other: 	attributeConstraints14
-  propertyStyle: 	POJO
+  other: 	patternObject_attributeConstraints
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern23: 	AssocRole
+- matchConstraint_pattern: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	matchConstraint6
+  clazz: 	matchConstraint
+  collectionType: 	c1
+  id: 	MatchConstraint_pattern
   modified: 	false
   name: 	pattern
-  other: 	matchConstraints10
-  propertyStyle: 	POJO
+  other: 	pattern_matchConstraints
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- objects24: 	AssocRole
+- matchConstraint_objects: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	matchConstraint6
+  clazz: 	matchConstraint
+  collectionType: 	c1
+  id: 	MatchConstraint_objects
   modified: 	false
   name: 	objects
-  other: 	matchConstraints15
-  propertyStyle: 	POJO
+  other: 	patternObject_matchConstraints
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 

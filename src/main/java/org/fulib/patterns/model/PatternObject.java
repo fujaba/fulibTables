@@ -5,13 +5,14 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.List;
+import java.util.Collections;
 
 public class PatternObject
 {
    // =============== Constants ===============
 
    public static final String PROPERTY_pattern = "pattern";
-   public static final String PROPERTY_name = "name";
    public static final String PROPERTY_roles = "roles";
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
    public static final String PROPERTY_matchConstraints = "matchConstraints";
@@ -60,12 +61,14 @@ public class PatternObject
    // =============== Fields ===============
 
    private Pattern pattern;
-   private String name;
-   private ArrayList<RoleObject> roles;
-   private ArrayList<AttributeConstraint> attributeConstraints;
-   private ArrayList<MatchConstraint> matchConstraints;
+   private ArrayList<RoleObject> roles /* no fulib */;
+   private ArrayList<AttributeConstraint> attributeConstraints /* no fulib */;
+   private ArrayList<MatchConstraint> matchConstraints /* no fulib */;
 
    protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_name = "name";
+
+   private String name;
 
    // =============== Properties ===============
 
@@ -76,21 +79,23 @@ public class PatternObject
 
    public PatternObject setPattern(Pattern value)
    {
-      if (this.pattern != value)
+      if (this.pattern == value)
       {
-         Pattern oldValue = this.pattern;
-         if (this.pattern != null)
-         {
-            this.pattern = null;
-            oldValue.withoutObjects(this);
-         }
-         this.pattern = value;
-         if (value != null)
-         {
-            value.withObjects(this);
-         }
-         this.firePropertyChange("pattern", oldValue, value);
+         return this;
       }
+
+      final Pattern oldValue = this.pattern;
+      if (this.pattern != null)
+      {
+         this.pattern = null;
+         oldValue.withoutObjects(this);
+      }
+      this.pattern = value;
+      if (value != null)
+      {
+         value.withObjects(this);
+      }
+      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
       return this;
    }
 
@@ -101,23 +106,20 @@ public class PatternObject
 
    public PatternObject setName(String value)
    {
-      if (!Objects.equals(value, this.name))
+      if (Objects.equals(value, this.name))
       {
-         String oldValue = this.name;
-         this.name = value;
-         this.firePropertyChange("name", oldValue, value);
+         return this;
       }
+
+      final String oldValue = this.name;
+      this.name = value;
+      this.firePropertyChange(PROPERTY_name, oldValue, value);
       return this;
    }
 
-   public ArrayList<RoleObject> getRoles()
+   public ArrayList<RoleObject> getRoles() // no fulib
    {
-      if (this.roles == null)
-      {
-         return EMPTY_roles;
-      }
-
-      return this.roles;
+      return this.roles != null ? this.roles : EMPTY_roles;
    }
 
    public PatternObject withRoles(Object... value)
@@ -160,6 +162,39 @@ public class PatternObject
       return this;
    }
 
+   public PatternObject withRoles(RoleObject value)
+   {
+      if (this.roles == null)
+      {
+         this.roles = new ArrayList<>();
+      }
+      if (!this.roles.contains(value))
+      {
+         this.roles.add(value);
+         value.setObject(this);
+         this.firePropertyChange(PROPERTY_roles, null, value);
+      }
+      return this;
+   }
+
+   public PatternObject withRoles(RoleObject... value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withRoles(item);
+      }
+      return this;
+   }
+
+   public PatternObject withRoles(Collection<? extends RoleObject> value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withRoles(item);
+      }
+      return this;
+   }
+
    public PatternObject withoutRoles(Object... value)
    {
       if (this.roles == null || value == null)
@@ -192,14 +227,37 @@ public class PatternObject
       return this;
    }
 
-   public ArrayList<AttributeConstraint> getAttributeConstraints()
+   public PatternObject withoutRoles(RoleObject value)
    {
-      if (this.attributeConstraints == null)
+      if (this.roles != null && this.roles.remove(value))
       {
-         return EMPTY_attributeConstraints;
+         value.setObject(null);
+         this.firePropertyChange(PROPERTY_roles, value, null);
       }
+      return this;
+   }
 
-      return this.attributeConstraints;
+   public PatternObject withoutRoles(RoleObject... value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withoutRoles(item);
+      }
+      return this;
+   }
+
+   public PatternObject withoutRoles(Collection<? extends RoleObject> value)
+   {
+      for (final RoleObject item : value)
+      {
+         this.withoutRoles(item);
+      }
+      return this;
+   }
+
+   public ArrayList<AttributeConstraint> getAttributeConstraints() // no fulib
+   {
+      return this.attributeConstraints != null ? this.attributeConstraints : EMPTY_attributeConstraints;
    }
 
    public PatternObject withAttributeConstraints(Object... value)
@@ -242,6 +300,39 @@ public class PatternObject
       return this;
    }
 
+   public PatternObject withAttributeConstraints(AttributeConstraint value)
+   {
+      if (this.attributeConstraints == null)
+      {
+         this.attributeConstraints = new ArrayList<>();
+      }
+      if (!this.attributeConstraints.contains(value))
+      {
+         this.attributeConstraints.add(value);
+         value.setObject(this);
+         this.firePropertyChange(PROPERTY_attributeConstraints, null, value);
+      }
+      return this;
+   }
+
+   public PatternObject withAttributeConstraints(AttributeConstraint... value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withAttributeConstraints(item);
+      }
+      return this;
+   }
+
+   public PatternObject withAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withAttributeConstraints(item);
+      }
+      return this;
+   }
+
    public PatternObject withoutAttributeConstraints(Object... value)
    {
       if (this.attributeConstraints == null || value == null)
@@ -274,14 +365,37 @@ public class PatternObject
       return this;
    }
 
-   public ArrayList<MatchConstraint> getMatchConstraints()
+   public PatternObject withoutAttributeConstraints(AttributeConstraint value)
    {
-      if (this.matchConstraints == null)
+      if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
       {
-         return EMPTY_matchConstraints;
+         value.setObject(null);
+         this.firePropertyChange(PROPERTY_attributeConstraints, value, null);
       }
+      return this;
+   }
 
-      return this.matchConstraints;
+   public PatternObject withoutAttributeConstraints(AttributeConstraint... value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withoutAttributeConstraints(item);
+      }
+      return this;
+   }
+
+   public PatternObject withoutAttributeConstraints(Collection<? extends AttributeConstraint> value)
+   {
+      for (final AttributeConstraint item : value)
+      {
+         this.withoutAttributeConstraints(item);
+      }
+      return this;
+   }
+
+   public ArrayList<MatchConstraint> getMatchConstraints() // no fulib
+   {
+      return this.matchConstraints != null ? this.matchConstraints : EMPTY_matchConstraints;
    }
 
    public PatternObject withMatchConstraints(Object... value)
@@ -324,6 +438,39 @@ public class PatternObject
       return this;
    }
 
+   public PatternObject withMatchConstraints(MatchConstraint value)
+   {
+      if (this.matchConstraints == null)
+      {
+         this.matchConstraints = new ArrayList<>();
+      }
+      if (!this.matchConstraints.contains(value))
+      {
+         this.matchConstraints.add(value);
+         value.withObjects(this);
+         this.firePropertyChange(PROPERTY_matchConstraints, null, value);
+      }
+      return this;
+   }
+
+   public PatternObject withMatchConstraints(MatchConstraint... value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
+   public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
    public PatternObject withoutMatchConstraints(Object... value)
    {
       if (this.matchConstraints == null || value == null)
@@ -352,6 +499,34 @@ public class PatternObject
                this.firePropertyChange("matchConstraints", item, null);
             }
          }
+      }
+      return this;
+   }
+
+   public PatternObject withoutMatchConstraints(MatchConstraint value)
+   {
+      if (this.matchConstraints != null && this.matchConstraints.remove(value))
+      {
+         value.withoutObjects(this);
+         this.firePropertyChange(PROPERTY_matchConstraints, value, null);
+      }
+      return this;
+   }
+
+   public PatternObject withoutMatchConstraints(MatchConstraint... value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withoutMatchConstraints(item);
+      }
+      return this;
+   }
+
+   public PatternObject withoutMatchConstraints(Collection<? extends MatchConstraint> value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withoutMatchConstraints(item);
       }
       return this;
    }
@@ -409,21 +584,14 @@ public class PatternObject
    public void removeYou()
    {
       this.setPattern(null);
-
-      this.withoutRoles(this.getRoles().clone());
-
-      this.withoutAttributeConstraints(this.getAttributeConstraints().clone());
-
-      this.withoutMatchConstraints(this.getMatchConstraints().clone());
+      this.withoutRoles(new ArrayList<>(this.getRoles()));
+      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
+      this.withoutMatchConstraints(new ArrayList<>(this.getMatchConstraints()));
    }
 
    @Override
-   public String toString()
+   public String toString() // no fulib
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-      return result.substring(1);
+      return this.name;
    }
 }
