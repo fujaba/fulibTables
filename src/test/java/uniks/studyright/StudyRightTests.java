@@ -121,6 +121,7 @@ public class StudyRightTests
       fragments.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
    }
 
+
    @Test
    @SuppressWarnings( { "unused", "UnusedAssignment" })
    public void filterRows()
@@ -151,6 +152,7 @@ public class StudyRightTests
       fragments.addFragment("FulibTables.filterRowTableResult", universityTable.toString());
    }
 
+
    @Test
    public void hasLink()
    {
@@ -174,6 +176,7 @@ public class StudyRightTests
 
       fragments.addFragment("FulibTables.filterHasDoneResult", universityTable.toString());
    }
+
 
    @Test
    @SuppressWarnings( { "unused", "UnusedAssignment" })
@@ -232,6 +235,7 @@ public class StudyRightTests
 
       fragments.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
    }
+
 
    @Test
    public void nestedTables()

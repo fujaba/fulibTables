@@ -1,5 +1,6 @@
 package org.fulib;
 
+import org.fulib.patterns.LevenshteinPatternMatcher;
 import org.fulib.patterns.PatternBuilder;
 import org.fulib.patterns.PatternMatcher;
 import org.fulib.patterns.model.Pattern;
@@ -43,4 +44,17 @@ public class FulibTables
    {
       return new PatternMatcher(pattern);
    }
+
+   /**
+    * @param pattern
+    *    the pattern
+    *
+    * @return a new pattern matcher for the given pattern
+    */
+   public static LevenshteinPatternMatcher levenshteinMatcher(Pattern pattern)
+   {
+      return new LevenshteinPatternMatcher(pattern);
+   }
+
+
 }
