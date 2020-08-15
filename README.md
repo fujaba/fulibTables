@@ -426,6 +426,7 @@ strings.
 | Study Right 	| Alice m4242 	| 65.0 	| integrals, matrices 	|
 | Study Right 	| Bobby m2323 	| 24.0 	| drawings, sculptures 	|
 | Study Right 	| Carli m2323 	| 65.0 	| integrals, matrices 	|
+
 <!-- end_code_fragment: -->
 
 ![object diagram](doc/images/studyRightObjectsCreditsAssigned4Tables.png)

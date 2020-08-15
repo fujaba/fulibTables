@@ -963,4 +963,11 @@ public class PathTable implements Iterable<List<Object>>
       }
       return sum;
    }
+
+   public String join(String sourceColumn, String separator)
+   {
+      List list = toList(sourceColumn);
+      String join = String.join(separator, list);
+      return join;
+   }
 }

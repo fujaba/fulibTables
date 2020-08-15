@@ -230,8 +230,6 @@ public class StudyRightPathTableTests
    public void nestedTables()
    {
       final University studyRight = this.studyRight;
-      ObjectTable<University> universityTable;
-      ObjectTable<Student> students;
 
       // do current assignments
       for (final Student student : this.studyRight.getStudents())
@@ -240,29 +238,27 @@ public class StudyRightPathTableTests
       }
 
       // start_code_fragment: FulibTables.nestedTables
-      universityTable = new ObjectTable<>("University", studyRight);
-      students = universityTable.expandAll("Students", University::getStudents);
-      students.derive("Credits", row -> {
+      PathTable universityTable = new PathTable("University", studyRight);
+      universityTable.expand("University", University.PROPERTY_students, "Students");
+      universityTable.derive("Credits", row -> {
          Student student = (Student) row.get("Students");
-         double pointSum = new ObjectTable<>(student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Points", Assignment::getPoints)
-            .as(doubleTable.class)
-            .sum();
+         double pointSum = new PathTable("Student", student)
+            .expand("Student", Student.PROPERTY_done, "Assignments")
+            .expand("Assignments", Assignment.PROPERTY_points, "Points")
+            .sum("Points");
          student.setCredits(pointSum);
          return pointSum;
       });
-      students.derive("Done", row -> {
+      universityTable.derive("Done", row -> {
          Student student = (Student) row.get("Students");
-         return new ObjectTable<>("Students", student)
-            .expandAll("Assignments", Student::getDone)
-            .expand("Tasks", Assignment::getTask)
-            .as(StringTable.class)
-            .join(", ");
+         return new PathTable("Student", student)
+            .expand("Student",Student.PROPERTY_done, "Assignments")
+            .expand("Assignments", Assignment.PROPERTY_task, "Tasks")
+            .join("Tasks", ", ");
       });
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
+      fragments.addFragment("FulibTables.nestedPathTablesResult", universityTable.toString());
 
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
