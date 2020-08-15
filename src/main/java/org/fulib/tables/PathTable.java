@@ -970,4 +970,54 @@ public class PathTable implements Iterable<List<Object>>
       String join = String.join(separator, list);
       return join;
    }
+
+   public boolean all(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return ! list.contains(false);
+   }
+
+   public boolean any(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return list.contains(true);
+   }
+
+   public boolean none(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return ! list.contains(true);
+   }
+
+   public double min(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      double min = Double.MAX_VALUE;
+      for (Object obj : list) {
+         Double other = Double.valueOf(obj.toString());
+         min = Double.min(min, (Double) other);
+      }
+      return min;
+   }
+
+   public double max(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      double max = - Double.MAX_VALUE;
+      for (Object obj : list) {
+         Double other = Double.valueOf(obj.toString());
+         max = Double.max(max, (Double) other);
+      }
+      return max;
+   }
+
+   public double average(String sourceColumn)
+   {
+      if (rowCount() == 0) {
+         return Double.NaN;
+      }
+
+      double sum = sum(sourceColumn);
+      return sum / rowCount();
+   }
 }
