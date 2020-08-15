@@ -191,7 +191,7 @@ public class PathTable implements Iterable<List<Object>>
    }
 
 
-   public PathTable expand(String sourceColumn, String targetColumn, Function<Object, Object> function)
+   public PathTable expand(String sourceColumn, Function<Object, Object> function, String targetColumn)
    {
       this.expandImpl(sourceColumn, targetColumn, function);
       return this;
