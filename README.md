@@ -263,6 +263,7 @@ assertThat(students.rowCount(), equalTo(1));
 | University 	| Room 	| Student 	| Assignment 	|
 | --- | --- | --- | --- |
 | Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	|
+
 <!-- end_code_fragment: -->
 
 Note, when we did the filter by assignment, our internal table had
