@@ -181,9 +181,21 @@ public class ObjectTable<T> extends Table<T>
    public ObjectTable<T> hasAnyLink(ObjectTable<?> otherTable)
    {
       this.checkSameData(otherTable);
+      this.hasAnyLinkImpl(this.getColumnIndex(), otherTable.getColumnIndex());
+      return this;
+   }
 
-      final int thisColumn = this.getColumnIndex();
-      final int otherColumn = otherTable.getColumnIndex();
+   /**
+    * @since 1.4
+    */
+   public ObjectTable<T> hasAnyLink(String sourceColumn, String targetColumn)
+   {
+      this.hasAnyLinkImpl(this.getColumnIndex(sourceColumn), this.getColumnIndex(targetColumn));
+      return this;
+   }
+
+   private void hasAnyLinkImpl(int thisColumn, int otherColumn)
+   {
       this.table.removeIf(row -> {
          Object start = row.get(thisColumn);
          Object other = row.get(otherColumn);
@@ -206,7 +218,6 @@ public class ObjectTable<T> extends Table<T>
 
          return true;
       });
-      return this;
    }
 
    // --------------- Expansion ---------------
