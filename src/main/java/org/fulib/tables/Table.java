@@ -278,6 +278,57 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Creates a new column with the given name by applying the given function to each object in the given column.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.expand.source | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2, 3);
+    * a.expand("B", i -> i * 2);
+    * Table<Integer> c = a.expand("B", "C", (Integer i) -> i + 1);
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    * <!-- insert_code_fragment: TableTest.expand.source.c -->
+    * <table>
+    *     <caption>
+    *         c
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *         <th>C</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *         <td>3</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>4</td>
+    *         <td>5</td>
+    *     </tr>
+    *     <tr>
+    *         <td>3</td>
+    *         <td>6</td>
+    *         <td>7</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param <U>
+    *    the cell type of the new column
+    * @param sourceColumn
+    *    the name of the column to operate on
+    * @param targetColumn
+    *    the name of the new column
+    * @param function
+    *    the function that computes a value for the new column
+    *
+    * @return a table pointing to the new column
+    *
     * @since 1.4
     */
    public <V, U> Table<U> expand(String sourceColumn, String targetColumn, Function<? super V, ? extends U> function)
@@ -356,6 +407,63 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Creates a new column with the given name by applying the given function to each object in the given column,
+    * and flattening the result.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.expandAll.source | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2);
+    * a.expand("B", i -> i * 2);
+    * Table<Integer> c = a.expandAll("B", "C", (Integer i) -> Arrays.asList(i + 10, i + 20));
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    * <!-- insert_code_fragment: TableTest.expandAll.source.c -->
+    * <table>
+    *     <caption>
+    *         c
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *         <th>C</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *         <td>12</td>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *         <td>22</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>4</td>
+    *         <td>14</td>
+    *     </tr>
+    *     <tr>
+    *         <td>2</td>
+    *         <td>4</td>
+    *         <td>24</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param <U>
+    *    the cell type of the new column
+    * @param sourceColumn
+    *    the name of the column to operate on
+    * @param targetColumn
+    *    the name of the new column
+    * @param function
+    *    the function that computes a collection of values for the new column
+    *
+    * @return a table pointing to the new column
+    *
     * @since 1.4
     */
    public <V, U> Table<U> expandAll(String sourceColumn, String targetColumn, Function<? super V, ? extends Collection<? extends U>> function)
@@ -833,6 +941,58 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Removes all rows from this table for which the predicate returned {@code false} when passed the cell value in the
+    * given column.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.filter.source | javadoc -->
+    * <pre>{@code
+    * Table<Integer> a = new Table<>("A", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    * a.expand("B", i -> i + 1);
+    * a.filter("B", (Integer i) -> i % 2 == 0);
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    * <!-- insert_code_fragment: TableTest.filter.source.result -->
+    * <table>
+    *     <caption>
+    *         result
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *         <th>B</th>
+    *     </tr>
+    *     <tr>
+    *         <td>1</td>
+    *         <td>2</td>
+    *     </tr>
+    *     <tr>
+    *         <td>3</td>
+    *         <td>4</td>
+    *     </tr>
+    *     <tr>
+    *         <td>5</td>
+    *         <td>6</td>
+    *     </tr>
+    *     <tr>
+    *         <td>7</td>
+    *         <td>8</td>
+    *     </tr>
+    *     <tr>
+    *         <td>9</td>
+    *         <td>10</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param sourceColumn
+    *    the name of the column to operate on
+    * @param predicate
+    *    the predicate that determines which rows should be kept
+    *
+    * @return this table, to allow method chaining
+    *
     * @since 1.4
     */
    public <V> Table<T> filter(String sourceColumn, Predicate<? super V> predicate)
@@ -962,6 +1122,13 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * {@inheritDoc}
+    *
+    * @param sourceColumn
+    *    the name of the column to operate on
+    *
+    * @return an iterator over the cell values of the given column
+    *
     * @since 1.4
     */
    public <V> Iterator<V> iterator(String sourceColumn)
@@ -994,6 +1161,13 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param columnName
+    *    the name of the column to operate on
+    *
+    * @return a list of cell values of the given column
+    *
     * @since 1.4
     */
    public <V> List<V> toList(String columnName)
@@ -1010,6 +1184,13 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param columnName
+    *    the name of the column to operate on
+    *
+    * @return a set of cell values of the given column
+    *
     * @since 1.4
     */
    public <V> Set<V> toSet(String columnName)
@@ -1028,6 +1209,13 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * @param <V>
+    *    the cell type of the column to operate on
+    * @param columnName
+    *    the name of the column to operate on
+    *
+    * @return a stream of cell values of the given column
+    *
     * @since 1.4
     */
    public <V> Stream<V> stream(String columnName)
