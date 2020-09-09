@@ -301,7 +301,15 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> ObjectTable<U> expandAll(String newColumnName)
    {
-      return this.expandAll(newColumnName, start -> {
+      return this.expandAll(this.getColumnName(), newColumnName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <U> ObjectTable<U> expandAll(String sourceColumn, String targetColumn)
+   {
+      this.expandAllImpl(sourceColumn, targetColumn, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptyList();
@@ -325,6 +333,9 @@ public class ObjectTable<T> extends Table<T>
 
          return result;
       });
+      ObjectTable<U> result = new ObjectTable<>(this);
+      result.setColumnName_(targetColumn);
+      return result;
    }
 
    /**
