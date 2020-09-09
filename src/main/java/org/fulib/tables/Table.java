@@ -392,7 +392,7 @@ public class Table<T> implements Iterable<T>
     *
     * @param <U>
     *    the cell type of the new column
-    * @param columnName
+    * @param targetColumn
     *    the name of the new column
     * @param function
     *    the function that computes a collection of values for the new column
@@ -401,9 +401,9 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <U> Table<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
+   public <U> Table<U> expandAll(String targetColumn, Function<? super T, ? extends Collection<? extends U>> function)
    {
-      return expandAll(this.columnName, columnName, function);
+      return expandAll(this.columnName, targetColumn, function);
    }
 
    /**
@@ -1163,16 +1163,16 @@ public class Table<T> implements Iterable<T>
    /**
     * @param <V>
     *    the cell type of the column to operate on
-    * @param columnName
+    * @param sourceColumn
     *    the name of the column to operate on
     *
     * @return a list of cell values of the given column
     *
     * @since 1.4
     */
-   public <V> List<V> toList(String columnName)
+   public <V> List<V> toList(String sourceColumn)
    {
-      return this.<V>stream(columnName).collect(Collectors.toList());
+      return this.<V>stream(sourceColumn).collect(Collectors.toList());
    }
 
    /**
@@ -1186,16 +1186,16 @@ public class Table<T> implements Iterable<T>
    /**
     * @param <V>
     *    the cell type of the column to operate on
-    * @param columnName
+    * @param sourceColumn
     *    the name of the column to operate on
     *
     * @return a set of cell values of the given column
     *
     * @since 1.4
     */
-   public <V> Set<V> toSet(String columnName)
+   public <V> Set<V> toSet(String sourceColumn)
    {
-      return this.<V>stream(columnName).collect(Collectors.toCollection(LinkedHashSet::new));
+      return this.<V>stream(sourceColumn).collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
    /**
@@ -1211,16 +1211,16 @@ public class Table<T> implements Iterable<T>
    /**
     * @param <V>
     *    the cell type of the column to operate on
-    * @param columnName
+    * @param sourceColumn
     *    the name of the column to operate on
     *
     * @return a stream of cell values of the given column
     *
     * @since 1.4
     */
-   public <V> Stream<V> stream(String columnName)
+   public <V> Stream<V> stream(String sourceColumn)
    {
-      int column = this.getColumnIndex(columnName);
+      int column = this.getColumnIndex(sourceColumn);
       return this.table.stream().map(l -> (V) l.get(column));
    }
 
