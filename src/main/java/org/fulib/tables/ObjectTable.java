@@ -212,7 +212,7 @@ public class ObjectTable<T> extends Table<T>
     * <p>
     * Essentially equivalent to:
     * <pre>{@code
-    *    this.expandAll(newColumnName, source -> {
+    *    this.expandAll(targetColumn, source -> {
     *       final Object target = source.get<linkName>(); // via reflection
     *       if (target instanceof Collection) {
     *          return target;
@@ -228,7 +228,7 @@ public class ObjectTable<T> extends Table<T>
     *
     * @param <U>
     *    the type of the target objects
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param linkName
     *    the name of the property to expand
@@ -237,9 +237,9 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAll(String, Function)
     */
-   public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
+   public <U> ObjectTable<U> expandLink(String targetColumn, String linkName)
    {
-      return this.expandLink(this.getColumnName(), newColumnName, linkName);
+      return this.expandLink(this.getColumnName(), targetColumn, linkName);
    }
 
    /**
@@ -278,7 +278,7 @@ public class ObjectTable<T> extends Table<T>
     * <p>
     * Essentially equivalent to:
     * <pre>{@code
-    *    this.expandAll(newColumnName, source -> {
+    *    this.expandAll(targetColumn, source -> {
     *       List<Object> result = new ArrayList<>();
     *       for (String linkName : <properties of source>) {
     *          final Object target = source.get<linkName>(); // via reflection
@@ -295,7 +295,7 @@ public class ObjectTable<T> extends Table<T>
     *
     * @param <U>
     *    the type of the target objects
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     *
     * @return a table pointing to the new column
@@ -303,9 +303,9 @@ public class ObjectTable<T> extends Table<T>
     * @see #expandLink(String, String)
     * @since 1.3
     */
-   public <U> ObjectTable<U> expandAll(String newColumnName)
+   public <U> ObjectTable<U> expandAll(String targetColumn)
    {
-      return this.expandAll(this.getColumnName(), newColumnName);
+      return this.expandAll(this.getColumnName(), targetColumn);
    }
 
    /**
@@ -344,14 +344,14 @@ public class ObjectTable<T> extends Table<T>
     * <p>
     * Essentially equivalent to:
     * <pre>{@code
-    *    this.expand(newColumnName, start -> {
+    *    this.expand(targetColumn, start -> {
     *       return start.get<attrName>(); // via reflection
     *    });
     * }</pre>
     *
     * @param <U>
     *    the type of the attribute
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -361,9 +361,9 @@ public class ObjectTable<T> extends Table<T>
     * @see #expand(String, Function)
     * @since 1.2
     */
-   public <U> Table<U> expandAttribute(String newColumnName, String attrName)
+   public <U> Table<U> expandAttribute(String targetColumn, String attrName)
    {
-      return this.expandAttribute(this.getColumnName(), newColumnName, attrName);
+      return this.expandAttribute(this.getColumnName(), targetColumn, attrName);
    }
 
    /**
@@ -380,10 +380,10 @@ public class ObjectTable<T> extends Table<T>
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(doubleTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(doubleTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -392,21 +392,21 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public doubleTable expandDouble(String newColumnName, String attrName)
+   public doubleTable expandDouble(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       doubleTable result = new doubleTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(floatTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(floatTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -415,21 +415,21 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public floatTable expandFloat(String newColumnName, String attrName)
+   public floatTable expandFloat(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       floatTable result = new floatTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(intTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(intTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -438,21 +438,21 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public intTable expandInt(String newColumnName, String attrName)
+   public intTable expandInt(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       intTable result = new intTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(longTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(longTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -461,21 +461,21 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public longTable expandLong(String newColumnName, String attrName)
+   public longTable expandLong(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       longTable result = new longTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(StringTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(StringTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -484,21 +484,21 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public StringTable expandString(String newColumnName, String attrName)
+   public StringTable expandString(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       StringTable result = new StringTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
    /**
     * Equivalent to:
     * <pre>{@code
-    *    this.expandAttribute(newColumnName, attrName).as(BooleanTable.class);
+    *    this.expandAttribute(targetColumn, attrName).as(BooleanTable.class);
     * }</pre>
     *
-    * @param newColumnName
+    * @param targetColumn
     *    the name of the new column
     * @param attrName
     *    the name of the attribute to expand
@@ -507,11 +507,11 @@ public class ObjectTable<T> extends Table<T>
     *
     * @see #expandAttribute(String, String)
     */
-   public BooleanTable expandBoolean(String newColumnName, String attrName)
+   public BooleanTable expandBoolean(String targetColumn, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      this.expandAttributeImpl(targetColumn, attrName);
       BooleanTable result = new BooleanTable(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
@@ -538,9 +538,9 @@ public class ObjectTable<T> extends Table<T>
    // --------------- Overriding Return Type as ObjectTable ---------------
 
    @Override
-   public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
+   public <U> ObjectTable<U> expand(String targetColumn, Function<? super T, ? extends U> function)
    {
-      return this.expand(this.getColumnName(), columnName, function);
+      return this.expand(this.getColumnName(), targetColumn, function);
    }
 
    @Override
@@ -551,10 +551,10 @@ public class ObjectTable<T> extends Table<T>
    }
 
    @Override
-   public <U> ObjectTable<U> expandAll(String columnName,
+   public <U> ObjectTable<U> expandAll(String targetColumn,
       Function<? super T, ? extends Collection<? extends U>> function)
    {
-      return this.expandAll(this.getColumnName(), columnName, function);
+      return this.expandAll(this.getColumnName(), targetColumn, function);
    }
 
    @Override
