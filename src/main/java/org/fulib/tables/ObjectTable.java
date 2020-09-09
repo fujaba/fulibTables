@@ -351,9 +351,17 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> Table<U> expandAttribute(String newColumnName, String attrName)
    {
-      this.expandAttributeImpl(newColumnName, attrName);
+      return this.expandAttribute(this.getColumnName(), newColumnName, attrName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <U> Table<U> expandAttribute(String sourceColumn, String targetColumn, String attrName)
+   {
+      this.expandAttributeImpl(sourceColumn, targetColumn, attrName);
       final Table<U> result = new Table<>(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
@@ -495,9 +503,14 @@ public class ObjectTable<T> extends Table<T>
       return result;
    }
 
-   private void expandAttributeImpl(String newColumnName, String attrName)
+   private void expandAttributeImpl(String targetColumn, String attrName)
    {
-      this.expandImpl(this.getColumnName(), newColumnName, start -> {
+      this.expandAttributeImpl(this.getColumnName(), targetColumn, attrName);
+   }
+
+   private void expandAttributeImpl(String sourceColumn, String targetColumn, String attrName)
+   {
+      this.expandImpl(sourceColumn, targetColumn, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return null;
