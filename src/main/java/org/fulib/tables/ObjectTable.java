@@ -539,9 +539,15 @@ public class ObjectTable<T> extends Table<T>
    @Override
    public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
    {
-      this.expandImpl(this.getColumnName(), columnName, function);
+      return this.expand(this.getColumnName(), columnName, function);
+   }
+
+   @Override
+   public <V, U> ObjectTable<U> expand(String sourceColumn, String targetColumn, Function<? super V, ? extends U> function)
+   {
+      this.expandImpl(sourceColumn, targetColumn, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
@@ -549,9 +555,16 @@ public class ObjectTable<T> extends Table<T>
    public <U> ObjectTable<U> expandAll(String columnName,
       Function<? super T, ? extends Collection<? extends U>> function)
    {
-      this.expandAllImpl(this.getColumnName(), columnName, function);
+      return this.expandAll(this.getColumnName(), columnName, function);
+   }
+
+   @Override
+   public <V, U> ObjectTable<U> expandAll(String sourceColumn, String targetColumn,
+      Function<? super V, ? extends Collection<? extends U>> function)
+   {
+      this.expandAllImpl(sourceColumn, targetColumn, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
@@ -573,6 +586,13 @@ public class ObjectTable<T> extends Table<T>
    public ObjectTable<T> filter(Predicate<? super T> predicate)
    {
       super.filter(predicate);
+      return this;
+   }
+
+   @Override
+   public <V> ObjectTable<T> filter(String sourceColumn, Predicate<? super V> predicate)
+   {
+      super.filter(sourceColumn, predicate);
       return this;
    }
 
