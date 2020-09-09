@@ -236,7 +236,6 @@ public class Table<T> implements Iterable<T>
     * Table<Integer> b = a.expand("B", i -> i * 2);
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.expand.b -->
     * <table>
     *     <caption>
@@ -361,7 +360,6 @@ public class Table<T> implements Iterable<T>
     * Table<Integer> b = a.expandAll("B", i -> Arrays.asList(i + 10, i + 20));
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.expandAll.b -->
     * <table>
     *     <caption>
@@ -504,7 +502,6 @@ public class Table<T> implements Iterable<T>
     * Table<Integer> c = b.derive("C", row -> (int) row.get("A") + (int) row.get("B"));
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.derive.c -->
     * <table>
     *     <caption>
@@ -573,7 +570,6 @@ public class Table<T> implements Iterable<T>
     * });
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.deriveAll.c -->
     * <table>
     *     <caption>
@@ -661,7 +657,6 @@ public class Table<T> implements Iterable<T>
     * Table<String> lowercase = names.expand("lowercase", String::toLowerCase);
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.dropColumns.before -->
     * <table>
     *     <caption>
@@ -694,13 +689,11 @@ public class Table<T> implements Iterable<T>
     *     </tr>
     * </table>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.dropColumns.select | javadoc -->
     * <pre>{@code
     * names.dropColumns(names.getColumnName());
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.dropColumns.after -->
     * <table>
     *     <caption>
@@ -724,7 +717,6 @@ public class Table<T> implements Iterable<T>
     *     </tr>
     * </table>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.dropColumns.exception | javadoc -->
     * <pre>{@code
     * names.toList(); // throws IllegalStateException
@@ -789,7 +781,6 @@ public class Table<T> implements Iterable<T>
     * Table<String> lowercase = names.expand("lowercase", String::toLowerCase);
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.selectColumns.before -->
     * <table>
     *     <caption>
@@ -822,13 +813,11 @@ public class Table<T> implements Iterable<T>
     *     </tr>
     * </table>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.selectColumns.select | javadoc -->
     * <pre>{@code
     * names.selectColumns("uppercase", "lowercase");
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.selectColumns.after -->
     * <table>
     *     <caption>
@@ -852,7 +841,6 @@ public class Table<T> implements Iterable<T>
     *     </tr>
     * </table>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.selectColumns.exception | javadoc -->
     * <pre>{@code
     * names.toList(); // throws IllegalStateException
@@ -903,7 +891,6 @@ public class Table<T> implements Iterable<T>
     * numbers.filter(i -> i % 2 == 0);
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.filter.result -->
     * <table>
     *     <caption>
@@ -1013,7 +1000,6 @@ public class Table<T> implements Iterable<T>
     * Table<Integer> b = a.expandAll("B", i -> Arrays.asList(1, 2));
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.filterRows.before -->
     * <table>
     *     <caption>
@@ -1041,13 +1027,11 @@ public class Table<T> implements Iterable<T>
     *     </tr>
     * </table>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.filterRows.action | javadoc -->
     * <pre>{@code
     * a.filterRows(row -> (int) row.get("A") != (int) row.get("B"));
     * }</pre>
     * <!-- end_code_fragment: -->
-    * <p>
     * <!-- insert_code_fragment: TableTest.filterRows.after -->
     * <table>
     *     <caption>
