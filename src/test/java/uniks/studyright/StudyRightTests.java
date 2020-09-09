@@ -5,6 +5,7 @@ import org.fulib.tables.ObjectTable;
 import org.fulib.tables.StringTable;
 import org.fulib.tables.doubleTable;
 import org.fulib.tools.CodeFragments;
+import org.hamcrest.MatcherAssert;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -13,6 +14,8 @@ import uniks.studyright.model.Assignment;
 import uniks.studyright.model.Room;
 import uniks.studyright.model.Student;
 import uniks.studyright.model.University;
+
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -272,6 +275,184 @@ public class StudyRightTests
       fragments.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
 
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
+   }
+
+   @Test
+   public void testModelQueriesWithSource()
+   {
+      final University studyRight = this.studyRight;
+
+      // start_code_fragment: FulibTables.createUniPathTable1
+      // some table stuff
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      universityTable.expandAll("University", "Room", University::getRooms);
+      universityTable.expandAll("Room", "Assignment", Room::getAssignments);
+      // end_code_fragment:
+
+      universityTable = new ObjectTable<>("University", studyRight);
+      fragments.addFragment("FulibTables.uniPathTable1", universityTable.toString());
+
+      universityTable.expandAll("University", "Room", University::getRooms);
+      fragments.addFragment("FulibTables.uniPathTable2", universityTable.toString());
+
+      universityTable.expandAll("Room", "Assignment", Room::getAssignments);
+      fragments.addFragment("FulibTables.uniPathTable3", universityTable.toString());
+
+      // start_code_fragment: FulibTables.loopThroughAssignmentsPath
+      double sum = 0;
+      for (Assignment a : universityTable.<Assignment>toSet("Assignment"))
+      {
+         sum += a.getPoints();
+      }
+      MatcherAssert.assertThat(sum, is(89.0));
+      // end_code_fragment:
+
+      // start_code_fragment: FulibTables.pointsPathTable
+      universityTable.expandLink("Assignment", "Points", Assignment.PROPERTY_points);
+      sum = universityTable.<Double>stream("Points").mapToDouble(Double::doubleValue).sum();
+      assertThat(universityTable.rowCount(), equalTo(4));
+      MatcherAssert.assertThat(sum, equalTo(89.0));
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.pointsPathTableResult", universityTable.toString());
+
+      // start_code_fragment: FulibTables.studentsPathTable
+      universityTable.expandAll("Room", "Student", Room::getStudents);
+      assertThat(universityTable.rowCount(), equalTo(6));
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.studentsPathTableResult", universityTable.toString());
+
+      // start_code_fragment: FulibTables.filterAssignmentsPathTable
+      universityTable.filter("Assignment", (Assignment a) -> a.getPoints() <= 30);
+      assertThat(universityTable.rowCount(), equalTo(4));
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.filterAssignmentsPathTableResult", universityTable.toString());
+   }
+
+   @Test
+   public void filterRowsWithSource()
+   {
+      final University studyRight = this.studyRight;
+
+      ObjectTable<University> universityTable;
+
+      // start_code_fragment: FulibTables.filterRowPathTable
+      // filter row
+      universityTable = new ObjectTable<>("University", studyRight);
+      universityTable.expandLink("University", "Room", University.PROPERTY_rooms);
+      universityTable.expandLink("Room", "Student", Room.PROPERTY_students);
+      universityTable.expandLink("Room", "Assignment", Room.PROPERTY_assignments);
+
+      universityTable.filterRows(row -> {
+         Student studi = (Student) row.get("Student");
+         Assignment assignment = (Assignment) row.get("Assignment");
+         return studi.getDone().contains(assignment);
+      });
+
+      assertThat(universityTable.rowCount(), equalTo(1));
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.filterRowPathTableResult", universityTable.toString());
+   }
+
+   @Test
+   public void hasLinkWithColumn()
+   {
+      final University studyRight = this.studyRight;
+
+      // start_code_fragment: FulibTables.filterPathTableHasDone
+      // filter row
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      universityTable.expandLink("University", "Room", University.PROPERTY_rooms);
+      universityTable.expandLink("Room", "Student", Room.PROPERTY_students);
+      universityTable.expandLink("Room", "Assignment", Room.PROPERTY_assignments);
+      universityTable.hasLink("Student", "Assignment", Student.PROPERTY_done);
+
+      assertThat(universityTable.rowCount(), equalTo(1));
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.filterPathTableHasDoneResult", universityTable.toString());
+   }
+
+   @Test
+   public void doAssignmentsAndDropSelectWithColumn()
+   {
+      final University studyRight = this.studyRight;
+      final Student alice = this.alice;
+      final Assignment integrals = this.integrals;
+
+      // start_code_fragment: FulibTables.pathTableDoCurrentAssignments
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      universityTable.expandLink("University", "Room", University.PROPERTY_rooms);
+      universityTable.expandLink("Room", "Student", Room.PROPERTY_students);
+      universityTable.expandLink("Room", "Assignment", Room.PROPERTY_assignments);
+
+      // do current assignments
+      universityTable.filterRows(row -> {
+         Student studi = (Student) row.get("Student");
+         Assignment assignment = (Assignment) row.get("Assignment");
+         studi.withDone(assignment);
+         return true;
+      });
+
+      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4PathTables.png", studyRight);
+
+      MatcherAssert.assertThat(alice.getDone().size(), is(2));
+      MatcherAssert.assertThat(integrals.getStudents().contains(alice), is(true));
+
+      // show size of done
+      universityTable.derive("noOfDone", row -> {
+         Student studi = (Student) row.get("Student");
+         return studi.getDone().size();
+      });
+
+      // show done
+      universityTable.expandLink("Student", "Done", Student.PROPERTY_done);
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.pathTableDoCurrentAssignmentsResult", universityTable.toString());
+   }
+
+   @Test
+   public void nestedTablesWithColumn()
+   {
+      final University studyRight = this.studyRight;
+
+      // do current assignments
+      for (final Student student : this.studyRight.getStudents())
+      {
+         student.withDone(student.getIn().getAssignments());
+      }
+
+      // start_code_fragment: FulibTables.nestedPathTables
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      universityTable.expandLink("University", "Students", University.PROPERTY_students);
+      universityTable.derive("Credits", row -> {
+         Student student = (Student) row.get("Students");
+         double pointSum = new ObjectTable<>("Student", student)
+            .expandLink("Student", "Assignments", Student.PROPERTY_done)
+            .expandLink("Assignments", "Points", Assignment.PROPERTY_points)
+            .<Double>stream("Points")
+            .mapToDouble(Double::doubleValue)
+            .sum();
+         student.setCredits(pointSum);
+         return pointSum;
+      });
+      universityTable.derive("Done", row -> {
+         Student student = (Student) row.get("Students");
+         return new ObjectTable<>("Student", student)
+            .expandLink("Student", "Assignments", Student.PROPERTY_done)
+            .expandLink("Assignments", "Tasks", Assignment.PROPERTY_task)
+            .<String>stream("Tasks")
+            .collect(Collectors.joining(", "));
+      });
+      // end_code_fragment:
+
+      fragments.addFragment("FulibTables.nestedPathTablesResult", universityTable.toString());
+
+      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4PathTables.png", studyRight);
    }
 
    @AfterClass
