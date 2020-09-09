@@ -149,11 +149,16 @@ public class Table<T> implements Iterable<T>
 
    int getColumnIndex()
    {
-      final int index = this.columns.indexOf(this.columnName);
+      return getColumnIndex(this.columnName);
+   }
+
+   int getColumnIndex(String columnName)
+   {
+      final int index = this.columns.indexOf(columnName);
       if (index < 0)
       {
          throw new IllegalStateException(
-            "Column '" + this.columnName + "' is no longer part of table columns " + this.columns + ". "
+            "Column '" + columnName + "' is no longer part of table columns " + this.columns + ". "
             + "It was likely evicted after a selectColumns or dropColumns operation. "
             + "This Table instance is no longer valid");
       }
@@ -258,7 +263,7 @@ public class Table<T> implements Iterable<T>
     *
     * @param <U>
     *    the cell type of the new column
-    * @param columnName
+    * @param targetColumn
     *    the name of the new column
     * @param function
     *    the function that computes a value for the new column
@@ -267,21 +272,29 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <U> Table<U> expand(String columnName, Function<? super T, ? extends U> function)
+   public <U> Table<U> expand(String targetColumn, Function<? super T, ? extends U> function)
    {
-      this.expandImpl(columnName, function);
+      return this.expand(this.columnName, targetColumn, function);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V, U> Table<U> expand(String sourceColumn, String targetColumn, Function<? super V, ? extends U> function)
+   {
+      this.expandImpl(sourceColumn, targetColumn, function);
       final Table<U> result = new Table<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
-   void expandImpl(String columnName, Function<? super T, ?> function)
+   <V> void expandImpl(String sourceColumn, String targetColumn, Function<? super V, ?> function)
    {
-      final int column = this.getColumnIndex();
-      this.addColumn(columnName);
+      final int column = this.getColumnIndex(sourceColumn);
+      this.addColumn(targetColumn);
       for (List<Object> row : this.table)
       {
-         Object result = function.apply((T) row.get(column));
+         Object result = function.apply((V) row.get(column));
          row.add(result);
       }
    }
@@ -339,22 +352,30 @@ public class Table<T> implements Iterable<T>
     */
    public <U> Table<U> expandAll(String columnName, Function<? super T, ? extends Collection<? extends U>> function)
    {
-      this.expandAllImpl(columnName, function);
+      return expandAll(this.columnName, columnName, function);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V, U> Table<U> expandAll(String sourceColumn, String targetColumn, Function<? super V, ? extends Collection<? extends U>> function)
+   {
+      this.expandAllImpl(sourceColumn, targetColumn, function);
       final Table<U> result = new Table<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
-   void expandAllImpl(String columnName, Function<? super T, ? extends Collection<?>> function)
+   <V> void expandAllImpl(String sourceColumn, String targetColumn, Function<? super V, ? extends Collection<?>> function)
    {
-      final int column = this.getColumnIndex();
-      this.addColumn(columnName);
+      final int column = this.getColumnIndex(sourceColumn);
+      this.addColumn(targetColumn);
 
       List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
       for (List<Object> row : oldTable)
       {
-         final Collection<?> newItems = function.apply((T) row.get(column));
+         final Collection<?> newItems = function.apply((V) row.get(column));
          for (Object item : newItems)
          {
             final List<Object> newRow = new ArrayList<>(row);
@@ -401,7 +422,7 @@ public class Table<T> implements Iterable<T>
     *
     * @param <U>
     *    the cell type of the new column
-    * @param columnName
+    * @param targetColumn
     *    the name of the new column
     * @param function
     *    the function that computes a value for the new column
@@ -410,15 +431,15 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <U> Table<U> derive(String columnName, Function<? super Map<String, Object>, ? extends U> function)
+   public <U> Table<U> derive(String targetColumn, Function<? super Map<String, Object>, ? extends U> function)
    {
-      this.deriveImpl(columnName, function);
+      this.deriveImpl(targetColumn, function);
       final Table<U> result = new Table<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
-   void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
+   void deriveImpl(String targetColumn, Function<? super LinkedHashMap<String, Object>, ?> function)
    {
       for (List<Object> row : this.table)
       {
@@ -426,7 +447,7 @@ public class Table<T> implements Iterable<T>
          Object result = function.apply(map);
          row.add(result);
       }
-      this.addColumn(columnName);
+      this.addColumn(targetColumn);
    }
 
    /**
@@ -480,7 +501,7 @@ public class Table<T> implements Iterable<T>
     *
     * @param <U>
     *    the cell type of the new column
-    * @param columnName
+    * @param targetColumn
     *    the name of the new column
     * @param function
     *    the function that computes a collection of values for the new column
@@ -489,16 +510,16 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.2
     */
-   public <U> Table<U> deriveAll(String columnName,
+   public <U> Table<U> deriveAll(String targetColumn,
       Function<? super Map<String, Object>, ? extends Collection<? extends U>> function)
    {
-      this.deriveAllImpl(columnName, function);
+      this.deriveAllImpl(targetColumn, function);
       final Table<U> result = new Table<>(this);
-      result.setColumnName_(columnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
-   void deriveAllImpl(String columnName,
+   void deriveAllImpl(String targetColumn,
       Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
    {
       final List<List<Object>> oldTable = new ArrayList<>(this.table);
@@ -514,7 +535,7 @@ public class Table<T> implements Iterable<T>
             this.table.add(newRow);
          }
       }
-      this.addColumn(columnName);
+      this.addColumn(targetColumn);
    }
 
    /**
@@ -808,8 +829,16 @@ public class Table<T> implements Iterable<T>
     */
    public Table<T> filter(Predicate<? super T> predicate)
    {
-      int column = this.getColumnIndex();
-      this.table.removeIf(row -> !predicate.test((T) row.get(column)));
+      return this.filter(this.columnName, predicate);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V> Table<T> filter(String sourceColumn, Predicate<? super V> predicate)
+   {
+      int column = this.getColumnIndex(sourceColumn);
+      this.table.removeIf(row -> !predicate.test((V) row.get(column)));
       return this;
    }
 
@@ -929,10 +958,18 @@ public class Table<T> implements Iterable<T>
    @Override
    public Iterator<T> iterator()
    {
-      return new Iterator<T>()
+      return this.iterator(this.columnName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V> Iterator<V> iterator(String sourceColumn)
+   {
+      return new Iterator<V>()
       {
          private final Iterator<List<Object>> listIterator = Table.this.table.iterator();
-         private final int column = Table.this.getColumnIndex();
+         private final int column = Table.this.getColumnIndex(sourceColumn);
 
          @Override
          public boolean hasNext()
@@ -941,9 +978,9 @@ public class Table<T> implements Iterable<T>
          }
 
          @Override
-         public T next()
+         public V next()
          {
-            return (T) this.listIterator.next().get(this.column);
+            return (V) this.listIterator.next().get(this.column);
          }
       };
    }
@@ -953,7 +990,15 @@ public class Table<T> implements Iterable<T>
     */
    public List<T> toList()
    {
-      return this.stream().collect(Collectors.toList());
+      return this.toList(this.columnName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V> List<V> toList(String columnName)
+   {
+      return this.<V>stream(columnName).collect(Collectors.toList());
    }
 
    /**
@@ -961,7 +1006,15 @@ public class Table<T> implements Iterable<T>
     */
    public Set<T> toSet()
    {
-      return this.stream().collect(Collectors.toCollection(LinkedHashSet::new));
+      return this.toSet(this.columnName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V> Set<V> toSet(String columnName)
+   {
+      return this.<V>stream(columnName).collect(Collectors.toCollection(LinkedHashSet::new));
    }
 
    /**
@@ -971,8 +1024,16 @@ public class Table<T> implements Iterable<T>
     */
    public Stream<T> stream()
    {
-      int column = this.getColumnIndex();
-      return this.table.stream().map(l -> (T) l.get(column));
+      return this.stream(this.columnName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <V> Stream<V> stream(String columnName)
+   {
+      int column = this.getColumnIndex(columnName);
+      return this.table.stream().map(l -> (V) l.get(column));
    }
 
    @Override

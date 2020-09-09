@@ -232,7 +232,7 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
-      this.expandAllImpl(newColumnName, start -> {
+      this.expandAllImpl(this.getColumnName(), newColumnName, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptySet();
@@ -489,7 +489,7 @@ public class ObjectTable<T> extends Table<T>
 
    private void expandAttributeImpl(String newColumnName, String attrName)
    {
-      this.expandImpl(newColumnName, start -> {
+      this.expandImpl(this.getColumnName(), newColumnName, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return null;
@@ -507,7 +507,7 @@ public class ObjectTable<T> extends Table<T>
    @Override
    public <U> ObjectTable<U> expand(String columnName, Function<? super T, ? extends U> function)
    {
-      this.expandImpl(columnName, function);
+      this.expandImpl(this.getColumnName(), columnName, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
       result.setColumnName_(columnName);
       return result;
@@ -517,7 +517,7 @@ public class ObjectTable<T> extends Table<T>
    public <U> ObjectTable<U> expandAll(String columnName,
       Function<? super T, ? extends Collection<? extends U>> function)
    {
-      this.expandAllImpl(columnName, function);
+      this.expandAllImpl(this.getColumnName(), columnName, function);
       final ObjectTable<U> result = new ObjectTable<>(this);
       result.setColumnName_(columnName);
       return result;
