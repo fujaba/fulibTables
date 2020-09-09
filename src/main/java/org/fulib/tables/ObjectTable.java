@@ -232,7 +232,15 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> ObjectTable<U> expandLink(String newColumnName, String linkName)
    {
-      this.expandAllImpl(this.getColumnName(), newColumnName, start -> {
+      return this.expandLink(this.getColumnName(), newColumnName, linkName);
+   }
+
+   /**
+    * @since 1.4
+    */
+   public <U> ObjectTable<U> expandLink(String sourceColumn, String targetColumn, String linkName)
+   {
+      this.expandAllImpl(sourceColumn, targetColumn, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptySet();
@@ -255,7 +263,7 @@ public class ObjectTable<T> extends Table<T>
          }
       });
       ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(newColumnName);
+      result.setColumnName_(targetColumn);
       return result;
    }
 
