@@ -198,6 +198,13 @@ public class ObjectTable<T> extends Table<T>
 
    // --------------- Expansion ---------------
 
+   private <U> ObjectTable<U> view(String targetColumn)
+   {
+      ObjectTable<U> result = new ObjectTable<>(this);
+      result.setColumnName_(targetColumn);
+      return result;
+   }
+
    /**
     * Creates a new column by expanding the given link from the cells of the column this table points to.
     * Links may be simple objects or collections, the latter of which will be flattened.
@@ -240,7 +247,7 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> ObjectTable<U> expandLink(String sourceColumn, String targetColumn, String linkName)
    {
-      this.expandAllImpl(sourceColumn, targetColumn, start -> {
+      return this.expandAll(sourceColumn, targetColumn, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptySet();
@@ -251,20 +258,17 @@ public class ObjectTable<T> extends Table<T>
 
          if (value instanceof Collection)
          {
-            return (Collection<?>) value;
+            return (Collection<U>) value;
          }
          else if (value != null)
          {
-            return Collections.singleton(value);
+            return Collections.singleton((U) value);
          }
          else
          {
             return Collections.emptySet();
          }
       });
-      ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(targetColumn);
-      return result;
    }
 
    /**
@@ -309,7 +313,7 @@ public class ObjectTable<T> extends Table<T>
     */
    public <U> ObjectTable<U> expandAll(String sourceColumn, String targetColumn)
    {
-      this.expandAllImpl(sourceColumn, targetColumn, start -> {
+      return this.expandAll(sourceColumn, targetColumn, start -> {
          if (!this.reflectorMap.canReflect(start))
          {
             return Collections.emptyList();
@@ -333,9 +337,6 @@ public class ObjectTable<T> extends Table<T>
 
          return result;
       });
-      ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(targetColumn);
-      return result;
    }
 
    /**
@@ -546,9 +547,7 @@ public class ObjectTable<T> extends Table<T>
    public <V, U> ObjectTable<U> expand(String sourceColumn, String targetColumn, Function<? super V, ? extends U> function)
    {
       this.expandImpl(sourceColumn, targetColumn, function);
-      final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(targetColumn);
-      return result;
+      return this.view(targetColumn);
    }
 
    @Override
@@ -563,9 +562,7 @@ public class ObjectTable<T> extends Table<T>
       Function<? super V, ? extends Collection<? extends U>> function)
    {
       this.expandAllImpl(sourceColumn, targetColumn, function);
-      final ObjectTable<U> result = new ObjectTable<>(this);
-      result.setColumnName_(targetColumn);
-      return result;
+      return this.view(targetColumn);
    }
 
    @Override
