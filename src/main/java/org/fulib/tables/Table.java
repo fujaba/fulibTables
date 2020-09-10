@@ -344,7 +344,8 @@ public class Table<T> implements Iterable<T>
       this.addColumn(targetColumn);
       for (List<Object> row : this.table)
       {
-         Object result = function.apply((V) row.get(column));
+         @SuppressWarnings("unchecked")
+         final Object result = function.apply((V) row.get(column));
          row.add(result);
       }
    }
@@ -483,6 +484,7 @@ public class Table<T> implements Iterable<T>
       this.table.clear();
       for (List<Object> row : oldTable)
       {
+         @SuppressWarnings("unchecked")
          final Collection<?> newItems = function.apply((V) row.get(column));
          for (Object item : newItems)
          {
@@ -984,6 +986,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.4
     */
+   @SuppressWarnings("unchecked")
    public <V> Table<T> filter(String sourceColumn, Predicate<? super V> predicate)
    {
       int column = this.getColumnIndex(sourceColumn);
@@ -1131,6 +1134,7 @@ public class Table<T> implements Iterable<T>
          }
 
          @Override
+         @SuppressWarnings("unchecked")
          public V next()
          {
             return (V) this.listIterator.next().get(this.column);
@@ -1204,6 +1208,7 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.4
     */
+   @SuppressWarnings("unchecked")
    public <V> Stream<V> stream(String sourceColumn)
    {
       int column = this.getColumnIndex(sourceColumn);
