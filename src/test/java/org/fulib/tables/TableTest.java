@@ -28,6 +28,20 @@ public class TableTest
    }
 
    @Test
+   public void expandWithSource()
+   {
+      // start_code_fragment: TableTest.expand.source
+      Table<Integer> a = new Table<>("A", 1, 2, 3);
+      a.expand("B", i -> i * 2);
+      Table<Integer> c = a.expand("B", "C", (Integer i) -> i + 1);
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.expand.source.c", new HtmlRenderer().setCaption("c").render(c));
+
+      assertEquals(Arrays.asList(3, 5, 7), a.toList("C"));
+   }
+
+   @Test
    public void expandAll()
    {
       // start_code_fragment: TableTest.expandAll
@@ -39,6 +53,21 @@ public class TableTest
 
       assertEquals("B", b.getColumnName());
       assertEquals(Arrays.asList(11, 21, 12, 22), b.toList());
+   }
+
+   @Test
+   public void expandAllWithSource()
+   {
+      // start_code_fragment: TableTest.expandAll.source
+      Table<Integer> a = new Table<>("A", 1, 2);
+      a.expand("B", i -> i * 2);
+      Table<Integer> c = a.expandAll("B", "C", (Integer i) -> Arrays.asList(i + 10, i + 20));
+      // end_code_fragment:
+
+      fragments.addFragment("TableTest.expandAll.source.c", new HtmlRenderer().setCaption("c").render(c));
+
+      assertEquals("C", c.getColumnName());
+      assertEquals(Arrays.asList(12, 22, 14, 24), c.toList());
    }
 
    @Test
@@ -186,6 +215,21 @@ public class TableTest
       assertEquals(Arrays.asList(2, 4, 6, 8, 10), numbers.toList());
 
       fragments.addFragment("TableTest.filter.result", new HtmlRenderer().setCaption("result").render(numbers));
+   }
+
+   @Test
+   public void filterWithSource()
+   {
+      // start_code_fragment: TableTest.filter.source
+      Table<Integer> a = new Table<>("A", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+      a.expand("B", i -> i + 1);
+      a.filter("B", (Integer i) -> i % 2 == 0);
+      // end_code_fragment:
+
+      assertEquals(Arrays.asList(1, 3, 5, 7, 9), a.toList());
+      assertEquals(Arrays.asList(2, 4, 6, 8, 10), a.toList("B"));
+
+      fragments.addFragment("TableTest.filter.source.result", new HtmlRenderer().setCaption("result").render(a));
    }
 
    @Test
