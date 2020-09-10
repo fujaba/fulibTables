@@ -8,15 +8,14 @@ import uniks.studyright.model.Room;
 import uniks.studyright.model.Student;
 import uniks.studyright.model.University;
 
-import java.io.IOException;
-
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class IncrementalStudyRightTests
 {
    @Test
-   public void testModelQueries() throws IOException
+   @SuppressWarnings("unused")
+   public void testModelQueries()
    {
       // start_code_fragment: FulibTables.objectModel
       // build object structure

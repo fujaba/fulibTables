@@ -1,237 +1,291 @@
-- c1: 	ClassModel
-  classes: 	university2 	student3 	room4 	assignment5 	
-  defaultPropertyStyle: 	POJO
+- c: 	ClassModel
+  classes: 	university 	student 	room 	assignment
+  defaultCollectionType: 	c1
+  defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/test/java"
   packageName: 	uniks.studyright.model
   packageSrcFolder: 	"src/test/java/uniks/studyright/model"
 
-- university2: 	Clazz
-  attributes: 	name6 	
-  model: 	c1
+- university: 	Clazz
+  attributes: 	university_name
+  model: 	c
   modified: 	false
   name: 	University
-  propertyStyle: 	POJO
-  roles: 	students7 	rooms8 	
+  propertyStyle: 	Bean
+  roles: 	university_students 	university_rooms
 
-- student3: 	Clazz
-  attributes: 	name9 	studentId10 	credits11 	points12 	motivation13 	
-  model: 	c1
+- student: 	Clazz
+  attributes: 	student_name 	student_studentId 	student_credits 	student_points 	student_motivation
+  model: 	c
   modified: 	false
   name: 	Student
-  propertyStyle: 	POJO
-  roles: 	uni14 	in15 	done16 	friends17 	friends18 	
+  propertyStyle: 	Bean
+  roles: 	student_uni 	student_in 	student_done 	student_friends 	student_friends2
 
-- room4: 	Clazz
-  attributes: 	roomNo19 	topic20 	credits21 	
-  model: 	c1
+- room: 	Clazz
+  attributes: 	room_roomNo 	room_topic 	room_credits
+  model: 	c
   modified: 	false
   name: 	Room
-  propertyStyle: 	POJO
-  roles: 	uni22 	students23 	assignments24 	
+  propertyStyle: 	Bean
+  roles: 	room_uni 	room_students 	room_assignments
 
-- assignment5: 	Clazz
-  attributes: 	task25 	points26 	
-  model: 	c1
+- assignment: 	Clazz
+  attributes: 	assignment_task 	assignment_points
+  model: 	c
   modified: 	false
   name: 	Assignment
-  propertyStyle: 	POJO
-  roles: 	room27 	students28 	
+  propertyStyle: 	Bean
+  roles: 	assignment_room 	assignment_students
 
-- name6: 	Attribute
-  clazz: 	university2
+- c1: 	CollectionType
+  implClass: 	class java.util.ArrayList
+  implTemplate: 	"java.util.ArrayList<%s>"
+  itf: 	org.fulib.classmodel.CollectionInterface.List
+  qualifiedImplName: 	java.util.ArrayList
+  simpleImplName: 	ArrayList
+
+- university_name: 	Attribute
+  clazz: 	university
+  id: 	University_name
   modified: 	false
   name: 	name
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- students7: 	AssocRole
+- university_students: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	university2
+  clazz: 	university
+  collectionType: 	c1
+  id: 	University_students
   modified: 	false
   name: 	students
-  other: 	uni14
-  propertyStyle: 	POJO
+  other: 	student_uni
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- rooms8: 	AssocRole
+- university_rooms: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	university2
+  clazz: 	university
+  collectionType: 	c1
+  id: 	University_rooms
   modified: 	false
   name: 	rooms
-  other: 	uni22
-  propertyStyle: 	POJO
+  other: 	room_uni
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- name9: 	Attribute
-  clazz: 	student3
+- student_name: 	Attribute
+  clazz: 	student
+  id: 	Student_name
   modified: 	false
   name: 	name
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- studentId10: 	Attribute
-  clazz: 	student3
+- student_studentId: 	Attribute
+  clazz: 	student
+  id: 	Student_studentId
   modified: 	false
   name: 	studentId
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- credits11: 	Attribute
-  clazz: 	student3
+- student_credits: 	Attribute
+  clazz: 	student
+  id: 	Student_credits
   modified: 	false
   name: 	credits
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	double
+  typeSignature: 	double
 
-- points12: 	Attribute
-  clazz: 	student3
+- student_points: 	Attribute
+  clazz: 	student
+  id: 	Student_points
   modified: 	false
   name: 	points
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	double
+  typeSignature: 	double
 
-- motivation13: 	Attribute
-  clazz: 	student3
+- student_motivation: 	Attribute
+  clazz: 	student
+  id: 	Student_motivation
   modified: 	false
   name: 	motivation
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	double
+  typeSignature: 	double
 
-- uni14: 	AssocRole
+- student_uni: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	student3
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_uni
   modified: 	false
   name: 	uni
-  other: 	students7
-  propertyStyle: 	POJO
+  other: 	university_students
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- in15: 	AssocRole
+- student_in: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	student3
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_in
   modified: 	false
   name: 	in
-  other: 	students23
-  propertyStyle: 	POJO
+  other: 	room_students
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- done16: 	AssocRole
+- student_done: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	student3
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_done
   modified: 	false
   name: 	done
-  other: 	students28
-  propertyStyle: 	POJO
+  other: 	assignment_students
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- friends17: 	AssocRole
+- student_friends: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	student3
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_friends
   modified: 	false
   name: 	friends
-  other: 	friends18
-  propertyStyle: 	POJO
+  other: 	student_friends2
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- friends18: 	AssocRole
+- student_friends2: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	student3
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_friends
   modified: 	false
   name: 	friends
-  other: 	friends17
-  propertyStyle: 	POJO
+  other: 	student_friends
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- roomNo19: 	Attribute
-  clazz: 	room4
+- room_roomNo: 	Attribute
+  clazz: 	room
+  id: 	Room_roomNo
   modified: 	false
   name: 	roomNo
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- topic20: 	Attribute
-  clazz: 	room4
+- room_topic: 	Attribute
+  clazz: 	room
+  id: 	Room_topic
   modified: 	false
   name: 	topic
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- credits21: 	Attribute
-  clazz: 	room4
+- room_credits: 	Attribute
+  clazz: 	room
+  id: 	Room_credits
   modified: 	false
   name: 	credits
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	double
+  typeSignature: 	double
 
-- uni22: 	AssocRole
+- room_uni: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	room4
+  clazz: 	room
+  collectionType: 	c1
+  id: 	Room_uni
   modified: 	false
   name: 	uni
-  other: 	rooms8
-  propertyStyle: 	POJO
+  other: 	university_rooms
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- students23: 	AssocRole
+- room_students: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	room4
+  clazz: 	room
+  collectionType: 	c1
+  id: 	Room_students
   modified: 	false
   name: 	students
-  other: 	in15
-  propertyStyle: 	POJO
+  other: 	student_in
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- assignments24: 	AssocRole
+- room_assignments: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	room4
+  clazz: 	room
+  collectionType: 	c1
+  id: 	Room_assignments
   modified: 	false
   name: 	assignments
-  other: 	room27
-  propertyStyle: 	POJO
+  other: 	assignment_room
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- task25: 	Attribute
-  clazz: 	assignment5
+- assignment_task: 	Attribute
+  clazz: 	assignment
+  id: 	Assignment_task
   modified: 	false
   name: 	task
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
-- points26: 	Attribute
-  clazz: 	assignment5
+- assignment_points: 	Attribute
+  clazz: 	assignment
+  id: 	Assignment_points
   modified: 	false
   name: 	points
-  propertyStyle: 	POJO
+  propertyStyle: 	Bean
   type: 	double
+  typeSignature: 	double
 
-- room27: 	AssocRole
+- assignment_room: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	assignment5
+  clazz: 	assignment
+  collectionType: 	c1
+  id: 	Assignment_room
   modified: 	false
   name: 	room
-  other: 	assignments24
-  propertyStyle: 	POJO
+  other: 	room_assignments
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- students28: 	AssocRole
+- assignment_students: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	assignment5
+  clazz: 	assignment
+  collectionType: 	c1
+  id: 	Assignment_students
   modified: 	false
   name: 	students
-  other: 	done16
-  propertyStyle: 	POJO
+  other: 	student_done
+  propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 

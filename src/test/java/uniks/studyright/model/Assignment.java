@@ -1,57 +1,61 @@
 package uniks.studyright.model;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Collections;
+import java.util.Collection;
 import java.beans.PropertyChangeSupport;
-
 import java.beans.PropertyChangeListener;
 
-public class Assignment  
+public class Assignment
 {
-
    public static final String PROPERTY_task = "task";
+   public static final String PROPERTY_points = "points";
+   public static final String PROPERTY_room = "room";
+   public static final String PROPERTY_students = "students";
 
    private String task;
+   private double points;
+   private Room room;
+   private List<Student> students;
+
+   protected PropertyChangeSupport listeners;
 
    public String getTask()
    {
-      return task;
+      return this.task;
    }
 
    public Assignment setTask(String value)
    {
-      if (value == null ? this.task != null : ! value.equals(this.task))
+      if (Objects.equals(value, this.task))
       {
-         String oldValue = this.task;
-         this.task = value;
-         firePropertyChange("task", oldValue, value);
+         return this;
       }
+
+      final String oldValue = this.task;
+      this.task = value;
+      this.firePropertyChange(PROPERTY_task, oldValue, value);
       return this;
    }
 
-
-   public static final String PROPERTY_points = "points";
-
-   private double points;
-
    public double getPoints()
    {
-      return points;
+      return this.points;
    }
 
    public Assignment setPoints(double value)
    {
-      if (value != this.points)
+      if (value == this.points)
       {
-         double oldValue = this.points;
-         this.points = value;
-         firePropertyChange("points", oldValue, value);
+         return this;
       }
+
+      final double oldValue = this.points;
+      this.points = value;
+      this.firePropertyChange(PROPERTY_points, oldValue, value);
       return this;
    }
-
-
-   public static final String PROPERTY_room = "room";
-
-   private Room room = null;
 
    public Room getRoom()
    {
@@ -60,111 +64,97 @@ public class Assignment
 
    public Assignment setRoom(Room value)
    {
-      if (this.room != value)
+      if (this.room == value)
       {
-         Room oldValue = this.room;
-         if (this.room != null)
-         {
-            this.room = null;
-            oldValue.withoutAssignments(this);
-         }
-         this.room = value;
-         if (value != null)
-         {
-            value.withAssignments(this);
-         }
-         firePropertyChange("room", oldValue, value);
+         return this;
       }
+
+      final Room oldValue = this.room;
+      if (this.room != null)
+      {
+         this.room = null;
+         oldValue.withoutAssignments(this);
+      }
+      this.room = value;
+      if (value != null)
+      {
+         value.withAssignments(this);
+      }
+      this.firePropertyChange(PROPERTY_room, oldValue, value);
       return this;
    }
 
+   public List<Student> getStudents()
+   {
+      return this.students != null ? Collections.unmodifiableList(this.students) : Collections.emptyList();
+   }
 
-
-   public static final java.util.ArrayList<Student> EMPTY_students = new java.util.ArrayList<Student>()
-   { @Override public boolean add(Student value){ throw new UnsupportedOperationException("No direct add! Use xy.withStudents(obj)"); }};
-
-
-   public static final String PROPERTY_students = "students";
-
-   private java.util.ArrayList<Student> students = null;
-
-   public java.util.ArrayList<Student> getStudents()
+   public Assignment withStudents(Student value)
    {
       if (this.students == null)
       {
-         return EMPTY_students;
+         this.students = new ArrayList<>();
       }
-
-      return this.students;
-   }
-
-   public Assignment withStudents(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
+      if (!this.students.contains(value))
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withStudents(i);
-            }
-         }
-         else if (item instanceof Student)
-         {
-            if (this.students == null)
-            {
-               this.students = new java.util.ArrayList<Student>();
-            }
-            if ( ! this.students.contains(item))
-            {
-               this.students.add((Student)item);
-               ((Student)item).withDone(this);
-               firePropertyChange("students", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
+         this.students.add(value);
+         value.withDone(this);
+         this.firePropertyChange(PROPERTY_students, null, value);
       }
       return this;
    }
 
-
-
-   public Assignment withoutStudents(Object... value)
+   public Assignment withStudents(Student... value)
    {
-      if (this.students == null || value==null) return this;
-      for (Object item : value)
+      for (final Student item : value)
       {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutStudents(i);
-            }
-         }
-         else if (item instanceof Student)
-         {
-            if (this.students.contains(item))
-            {
-               this.students.remove((Student)item);
-               ((Student)item).withoutDone(this);
-               firePropertyChange("students", item, null);
-            }
-         }
+         this.withStudents(item);
       }
       return this;
    }
 
+   public Assignment withStudents(Collection<? extends Student> value)
+   {
+      for (final Student item : value)
+      {
+         this.withStudents(item);
+      }
+      return this;
+   }
 
-   protected PropertyChangeSupport listeners = null;
+   public Assignment withoutStudents(Student value)
+   {
+      if (this.students != null && this.students.remove(value))
+      {
+         value.withoutDone(this);
+         this.firePropertyChange(PROPERTY_students, value, null);
+      }
+      return this;
+   }
+
+   public Assignment withoutStudents(Student... value)
+   {
+      for (final Student item : value)
+      {
+         this.withoutStudents(item);
+      }
+      return this;
+   }
+
+   public Assignment withoutStudents(Collection<? extends Student> value)
+   {
+      for (final Student item : value)
+      {
+         this.withoutStudents(item);
+      }
+      return this;
+   }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -172,38 +162,38 @@ public class Assignment
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -211,22 +201,14 @@ public class Assignment
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getTask());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getTask());
       return result.substring(1);
    }
 
    public void removeYou()
    {
       this.setRoom(null);
-
-      this.withoutStudents(this.getStudents().clone());
-
-
+      this.withoutStudents(new ArrayList<>(this.getStudents()));
    }
-
-
 }

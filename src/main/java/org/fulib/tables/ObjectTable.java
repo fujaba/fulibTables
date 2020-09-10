@@ -345,6 +345,7 @@ public class ObjectTable<T> extends Table<T>
     * @see #expandAll(String, String, Function)
     * @since 1.4
     */
+   @SuppressWarnings("unchecked")
    public <U> ObjectTable<U> expandLink(String sourceColumn, String targetColumn, String linkName)
    {
       return this.expandAll(sourceColumn, targetColumn, start -> {
@@ -442,6 +443,7 @@ public class ObjectTable<T> extends Table<T>
     * @see #expandAll(String, String, Function)
     * @since 1.4
     */
+   @SuppressWarnings("unchecked")
    public <U> ObjectTable<U> expandAll(String sourceColumn, String targetColumn)
    {
       return this.expandAll(sourceColumn, targetColumn, start -> {

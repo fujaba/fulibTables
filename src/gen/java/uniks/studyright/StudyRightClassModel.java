@@ -6,7 +6,7 @@ import org.fulib.builder.ClassBuilder;
 import org.fulib.builder.ClassModelBuilder;
 import org.fulib.classmodel.ClassModel;
 
-import static org.fulib.builder.ClassModelBuilder.*;
+import static org.fulib.builder.Type.*;
 
 public class StudyRightClassModel
 {
@@ -53,6 +53,6 @@ public class StudyRightClassModel
       Fulib.generator().generate(model);
       // end_code_fragment:
 
-      FulibTools.codeFragments().updateCodeFragments(".");
+      FulibTools.codeFragments().update(".");
    }
 }
