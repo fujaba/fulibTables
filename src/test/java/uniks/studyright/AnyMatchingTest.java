@@ -5,8 +5,6 @@ import org.fulib.patterns.AmbiguousMatchException;
 import org.fulib.patterns.PatternBuilder;
 import org.fulib.patterns.PatternMatcher;
 import org.fulib.patterns.model.PatternObject;
-import org.fulib.tables.ObjectTable;
-import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,6 @@ import static org.junit.Assert.*;
 
 public class AnyMatchingTest
 {
-   private Object[] roots;
    private Set<Object> all;
    private University studyRight;
    private Student alice;
@@ -51,8 +48,8 @@ public class AnyMatchingTest
       this.studyRight = studyRight;
       this.alice = alice;
       // captured by fulibScenarios
-      this.roots = new Object[] { studyRight, alice, bob };
-      this.all = new ReflectorMap(University.class.getPackage().getName()).discoverObjects(this.roots);
+      final Object[] roots = new Object[] { studyRight, alice, bob };
+      this.all = new ReflectorMap(University.class.getPackage().getName()).discoverObjects(roots);
    }
 
    @Test
@@ -113,6 +110,7 @@ public class AnyMatchingTest
    }
 
    @Test
+   @SuppressWarnings("unused")
    public void nonRootObjectKnownAttribute()
    {
       // We expect that there is some object r3 with roomNo R3.
@@ -134,6 +132,7 @@ public class AnyMatchingTest
    }
 
    @Test
+   @SuppressWarnings("unused")
    public void unknownObjectsUnknownAttributes()
    {
       final PatternBuilder builder = FulibTables.patternBuilder();
@@ -191,6 +190,7 @@ public class AnyMatchingTest
    }
 
    @Test(expected = AmbiguousMatchException.class)
+   @SuppressWarnings("unused")
    public void ambiguousMatch()
    {
       // We expect that there is some object a20 that has some attribute with value 20.
@@ -284,7 +284,6 @@ public class AnyMatchingTest
 
       // sanity check:
       assertEquals(this.alice, s20);
-      assertNotEquals(this.studyRight.getRooms().get(2), s20);
    }
 
    @Test

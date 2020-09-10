@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 
 public class TableTest
 {
-   private static CodeFragments fragments = new CodeFragments();
+   private static final CodeFragments fragments = new CodeFragments();
 
    @Test
    public void expand()
@@ -172,6 +172,7 @@ public class TableTest
    }
 
    @Test
+   @SuppressWarnings("unused")
    public void dropColumns()
    {
       // start_code_fragment: TableTest.dropColumns.initial
