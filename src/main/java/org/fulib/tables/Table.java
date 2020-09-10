@@ -464,7 +464,8 @@ public class Table<T> implements Iterable<T>
     *
     * @since 1.4
     */
-   public <V, U> Table<U> expandAll(String sourceColumn, String targetColumn, Function<? super V, ? extends Collection<? extends U>> function)
+   public <V, U> Table<U> expandAll(String sourceColumn, String targetColumn,
+      Function<? super V, ? extends Collection<? extends U>> function)
    {
       this.expandAllImpl(sourceColumn, targetColumn, function);
       final Table<U> result = new Table<>(this);
@@ -472,7 +473,8 @@ public class Table<T> implements Iterable<T>
       return result;
    }
 
-   <V> void expandAllImpl(String sourceColumn, String targetColumn, Function<? super V, ? extends Collection<?>> function)
+   <V> void expandAllImpl(String sourceColumn, String targetColumn,
+      Function<? super V, ? extends Collection<?>> function)
    {
       final int column = this.getColumnIndex(sourceColumn);
       this.addColumn(targetColumn);

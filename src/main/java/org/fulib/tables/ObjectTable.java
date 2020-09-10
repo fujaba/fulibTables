@@ -142,7 +142,6 @@ public class ObjectTable<T> extends Table<T>
     * @return this instance, to allow method chaining
     *
     * @see #filterRows(Predicate)
-    *
     * @since 1.4
     */
    public ObjectTable<T> hasLink(String sourceColumn, String targetColumn, String linkName)
@@ -707,7 +706,8 @@ public class ObjectTable<T> extends Table<T>
    }
 
    @Override
-   public <V, U> ObjectTable<U> expand(String sourceColumn, String targetColumn, Function<? super V, ? extends U> function)
+   public <V, U> ObjectTable<U> expand(String sourceColumn, String targetColumn,
+      Function<? super V, ? extends U> function)
    {
       this.expandImpl(sourceColumn, targetColumn, function);
       return this.view(targetColumn);
