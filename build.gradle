@@ -59,14 +59,14 @@ dependencies {
    testImplementation group: 'junit', name: 'junit', version: '4.13'
 
    // https://mvnrepository.com/artifact/org.fulib/fulib
-   def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.2.0' ]
+   def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.2.3' ]
 
    // https://mvnrepository.com/artifact/org.fulib/fulibTools
-   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.0' ]
+   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.1' ]
 
    genCompile fulib
    genCompile fulibTools
-   genCompile group: 'org.antlr', name: 'ST4', version: '4.3'
+   genCompile group: 'org.antlr', name: 'ST4', version: '4.3.1'
 
    testImplementation fulib
    testImplementation fulibTools
