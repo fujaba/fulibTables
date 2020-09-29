@@ -54,3 +54,9 @@
 * `ObjectTable` no longer throws exceptions when an object cannot be reflected.
 * General improvements to the `PatternMatcher` API.
 * The `ObjectTable.hasLink` method now throws an `IllegalArgumentException` if the other table does not share the same underlying data structure.
+
+# fulibTables v1.4.0
+
+## New Features
+
++ Added many new `Table` and `ObjectTable` methods that allow specifying the source column name. #11
