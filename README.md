@@ -1,5 +1,10 @@
 # fulibTables
 
+[![Build Status](https://travis-ci.org/fujaba/fulibTables.svg?branch=master)](https://travis-ci.org/fujaba/fulibTables)
+[![Java CI](https://github.com/fujaba/fulibTables/workflows/Java%20CI/badge.svg)](https://github.com/fujaba/fulibTables/actions)
+[![Download](https://api.bintray.com/packages/fujaba/maven/fulibTables/images/download.svg)](https://bintray.com/fujaba/maven/fulibTables/_latestVersion "Download")
+[![javadoc](https://javadoc.io/badge2/org.fulib/fulibTables/javadoc.svg)](https://javadoc.io/doc/org.fulib/fulibTables)
+
 Fulib Tables are the model query and transformation mechanisms provided by Fulib.
 
 ## Installation
@@ -429,4 +434,6 @@ strings.
 
 ![object diagram](doc/images/studyRightObjectsCreditsAssigned4Tables.png)
 
+## License
 
+[MIT](LICENSE.md)
