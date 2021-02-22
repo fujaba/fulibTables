@@ -135,6 +135,7 @@ public class Pattern
       return null;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withObjects(Object... value)
    {
       if (value == null)
@@ -199,6 +200,7 @@ public class Pattern
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withoutObjects(Object... value)
    {
       if (this.objects == null || value == null)
@@ -259,6 +261,7 @@ public class Pattern
       return this.roles != null ? this.roles : EMPTY_roles;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withRoles(Object... value)
    {
       if (value == null)
@@ -323,6 +326,7 @@ public class Pattern
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withoutRoles(Object... value)
    {
       if (this.roles == null || value == null)
@@ -383,6 +387,7 @@ public class Pattern
       return this.attributeConstraints != null ? this.attributeConstraints : EMPTY_attributeConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withAttributeConstraints(Object... value)
    {
       if (value == null)
@@ -447,6 +452,7 @@ public class Pattern
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withoutAttributeConstraints(Object... value)
    {
       if (this.attributeConstraints == null || value == null)
@@ -507,6 +513,7 @@ public class Pattern
       return this.matchConstraints != null ? this.matchConstraints : EMPTY_matchConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withMatchConstraints(Object... value)
    {
       if (value == null)
@@ -571,6 +578,7 @@ public class Pattern
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public Pattern withoutMatchConstraints(Object... value)
    {
       if (this.matchConstraints == null || value == null)

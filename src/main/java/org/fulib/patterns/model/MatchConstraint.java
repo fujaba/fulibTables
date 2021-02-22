@@ -61,6 +61,7 @@ public class MatchConstraint
       return this.objects != null ? this.objects : EMPTY_objects;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public MatchConstraint withObjects(Object... value)
    {
       if (value == null)
@@ -125,6 +126,7 @@ public class MatchConstraint
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public MatchConstraint withoutObjects(Object... value)
    {
       if (this.objects == null || value == null)

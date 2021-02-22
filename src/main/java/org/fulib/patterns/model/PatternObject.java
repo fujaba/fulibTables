@@ -141,6 +141,7 @@ public class PatternObject
       return this.roles != null ? this.roles : EMPTY_roles;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withRoles(Object... value)
    {
       if (value == null)
@@ -205,6 +206,7 @@ public class PatternObject
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withoutRoles(Object... value)
    {
       if (this.roles == null || value == null)
@@ -265,6 +267,7 @@ public class PatternObject
       return this.attributeConstraints != null ? this.attributeConstraints : EMPTY_attributeConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withAttributeConstraints(Object... value)
    {
       if (value == null)
@@ -329,6 +332,7 @@ public class PatternObject
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withoutAttributeConstraints(Object... value)
    {
       if (this.attributeConstraints == null || value == null)
@@ -389,6 +393,7 @@ public class PatternObject
       return this.matchConstraints != null ? this.matchConstraints : EMPTY_matchConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withMatchConstraints(Object... value)
    {
       if (value == null)
@@ -420,6 +425,7 @@ public class PatternObject
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withoutMatchConstraints(Object... value)
    {
       if (this.matchConstraints == null || value == null)
