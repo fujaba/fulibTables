@@ -82,16 +82,7 @@ public class MatchConstraint
          }
          else if (item instanceof PatternObject)
          {
-            if (this.objects == null)
-            {
-               this.objects = new ArrayList<>();
-            }
-            if (!this.objects.contains(item))
-            {
-               this.objects.add((PatternObject) item);
-               ((PatternObject) item).withMatchConstraints(this);
-               this.firePropertyChange("objects", null, item);
-            }
+            this.withObjects((PatternObject) item);
          }
          else
          {
@@ -155,12 +146,7 @@ public class MatchConstraint
          }
          else if (item instanceof PatternObject)
          {
-            if (this.objects.contains(item))
-            {
-               this.objects.remove(item);
-               ((PatternObject) item).withoutMatchConstraints(this);
-               this.firePropertyChange("objects", item, null);
-            }
+            this.withoutObjects((PatternObject) item);
          }
       }
       return this;

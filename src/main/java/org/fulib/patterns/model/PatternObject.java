@@ -162,16 +162,7 @@ public class PatternObject
          }
          else if (item instanceof RoleObject)
          {
-            if (this.roles == null)
-            {
-               this.roles = new ArrayList<>();
-            }
-            if (!this.roles.contains(item))
-            {
-               this.roles.add((RoleObject) item);
-               ((RoleObject) item).setObject(this);
-               this.firePropertyChange("roles", null, item);
-            }
+            this.withRoles((RoleObject) item);
          }
          else
          {
@@ -235,12 +226,7 @@ public class PatternObject
          }
          else if (item instanceof RoleObject)
          {
-            if (this.roles.contains(item))
-            {
-               this.roles.remove(item);
-               ((RoleObject) item).setObject(null);
-               this.firePropertyChange("roles", item, null);
-            }
+            this.withoutRoles((RoleObject) item);
          }
       }
       return this;
@@ -300,16 +286,7 @@ public class PatternObject
          }
          else if (item instanceof AttributeConstraint)
          {
-            if (this.attributeConstraints == null)
-            {
-               this.attributeConstraints = new ArrayList<>();
-            }
-            if (!this.attributeConstraints.contains(item))
-            {
-               this.attributeConstraints.add((AttributeConstraint) item);
-               ((AttributeConstraint) item).setObject(this);
-               this.firePropertyChange("attributeConstraints", null, item);
-            }
+            this.withAttributeConstraints((AttributeConstraint) item);
          }
          else
          {
@@ -373,12 +350,7 @@ public class PatternObject
          }
          else if (item instanceof AttributeConstraint)
          {
-            if (this.attributeConstraints.contains(item))
-            {
-               this.attributeConstraints.remove(item);
-               ((AttributeConstraint) item).setObject(null);
-               this.firePropertyChange("attributeConstraints", item, null);
-            }
+            this.withoutAttributeConstraints((AttributeConstraint) item);
          }
       }
       return this;
@@ -438,16 +410,7 @@ public class PatternObject
          }
          else if (item instanceof MatchConstraint)
          {
-            if (this.matchConstraints == null)
-            {
-               this.matchConstraints = new ArrayList<>();
-            }
-            if (!this.matchConstraints.contains(item))
-            {
-               this.matchConstraints.add((MatchConstraint) item);
-               ((MatchConstraint) item).withObjects(this);
-               this.firePropertyChange("matchConstraints", null, item);
-            }
+            this.withMatchConstraints((MatchConstraint) item);
          }
          else
          {
@@ -478,12 +441,7 @@ public class PatternObject
          }
          else if (item instanceof MatchConstraint)
          {
-            if (this.matchConstraints.contains(item))
-            {
-               this.matchConstraints.remove(item);
-               ((MatchConstraint) item).withoutObjects(this);
-               this.firePropertyChange("matchConstraints", item, null);
-            }
+            this.withoutMatchConstraints((MatchConstraint) item);
          }
       }
       return this;
