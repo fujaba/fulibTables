@@ -6,14 +6,26 @@ import java.util.Objects;
 
 public class RoleObject
 {
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+   /** @deprecated since 1.5; use {@link #PROPERTY_NAME} instead */
+   @Deprecated
    public static final String PROPERTY_name = "name";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OTHER} instead */
+   @Deprecated
    public static final String PROPERTY_other = "other";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OBJECT} instead */
+   @Deprecated
    public static final String PROPERTY_object = "object";
 
+   /** @since 1.5 */
    public static final String PROPERTY_NAME = "name";
+   /** @since 1.5 */
    public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
    public static final String PROPERTY_OTHER = "other";
+   /** @since 1.5 */
    public static final String PROPERTY_OBJECT = "object";
 
    // =============== Fields ===============

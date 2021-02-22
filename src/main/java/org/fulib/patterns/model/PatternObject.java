@@ -5,23 +5,36 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.List;
-import java.util.Collections;
 
 public class PatternObject
 {
    // =============== Constants ===============
 
+   /** @deprecated since 1.5; use {@link #PROPERTY_NAME} instead */
+   @Deprecated
    public static final String PROPERTY_name = "name";
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+   /** @deprecated since 1.5; use {@link #PROPERTY_ROLES} instead */
+   @Deprecated
    public static final String PROPERTY_roles = "roles";
+   /** @deprecated since 1.5; use {@link #PROPERTY_ATTRIBUTE_CONSTRAINTS} instead */
+   @Deprecated
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
+   /** @deprecated since 1.5; use {@link #PROPERTY_MATCH_CONSTRAINTS} instead */
+   @Deprecated
    public static final String PROPERTY_matchConstraints = "matchConstraints";
 
+   /** @since 1.5 */
    public static final String PROPERTY_NAME = "name";
+   /** @since 1.5 */
    public static final String PROPERTY_ATTRIBUTE_CONSTRAINTS = "attributeConstraints";
+   /** @since 1.5 */
    public static final String PROPERTY_ROLES = "roles";
+   /** @since 1.5 */
    public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
    public static final String PROPERTY_MATCH_CONSTRAINTS = "matchConstraints";
 
    /**

@@ -6,19 +6,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.List;
-import java.util.Collections;
 
 public class MatchConstraint
 {
    // =============== Constants ===============
 
+   /** @deprecated since 1.5; use {@link #PROPERTY_PREDICATE} instead */
+   @Deprecated
    public static final String PROPERTY_predicate = "predicate";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OBJECTS} instead */
+   @Deprecated
    public static final String PROPERTY_objects = "objects";
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
 
+   /** @since 1.5 */
    public static final String PROPERTY_PREDICATE = "predicate";
+   /** @since 1.5 */
    public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
    public static final String PROPERTY_OBJECTS = "objects";
 
    /**
