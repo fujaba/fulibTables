@@ -17,6 +17,11 @@ public class Pattern
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
    public static final String PROPERTY_matchConstraints = "matchConstraints";
 
+   public static final String PROPERTY_MATCH_CONSTRAINTS = "matchConstraints";
+   public static final String PROPERTY_ATTRIBUTE_CONSTRAINTS = "attributeConstraints";
+   public static final String PROPERTY_ROLES = "roles";
+   public static final String PROPERTY_OBJECTS = "objects";
+
    /**
     * @deprecated since 1.2; for internal use only
     */
@@ -170,7 +175,7 @@ public class Pattern
       {
          this.objects.add(value);
          value.setPattern(this);
-         this.firePropertyChange(PROPERTY_objects, null, value);
+         this.firePropertyChange(PROPERTY_OBJECTS, null, value);
       }
       return this;
    }
@@ -230,7 +235,7 @@ public class Pattern
       if (this.objects != null && this.objects.remove(value))
       {
          value.setPattern(null);
-         this.firePropertyChange(PROPERTY_objects, value, null);
+         this.firePropertyChange(PROPERTY_OBJECTS, value, null);
       }
       return this;
    }
@@ -308,7 +313,7 @@ public class Pattern
       {
          this.roles.add(value);
          value.setPattern(this);
-         this.firePropertyChange(PROPERTY_roles, null, value);
+         this.firePropertyChange(PROPERTY_ROLES, null, value);
       }
       return this;
    }
@@ -368,7 +373,7 @@ public class Pattern
       if (this.roles != null && this.roles.remove(value))
       {
          value.setPattern(null);
-         this.firePropertyChange(PROPERTY_roles, value, null);
+         this.firePropertyChange(PROPERTY_ROLES, value, null);
       }
       return this;
    }
@@ -446,7 +451,7 @@ public class Pattern
       {
          this.attributeConstraints.add(value);
          value.setPattern(this);
-         this.firePropertyChange(PROPERTY_attributeConstraints, null, value);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, null, value);
       }
       return this;
    }
@@ -506,7 +511,7 @@ public class Pattern
       if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
       {
          value.setPattern(null);
-         this.firePropertyChange(PROPERTY_attributeConstraints, value, null);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -584,7 +589,7 @@ public class Pattern
       {
          this.matchConstraints.add(value);
          value.setPattern(this);
-         this.firePropertyChange(PROPERTY_matchConstraints, null, value);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, null, value);
       }
       return this;
    }
@@ -644,7 +649,7 @@ public class Pattern
       if (this.matchConstraints != null && this.matchConstraints.remove(value))
       {
          value.setPattern(null);
-         this.firePropertyChange(PROPERTY_matchConstraints, value, null);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -719,10 +724,10 @@ public class Pattern
 
    public void removeYou()
    {
-      this.withoutObjects(new ArrayList<>(this.getObjects()));
-      this.withoutRoles(new ArrayList<>(this.getRoles()));
-      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
       this.withoutMatchConstraints(new ArrayList<>(this.getMatchConstraints()));
+      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
+      this.withoutRoles(new ArrayList<>(this.getRoles()));
+      this.withoutObjects(new ArrayList<>(this.getObjects()));
    }
 
    @Override

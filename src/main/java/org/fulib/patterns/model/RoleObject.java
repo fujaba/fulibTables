@@ -11,6 +11,11 @@ public class RoleObject
    public static final String PROPERTY_other = "other";
    public static final String PROPERTY_object = "object";
 
+   public static final String PROPERTY_NAME = "name";
+   public static final String PROPERTY_PATTERN = "pattern";
+   public static final String PROPERTY_OTHER = "other";
+   public static final String PROPERTY_OBJECT = "object";
+
    // =============== Fields ===============
 
    private Pattern pattern;
@@ -45,7 +50,7 @@ public class RoleObject
       {
          value.withRoles(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -63,7 +68,7 @@ public class RoleObject
 
       final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      this.firePropertyChange(PROPERTY_NAME, oldValue, value);
       return this;
    }
 
@@ -90,7 +95,7 @@ public class RoleObject
       {
          value.withRoles(this);
       }
-      this.firePropertyChange(PROPERTY_object, oldValue, value);
+      this.firePropertyChange(PROPERTY_OBJECT, oldValue, value);
       return this;
    }
 
@@ -117,7 +122,7 @@ public class RoleObject
       {
          value.setOther(this);
       }
-      this.firePropertyChange(PROPERTY_other, oldValue, value);
+      this.firePropertyChange(PROPERTY_OTHER, oldValue, value);
       return this;
    }
 
@@ -174,7 +179,6 @@ public class RoleObject
    public void removeYou()
    {
       this.setPattern(null);
-      this.setOther(null);
       this.setOther(null);
       this.setObject(null);
    }

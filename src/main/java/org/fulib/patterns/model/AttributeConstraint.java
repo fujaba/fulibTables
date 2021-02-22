@@ -12,6 +12,10 @@ public class AttributeConstraint
    public static final String PROPERTY_object = "object";
    public static final String PROPERTY_pattern = "pattern";
 
+   public static final String PROPERTY_PREDICATE = "predicate";
+   public static final String PROPERTY_PATTERN = "pattern";
+   public static final String PROPERTY_OBJECT = "object";
+
    // =============== Fields ===============
 
    /**
@@ -50,7 +54,7 @@ public class AttributeConstraint
       {
          value.withAttributeConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_object, oldValue, value);
+      this.firePropertyChange(PROPERTY_OBJECT, oldValue, value);
       return this;
    }
 
@@ -77,7 +81,7 @@ public class AttributeConstraint
       {
          value.withAttributeConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 

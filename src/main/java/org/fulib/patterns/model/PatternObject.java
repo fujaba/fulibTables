@@ -12,10 +12,17 @@ public class PatternObject
 {
    // =============== Constants ===============
 
+   public static final String PROPERTY_name = "name";
    public static final String PROPERTY_pattern = "pattern";
    public static final String PROPERTY_roles = "roles";
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
    public static final String PROPERTY_matchConstraints = "matchConstraints";
+
+   public static final String PROPERTY_NAME = "name";
+   public static final String PROPERTY_ATTRIBUTE_CONSTRAINTS = "attributeConstraints";
+   public static final String PROPERTY_ROLES = "roles";
+   public static final String PROPERTY_PATTERN = "pattern";
+   public static final String PROPERTY_MATCH_CONSTRAINTS = "matchConstraints";
 
    /**
     * @deprecated since 1.2; for internal use only
@@ -66,7 +73,6 @@ public class PatternObject
    private ArrayList<MatchConstraint> matchConstraints /* no fulib */;
 
    protected PropertyChangeSupport listeners;
-   public static final String PROPERTY_name = "name";
 
    private String name;
 
@@ -95,7 +101,7 @@ public class PatternObject
       {
          value.withObjects(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -113,7 +119,7 @@ public class PatternObject
 
       final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      this.firePropertyChange(PROPERTY_NAME, oldValue, value);
       return this;
    }
 
@@ -172,7 +178,7 @@ public class PatternObject
       {
          this.roles.add(value);
          value.setObject(this);
-         this.firePropertyChange(PROPERTY_roles, null, value);
+         this.firePropertyChange(PROPERTY_ROLES, null, value);
       }
       return this;
    }
@@ -232,7 +238,7 @@ public class PatternObject
       if (this.roles != null && this.roles.remove(value))
       {
          value.setObject(null);
-         this.firePropertyChange(PROPERTY_roles, value, null);
+         this.firePropertyChange(PROPERTY_ROLES, value, null);
       }
       return this;
    }
@@ -310,7 +316,7 @@ public class PatternObject
       {
          this.attributeConstraints.add(value);
          value.setObject(this);
-         this.firePropertyChange(PROPERTY_attributeConstraints, null, value);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, null, value);
       }
       return this;
    }
@@ -370,7 +376,7 @@ public class PatternObject
       if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
       {
          value.setObject(null);
-         this.firePropertyChange(PROPERTY_attributeConstraints, value, null);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -438,39 +444,6 @@ public class PatternObject
       return this;
    }
 
-   public PatternObject withMatchConstraints(MatchConstraint value)
-   {
-      if (this.matchConstraints == null)
-      {
-         this.matchConstraints = new ArrayList<>();
-      }
-      if (!this.matchConstraints.contains(value))
-      {
-         this.matchConstraints.add(value);
-         value.withObjects(this);
-         this.firePropertyChange(PROPERTY_matchConstraints, null, value);
-      }
-      return this;
-   }
-
-   public PatternObject withMatchConstraints(MatchConstraint... value)
-   {
-      for (final MatchConstraint item : value)
-      {
-         this.withMatchConstraints(item);
-      }
-      return this;
-   }
-
-   public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> value)
-   {
-      for (final MatchConstraint item : value)
-      {
-         this.withMatchConstraints(item);
-      }
-      return this;
-   }
-
    public PatternObject withoutMatchConstraints(Object... value)
    {
       if (this.matchConstraints == null || value == null)
@@ -503,12 +476,45 @@ public class PatternObject
       return this;
    }
 
+   public PatternObject withMatchConstraints(MatchConstraint value)
+   {
+      if (this.matchConstraints == null)
+      {
+         this.matchConstraints = new ArrayList<>();
+      }
+      if (!this.matchConstraints.contains(value))
+      {
+         this.matchConstraints.add(value);
+         value.withObjects(this);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, null, value);
+      }
+      return this;
+   }
+
+   public PatternObject withMatchConstraints(MatchConstraint... value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
+   public PatternObject withMatchConstraints(Collection<? extends MatchConstraint> value)
+   {
+      for (final MatchConstraint item : value)
+      {
+         this.withMatchConstraints(item);
+      }
+      return this;
+   }
+
    public PatternObject withoutMatchConstraints(MatchConstraint value)
    {
       if (this.matchConstraints != null && this.matchConstraints.remove(value))
       {
          value.withoutObjects(this);
-         this.firePropertyChange(PROPERTY_matchConstraints, value, null);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -583,10 +589,10 @@ public class PatternObject
 
    public void removeYou()
    {
-      this.setPattern(null);
-      this.withoutRoles(new ArrayList<>(this.getRoles()));
-      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
       this.withoutMatchConstraints(new ArrayList<>(this.getMatchConstraints()));
+      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
+      this.withoutRoles(new ArrayList<>(this.getRoles()));
+      this.setPattern(null);
    }
 
    @Override

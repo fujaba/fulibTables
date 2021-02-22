@@ -17,6 +17,10 @@ public class MatchConstraint
    public static final String PROPERTY_objects = "objects";
    public static final String PROPERTY_pattern = "pattern";
 
+   public static final String PROPERTY_PREDICATE = "predicate";
+   public static final String PROPERTY_PATTERN = "pattern";
+   public static final String PROPERTY_OBJECTS = "objects";
+
    /**
     * @deprecated since 1.2; for internal use only
     */
@@ -100,7 +104,7 @@ public class MatchConstraint
       {
          this.objects.add(value);
          value.withMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, null, value);
+         this.firePropertyChange(PROPERTY_OBJECTS, null, value);
       }
       return this;
    }
@@ -160,7 +164,7 @@ public class MatchConstraint
       if (this.objects != null && this.objects.remove(value))
       {
          value.withoutMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, value, null);
+         this.firePropertyChange(PROPERTY_OBJECTS, value, null);
       }
       return this;
    }
@@ -206,7 +210,7 @@ public class MatchConstraint
       {
          value.withMatchConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
