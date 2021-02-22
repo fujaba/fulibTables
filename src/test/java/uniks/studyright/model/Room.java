@@ -15,15 +15,21 @@ public class Room
    public static final String PROPERTY_uni = "uni";
    public static final String PROPERTY_students = "students";
    public static final String PROPERTY_assignments = "assignments";
+   public static final String PROPERTY_ROOM_NO = "roomNo";
+   public static final String PROPERTY_TOPIC = "topic";
+   public static final String PROPERTY_CREDITS = "credits";
+   public static final String PROPERTY_ASSIGNMENTS = "assignments";
+   public static final String PROPERTY_UNI = "uni";
+   public static final String PROPERTY_STUDENTS = "students";
 
    private String roomNo;
    private String topic;
    private double credits;
-   private University uni;
-   private List<Student> students;
-   private List<Assignment> assignments;
 
    protected PropertyChangeSupport listeners;
+   private List<Assignment> assignments;
+   private University uni;
+   private List<Student> students;
 
    public String getRoomNo()
    {
@@ -39,7 +45,7 @@ public class Room
 
       final String oldValue = this.roomNo;
       this.roomNo = value;
-      this.firePropertyChange(PROPERTY_roomNo, oldValue, value);
+      this.firePropertyChange(PROPERTY_ROOM_NO, oldValue, value);
       return this;
    }
 
@@ -57,7 +63,7 @@ public class Room
 
       final String oldValue = this.topic;
       this.topic = value;
-      this.firePropertyChange(PROPERTY_topic, oldValue, value);
+      this.firePropertyChange(PROPERTY_TOPIC, oldValue, value);
       return this;
    }
 
@@ -75,100 +81,7 @@ public class Room
 
       final double oldValue = this.credits;
       this.credits = value;
-      this.firePropertyChange(PROPERTY_credits, oldValue, value);
-      return this;
-   }
-
-   public University getUni()
-   {
-      return this.uni;
-   }
-
-   public Room setUni(University value)
-   {
-      if (this.uni == value)
-      {
-         return this;
-      }
-
-      final University oldValue = this.uni;
-      if (this.uni != null)
-      {
-         this.uni = null;
-         oldValue.withoutRooms(this);
-      }
-      this.uni = value;
-      if (value != null)
-      {
-         value.withRooms(this);
-      }
-      this.firePropertyChange(PROPERTY_uni, oldValue, value);
-      return this;
-   }
-
-   public List<Student> getStudents()
-   {
-      return this.students != null ? Collections.unmodifiableList(this.students) : Collections.emptyList();
-   }
-
-   public Room withStudents(Student value)
-   {
-      if (this.students == null)
-      {
-         this.students = new ArrayList<>();
-      }
-      if (!this.students.contains(value))
-      {
-         this.students.add(value);
-         value.setIn(this);
-         this.firePropertyChange(PROPERTY_students, null, value);
-      }
-      return this;
-   }
-
-   public Room withStudents(Student... value)
-   {
-      for (final Student item : value)
-      {
-         this.withStudents(item);
-      }
-      return this;
-   }
-
-   public Room withStudents(Collection<? extends Student> value)
-   {
-      for (final Student item : value)
-      {
-         this.withStudents(item);
-      }
-      return this;
-   }
-
-   public Room withoutStudents(Student value)
-   {
-      if (this.students != null && this.students.remove(value))
-      {
-         value.setIn(null);
-         this.firePropertyChange(PROPERTY_students, value, null);
-      }
-      return this;
-   }
-
-   public Room withoutStudents(Student... value)
-   {
-      for (final Student item : value)
-      {
-         this.withoutStudents(item);
-      }
-      return this;
-   }
-
-   public Room withoutStudents(Collection<? extends Student> value)
-   {
-      for (final Student item : value)
-      {
-         this.withoutStudents(item);
-      }
+      this.firePropertyChange(PROPERTY_CREDITS, oldValue, value);
       return this;
    }
 
@@ -187,7 +100,7 @@ public class Room
       {
          this.assignments.add(value);
          value.setRoom(this);
-         this.firePropertyChange(PROPERTY_assignments, null, value);
+         this.firePropertyChange(PROPERTY_ASSIGNMENTS, null, value);
       }
       return this;
    }
@@ -215,7 +128,7 @@ public class Room
       if (this.assignments != null && this.assignments.remove(value))
       {
          value.setRoom(null);
-         this.firePropertyChange(PROPERTY_assignments, value, null);
+         this.firePropertyChange(PROPERTY_ASSIGNMENTS, value, null);
       }
       return this;
    }
@@ -234,6 +147,99 @@ public class Room
       for (final Assignment item : value)
       {
          this.withoutAssignments(item);
+      }
+      return this;
+   }
+
+   public University getUni()
+   {
+      return this.uni;
+   }
+
+   public Room setUni(University value)
+   {
+      if (this.uni == value)
+      {
+         return this;
+      }
+
+      final University oldValue = this.uni;
+      if (this.uni != null)
+      {
+         this.uni = null;
+         oldValue.withoutRooms(this);
+      }
+      this.uni = value;
+      if (value != null)
+      {
+         value.withRooms(this);
+      }
+      this.firePropertyChange(PROPERTY_UNI, oldValue, value);
+      return this;
+   }
+
+   public List<Student> getStudents()
+   {
+      return this.students != null ? Collections.unmodifiableList(this.students) : Collections.emptyList();
+   }
+
+   public Room withStudents(Student value)
+   {
+      if (this.students == null)
+      {
+         this.students = new ArrayList<>();
+      }
+      if (!this.students.contains(value))
+      {
+         this.students.add(value);
+         value.setIn(this);
+         this.firePropertyChange(PROPERTY_STUDENTS, null, value);
+      }
+      return this;
+   }
+
+   public Room withStudents(Student... value)
+   {
+      for (final Student item : value)
+      {
+         this.withStudents(item);
+      }
+      return this;
+   }
+
+   public Room withStudents(Collection<? extends Student> value)
+   {
+      for (final Student item : value)
+      {
+         this.withStudents(item);
+      }
+      return this;
+   }
+
+   public Room withoutStudents(Student value)
+   {
+      if (this.students != null && this.students.remove(value))
+      {
+         value.setIn(null);
+         this.firePropertyChange(PROPERTY_STUDENTS, value, null);
+      }
+      return this;
+   }
+
+   public Room withoutStudents(Student... value)
+   {
+      for (final Student item : value)
+      {
+         this.withoutStudents(item);
+      }
+      return this;
+   }
+
+   public Room withoutStudents(Collection<? extends Student> value)
+   {
+      for (final Student item : value)
+      {
+         this.withoutStudents(item);
       }
       return this;
    }
@@ -297,8 +303,8 @@ public class Room
 
    public void removeYou()
    {
+      this.withoutAssignments(new ArrayList<>(this.getAssignments()));
       this.setUni(null);
       this.withoutStudents(new ArrayList<>(this.getStudents()));
-      this.withoutAssignments(new ArrayList<>(this.getAssignments()));
    }
 }

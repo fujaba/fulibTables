@@ -13,13 +13,17 @@ public class Assignment
    public static final String PROPERTY_points = "points";
    public static final String PROPERTY_room = "room";
    public static final String PROPERTY_students = "students";
+   public static final String PROPERTY_TASK = "task";
+   public static final String PROPERTY_POINTS = "points";
+   public static final String PROPERTY_STUDENTS = "students";
+   public static final String PROPERTY_ROOM = "room";
 
    private String task;
    private double points;
-   private Room room;
    private List<Student> students;
 
    protected PropertyChangeSupport listeners;
+   private Room room;
 
    public String getTask()
    {
@@ -35,7 +39,7 @@ public class Assignment
 
       final String oldValue = this.task;
       this.task = value;
-      this.firePropertyChange(PROPERTY_task, oldValue, value);
+      this.firePropertyChange(PROPERTY_TASK, oldValue, value);
       return this;
    }
 
@@ -53,34 +57,7 @@ public class Assignment
 
       final double oldValue = this.points;
       this.points = value;
-      this.firePropertyChange(PROPERTY_points, oldValue, value);
-      return this;
-   }
-
-   public Room getRoom()
-   {
-      return this.room;
-   }
-
-   public Assignment setRoom(Room value)
-   {
-      if (this.room == value)
-      {
-         return this;
-      }
-
-      final Room oldValue = this.room;
-      if (this.room != null)
-      {
-         this.room = null;
-         oldValue.withoutAssignments(this);
-      }
-      this.room = value;
-      if (value != null)
-      {
-         value.withAssignments(this);
-      }
-      this.firePropertyChange(PROPERTY_room, oldValue, value);
+      this.firePropertyChange(PROPERTY_POINTS, oldValue, value);
       return this;
    }
 
@@ -99,7 +76,7 @@ public class Assignment
       {
          this.students.add(value);
          value.withDone(this);
-         this.firePropertyChange(PROPERTY_students, null, value);
+         this.firePropertyChange(PROPERTY_STUDENTS, null, value);
       }
       return this;
    }
@@ -127,7 +104,7 @@ public class Assignment
       if (this.students != null && this.students.remove(value))
       {
          value.withoutDone(this);
-         this.firePropertyChange(PROPERTY_students, value, null);
+         this.firePropertyChange(PROPERTY_STUDENTS, value, null);
       }
       return this;
    }
@@ -147,6 +124,33 @@ public class Assignment
       {
          this.withoutStudents(item);
       }
+      return this;
+   }
+
+   public Room getRoom()
+   {
+      return this.room;
+   }
+
+   public Assignment setRoom(Room value)
+   {
+      if (this.room == value)
+      {
+         return this;
+      }
+
+      final Room oldValue = this.room;
+      if (this.room != null)
+      {
+         this.room = null;
+         oldValue.withoutAssignments(this);
+      }
+      this.room = value;
+      if (value != null)
+      {
+         value.withAssignments(this);
+      }
+      this.firePropertyChange(PROPERTY_ROOM, oldValue, value);
       return this;
    }
 
