@@ -10,16 +10,27 @@
 
 # fulibTables v1.2.0
 
+## General
+
+* Transitioned many APIs from concrete implementation types like `ArrayList` or `LinkedHashMap` to their respective
+  interfaces like `List` or `Map`.
+  > In places where this could not be done in-place, new APIs were added and the old ones deprecated.
+  > See the respective Javadocs for migration info.
+* Deprecated some misplaced or accidentally public APIs.
+  > Check for deprecation warnings and see the respective Javadocs for migration info.
+* General code cleanup and minor optimizations.
+
 ## New Features
 
 + Added the generic `Table<T>` class as a supertype of all existing table classes.
 + Added the `BooleanTable` class.
 + Added an `average` method to all numeric table classes.
++ Added the `Renderer`, `MarkdownRenderer` and `HtmlRenderer` classes for improved string rendering. #7
 + Added a few new convenience APIs.
 
 ## Improvements
 
-* The `ObjectTable` class is now generic.
+* The `ObjectTable` class is now generic. #6
 * Improved generics for many Table-related APIs, improving type safety.
 * Improved the `PatternBuilder` API.
 * Interacting with tables pointing to columns that were removed with `dropColumns` or `selectColumns` now throws an exception. #5
@@ -29,25 +40,15 @@
 
 * The `doubleTable.max` and `floatTable.max` methods now return their respective negative `MAX_VALUE` instead of `MIN_VALUE`.
 
-## General
-
-* Transitioned many APIs from concrete implementation types like `ArrayList` or `LinkedHashMap` to their respective 
-  interfaces like `List` or `Map`.
-  > In places where this could not be done in-place, new APIs were added and the old ones deprecated.
-  > See the respective Javadocs for migration info.
-* Deprecated some misplaced or accidentally public APIs.
-  > Check for deprecation warnings and see the respective Javadocs for migration info.
-* General code cleanup and minor optimizations.
-
 # fulibTables v1.3.0
 
 ## New Features
 
-+ Added the name-agnostic `ObjectTable.expandAll` and `.hasAnyLink` methods.
-+ Added additional constraint building APIs to `PatternBuilder`.
-+ Added debugging support to `PatternMatcher`.
-+ Added support for multiple root patterns to `PatternMatcher`.
-+ Added support for "any"-links to `PatternMatcher` by setting a role name to `*`.
++ Added the name-agnostic `ObjectTable.expandAll` and `.hasAnyLink` methods. #4
++ Added additional constraint building APIs to `PatternBuilder`. #2
++ Added debugging support to `PatternMatcher`. #1
++ Added support for multiple root patterns to `PatternMatcher`. #3
++ Added support for "any"-links to `PatternMatcher` by setting a role name to `*`. #4
 
 ## Improvements
 

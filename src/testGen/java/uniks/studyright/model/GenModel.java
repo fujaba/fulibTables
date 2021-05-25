@@ -9,6 +9,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class GenModel implements ClassModelDecorator
 {
+   // start_code_fragment: studyRight.GenModel
    class University
    {
       String name;
@@ -68,6 +69,7 @@ public class GenModel implements ClassModelDecorator
       @Link("done")
       List<Student> students;
    }
+   // end_code_fragment:
 
    @Override
    public void decorate(ClassModelManager classModelManager)
