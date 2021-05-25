@@ -1,5 +1,5 @@
-- c: 	ClassModel
-  classes: 	university 	student 	room 	assignment
+- c: 	org.fulib.classmodel.ClassModel
+  classes: 	assignment 	room 	student 	university
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
@@ -7,31 +7,7 @@
   packageName: 	uniks.studyright.model
   packageSrcFolder: 	"src/test/java/uniks/studyright/model"
 
-- university: 	Clazz
-  attributes: 	university_name
-  model: 	c
-  modified: 	false
-  name: 	University
-  propertyStyle: 	Bean
-  roles: 	university_students 	university_rooms
-
-- student: 	Clazz
-  attributes: 	student_name 	student_studentId 	student_credits 	student_points 	student_motivation
-  model: 	c
-  modified: 	false
-  name: 	Student
-  propertyStyle: 	Bean
-  roles: 	student_uni 	student_in 	student_done 	student_friends 	student_friends2
-
-- room: 	Clazz
-  attributes: 	room_roomNo 	room_topic 	room_credits
-  model: 	c
-  modified: 	false
-  name: 	Room
-  propertyStyle: 	Bean
-  roles: 	room_uni 	room_students 	room_assignments
-
-- assignment: 	Clazz
+- assignment: 	org.fulib.classmodel.Clazz
   attributes: 	assignment_task 	assignment_points
   model: 	c
   modified: 	false
@@ -39,152 +15,78 @@
   propertyStyle: 	Bean
   roles: 	assignment_room 	assignment_students
 
-- c1: 	CollectionType
+- room: 	org.fulib.classmodel.Clazz
+  attributes: 	room_roomNo 	room_topic 	room_credits
+  model: 	c
+  modified: 	false
+  name: 	Room
+  propertyStyle: 	Bean
+  roles: 	room_assignments 	room_uni 	room_students
+
+- student: 	org.fulib.classmodel.Clazz
+  attributes: 	student_name 	student_studentId 	student_credits 	student_points 	student_motivation
+  model: 	c
+  modified: 	false
+  name: 	Student
+  propertyStyle: 	Bean
+  roles: 	student_done 	student_in 	student_uni 	student_friends
+
+- university: 	org.fulib.classmodel.Clazz
+  attributes: 	university_name
+  model: 	c
+  modified: 	false
+  name: 	University
+  propertyStyle: 	Bean
+  roles: 	university_rooms 	university_students
+
+- c1: 	org.fulib.classmodel.CollectionType
   implClass: 	class java.util.ArrayList
   implTemplate: 	"java.util.ArrayList<%s>"
   itf: 	org.fulib.classmodel.CollectionInterface.List
   qualifiedImplName: 	java.util.ArrayList
   simpleImplName: 	ArrayList
 
-- university_name: 	Attribute
-  clazz: 	university
-  id: 	University_name
+- assignment_task: 	org.fulib.classmodel.Attribute
+  clazz: 	assignment
+  id: 	Assignment_task
   modified: 	false
-  name: 	name
+  name: 	task
   propertyStyle: 	Bean
   type: 	String
   typeSignature: 	String
 
-- university_students: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	university
-  collectionType: 	c1
-  id: 	University_students
-  modified: 	false
-  name: 	students
-  other: 	student_uni
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- university_rooms: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	university
-  collectionType: 	c1
-  id: 	University_rooms
-  modified: 	false
-  name: 	rooms
-  other: 	room_uni
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- student_name: 	Attribute
-  clazz: 	student
-  id: 	Student_name
-  modified: 	false
-  name: 	name
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- student_studentId: 	Attribute
-  clazz: 	student
-  id: 	Student_studentId
-  modified: 	false
-  name: 	studentId
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- student_credits: 	Attribute
-  clazz: 	student
-  id: 	Student_credits
-  modified: 	false
-  name: 	credits
-  propertyStyle: 	Bean
-  type: 	double
-  typeSignature: 	double
-
-- student_points: 	Attribute
-  clazz: 	student
-  id: 	Student_points
+- assignment_points: 	org.fulib.classmodel.Attribute
+  clazz: 	assignment
+  id: 	Assignment_points
   modified: 	false
   name: 	points
   propertyStyle: 	Bean
   type: 	double
   typeSignature: 	double
 
-- student_motivation: 	Attribute
-  clazz: 	student
-  id: 	Student_motivation
-  modified: 	false
-  name: 	motivation
-  propertyStyle: 	Bean
-  type: 	double
-  typeSignature: 	double
-
-- student_uni: 	AssocRole
+- assignment_room: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	student
-  collectionType: 	c1
-  id: 	Student_uni
+  clazz: 	assignment
+  id: 	Assignment_room
   modified: 	false
-  name: 	uni
-  other: 	university_students
+  name: 	room
+  other: 	room_assignments
   propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
 
-- student_in: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	student
-  collectionType: 	c1
-  id: 	Student_in
-  modified: 	false
-  name: 	in
-  other: 	room_students
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- student_done: 	AssocRole
+- assignment_students: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	student
+  clazz: 	assignment
   collectionType: 	c1
-  id: 	Student_done
+  id: 	Assignment_students
   modified: 	false
-  name: 	done
-  other: 	assignment_students
+  name: 	students
+  other: 	student_done
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- student_friends: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	student
-  collectionType: 	c1
-  id: 	Student_friends
-  modified: 	false
-  name: 	friends
-  other: 	student_friends2
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- student_friends2: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	student
-  collectionType: 	c1
-  id: 	Student_friends
-  modified: 	false
-  name: 	friends
-  other: 	student_friends
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- room_roomNo: 	Attribute
+- room_roomNo: 	org.fulib.classmodel.Attribute
   clazz: 	room
   id: 	Room_roomNo
   modified: 	false
@@ -193,7 +95,7 @@
   type: 	String
   typeSignature: 	String
 
-- room_topic: 	Attribute
+- room_topic: 	org.fulib.classmodel.Attribute
   clazz: 	room
   id: 	Room_topic
   modified: 	false
@@ -202,7 +104,7 @@
   type: 	String
   typeSignature: 	String
 
-- room_credits: 	Attribute
+- room_credits: 	org.fulib.classmodel.Attribute
   clazz: 	room
   id: 	Room_credits
   modified: 	false
@@ -211,31 +113,7 @@
   type: 	double
   typeSignature: 	double
 
-- room_uni: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	room
-  collectionType: 	c1
-  id: 	Room_uni
-  modified: 	false
-  name: 	uni
-  other: 	university_rooms
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- room_students: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	room
-  collectionType: 	c1
-  id: 	Room_students
-  modified: 	false
-  name: 	students
-  other: 	student_in
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- room_assignments: 	AssocRole
+- room_assignments: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	room
@@ -247,45 +125,147 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- assignment_task: 	Attribute
-  clazz: 	assignment
-  id: 	Assignment_task
+- room_uni: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	room
+  id: 	Room_uni
   modified: 	false
-  name: 	task
+  name: 	uni
+  other: 	university_rooms
+  propertyStyle: 	Bean
+
+- room_students: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	room
+  collectionType: 	c1
+  id: 	Room_students
+  modified: 	false
+  name: 	students
+  other: 	student_in
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- student_name: 	org.fulib.classmodel.Attribute
+  clazz: 	student
+  id: 	Student_name
+  modified: 	false
+  name: 	name
   propertyStyle: 	Bean
   type: 	String
   typeSignature: 	String
 
-- assignment_points: 	Attribute
-  clazz: 	assignment
-  id: 	Assignment_points
+- student_studentId: 	org.fulib.classmodel.Attribute
+  clazz: 	student
+  id: 	Student_studentId
+  modified: 	false
+  name: 	studentId
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- student_credits: 	org.fulib.classmodel.Attribute
+  clazz: 	student
+  id: 	Student_credits
+  modified: 	false
+  name: 	credits
+  propertyStyle: 	Bean
+  type: 	double
+  typeSignature: 	double
+
+- student_points: 	org.fulib.classmodel.Attribute
+  clazz: 	student
+  id: 	Student_points
   modified: 	false
   name: 	points
   propertyStyle: 	Bean
   type: 	double
   typeSignature: 	double
 
-- assignment_room: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	assignment
-  collectionType: 	c1
-  id: 	Assignment_room
+- student_motivation: 	org.fulib.classmodel.Attribute
+  clazz: 	student
+  id: 	Student_motivation
   modified: 	false
-  name: 	room
-  other: 	room_assignments
+  name: 	motivation
+  propertyStyle: 	Bean
+  type: 	double
+  typeSignature: 	double
+
+- student_done: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	student
+  collectionType: 	c1
+  id: 	Student_done
+  modified: 	false
+  name: 	done
+  other: 	assignment_students
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- assignment_students: 	AssocRole
+- student_in: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	student
+  id: 	Student_in
+  modified: 	false
+  name: 	in
+  other: 	room_students
+  propertyStyle: 	Bean
+
+- student_uni: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	student
+  id: 	Student_uni
+  modified: 	false
+  name: 	uni
+  other: 	university_students
+  propertyStyle: 	Bean
+
+- student_friends: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	assignment
+  clazz: 	student
   collectionType: 	c1
-  id: 	Assignment_students
+  id: 	Student_friends
+  modified: 	false
+  name: 	friends
+  other: 	student_friends
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- university_name: 	org.fulib.classmodel.Attribute
+  clazz: 	university
+  id: 	University_name
+  modified: 	false
+  name: 	name
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- university_rooms: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	university
+  collectionType: 	c1
+  id: 	University_rooms
+  modified: 	false
+  name: 	rooms
+  other: 	room_uni
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- university_students: 	org.fulib.classmodel.AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	university
+  collectionType: 	c1
+  id: 	University_students
   modified: 	false
   name: 	students
-  other: 	student_done
+  other: 	student_uni
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 

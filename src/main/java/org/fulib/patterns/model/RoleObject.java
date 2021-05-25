@@ -6,10 +6,27 @@ import java.util.Objects;
 
 public class RoleObject
 {
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+   /** @deprecated since 1.5; use {@link #PROPERTY_NAME} instead */
+   @Deprecated
    public static final String PROPERTY_name = "name";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OTHER} instead */
+   @Deprecated
    public static final String PROPERTY_other = "other";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OBJECT} instead */
+   @Deprecated
    public static final String PROPERTY_object = "object";
+
+   /** @since 1.5 */
+   public static final String PROPERTY_NAME = "name";
+   /** @since 1.5 */
+   public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
+   public static final String PROPERTY_OTHER = "other";
+   /** @since 1.5 */
+   public static final String PROPERTY_OBJECT = "object";
 
    // =============== Fields ===============
 
@@ -45,7 +62,7 @@ public class RoleObject
       {
          value.withRoles(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -63,7 +80,7 @@ public class RoleObject
 
       final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      this.firePropertyChange(PROPERTY_NAME, oldValue, value);
       return this;
    }
 
@@ -90,7 +107,7 @@ public class RoleObject
       {
          value.withRoles(this);
       }
-      this.firePropertyChange(PROPERTY_object, oldValue, value);
+      this.firePropertyChange(PROPERTY_OBJECT, oldValue, value);
       return this;
    }
 
@@ -117,11 +134,21 @@ public class RoleObject
       {
          value.setOther(this);
       }
-      this.firePropertyChange(PROPERTY_other, oldValue, value);
+      this.firePropertyChange(PROPERTY_OTHER, oldValue, value);
       return this;
    }
 
    // =============== Methods ===============
+
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -174,7 +201,6 @@ public class RoleObject
    public void removeYou()
    {
       this.setPattern(null);
-      this.setOther(null);
       this.setOther(null);
       this.setObject(null);
    }

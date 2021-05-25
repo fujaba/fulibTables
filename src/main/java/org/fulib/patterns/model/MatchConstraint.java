@@ -13,9 +13,22 @@ public class MatchConstraint
 {
    // =============== Constants ===============
 
+   /** @deprecated since 1.5; use {@link #PROPERTY_PREDICATE} instead */
+   @Deprecated
    public static final String PROPERTY_predicate = "predicate";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OBJECTS} instead */
+   @Deprecated
    public static final String PROPERTY_objects = "objects";
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+
+   /** @since 1.5 */
+   public static final String PROPERTY_PREDICATE = "predicate";
+   /** @since 1.5 */
+   public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
+   public static final String PROPERTY_OBJECTS = "objects";
 
    /**
     * @deprecated since 1.2; for internal use only
@@ -50,6 +63,7 @@ public class MatchConstraint
       return this.objects != null ? this.objects : EMPTY_objects;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public MatchConstraint withObjects(Object... value)
    {
       if (value == null)
@@ -71,16 +85,7 @@ public class MatchConstraint
          }
          else if (item instanceof PatternObject)
          {
-            if (this.objects == null)
-            {
-               this.objects = new ArrayList<>();
-            }
-            if (!this.objects.contains(item))
-            {
-               this.objects.add((PatternObject) item);
-               ((PatternObject) item).withMatchConstraints(this);
-               this.firePropertyChange("objects", null, item);
-            }
+            this.withObjects((PatternObject) item);
          }
          else
          {
@@ -100,7 +105,7 @@ public class MatchConstraint
       {
          this.objects.add(value);
          value.withMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, null, value);
+         this.firePropertyChange(PROPERTY_OBJECTS, null, value);
       }
       return this;
    }
@@ -123,6 +128,7 @@ public class MatchConstraint
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public MatchConstraint withoutObjects(Object... value)
    {
       if (this.objects == null || value == null)
@@ -144,12 +150,7 @@ public class MatchConstraint
          }
          else if (item instanceof PatternObject)
          {
-            if (this.objects.contains(item))
-            {
-               this.objects.remove(item);
-               ((PatternObject) item).withoutMatchConstraints(this);
-               this.firePropertyChange("objects", item, null);
-            }
+            this.withoutObjects((PatternObject) item);
          }
       }
       return this;
@@ -160,7 +161,7 @@ public class MatchConstraint
       if (this.objects != null && this.objects.remove(value))
       {
          value.withoutMatchConstraints(this);
-         this.firePropertyChange(PROPERTY_objects, value, null);
+         this.firePropertyChange(PROPERTY_OBJECTS, value, null);
       }
       return this;
    }
@@ -206,7 +207,7 @@ public class MatchConstraint
       {
          value.withMatchConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -232,6 +233,16 @@ public class MatchConstraint
    }
 
    // =============== Methods ===============
+
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {

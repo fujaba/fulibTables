@@ -18,18 +18,27 @@ public class Student
    public static final String PROPERTY_in = "in";
    public static final String PROPERTY_done = "done";
    public static final String PROPERTY_friends = "friends";
+   public static final String PROPERTY_NAME = "name";
+   public static final String PROPERTY_STUDENT_ID = "studentId";
+   public static final String PROPERTY_CREDITS = "credits";
+   public static final String PROPERTY_POINTS = "points";
+   public static final String PROPERTY_MOTIVATION = "motivation";
+   public static final String PROPERTY_DONE = "done";
+   public static final String PROPERTY_FRIENDS = "friends";
+   public static final String PROPERTY_IN = "in";
+   public static final String PROPERTY_UNI = "uni";
 
    private String name;
    private String studentId;
    private double credits;
    private double points;
    private double motivation;
-   private University uni;
-   private Room in;
    private List<Assignment> done;
    private List<Student> friends;
 
    protected PropertyChangeSupport listeners;
+   private Room in;
+   private University uni;
 
    public String getName()
    {
@@ -45,7 +54,7 @@ public class Student
 
       final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      this.firePropertyChange(PROPERTY_NAME, oldValue, value);
       return this;
    }
 
@@ -63,7 +72,7 @@ public class Student
 
       final String oldValue = this.studentId;
       this.studentId = value;
-      this.firePropertyChange(PROPERTY_studentId, oldValue, value);
+      this.firePropertyChange(PROPERTY_STUDENT_ID, oldValue, value);
       return this;
    }
 
@@ -81,7 +90,7 @@ public class Student
 
       final double oldValue = this.credits;
       this.credits = value;
-      this.firePropertyChange(PROPERTY_credits, oldValue, value);
+      this.firePropertyChange(PROPERTY_CREDITS, oldValue, value);
       return this;
    }
 
@@ -99,7 +108,7 @@ public class Student
 
       final double oldValue = this.points;
       this.points = value;
-      this.firePropertyChange(PROPERTY_points, oldValue, value);
+      this.firePropertyChange(PROPERTY_POINTS, oldValue, value);
       return this;
    }
 
@@ -117,61 +126,7 @@ public class Student
 
       final double oldValue = this.motivation;
       this.motivation = value;
-      this.firePropertyChange(PROPERTY_motivation, oldValue, value);
-      return this;
-   }
-
-   public University getUni()
-   {
-      return this.uni;
-   }
-
-   public Student setUni(University value)
-   {
-      if (this.uni == value)
-      {
-         return this;
-      }
-
-      final University oldValue = this.uni;
-      if (this.uni != null)
-      {
-         this.uni = null;
-         oldValue.withoutStudents(this);
-      }
-      this.uni = value;
-      if (value != null)
-      {
-         value.withStudents(this);
-      }
-      this.firePropertyChange(PROPERTY_uni, oldValue, value);
-      return this;
-   }
-
-   public Room getIn()
-   {
-      return this.in;
-   }
-
-   public Student setIn(Room value)
-   {
-      if (this.in == value)
-      {
-         return this;
-      }
-
-      final Room oldValue = this.in;
-      if (this.in != null)
-      {
-         this.in = null;
-         oldValue.withoutStudents(this);
-      }
-      this.in = value;
-      if (value != null)
-      {
-         value.withStudents(this);
-      }
-      this.firePropertyChange(PROPERTY_in, oldValue, value);
+      this.firePropertyChange(PROPERTY_MOTIVATION, oldValue, value);
       return this;
    }
 
@@ -190,7 +145,7 @@ public class Student
       {
          this.done.add(value);
          value.withStudents(this);
-         this.firePropertyChange(PROPERTY_done, null, value);
+         this.firePropertyChange(PROPERTY_DONE, null, value);
       }
       return this;
    }
@@ -218,7 +173,7 @@ public class Student
       if (this.done != null && this.done.remove(value))
       {
          value.withoutStudents(this);
-         this.firePropertyChange(PROPERTY_done, value, null);
+         this.firePropertyChange(PROPERTY_DONE, value, null);
       }
       return this;
    }
@@ -256,7 +211,7 @@ public class Student
       {
          this.friends.add(value);
          value.withFriends(this);
-         this.firePropertyChange(PROPERTY_friends, null, value);
+         this.firePropertyChange(PROPERTY_FRIENDS, null, value);
       }
       return this;
    }
@@ -284,7 +239,7 @@ public class Student
       if (this.friends != null && this.friends.remove(value))
       {
          value.withoutFriends(this);
-         this.firePropertyChange(PROPERTY_friends, value, null);
+         this.firePropertyChange(PROPERTY_FRIENDS, value, null);
       }
       return this;
    }
@@ -304,6 +259,60 @@ public class Student
       {
          this.withoutFriends(item);
       }
+      return this;
+   }
+
+   public Room getIn()
+   {
+      return this.in;
+   }
+
+   public Student setIn(Room value)
+   {
+      if (this.in == value)
+      {
+         return this;
+      }
+
+      final Room oldValue = this.in;
+      if (this.in != null)
+      {
+         this.in = null;
+         oldValue.withoutStudents(this);
+      }
+      this.in = value;
+      if (value != null)
+      {
+         value.withStudents(this);
+      }
+      this.firePropertyChange(PROPERTY_IN, oldValue, value);
+      return this;
+   }
+
+   public University getUni()
+   {
+      return this.uni;
+   }
+
+   public Student setUni(University value)
+   {
+      if (this.uni == value)
+      {
+         return this;
+      }
+
+      final University oldValue = this.uni;
+      if (this.uni != null)
+      {
+         this.uni = null;
+         oldValue.withoutStudents(this);
+      }
+      this.uni = value;
+      if (value != null)
+      {
+         value.withStudents(this);
+      }
+      this.firePropertyChange(PROPERTY_UNI, oldValue, value);
       return this;
    }
 
@@ -366,10 +375,18 @@ public class Student
 
    public void removeYou()
    {
-      this.setUni(null);
-      this.setIn(null);
       this.withoutDone(new ArrayList<>(this.getDone()));
+      this.setIn(null);
+      this.setUni(null);
       this.withoutFriends(new ArrayList<>(this.getFriends()));
-      this.withoutFriends(new ArrayList<>(this.getFriends()));
+   }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
    }
 }

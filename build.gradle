@@ -7,6 +7,8 @@ plugins {
    id 'de.clashsoft.simple-publish' version '0.6.0'
    // https://plugins.gradle.org/plugin/com.palantir.revapi
    id 'com.palantir.revapi' version '1.4.3'
+   // https://plugins.gradle.org/plugin/org.fulib.fulibGradle
+   id 'org.fulib.fulibGradle' version '0.5.0'
 }
 
 // --------------- General Info ---------------
@@ -41,8 +43,6 @@ publishInfo {
 
 sourceCompatibility = 1.8
 
-sourceSets.create('gen')
-
 // --------------- Dependencies ---------------
 
 repositories {
@@ -51,26 +51,20 @@ repositories {
 }
 
 dependencies {
+   // https://mvnrepository.com/artifact/org.fulib/fulibScenarios
+   fulibScenarios group: 'org.fulib', name: 'fulibScenarios', version: '1.7.0'
+
    // https://mvnrepository.com/artifact/org.fulib/fulibYaml
-   api group: 'org.fulib', name: 'fulibYaml', version: '1.4.0'
+   api group: 'org.fulib', name: 'fulibYaml', version: '1.5.0'
 
    // https://mvnrepository.com/artifact/junit/junit
    testImplementation group: 'junit', name: 'junit', version: '4.13'
 
-   // https://mvnrepository.com/artifact/org.fulib/fulib
-   def fulib = [ group: 'org.fulib', name: 'fulib', version: '1.2.3' ]
-
-   // https://mvnrepository.com/artifact/org.fulib/fulibTools
-   def fulibTools = [ group: 'org.fulib', name: 'fulibTools', version: '1.2.1' ]
-
-   genCompile fulib
-   genCompile fulibTools
-
    // https://mvnrepository.com/artifact/org.antlr/ST4
    genCompile group: 'org.antlr', name: 'ST4', version: '4.3.1'
 
-   testImplementation fulib
-   testImplementation fulibTools
+   // https://mvnrepository.com/artifact/org.fulib/fulibTools
+   testImplementation group: 'org.fulib', name: 'fulibTools', version: '1.5.1'
 }
 
 // --------------- Misc. Settings ---------------

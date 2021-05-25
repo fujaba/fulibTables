@@ -8,9 +8,22 @@ public class AttributeConstraint
 {
    // =============== Constants ===============
 
+   /** @deprecated since 1.5; use {@link #PROPERTY_PREDICATE} instead */
+   @Deprecated
    public static final String PROPERTY_predicate = "predicate";
+   /** @deprecated since 1.5; use {@link #PROPERTY_OBJECT} instead */
+   @Deprecated
    public static final String PROPERTY_object = "object";
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+
+   /** @since 1.5 */
+   public static final String PROPERTY_PREDICATE = "predicate";
+   /** @since 1.5 */
+   public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
+   public static final String PROPERTY_OBJECT = "object";
 
    // =============== Fields ===============
 
@@ -50,7 +63,7 @@ public class AttributeConstraint
       {
          value.withAttributeConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_object, oldValue, value);
+      this.firePropertyChange(PROPERTY_OBJECT, oldValue, value);
       return this;
    }
 
@@ -77,7 +90,7 @@ public class AttributeConstraint
       {
          value.withAttributeConstraints(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -103,6 +116,16 @@ public class AttributeConstraint
    }
 
    // =============== Methods ===============
+
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
