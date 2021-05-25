@@ -56,9 +56,6 @@ public class StudyRightTests
       Student alice = new Student().setStudentId("m4242").setName("Alice").setUni(studyRight).setIn(mathRoom).withDone(integrals);
       Student bob   = new Student().setStudentId("m2323").setName("Bobby").setUni(studyRight).setIn(artsRoom).withFriends(alice);
       Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(studyRight).setIn(mathRoom);
-
-      FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
       // end_code_fragment:
       // @formatter:on
 
@@ -67,91 +64,125 @@ public class StudyRightTests
       this.integrals = integrals;
    }
 
-   @SuppressWarnings( { "UnusedAssignment", "unused" })
    @Test
-   public void testModelQueries()
+   public void objectTables()
    {
-      final University studyRight = this.studyRight;
+      // start_code_fragment: objectTables.universityTable
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      // end_code_fragment:
 
-      // start_code_fragment: FulibTables.createUniTable1
-      // some table stuff
+      fragments.addFragment("objectTables.universityTableResult", universityTable.toString());
+   }
+
+   @Test
+   public void expandingLinks()
+   {
+      // start_code_fragment: expandingLinks.universityTable
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      // end_code_fragment:
+
+      fragments.addFragment("expandingLinks.universityTableResult", universityTable.toString());
+
+      // start_code_fragment: expandingLinks.roomsTable
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      // end_code_fragment:
+
+      fragments.addFragment("expandingLinks.roomsTableResult", roomsTable.toString());
+
+      // start_code_fragment: expandingLinks.assignmentsTable
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+      // end_code_fragment:
+
+      fragments.addFragment("expandingLinks.assignmentsTableResult", assignmentsTable.toString());
+   }
+
+   @Test
+   public void iterableTables()
+   {
+      // start_code_fragment: iterableTables.tables
       ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
       ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
       ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
       // end_code_fragment:
 
-      universityTable = new ObjectTable<>("University", studyRight);
-
-      fragments.addFragment("FulibTables.uniTable1", universityTable.toString());
-
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      fragments.addFragment("FulibTables.uniTable2", universityTable.toString());
-
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-      fragments.addFragment("FulibTables.uniTable3", universityTable.toString());
-
-      // start_code_fragment: FulibTables.loop_through_assignments
+      // start_code_fragment: iterableTables.loop
       double sum = 0;
       for (Assignment a : assignmentsTable)
       {
          sum += a.getPoints();
       }
+      // end_code_fragment:
+
       assertThat(sum, equalTo(89.0));
-      // end_code_fragment:
-
-      // start_code_fragment: FulibTables.pointsTable
-      doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
-      sum = pointsTable.sum();
-      assertThat(roomsTable.rowCount(), equalTo(4));
-      assertThat(assignmentsTable.rowCount(), equalTo(4));
-      assertThat(sum, equalTo(89.0));
-      // end_code_fragment:
-
-      fragments.addFragment("FulibTables.pointsTableResult", universityTable.toString());
-
-      // start_code_fragment: FulibTables.studentsTable
-      ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
-      assertThat(students.rowCount(), equalTo(6));
-      // end_code_fragment:
-
-      fragments.addFragment("FulibTables.studentsTableResult", universityTable.toString());
-
-      // start_code_fragment: FulibTables.filterAssignmentsTable
-      assignmentsTable.filter(a -> a.getPoints() <= 30);
-      assertThat(students.rowCount(), equalTo(4));
-      // end_code_fragment:
-
-      fragments.addFragment("FulibTables.filterAssignmentsTableResult", universityTable.toString());
    }
 
    @Test
-   @SuppressWarnings( { "unused", "UnusedAssignment" })
+   public void expandingAttributes()
+   {
+      // start_code_fragment: expandingAttributes.tables
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+      // end_code_fragment:
+
+      // start_code_fragment: expandingAttributes.pointsTable
+      doubleTable pointsTable = assignmentsTable.expand("Points", Assignment::getPoints).as(doubleTable.class);
+      // end_code_fragment:
+
+      fragments.addFragment("expandingAttributes.pointsTableResult", pointsTable.toString());
+
+      // start_code_fragment: expandingAttributes.pointsSum
+      double sum = pointsTable.sum();
+      // end_code_fragment:
+
+      assertThat(roomsTable.rowCount(), equalTo(4));
+      assertThat(assignmentsTable.rowCount(), equalTo(4));
+      assertThat(sum, equalTo(89.0));
+   }
+
+   @Test
+   public void filters()
+   {
+      // start_code_fragment: filters.tables
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+      ObjectTable<Student> studentsTable = roomsTable.expandAll("Student", Room::getStudents);
+      // end_code_fragment:
+
+      assertThat(studentsTable.rowCount(), equalTo(6));
+
+      fragments.addFragment("filters.tablesResult", universityTable.toString());
+
+      // start_code_fragment: filters.filter
+      assignmentsTable.filter(a -> a.getPoints() <= 30);
+      // end_code_fragment:
+
+      assertThat(studentsTable.rowCount(), equalTo(4));
+      fragments.addFragment("filters.filterResult", universityTable.toString());
+   }
+
+   @Test
    public void filterRows()
    {
       final University studyRight = this.studyRight;
 
-      ObjectTable<University> universityTable;
-      ObjectTable<Room> roomsTable;
-      ObjectTable<Student> students;
-      ObjectTable<Assignment> assignmentsTable;
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
+      roomsTable.expandAll("Assignment", Room::getAssignments);
 
-      // start_code_fragment: FulibTables.filterRowTable
-      // filter row
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-
+      // start_code_fragment: filterRows.filterRows
       students.filterRows(row -> {
          Student studi = (Student) row.get("Student");
          Assignment assignment = (Assignment) row.get("Assignment");
          return studi.getDone().contains(assignment);
       });
-
-      assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.filterRowTableResult", universityTable.toString());
+      assertThat(students.rowCount(), equalTo(1));
+
+      fragments.addFragment("filterRows.filterRowsResult", universityTable.toString());
    }
 
    @Test
@@ -159,89 +190,53 @@ public class StudyRightTests
    {
       final University studyRight = this.studyRight;
 
-      ObjectTable<University> universityTable;
-      ObjectTable<Room> roomsTable;
-      ObjectTable<Student> students;
-      ObjectTable<Assignment> assignmentsTable;
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Student> students = roomsTable.expandAll("Student", Room::getStudents);
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
 
-      // start_code_fragment: FulibTables.filterHasDone
-      // filter row
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+      // start_code_fragment: hasLink.hasLink
       students.hasLink(Student.PROPERTY_done, assignmentsTable);
-
-      assertThat(students.rowCount(), equalTo(1));
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.filterHasDoneResult", universityTable.toString());
+      assertThat(students.rowCount(), equalTo(1));
+
+      fragments.addFragment("hasLink.hasLinkResult", universityTable.toString());
    }
 
    @Test
-   @SuppressWarnings( { "unused", "UnusedAssignment" })
-   public void doAssignmentsAndDropSelect()
+   public void selectingColumns()
    {
       final University studyRight = this.studyRight;
-      final Student alice = this.alice;
-      final Assignment integrals = this.integrals;
 
-      ObjectTable<University> universityTable;
-      ObjectTable<Room> roomsTable;
-      ObjectTable<Student> students;
-      ObjectTable<Assignment> assignmentsTable;
-
-      // start_code_fragment: FulibTables.doCurrentAssignments
-      universityTable = new ObjectTable<>("University", studyRight);
-      roomsTable = universityTable.expandAll("Room", University::getRooms);
-      students = roomsTable.expandAll("Student", Room::getStudents);
-      assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
-
-      // do current assignments
-      students.filterRows(row -> {
-         Student studi = (Student) row.get("Student");
-         Assignment assignment = (Assignment) row.get("Assignment");
-         studi.withDone(assignment);
-         return true;
-      });
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4Tables.png", studyRight);
-
-      assertThat(alice.getDone().size(), equalTo(2));
-      assertThat(integrals.getStudents().contains(alice), is(true));
-
-      // show size of done
-      universityTable.derive("noOfDone", row -> {
-         Student studi = (Student) row.get("Student");
-         return studi.getDone().size();
-      });
-
-      // show done
-      students.expandAll("Done", Student::getDone);
+      // start_code_fragment: selectingColumns.tables
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Room> roomsTable = universityTable.expandAll("Room", University::getRooms);
+      ObjectTable<Assignment> assignmentsTable = roomsTable.expandAll("Assignment", Room::getAssignments);
+      ObjectTable<Student> studentsTable = roomsTable.expandAll("Student", Room::getStudents);
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.doCurrentAssignmentsResult", universityTable.toString());
+      fragments.addFragment("selectingColumns.tablesResult", studentsTable.toString());
 
-      // start_code_fragment: FulibTables.dropColumnsAssignment
+      // start_code_fragment: selectingColumns.dropAssignment
       universityTable.dropColumns("Assignment");
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.dropColumnsAssignmentResult", universityTable.toString());
+      fragments.addFragment("selectingColumns.dropAssignmentResult", universityTable.toString());
 
-      // start_code_fragment: FulibTables.selectColumns
-      students.selectColumns("Student", "Done");
-      assertThat(students.rowCount(), equalTo(6));
+      // start_code_fragment: selectingColumns.selectStudentAndRoom
+      studentsTable.selectColumns("Student", "Room");
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.selectColumnsResult", universityTable.toString());
+      assertThat(studentsTable.rowCount(), equalTo(3));
+
+      fragments.addFragment("selectingColumns.selectStudentAndRoomResult", universityTable.toString());
    }
 
    @Test
    public void nestedTables()
    {
       final University studyRight = this.studyRight;
-      ObjectTable<University> universityTable;
-      ObjectTable<Student> students;
 
       // do current assignments
       for (final Student student : this.studyRight.getStudents())
@@ -249,9 +244,9 @@ public class StudyRightTests
          student.withDone(student.getIn().getAssignments());
       }
 
-      // start_code_fragment: FulibTables.nestedTables
-      universityTable = new ObjectTable<>("University", studyRight);
-      students = universityTable.expandAll("Students", University::getStudents);
+      // start_code_fragment: nestedTables.nestedTables
+      ObjectTable<University> universityTable = new ObjectTable<>("University", studyRight);
+      ObjectTable<Student> students = universityTable.expandAll("Students", University::getStudents);
       students.derive("Credits", row -> {
          Student student = (Student) row.get("Students");
          double pointSum = new ObjectTable<>(student)
@@ -272,7 +267,7 @@ public class StudyRightTests
       });
       // end_code_fragment:
 
-      fragments.addFragment("FulibTables.nestedTablesResult", universityTable.toString());
+      fragments.addFragment("nestedTables.nestedTablesResult", universityTable.toString());
 
       FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
@@ -458,7 +453,7 @@ public class StudyRightTests
    @AfterClass
    public static void teardownClass()
    {
-      fragments.update("README.md", "src/test/java/uniks/studyright/StudyRightTests.java",
+      fragments.update("doc/", "src/test/java/uniks/studyright/StudyRightTests.java",
                        "src/gen/java/uniks/studyright/StudyRightClassModel.java");
    }
 }
