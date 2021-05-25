@@ -748,6 +748,13 @@ public class ObjectTable<T> extends Table<T>
       return this;
    }
 
+   @Override
+   public <S extends T> ObjectTable<S> filterAs(Class<S> type)
+   {
+      super.filterAs(type);
+      return (ObjectTable<S>) this;
+   }
+
    // --------------- Overriding Return Type (other) ---------------
 
    @Override

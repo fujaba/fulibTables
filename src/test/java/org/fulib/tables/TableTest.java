@@ -234,6 +234,19 @@ public class TableTest
    }
 
    @Test
+   public void filterAs()
+   {
+      // start_code_fragment: TableTest.filterAs
+      Table<Object> a = new Table<>("A", 1, "a", 2, "b", 3, "c", 4, "d", 5, "e");
+      Table<String> strings = a.filterAs(String.class);
+      // end_code_fragment:
+
+      assertEquals(Arrays.asList("a", "b", "c", "d", "e"), strings.toList());
+
+      fragments.addFragment("TableTest.filterAs.result", new HtmlRenderer().setCaption("result").render(strings));
+   }
+
+   @Test
    public void filterRows()
    {
       // start_code_fragment: TableTest.filterRows.initial

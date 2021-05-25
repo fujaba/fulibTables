@@ -3,6 +3,7 @@ package uniks.studyright;
 import org.fulib.FulibTools;
 import org.fulib.tables.ObjectTable;
 import org.fulib.tables.StringTable;
+import org.fulib.tables.Table;
 import org.fulib.tables.doubleTable;
 import org.fulib.tools.CodeFragments;
 import org.hamcrest.MatcherAssert;
@@ -27,6 +28,7 @@ public class StudyRightTests
 
    private University studyRight;
    private Student alice;
+   private Student bob;
    private Assignment integrals;
 
    @BeforeClass
@@ -61,6 +63,7 @@ public class StudyRightTests
 
       this.studyRight = studyRight;
       this.alice = alice;
+      this.bob = bob;
       this.integrals = integrals;
    }
 
@@ -166,6 +169,28 @@ public class StudyRightTests
 
       assertThat(studentsTable.rowCount(), equalTo(4));
       fragments.addFragment("filters.filterResult", universityTable.toString());
+   }
+
+   @Test
+   public void filterAs()
+   {
+      // start_code_fragment: filterAs.tables
+      Table<Object> objectsTable = new Table<>("Objects", studyRight, alice, bob, integrals);
+      // end_code_fragment:
+
+      fragments.addFragment("filterAs.tablesResult", objectsTable.toString());
+
+      // start_code_fragment: filterAs.filterAs
+      final Table<Student> studentsTable = objectsTable.filterAs(Student.class);
+      // end_code_fragment:
+
+      assertThat(studentsTable.rowCount(), equalTo(2));
+      fragments.addFragment("filterAs.filterAsResult", studentsTable.toString());
+
+      @SuppressWarnings( { "unused", "rawtypes" })
+      // start_code_fragment: filterAs.alternative
+      final Table<Student> studentsTable2 = (Table<Student>) (Table) objectsTable.filter(s -> s instanceof Student);
+      // end_code_fragment:
    }
 
    @Test

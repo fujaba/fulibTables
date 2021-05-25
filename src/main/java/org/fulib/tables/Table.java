@@ -995,6 +995,57 @@ public class Table<T> implements Iterable<T>
    }
 
    /**
+    * Removes all rows from this table in which the cell value of the column this table points to is not an instance of
+    * the given type.
+    * <p>
+    * Example:
+    * <!-- insert_code_fragment: TableTest.filterAs | javadoc -->
+    * <pre>{@code
+    * Table<Object> a = new Table<>("A", 1, "a", 2, "b", 3, "c", 4, "d", 5, "e");
+    * Table<String> strings = a.filterAs(String.class);
+    * }</pre>
+    * <!-- end_code_fragment: -->
+    * <!-- insert_code_fragment: TableTest.filterAs.result -->
+    * <table>
+    *     <caption>
+    *         result
+    *     </caption>
+    *     <tr>
+    *         <th>A</th>
+    *     </tr>
+    *     <tr>
+    *         <td>a</td>
+    *     </tr>
+    *     <tr>
+    *         <td>b</td>
+    *     </tr>
+    *     <tr>
+    *         <td>c</td>
+    *     </tr>
+    *     <tr>
+    *         <td>d</td>
+    *     </tr>
+    *     <tr>
+    *         <td>e</td>
+    *     </tr>
+    * </table>
+    * <!-- end_code_fragment: -->
+    *
+    * @param <S>
+    *    the type of subclasses to retain
+    * @param type
+    *    the reified type of subclasses to retain
+    *
+    * @return a table pointing to the same underlying data and column, but with the subclass type
+    *
+    * @since 1.5
+    */
+   public <S extends T> Table<S> filterAs(Class<S> type)
+   {
+      return (Table<S>) this.filter(type::isInstance);
+   }
+
+   /**
     * Removes all rows from this table for which the predicate returned {@code false}.
     * The rows are passed as maps from column name to cell value.
     * <p>

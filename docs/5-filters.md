@@ -82,3 +82,47 @@ students.hasLink(Student.PROPERTY_done, assignmentsTable);
 | --- | --- | --- | --- |
 | Study Right 	| wa1337 Math 	| Alice m4242 	| integrals 	|
 <!-- end_code_fragment: -->
+
+# Filter by Subclass
+
+Sometimes you'll end up in a situation where multiple objects of different types are in the same column.
+For example, if you want to find all instances of some subclass.
+
+<!-- insert_code_fragment: filterAs.tables | fenced:java -->
+```java
+Table<Object> objectsTable = new Table<>("Objects", studyRight, alice, bob, integrals);
+```
+<!-- end_code_fragment: -->
+
+<!-- insert_code_fragment: filterAs.tablesResult -->
+| Objects 	|
+| --- |
+| Study Right 	|
+| Alice m4242 	|
+| Bobby m2323 	|
+| integrals 	|
+<!-- end_code_fragment: -->
+
+You can use `filterAs` to simultaneously filter by `instanceof` and cast the table to the right type:
+
+<!-- insert_code_fragment: filterAs.filterAs | fenced:java -->
+```java
+final Table<Student> studentsTable = objectsTable.filterAs(Student.class);
+```
+<!-- end_code_fragment: -->
+
+<!-- insert_code_fragment: filterAs.filterAsResult -->
+| Objects 	|
+| --- |
+| Alice m4242 	|
+| Bobby m2323 	|
+<!-- end_code_fragment: -->
+
+> #### ⓘ Information
+>
+> The equivalent operation using `filter` requires unchecked and ugly casts:
+> <!-- insert_code_fragment: filterAs.alternative | fenced:java -->
+> ```java
+> final Table<Student> studentsTable2 = (Table<Student>) (Table) objectsTable.filter(s -> s instanceof Student);
+> ```
+> <!-- end_code_fragment: -->
