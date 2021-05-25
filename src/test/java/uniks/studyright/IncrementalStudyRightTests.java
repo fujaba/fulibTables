@@ -34,9 +34,6 @@ public class IncrementalStudyRightTests
       Student alice = new Student().setStudentId("m4242").setName("Alice").setUni(studyRight).withDone(integrals);
       Student bob = new Student().setStudentId("m2323").setName("Bobby").setUni(studyRight).setIn(artsRoom).withFriends(alice);
       Student carli = new Student().setStudentId("m4646").setName("Carli").setUni(studyRight).setIn(mathRoom);
-
-      FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjects.png", studyRight);
       // end_code_fragment:
 
 

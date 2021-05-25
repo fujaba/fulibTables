@@ -58,8 +58,6 @@ public class TestStudyRightPatterns
          return r.getCredits() >= a.getPoints();
       }, room, assignment);
 
-      FulibTools.objectDiagrams().dumpPng("doc/images/pattern.png", pb.getPattern());
-
       PatternMatcher matcher = FulibTables.matcher(pb.getPattern());
       ObjectTable uniTable = matcher.match("uni", studyRight);
 

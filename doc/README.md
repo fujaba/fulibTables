@@ -44,7 +44,7 @@ Fulib.generator().generate(model);
 
 Rendered as a class diagram the class model looks like:
 
-![simple class diagram](doc/images/MainClassDiagram.png)
+![simple class diagram](../src/test/java/uniks/studyright/model/classDiagram.svg)
 
 Once the generated code is compiled, we may construct some objects:
 
@@ -70,7 +70,7 @@ Student carli = new Student().setStudentId("m2323").setName("Carli").setUni(stud
 
 This results in:
 
-![object diagram](images/studyRightObjects.png)
+![object diagram](images/studyRightObjects.svg)
 
 For reference, this object diagram will be repeated on each page.
 

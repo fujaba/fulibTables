@@ -65,6 +65,12 @@ public class StudyRightTests
    }
 
    @Test
+   public void dumpObjectDiagram()
+   {
+      FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
+   }
+
+   @Test
    public void objectTables()
    {
       // start_code_fragment: objectTables.universityTable
@@ -268,8 +274,6 @@ public class StudyRightTests
       // end_code_fragment:
 
       fragments.addFragment("nestedTables.nestedTablesResult", universityTable.toString());
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4Tables.png", studyRight);
    }
 
    @Test
@@ -392,8 +396,6 @@ public class StudyRightTests
          return true;
       });
 
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsMoreDone4PathTables.png", studyRight);
-
       MatcherAssert.assertThat(alice.getDone().size(), is(2));
       MatcherAssert.assertThat(integrals.getStudents().contains(alice), is(true));
 
@@ -446,8 +448,6 @@ public class StudyRightTests
       // end_code_fragment:
 
       fragments.addFragment("FulibTables.nestedPathTablesResult", universityTable.toString());
-
-      FulibTools.objectDiagrams().dumpPng("doc/images/studyRightObjectsCreditsAssigned4PathTables.png", studyRight);
    }
 
    @AfterClass

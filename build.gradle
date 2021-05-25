@@ -80,3 +80,7 @@ tasks.named('test') {
    // it.outputs.files(codeFragmentFiles)
    // it.outputs.dir('doc')
 }
+
+generateTestScenarioSource {
+   classDiagramSVG = true
+}
