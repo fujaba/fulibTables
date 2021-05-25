@@ -117,6 +117,16 @@ public class AttributeConstraint
 
    // =============== Methods ===============
 
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
+
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)
@@ -175,14 +185,5 @@ public class AttributeConstraint
    public String toString() // no fulib
    {
       return "AttributeConstraint{" + "object=" + this.object + ", predicate=" + this.predicate + '}';
-   }
-
-   public PropertyChangeSupport listeners()
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      return this.listeners;
    }
 }

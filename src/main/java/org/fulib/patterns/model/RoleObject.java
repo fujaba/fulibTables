@@ -140,6 +140,16 @@ public class RoleObject
 
    // =============== Methods ===============
 
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
+
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)
@@ -200,14 +210,5 @@ public class RoleObject
    {
       return "RoleObject{" + "object=" + this.object + ", name=\"" + this.name + '"' + ", otherName=\""
              + this.other.getName() + '"' + ", otherObject=" + this.other.getObject() + '}';
-   }
-
-   public PropertyChangeSupport listeners()
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      return this.listeners;
    }
 }

@@ -234,6 +234,16 @@ public class MatchConstraint
 
    // =============== Methods ===============
 
+   /** @since 1.5 */
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
+
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)
@@ -292,14 +302,5 @@ public class MatchConstraint
    public String toString() // no fulib
    {
       return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
-   }
-
-   public PropertyChangeSupport listeners()
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      return this.listeners;
    }
 }
