@@ -1,7 +1,6 @@
 # fulibTables
 
 [![Java CI](https://github.com/fujaba/fulibTables/workflows/Java%20CI/badge.svg)](https://github.com/fujaba/fulibTables/actions)
-[![Download](https://api.bintray.com/packages/fujaba/maven/fulibTables/images/download.svg)](https://bintray.com/fujaba/maven/fulibTables/_latestVersion "Download")
 [![javadoc](https://javadoc.io/badge2/org.fulib/fulibTables/javadoc.svg)](https://javadoc.io/doc/org.fulib/fulibTables)
 
 fulibTables provides model query and transformation mechanisms for [fulib](https://github.com/fujaba/fulib) object models.
@@ -13,7 +12,6 @@ fulibTables provides model query and transformation mechanisms for [fulib](https
 ```groovy
 repositories {
     mavenCentral()
-    jcenter()
 }
 ```
 

@@ -48,7 +48,6 @@ sourceSets.create('gen')
 repositories {
    mavenLocal()
    mavenCentral()
-   jcenter()
 }
 
 dependencies {
