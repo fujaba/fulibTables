@@ -24,7 +24,7 @@ dependencies {
 
 ## Usage
 
-Check out the [Usage Guide](doc/README.md) for instructions.
+Check out the [Usage Guide](docs/README.md) for instructions.
 
 ## License
 

@@ -117,7 +117,6 @@ public class AttributeConstraint
 
    // =============== Methods ===============
 
-   /** @since 1.5 */
    public PropertyChangeSupport listeners()
    {
       if (this.listeners == null)

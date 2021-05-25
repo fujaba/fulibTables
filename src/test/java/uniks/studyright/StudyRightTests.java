@@ -67,7 +67,7 @@ public class StudyRightTests
    @Test
    public void dumpObjectDiagram()
    {
-      FulibTools.objectDiagrams().dumpSVG("doc/images/studyRightObjects.svg", studyRight);
+      FulibTools.objectDiagrams().dumpSVG("docs/images/studyRightObjects.svg", studyRight);
    }
 
    @Test
@@ -453,7 +453,7 @@ public class StudyRightTests
    @AfterClass
    public static void teardownClass()
    {
-      fragments.update("doc/", "src/test/java/uniks/studyright/StudyRightTests.java",
+      fragments.update("docs/", "src/test/java/uniks/studyright/StudyRightTests.java",
                        "src/testGen/java/uniks/studyright/model/GenModel.java");
    }
 }
