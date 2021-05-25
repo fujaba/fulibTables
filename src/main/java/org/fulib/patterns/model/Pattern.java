@@ -5,6 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.List;
+import java.util.Collections;
 
 public class Pattern
 {
@@ -133,6 +135,15 @@ public class Pattern
       }
 
       return null;
+   }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
    }
 
    /** @deprecated since 1.5; use one of the type-safe overloads */

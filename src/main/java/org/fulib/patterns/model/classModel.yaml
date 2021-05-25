@@ -1,4 +1,4 @@
-- c: 	ClassModel
+- c: 	org.fulib.classmodel.ClassModel
   classes: 	matchConstraint 	pattern 	patternObject 	attributeConstraint 	roleObject
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
@@ -7,21 +7,21 @@
   packageName: 	org.fulib.patterns.model
   packageSrcFolder: 	"src/main/java/org/fulib/patterns/model"
 
-- matchConstraint: 	Clazz
+- matchConstraint: 	org.fulib.classmodel.Clazz
   model: 	c
   modified: 	false
   name: 	MatchConstraint
   propertyStyle: 	Bean
   roles: 	matchConstraint_pattern 	matchConstraint_objects
 
-- pattern: 	Clazz
+- pattern: 	org.fulib.classmodel.Clazz
   model: 	c
   modified: 	false
   name: 	Pattern
   propertyStyle: 	Bean
   roles: 	pattern_matchConstraints 	pattern_attributeConstraints 	pattern_roles 	pattern_objects
 
-- patternObject: 	Clazz
+- patternObject: 	org.fulib.classmodel.Clazz
   attributes: 	patternObject_name
   model: 	c
   modified: 	false
@@ -29,14 +29,14 @@
   propertyStyle: 	Bean
   roles: 	patternObject_matchConstraints 	patternObject_attributeConstraints 	patternObject_roles 	patternObject_pattern
 
-- attributeConstraint: 	Clazz
+- attributeConstraint: 	org.fulib.classmodel.Clazz
   model: 	c
   modified: 	false
   name: 	AttributeConstraint
   propertyStyle: 	Bean
   roles: 	attributeConstraint_pattern 	attributeConstraint_object
 
-- roleObject: 	Clazz
+- roleObject: 	org.fulib.classmodel.Clazz
   attributes: 	roleObject_name
   model: 	c
   modified: 	false
@@ -44,14 +44,14 @@
   propertyStyle: 	Bean
   roles: 	roleObject_pattern 	roleObject_other 	roleObject_object
 
-- c1: 	CollectionType
+- c1: 	org.fulib.classmodel.CollectionType
   implClass: 	class java.util.ArrayList
   implTemplate: 	"java.util.ArrayList<%s>"
   itf: 	org.fulib.classmodel.CollectionInterface.List
   qualifiedImplName: 	java.util.ArrayList
   simpleImplName: 	ArrayList
 
-- matchConstraint_pattern: 	AssocRole
+- matchConstraint_pattern: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	matchConstraint
@@ -61,7 +61,7 @@
   other: 	pattern_matchConstraints
   propertyStyle: 	Bean
 
-- matchConstraint_objects: 	AssocRole
+- matchConstraint_objects: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	matchConstraint
@@ -73,7 +73,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern_matchConstraints: 	AssocRole
+- pattern_matchConstraints: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	pattern
@@ -85,7 +85,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern_attributeConstraints: 	AssocRole
+- pattern_attributeConstraints: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	pattern
@@ -97,7 +97,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern_roles: 	AssocRole
+- pattern_roles: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	pattern
@@ -109,7 +109,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- pattern_objects: 	AssocRole
+- pattern_objects: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	pattern
@@ -121,7 +121,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- patternObject_name: 	Attribute
+- patternObject_name: 	org.fulib.classmodel.Attribute
   clazz: 	patternObject
   id: 	PatternObject_name
   modified: 	false
@@ -130,7 +130,7 @@
   type: 	String
   typeSignature: 	String
 
-- patternObject_matchConstraints: 	AssocRole
+- patternObject_matchConstraints: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	patternObject
@@ -142,7 +142,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- patternObject_attributeConstraints: 	AssocRole
+- patternObject_attributeConstraints: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	patternObject
@@ -154,7 +154,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- patternObject_roles: 	AssocRole
+- patternObject_roles: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	patternObject
@@ -166,7 +166,7 @@
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- patternObject_pattern: 	AssocRole
+- patternObject_pattern: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	patternObject
@@ -176,7 +176,7 @@
   other: 	pattern_objects
   propertyStyle: 	Bean
 
-- attributeConstraint_pattern: 	AssocRole
+- attributeConstraint_pattern: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	attributeConstraint
@@ -186,7 +186,7 @@
   other: 	pattern_attributeConstraints
   propertyStyle: 	Bean
 
-- attributeConstraint_object: 	AssocRole
+- attributeConstraint_object: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	attributeConstraint
@@ -196,7 +196,7 @@
   other: 	patternObject_attributeConstraints
   propertyStyle: 	Bean
 
-- roleObject_name: 	Attribute
+- roleObject_name: 	org.fulib.classmodel.Attribute
   clazz: 	roleObject
   id: 	RoleObject_name
   modified: 	false
@@ -205,7 +205,7 @@
   type: 	String
   typeSignature: 	String
 
-- roleObject_pattern: 	AssocRole
+- roleObject_pattern: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	roleObject
@@ -215,7 +215,7 @@
   other: 	pattern_roles
   propertyStyle: 	Bean
 
-- roleObject_other: 	AssocRole
+- roleObject_other: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	roleObject
@@ -225,7 +225,7 @@
   other: 	roleObject_other
   propertyStyle: 	Bean
 
-- roleObject_object: 	AssocRole
+- roleObject_object: 	org.fulib.classmodel.AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	roleObject

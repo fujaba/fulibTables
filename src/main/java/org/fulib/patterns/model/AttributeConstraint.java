@@ -176,4 +176,13 @@ public class AttributeConstraint
    {
       return "AttributeConstraint{" + "object=" + this.object + ", predicate=" + this.predicate + '}';
    }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 }

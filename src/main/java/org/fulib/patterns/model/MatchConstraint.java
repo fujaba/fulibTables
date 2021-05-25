@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.List;
+import java.util.Collections;
 
 public class MatchConstraint
 {
@@ -290,5 +292,14 @@ public class MatchConstraint
    public String toString() // no fulib
    {
       return "MatchConstraint{" + "predicate=" + this.predicate + ", objects=" + this.objects + '}';
+   }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
    }
 }

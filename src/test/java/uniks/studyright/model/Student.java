@@ -380,4 +380,13 @@ public class Student
       this.setUni(null);
       this.withoutFriends(new ArrayList<>(this.getFriends()));
    }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 }

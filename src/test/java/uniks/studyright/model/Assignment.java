@@ -215,4 +215,13 @@ public class Assignment
       this.setRoom(null);
       this.withoutStudents(new ArrayList<>(this.getStudents()));
    }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 }

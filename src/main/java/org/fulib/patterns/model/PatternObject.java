@@ -5,6 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.List;
+import java.util.Collections;
 
 public class PatternObject
 {
@@ -576,5 +578,14 @@ public class PatternObject
    public String toString() // no fulib
    {
       return this.name;
+   }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
    }
 }

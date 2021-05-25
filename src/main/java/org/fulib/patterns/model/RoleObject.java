@@ -201,4 +201,13 @@ public class RoleObject
       return "RoleObject{" + "object=" + this.object + ", name=\"" + this.name + '"' + ", otherName=\""
              + this.other.getName() + '"' + ", otherObject=" + this.other.getObject() + '}';
    }
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 }
