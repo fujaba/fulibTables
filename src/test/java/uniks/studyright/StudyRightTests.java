@@ -454,6 +454,6 @@ public class StudyRightTests
    public static void teardownClass()
    {
       fragments.update("doc/", "src/test/java/uniks/studyright/StudyRightTests.java",
-                       "src/gen/java/uniks/studyright/StudyRightClassModel.java");
+                       "src/testGen/java/uniks/studyright/model/GenModel.java");
    }
 }

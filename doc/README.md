@@ -4,41 +4,67 @@ Welcome to the fulibTables documentation.
 In the following pages, we will explain how to create and work with fulib tables.
 All pages share a common class model which we define using fulib:
 
-<!-- insert_code_fragment: FulibTables.classmodel | fenced:java -->
+<!-- insert_code_fragment: studyRight.GenModel | fenced:java -->
 ```java
-ClassModelBuilder mb = Fulib.classModelBuilder("uniks.studyright.model", "src/test/java");
+class University
+{
+   String name;
 
-ClassBuilder university = mb.buildClass("University").buildAttribute("name", STRING);
+   @Link("uni")
+   List<Student> students;
 
-ClassBuilder student = mb.buildClass("Student")
-                         .buildAttribute("name", STRING)
-                         .buildAttribute("studentId", STRING)
-                         .buildAttribute("credits", DOUBLE)
-                         .buildAttribute("points", DOUBLE)
-                         .buildAttribute("motivation", DOUBLE);
+   @Link("uni")
+   List<Room> rooms;
+}
 
-ClassBuilder room = mb.buildClass("Room")
-                      .buildAttribute("roomNo", STRING)
-                      .buildAttribute("topic", STRING)
-                      .buildAttribute("credits", DOUBLE);
+class Student
+{
+   String name;
+   String studentId;
+   double credits;
+   double points;
+   double motivation;
 
-ClassBuilder assignment = mb.buildClass("Assignment")
-                            .buildAttribute("task", STRING)
-                            .buildAttribute("points", DOUBLE);
+   @Link("students")
+   University uni;
 
-university.buildAssociation(student, "students", MANY, "uni", ONE);
-university.buildAssociation(room, "rooms", MANY, "uni", ONE);
-room.buildAssociation(student, "students", MANY, "in", ONE);
-room.buildAssociation(assignment, "assignments", MANY, "room", ONE);
-student.buildAssociation(assignment, "done", MANY, "students", MANY);
-student.buildAssociation(student, "friends", MANY, "friends", MANY);
+   @Link("students")
+   Room in;
 
-ClassModel model = mb.getClassModel();
+   @Link("students")
+   List<Assignment> done;
 
-FulibTools.classDiagrams().dumpSVG(model, "doc/images/MainClassDiagram.svg");
-FulibTools.classDiagrams().dumpPng(model, "doc/images/MainClassDiagram.png");
+   @Link("friends")
+   List<Student> friends;
+}
 
-Fulib.generator().generate(model);
+class Room
+{
+   String roomNo;
+   String topic;
+   double credits;
+
+   @Link("rooms")
+   University uni;
+
+   @Link("in")
+   List<Student> students;
+
+   @Link("room")
+   List<Assignment> assignments;
+}
+
+class Assignment
+{
+   String task;
+   double points;
+
+   @Link("assignments")
+   Room room;
+
+   @Link("done")
+   List<Student> students;
+}
 ```
 <!-- end_code_fragment: -->
 
