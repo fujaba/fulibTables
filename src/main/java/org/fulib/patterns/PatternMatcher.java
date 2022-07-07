@@ -16,11 +16,11 @@ public class PatternMatcher
 {
    // =============== Fields ===============
 
-   private Pattern pattern;
-   private Map<PatternObject, ObjectTable> object2TableMap;
+   private final Pattern pattern;
+   private final Map<PatternObject, ObjectTable> object2TableMap = new LinkedHashMap<>();
 
-   private List<PatternObject> rootPatternObjects = new ArrayList<>();
-   private List<Object> rootObjects = new ArrayList<>();
+   private final List<PatternObject> rootPatternObjects = new ArrayList<>();
+   private final List<Object> rootObjects = new ArrayList<>();
 
    private List<DebugEvent> events;
 
@@ -269,7 +269,7 @@ public class PatternMatcher
     */
    public void match()
    {
-      this.object2TableMap = new LinkedHashMap<>();
+      this.object2TableMap.clear();
 
       Deque<PatternObject> rootPatternObjects = new ArrayDeque<>(this.rootPatternObjects);
       List<RoleObject> roles = new ArrayList<>(this.pattern.getRoles());

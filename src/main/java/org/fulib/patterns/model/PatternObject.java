@@ -12,10 +12,32 @@ public class PatternObject
 {
    // =============== Constants ===============
 
+   /** @deprecated since 1.5; use {@link #PROPERTY_NAME} instead */
+   @Deprecated
+   public static final String PROPERTY_name = "name";
+   /** @deprecated since 1.5; use {@link #PROPERTY_PATTERN} instead */
+   @Deprecated
    public static final String PROPERTY_pattern = "pattern";
+   /** @deprecated since 1.5; use {@link #PROPERTY_ROLES} instead */
+   @Deprecated
    public static final String PROPERTY_roles = "roles";
+   /** @deprecated since 1.5; use {@link #PROPERTY_ATTRIBUTE_CONSTRAINTS} instead */
+   @Deprecated
    public static final String PROPERTY_attributeConstraints = "attributeConstraints";
+   /** @deprecated since 1.5; use {@link #PROPERTY_MATCH_CONSTRAINTS} instead */
+   @Deprecated
    public static final String PROPERTY_matchConstraints = "matchConstraints";
+
+   /** @since 1.5 */
+   public static final String PROPERTY_NAME = "name";
+   /** @since 1.5 */
+   public static final String PROPERTY_ATTRIBUTE_CONSTRAINTS = "attributeConstraints";
+   /** @since 1.5 */
+   public static final String PROPERTY_ROLES = "roles";
+   /** @since 1.5 */
+   public static final String PROPERTY_PATTERN = "pattern";
+   /** @since 1.5 */
+   public static final String PROPERTY_MATCH_CONSTRAINTS = "matchConstraints";
 
    /**
     * @deprecated since 1.2; for internal use only
@@ -66,7 +88,6 @@ public class PatternObject
    private ArrayList<MatchConstraint> matchConstraints /* no fulib */;
 
    protected PropertyChangeSupport listeners;
-   public static final String PROPERTY_name = "name";
 
    private String name;
 
@@ -95,7 +116,7 @@ public class PatternObject
       {
          value.withObjects(this);
       }
-      this.firePropertyChange(PROPERTY_pattern, oldValue, value);
+      this.firePropertyChange(PROPERTY_PATTERN, oldValue, value);
       return this;
    }
 
@@ -113,7 +134,7 @@ public class PatternObject
 
       final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      this.firePropertyChange(PROPERTY_NAME, oldValue, value);
       return this;
    }
 
@@ -122,6 +143,7 @@ public class PatternObject
       return this.roles != null ? this.roles : EMPTY_roles;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withRoles(Object... value)
    {
       if (value == null)
@@ -143,16 +165,7 @@ public class PatternObject
          }
          else if (item instanceof RoleObject)
          {
-            if (this.roles == null)
-            {
-               this.roles = new ArrayList<>();
-            }
-            if (!this.roles.contains(item))
-            {
-               this.roles.add((RoleObject) item);
-               ((RoleObject) item).setObject(this);
-               this.firePropertyChange("roles", null, item);
-            }
+            this.withRoles((RoleObject) item);
          }
          else
          {
@@ -172,7 +185,7 @@ public class PatternObject
       {
          this.roles.add(value);
          value.setObject(this);
-         this.firePropertyChange(PROPERTY_roles, null, value);
+         this.firePropertyChange(PROPERTY_ROLES, null, value);
       }
       return this;
    }
@@ -195,6 +208,7 @@ public class PatternObject
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withoutRoles(Object... value)
    {
       if (this.roles == null || value == null)
@@ -216,12 +230,7 @@ public class PatternObject
          }
          else if (item instanceof RoleObject)
          {
-            if (this.roles.contains(item))
-            {
-               this.roles.remove(item);
-               ((RoleObject) item).setObject(null);
-               this.firePropertyChange("roles", item, null);
-            }
+            this.withoutRoles((RoleObject) item);
          }
       }
       return this;
@@ -232,7 +241,7 @@ public class PatternObject
       if (this.roles != null && this.roles.remove(value))
       {
          value.setObject(null);
-         this.firePropertyChange(PROPERTY_roles, value, null);
+         this.firePropertyChange(PROPERTY_ROLES, value, null);
       }
       return this;
    }
@@ -260,6 +269,7 @@ public class PatternObject
       return this.attributeConstraints != null ? this.attributeConstraints : EMPTY_attributeConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withAttributeConstraints(Object... value)
    {
       if (value == null)
@@ -281,16 +291,7 @@ public class PatternObject
          }
          else if (item instanceof AttributeConstraint)
          {
-            if (this.attributeConstraints == null)
-            {
-               this.attributeConstraints = new ArrayList<>();
-            }
-            if (!this.attributeConstraints.contains(item))
-            {
-               this.attributeConstraints.add((AttributeConstraint) item);
-               ((AttributeConstraint) item).setObject(this);
-               this.firePropertyChange("attributeConstraints", null, item);
-            }
+            this.withAttributeConstraints((AttributeConstraint) item);
          }
          else
          {
@@ -310,7 +311,7 @@ public class PatternObject
       {
          this.attributeConstraints.add(value);
          value.setObject(this);
-         this.firePropertyChange(PROPERTY_attributeConstraints, null, value);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, null, value);
       }
       return this;
    }
@@ -333,6 +334,7 @@ public class PatternObject
       return this;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withoutAttributeConstraints(Object... value)
    {
       if (this.attributeConstraints == null || value == null)
@@ -354,12 +356,7 @@ public class PatternObject
          }
          else if (item instanceof AttributeConstraint)
          {
-            if (this.attributeConstraints.contains(item))
-            {
-               this.attributeConstraints.remove(item);
-               ((AttributeConstraint) item).setObject(null);
-               this.firePropertyChange("attributeConstraints", item, null);
-            }
+            this.withoutAttributeConstraints((AttributeConstraint) item);
          }
       }
       return this;
@@ -370,7 +367,7 @@ public class PatternObject
       if (this.attributeConstraints != null && this.attributeConstraints.remove(value))
       {
          value.setObject(null);
-         this.firePropertyChange(PROPERTY_attributeConstraints, value, null);
+         this.firePropertyChange(PROPERTY_ATTRIBUTE_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -398,6 +395,7 @@ public class PatternObject
       return this.matchConstraints != null ? this.matchConstraints : EMPTY_matchConstraints;
    }
 
+   /** @deprecated since 1.5; use one of the type-safe overloads */
    public PatternObject withMatchConstraints(Object... value)
    {
       if (value == null)
@@ -419,20 +417,39 @@ public class PatternObject
          }
          else if (item instanceof MatchConstraint)
          {
-            if (this.matchConstraints == null)
-            {
-               this.matchConstraints = new ArrayList<>();
-            }
-            if (!this.matchConstraints.contains(item))
-            {
-               this.matchConstraints.add((MatchConstraint) item);
-               ((MatchConstraint) item).withObjects(this);
-               this.firePropertyChange("matchConstraints", null, item);
-            }
+            this.withMatchConstraints((MatchConstraint) item);
          }
          else
          {
             throw new IllegalArgumentException();
+         }
+      }
+      return this;
+   }
+
+   /** @deprecated since 1.5; use one of the type-safe overloads */
+   public PatternObject withoutMatchConstraints(Object... value)
+   {
+      if (this.matchConstraints == null || value == null)
+      {
+         return this;
+      }
+      for (Object item : value)
+      {
+         if (item == null)
+         {
+            continue;
+         }
+         if (item instanceof Collection)
+         {
+            for (Object i : (Collection<?>) item)
+            {
+               this.withoutMatchConstraints(i);
+            }
+         }
+         else if (item instanceof MatchConstraint)
+         {
+            this.withoutMatchConstraints((MatchConstraint) item);
          }
       }
       return this;
@@ -448,7 +465,7 @@ public class PatternObject
       {
          this.matchConstraints.add(value);
          value.withObjects(this);
-         this.firePropertyChange(PROPERTY_matchConstraints, null, value);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, null, value);
       }
       return this;
    }
@@ -471,44 +488,12 @@ public class PatternObject
       return this;
    }
 
-   public PatternObject withoutMatchConstraints(Object... value)
-   {
-      if (this.matchConstraints == null || value == null)
-      {
-         return this;
-      }
-      for (Object item : value)
-      {
-         if (item == null)
-         {
-            continue;
-         }
-         if (item instanceof Collection)
-         {
-            for (Object i : (Collection<?>) item)
-            {
-               this.withoutMatchConstraints(i);
-            }
-         }
-         else if (item instanceof MatchConstraint)
-         {
-            if (this.matchConstraints.contains(item))
-            {
-               this.matchConstraints.remove(item);
-               ((MatchConstraint) item).withoutObjects(this);
-               this.firePropertyChange("matchConstraints", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public PatternObject withoutMatchConstraints(MatchConstraint value)
    {
       if (this.matchConstraints != null && this.matchConstraints.remove(value))
       {
          value.withoutObjects(this);
-         this.firePropertyChange(PROPERTY_matchConstraints, value, null);
+         this.firePropertyChange(PROPERTY_MATCH_CONSTRAINTS, value, null);
       }
       return this;
    }
@@ -532,6 +517,15 @@ public class PatternObject
    }
 
    // =============== Methods ===============
+
+   public PropertyChangeSupport listeners()
+   {
+      if (this.listeners == null)
+      {
+         this.listeners = new PropertyChangeSupport(this);
+      }
+      return this.listeners;
+   }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -583,10 +577,10 @@ public class PatternObject
 
    public void removeYou()
    {
-      this.setPattern(null);
-      this.withoutRoles(new ArrayList<>(this.getRoles()));
-      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
       this.withoutMatchConstraints(new ArrayList<>(this.getMatchConstraints()));
+      this.withoutAttributeConstraints(new ArrayList<>(this.getAttributeConstraints()));
+      this.withoutRoles(new ArrayList<>(this.getRoles()));
+      this.setPattern(null);
    }
 
    @Override

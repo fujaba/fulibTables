@@ -1,0 +1,88 @@
+<svg width="209px" height="421px"
+ viewBox="0.00 0.00 208.50 421.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0) translate(4 417)">
+<title>uniks.studyright.model</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-417 204.5,-417 204.5,4 -4,4"/>
+<!-- Assignment -->
+<g id="node1" class="node">
+<title>Assignment</title>
+<polygon fill="none" stroke="black" points="62,-39.5 62,-60.5 146,-60.5 146,-39.5 62,-39.5"/>
+<text text-anchor="start" x="71" y="-46.3" font-family="Times,serif" font-size="14.00">Assignment</text>
+<polygon fill="none" stroke="black" points="62,-3.5 62,-39.5 146,-39.5 146,-3.5 62,-3.5"/>
+<text text-anchor="start" x="65" y="-25.3" font-family="Times,serif" font-size="14.00">task :String</text>
+<text text-anchor="start" x="65" y="-10.3" font-family="Times,serif" font-size="14.00">points :double</text>
+</g>
+<!-- Room -->
+<g id="node2" class="node">
+<title>Room</title>
+<polygon fill="none" stroke="black" points="100,-156 100,-177 193,-177 193,-156 100,-156"/>
+<text text-anchor="start" x="129.5" y="-162.8" font-family="Times,serif" font-size="14.00">Room</text>
+<polygon fill="none" stroke="black" points="100,-105 100,-156 193,-156 193,-105 100,-105"/>
+<text text-anchor="start" x="103" y="-141.8" font-family="Times,serif" font-size="14.00">roomNo :String</text>
+<text text-anchor="start" x="103" y="-126.8" font-family="Times,serif" font-size="14.00">topic :String</text>
+<text text-anchor="start" x="103" y="-111.8" font-family="Times,serif" font-size="14.00">credits :double</text>
+</g>
+<!-- Assignment&#45;&gt;Room -->
+<g id="edge1" class="edge">
+<title>Assignment&#45;&gt;Room</title>
+<path fill="none" stroke="black" d="M116.49,-65.17C120.89,-76.32 125.89,-89.01 130.51,-100.72"/>
+<text text-anchor="middle" x="115.51" y="-89.52" font-family="Times,serif" font-size="14.00">room</text>
+<text text-anchor="middle" x="77.49" y="-68.97" font-family="Times,serif" font-size="14.00">assignments *</text>
+</g>
+<!-- Student -->
+<g id="node3" class="node">
+<title>Student</title>
+<polygon fill="none" stroke="black" points="8,-302 8,-323 118,-323 118,-302 8,-302"/>
+<text text-anchor="start" x="42" y="-308.8" font-family="Times,serif" font-size="14.00">Student</text>
+<polygon fill="none" stroke="black" points="8,-221 8,-302 118,-302 118,-221 8,-221"/>
+<text text-anchor="start" x="11" y="-287.8" font-family="Times,serif" font-size="14.00">name :String</text>
+<text text-anchor="start" x="11" y="-272.8" font-family="Times,serif" font-size="14.00">studentId :String</text>
+<text text-anchor="start" x="11" y="-257.8" font-family="Times,serif" font-size="14.00">credits :double</text>
+<text text-anchor="start" x="11" y="-242.8" font-family="Times,serif" font-size="14.00">points :double</text>
+<text text-anchor="start" x="11" y="-227.8" font-family="Times,serif" font-size="14.00">motivation :double</text>
+</g>
+<!-- Assignment&#45;&gt;Student -->
+<g id="edge2" class="edge">
+<title>Assignment&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M92.24,-65.07C88.46,-76.28 84.58,-89.07 82,-101 73.71,-139.31 68.91,-183.31 66.22,-216.95"/>
+<text text-anchor="middle" x="38.72" y="-205.75" font-family="Times,serif" font-size="14.00">students *</text>
+<text text-anchor="middle" x="110.74" y="-68.87" font-family="Times,serif" font-size="14.00">done *</text>
+</g>
+<!-- Room&#45;&gt;Student -->
+<g id="edge4" class="edge">
+<title>Room&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M120.87,-181.05C113.62,-192.33 105.57,-204.83 97.84,-216.85"/>
+<text text-anchor="middle" x="125.34" y="-205.65" font-family="Times,serif" font-size="14.00">students *</text>
+<text text-anchor="middle" x="115.37" y="-184.85" font-family="Times,serif" font-size="14.00">in</text>
+</g>
+<!-- University -->
+<g id="node4" class="node">
+<title>University</title>
+<polygon fill="none" stroke="black" points="79,-388 79,-409 156,-409 156,-388 79,-388"/>
+<text text-anchor="start" x="88.5" y="-394.8" font-family="Times,serif" font-size="14.00">University</text>
+<polygon fill="none" stroke="black" points="79,-367 79,-388 156,-388 156,-367 79,-367"/>
+<text text-anchor="start" x="82" y="-373.8" font-family="Times,serif" font-size="14.00">name :String</text>
+</g>
+<!-- Room&#45;&gt;University -->
+<g id="edge5" class="edge">
+<title>Room&#45;&gt;University</title>
+<path fill="none" stroke="black" d="M154.25,-181.06C160.71,-219.06 166.56,-278.06 153,-327 149.47,-339.76 142.41,-352.53 135.48,-362.99"/>
+<text text-anchor="middle" x="126.48" y="-351.79" font-family="Times,serif" font-size="14.00">uni</text>
+<text text-anchor="middle" x="177.25" y="-184.86" font-family="Times,serif" font-size="14.00">rooms *</text>
+</g>
+<!-- Student&#45;&gt;Student -->
+<g id="edge3" class="edge">
+<title>Student&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M126.17,-251.78C136.72,-254.61 144,-261.35 144,-272 144,-282.65 136.72,-289.39 126.17,-292.22"/>
+<text text-anchor="middle" x="150.67" y="-281.02" font-family="Times,serif" font-size="14.00">friends *</text>
+<text text-anchor="middle" x="150.67" y="-240.58" font-family="Times,serif" font-size="14.00">friends *</text>
+</g>
+<!-- Student&#45;&gt;University -->
+<g id="edge6" class="edge">
+<title>Student&#45;&gt;University</title>
+<path fill="none" stroke="black" d="M88.73,-327.33C94.66,-339.83 100.66,-352.5 105.6,-362.94"/>
+<text text-anchor="middle" x="96.6" y="-351.74" font-family="Times,serif" font-size="14.00">uni</text>
+<text text-anchor="middle" x="61.23" y="-331.13" font-family="Times,serif" font-size="14.00">students *</text>
+</g>
+</g>
+</svg>
