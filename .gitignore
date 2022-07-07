@@ -4,3 +4,7 @@ build/
 out/
 tmp/
 *.svg
+bin/
+.settings/org.eclipse.buildship.core.prefs
+.settings/org.eclipse.jdt.core.prefs
+.project
