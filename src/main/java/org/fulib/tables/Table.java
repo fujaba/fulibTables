@@ -1148,6 +1148,17 @@ public class Table<T> implements Iterable<T>
       return this.table.size();
    }
 
+   public T get(int index)
+   {
+      return this.get(this.columnName, index);
+   }
+
+   public <V> V get(String columnName, int index)
+   {
+      final int columnIndex = this.getColumnIndex(columnName);
+      return (V) this.table.get(index).get(columnIndex);
+   }
+
    /**
     * {@inheritDoc}
     *
